@@ -3,18 +3,55 @@ using System.Text;
 
 namespace Mt.ChangeLog.TransferObjects.Historical
 {
+    /// <summary>
+    /// Полная модель записи истории проекта.
+    /// </summary>
     public class ProjectHistoryRecordModel : ProjectHistoryRecordShortModel
     {
+        /// <summary>
+        /// ИД версии проекта.
+        /// </summary>
         public Guid ProjectVersionId { get; set; }
+        
+        /// <summary>
+        /// ИД родительской редакции проекта.
+        /// </summary>
         public Guid ParentRevisionId { get; set; }
 
+        /// <summary>
+        /// Версия ArmEdit.
+        /// </summary>
         public string ArmEdit { get; set; }
+        
+        /// <summary>
+        /// Перечень алгоритмов.
+        /// </summary>
         public string Algorithms { get; set; }
+        
+        /// <summary>
+        /// Перечень авторов.
+        /// </summary>
         public string Authors { get; set; }
+        
+        /// <summary>
+        /// Перечень протоколов.
+        /// </summary>
         public string Protocols { get; set; }
+        
+        /// <summary>
+        /// Причина изменений.
+        /// </summary>
         public string Reason { get; set; }
+        
+        /// <summary>
+        /// Описание.
+        /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// Преобразовать в текстовый формат.
+        /// </summary>
+        /// <returns>Строка с текстом.</returns>
         public string ToText()
         {
             StringBuilder sb = new StringBuilder();

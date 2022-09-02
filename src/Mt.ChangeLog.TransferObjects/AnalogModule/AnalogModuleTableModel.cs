@@ -1,4 +1,6 @@
-﻿namespace Mt.ChangeLog.TransferObjects.AnalogModule
+﻿using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.AnalogModule
 {
     /// <summary>
     /// Модель аналогового модуля для таблиц.
@@ -19,5 +21,15 @@
         /// Описание.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Инициализация экземпляра <see cref="AnalogModuleTableModel"/>
+        /// </summary>
+        public AnalogModuleTableModel() : base()
+        {
+            this.DIVG = DefaultString.DIVG;
+            this.Current = DefaultString.Current;
+            this.Description = DefaultString.Description;
+        }
     }
 }

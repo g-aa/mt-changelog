@@ -3,27 +3,29 @@ using Mt.ChangeLog.TransferObjects.Protocol;
 
 namespace Mt.ChangeLog.TransferObjects.Communication
 {
+    /// <summary>
+    /// Валидатор модели <see cref="CommunicationModel"/>.
+    /// </summary>
     public sealed class CommunicationModelValidator : AbstractValidator<CommunicationModel>
     {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="CommunicationModelValidator"/>
+        /// </summary>
         public CommunicationModelValidator()
         {
-            RuleFor(e => e.Title)
-                .NotEmpty()
-                .WithMessage("Наименование адаптера параметр обязательный для заполнения.")
-                .MaximumLength(64)
-                .WithMessage("Наименование адаптера должно содержать не больше 64 символов.");
-
-            RuleFor(e => e.Description)
+            this.Include(new CommunicationShortModelValidator());
+            
+            this.RuleFor(e => e.Description)
                 .NotNull()
                 .WithMessage("Описание адаптера не может принимать значение null.")
                 .MaximumLength(500)
                 .WithMessage("Описание адаптера должно содержать не больше 500 символов.");
 
-            RuleFor(e => e.Protocols)
+            this.RuleFor(e => e.Protocols)
                 .NotNull()
                 .WithMessage("Перечень протоколов не может принимать значение null.");
 
-            RuleForEach(e => e.Protocols)
+            this.RuleForEach(e => e.Protocols)
                 .SetValidator(new ProtocolShortModelValidator());
         }
     }

@@ -1,17 +1,9 @@
-﻿using System;
-
-namespace Mt.ChangeLog.TransferObjects.ProjectStatus
+﻿namespace Mt.ChangeLog.TransferObjects.ProjectStatus
 {
+    /// <summary>
+    /// Полная модель статуса проекта.
+    /// </summary>
     public class ProjectStatusModel : ProjectStatusTableModel
     {
-        public ProjectStatusModel()
-        {
-            this.Id = Guid.NewGuid();
-        }
-        
-        public override string ToString()
-        {
-            return base.ToString();
-        }
     }
 }

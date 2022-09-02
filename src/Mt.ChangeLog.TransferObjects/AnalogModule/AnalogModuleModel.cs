@@ -1,5 +1,4 @@
 ﻿using Mt.ChangeLog.TransferObjects.Platform;
-using System;
 using System.Collections.Generic;
 
 namespace Mt.ChangeLog.TransferObjects.AnalogModule
@@ -17,9 +16,8 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
         /// <summary>
         /// Инициализация экземпляра <see cref="AnalogModuleModel"/>
         /// </summary>
-        public AnalogModuleModel()
+        public AnalogModuleModel() : base()
         {
-            this.Id = Guid.NewGuid();
             this.Platforms = new HashSet<PlatformShortModel>();
         }
 

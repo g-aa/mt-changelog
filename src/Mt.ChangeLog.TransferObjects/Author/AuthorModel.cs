@@ -1,14 +1,18 @@
-﻿using System;
-
-namespace Mt.ChangeLog.TransferObjects.Author
+﻿namespace Mt.ChangeLog.TransferObjects.Author
 {
+    /// <summary>
+    /// Полная модель автора.
+    /// </summary>
     public class AuthorModel : AuthorTableModel
     {
-        public AuthorModel()
+        /// <summary>
+        /// Инициализация экземпляра <see cref="AuthorModel"/>
+        /// </summary>
+        public AuthorModel() : base()
         {
-            this.Id = Guid.NewGuid();
         }
         
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"{base.ToString()}, {this.Position}";

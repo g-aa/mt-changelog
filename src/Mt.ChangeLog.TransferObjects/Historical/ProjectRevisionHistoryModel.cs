@@ -1,25 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using Mt.Utilities;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Mt.ChangeLog.TransferObjects.Historical
 {
+    /// <summary>
+    /// Полная модель записи ревизии истории проекта.
+    /// </summary>
     public class ProjectRevisionHistoryModel : ProjectRevisionHistoryShortModel
     {
+        /// <summary>
+        /// Версия ArmEdit.
+        /// </summary>
         public string ArmEdit { get; set; }
+        
+        /// <summary>
+        /// Коммуникационный модуль.
+        /// </summary>
         public string Communication { get; set; }
 
+        /// <summary>
+        /// Перечень авторов.
+        /// </summary>
         public IEnumerable<string> Authors { get; set; }
+        
+        /// <summary>
+        /// Перечень алгоритмов.
+        /// </summary>
         public IEnumerable<string> RelayAlgorithms { get; set; }
 
+        /// <summary>
+        /// Причина изменений.
+        /// </summary>
         public string Reason { get; set; }
+        
+        /// <summary>
+        /// Описание.
+        /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// Инициализация экземпляра <see cref="ProjectRevisionHistoryModel"/>
+        /// </summary>
         public ProjectRevisionHistoryModel()
         {
+            this.ArmEdit = DefaultString.Version;
+            this.Communication = DefaultString.Communication;
             this.Authors = new HashSet<string>();
             this.RelayAlgorithms = new HashSet<string>();
+            this.Reason = "Укажите причину изменения...";
+            this.Description = DefaultString.Description;
         }
 
+        /// <summary>
+        /// Преобразовать в текстовый формат.
+        /// </summary>
+        /// <returns>Строка с текстом.</returns>
         public string ToText()
         {
             StringBuilder sb = new StringBuilder();

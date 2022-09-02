@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mt.Utilities;
+using System;
 
 namespace Mt.ChangeLog.TransferObjects.AnalogModule
 {
@@ -16,6 +17,15 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
         /// Наименование.
         /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// Инициализация экземпляра <see cref="AnalogModuleShortModel"/>
+        /// </summary>
+        public AnalogModuleShortModel()
+        {
+            this.Id = Guid.NewGuid();
+            this.Title = DefaultString.AnalogModule;
+        }
 
         /// <inheritdoc />
         public override string ToString()

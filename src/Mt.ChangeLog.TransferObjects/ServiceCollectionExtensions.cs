@@ -10,10 +10,10 @@ namespace Mt.ChangeLog.TransferObjects
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// 
+        /// Добавить компоненты DTOs в коллекцию сервисов.
         /// </summary>
         /// <param name="services">Коллекция сервисов.</param>
-        /// <returns></returns>
+        /// <returns>Модифицированная коллекция сервисов.</returns>
         public static IServiceCollection AddTransferObjects(this IServiceCollection services)
         {
             Check.NotNull(services, nameof(services));

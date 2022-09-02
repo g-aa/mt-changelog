@@ -2,17 +2,19 @@
 
 namespace Mt.ChangeLog.TransferObjects.ProjectStatus
 {
+    /// <summary>
+    /// Валидатор модели <see cref="ProjectStatusModel"/>.
+    /// </summary>
     public sealed class ProjectStatusModelValidator : AbstractValidator<ProjectStatusModel>
     {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="ProjectStatusModelValidator"/>
+        /// </summary>
         public ProjectStatusModelValidator()
         {
-            RuleFor(e => e.Title)
-                .NotEmpty()
-                .WithMessage("Наименование статуса параметр обязательный для заполнения.")
-                .MaximumLength(32)
-                .WithMessage("Наименование статуса должно содержать не более 32 символов.");
-
-            RuleFor(e => e.Description)
+            this.Include(new ProjectStatusShortModelValidator());
+            
+            this.RuleFor(e => e.Description)
                 .NotNull()
                 .WithMessage("Описание статуса не может принимать значение null.")
                 .MaximumLength(500)
