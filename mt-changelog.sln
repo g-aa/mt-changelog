@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Entities.Exten
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Repositories.Abstractions", "src\Mt.ChangeLog.Repositories.Abstractions\Mt.ChangeLog.Repositories.Abstractions.csproj", "{742287A8-09C5-4EF7-B25B-FBE7A630599F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mt.ChangeLog.Logic", "src\Mt.ChangeLog.Logic\Mt.ChangeLog.Logic.csproj", "{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{742287A8-09C5-4EF7-B25B-FBE7A630599F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{742287A8-09C5-4EF7-B25B-FBE7A630599F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{742287A8-09C5-4EF7-B25B-FBE7A630599F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{E972F4C0-830F-48B1-83AE-E251274F6A25} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
 		{8ED63BED-A87D-48F3-B5BC-8FA57E68DD98} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
 		{742287A8-09C5-4EF7-B25B-FBE7A630599F} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {162FF285-BB5B-4CD2-8CFF-69C996967D1E}
