@@ -9,14 +9,14 @@ namespace Mt.ChangeLog.TransferObjects.Platform
     public sealed class PlatformShortModelValidator : AbstractValidator<PlatformShortModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="PlatformShortModelValidator"/>
+        /// Инициализация экземпляра <see cref="PlatformShortModelValidator"/>.
         /// </summary>
         public PlatformShortModelValidator()
         {
             this.RuleFor(e => e.Title)
                 .NotEmpty()
                 .WithMessage("Наименование платформы БМРЗ параметр обязательный для заполнения.")
-                .Matches(Format.Platform)
+                .Matches(StringFormat.Platform)
                 .WithMessage("Наименование платформы должено иметь следующий вид БМРЗ-xxxxx, где x - [0-9 A-Z А-Я].");
         }
     }

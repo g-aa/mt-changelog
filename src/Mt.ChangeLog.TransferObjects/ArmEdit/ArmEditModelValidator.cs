@@ -9,7 +9,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
     public sealed class ArmEditModelValidator : AbstractValidator<ArmEditModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="ArmEditModelValidator"/>
+        /// Инициализация экземпляра <see cref="ArmEditModelValidator"/>.
         /// </summary>
         public ArmEditModelValidator()
         {
@@ -18,7 +18,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
             this.RuleFor(e => e.DIVG)
                 .NotEmpty()
                 .WithMessage("Децимальный номер ArmEdit обязательный параметр для заполнения.")
-                .Matches(Format.DIVG)
+                .Matches(StringFormat.DIVG)
                 .WithMessage("Децимальный номер ArmEdit должен иметь следующий вид ДИВГ.xxxxx-xx, где x - число [0-9].");
 
             this.RuleFor(e => e.Description)

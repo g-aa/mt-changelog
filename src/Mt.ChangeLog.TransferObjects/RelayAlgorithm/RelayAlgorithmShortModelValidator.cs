@@ -8,7 +8,7 @@ namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm
     public sealed class RelayAlgorithmShortModelValidator : AbstractValidator<RelayAlgorithmShortModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="RelayAlgorithmShortModelValidator"/>
+        /// Инициализация экземпляра <see cref="RelayAlgorithmShortModelValidator"/>.
         /// </summary>
         public RelayAlgorithmShortModelValidator()
         {

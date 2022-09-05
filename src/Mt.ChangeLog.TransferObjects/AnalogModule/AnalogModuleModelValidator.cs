@@ -19,13 +19,13 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
             this.RuleFor(e => e.DIVG)
                 .NotEmpty()
                 .WithMessage("Децимальный номер аналогового модуля обязательный параметр для заполнения.")
-                .Matches(Format.DIVG)
+                .Matches(StringFormat.DIVG)
                 .WithMessage("Децимальный номер аналогового модуля должен иметь следующий вид ДИВГ.xxxxx-xx, где x - число [0-9].");
 
             this.RuleFor(e => e.Current)
                 .NotEmpty()
                 .WithMessage("Номинальный ток аналогового модуля обязательный параметр для заполнения.")
-                .Matches(Format.Current)
+                .Matches(StringFormat.Current)
                 .WithMessage("Номинальный ток аналогового модуля должен принимать значение от [0-9]A.");
 
             this.RuleFor(e => e.Description)

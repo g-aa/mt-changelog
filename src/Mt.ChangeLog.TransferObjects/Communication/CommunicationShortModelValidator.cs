@@ -8,7 +8,7 @@ namespace Mt.ChangeLog.TransferObjects.Communication
     public sealed class CommunicationShortModelValidator : AbstractValidator<CommunicationShortModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="CommunicationShortModelValidator"/>
+        /// Инициализация экземпляра <see cref="CommunicationShortModelValidator"/>.
         /// </summary>
         public CommunicationShortModelValidator()
         {

@@ -8,7 +8,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
     public class ProjectRevisionTreeModel
     {
         /// <summary>
-        /// Родительская ревизия.
+        /// ИД родительской ревизии.
         /// </summary>
         public Guid ParentId { get; set; }
         

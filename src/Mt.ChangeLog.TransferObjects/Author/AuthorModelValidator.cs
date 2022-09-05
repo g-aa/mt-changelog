@@ -8,7 +8,7 @@ namespace Mt.ChangeLog.TransferObjects.Author
     public sealed class AuthorModelValidator : AbstractValidator<AuthorModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="AuthorModelValidator"/>
+        /// Инициализация экземпляра <see cref="AuthorModelValidator"/>.
         /// </summary>
         public AuthorModelValidator()
         {

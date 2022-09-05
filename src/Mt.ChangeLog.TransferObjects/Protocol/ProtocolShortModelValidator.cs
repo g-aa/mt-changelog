@@ -8,7 +8,7 @@ namespace Mt.ChangeLog.TransferObjects.Protocol
     public sealed class ProtocolShortModelValidator : AbstractValidator<ProtocolShortModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProtocolShortModelValidator"/>
+        /// Инициализация экземпляра <see cref="ProtocolShortModelValidator"/>.
         /// </summary>
         public ProtocolShortModelValidator()
         {

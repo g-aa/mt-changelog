@@ -13,7 +13,7 @@ namespace Mt.ChangeLog.TransferObjects.Platform
         public string Description { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="PlatformTableModel"/>
+        /// Инициализация экземпляра <see cref="PlatformTableModel"/>.
         /// </summary>
         public PlatformTableModel() : base()
         {

@@ -9,7 +9,7 @@ namespace Mt.ChangeLog.TransferObjects.Protocol
     public sealed class ProtocolModelValidator : AbstractValidator<ProtocolModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProtocolModelValidator"/>
+        /// Инициализация экземпляра <see cref="ProtocolModelValidator"/>.
         /// </summary>
         public ProtocolModelValidator()
         {

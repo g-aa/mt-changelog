@@ -1,4 +1,5 @@
 ﻿using Mt.ChangeLog.TransferObjects.ProjectVersion;
+using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.ProjectRevision
 {
@@ -13,11 +14,11 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
         public string Revision { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectRevisionShortModel"/>
+        /// Инициализация экземпляра <see cref="ProjectRevisionShortModel"/>.
         /// </summary>
         public ProjectRevisionShortModel() : base()
         {
-            this.Revision = "00";
+            this.Revision = DefaultString.Revision;
         }
 
         /// <inheritdoc />

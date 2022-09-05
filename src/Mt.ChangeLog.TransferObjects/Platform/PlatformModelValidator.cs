@@ -9,7 +9,7 @@ namespace Mt.ChangeLog.TransferObjects.Platform
     public sealed class PlatformModelValidator : AbstractValidator<PlatformModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="PlatformModelValidator"/>
+        /// Инициализация экземпляра <see cref="PlatformModelValidator"/>.
         /// </summary>
         public PlatformModelValidator()
         {

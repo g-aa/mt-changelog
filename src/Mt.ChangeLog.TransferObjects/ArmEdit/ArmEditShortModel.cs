@@ -19,7 +19,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
         public string Version { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ArmEditModel"/>
+        /// Инициализация экземпляра <see cref="ArmEditModel"/>.
         /// </summary>
         public ArmEditShortModel()
         {

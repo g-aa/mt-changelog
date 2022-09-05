@@ -13,7 +13,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectStatus
         public string Description { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectStatusTableModel"/>
+        /// Инициализация экземпляра <see cref="ProjectStatusTableModel"/>.
         /// </summary>
         public ProjectStatusTableModel() : base()
         {

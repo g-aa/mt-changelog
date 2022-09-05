@@ -24,7 +24,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
         public string Description { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ArmEditTableModel"/>
+        /// Инициализация экземпляра <see cref="ArmEditTableModel"/>.
         /// </summary>
         public ArmEditTableModel() : base()
         {

@@ -23,7 +23,7 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
         public string Description { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="AnalogModuleTableModel"/>
+        /// Инициализация экземпляра <see cref="AnalogModuleTableModel"/>.
         /// </summary>
         public AnalogModuleTableModel() : base()
         {

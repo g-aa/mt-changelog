@@ -9,7 +9,7 @@ namespace Mt.ChangeLog.TransferObjects.Communication
     public sealed class CommunicationModelValidator : AbstractValidator<CommunicationModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="CommunicationModelValidator"/>
+        /// Инициализация экземпляра <see cref="CommunicationModelValidator"/>.
         /// </summary>
         public CommunicationModelValidator()
         {

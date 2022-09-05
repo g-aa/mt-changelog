@@ -9,14 +9,14 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
     public sealed class ProjectVersionShortModelValidator : AbstractValidator<ProjectVersionShortModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersionShortModelValidator"/>
+        /// Инициализация экземпляра <see cref="ProjectVersionShortModelValidator"/>.
         /// </summary>
         public ProjectVersionShortModelValidator()
         {
             this.RuleFor(e => e.Prefix)
                 .NotNull()
                 .WithMessage("Префикс проекта, псевдоним аналогового модуля обязательный параметр для заполнения.")
-                .Matches(Format.Prefix)
+                .Matches(StringFormat.Prefix)
                 .WithMessage("Префикс проекта, псевдоним аналогового модуля должено иметь следующий вид БФПО-xxx, где x - [0-9].");
 
             this.RuleFor(e => e.Title)

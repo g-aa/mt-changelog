@@ -19,7 +19,7 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
         public string Title { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="AnalogModuleShortModel"/>
+        /// Инициализация экземпляра <see cref="AnalogModuleShortModel"/>.
         /// </summary>
         public AnalogModuleShortModel()
         {

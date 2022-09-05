@@ -8,7 +8,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectStatus
     public sealed class ProjectStatusModelValidator : AbstractValidator<ProjectStatusModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectStatusModelValidator"/>
+        /// Инициализация экземпляра <see cref="ProjectStatusModelValidator"/>.
         /// </summary>
         public ProjectStatusModelValidator()
         {

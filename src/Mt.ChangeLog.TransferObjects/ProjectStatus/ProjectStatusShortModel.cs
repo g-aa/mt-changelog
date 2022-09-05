@@ -1,5 +1,4 @@
-﻿using Mt.Utilities;
-using System;
+﻿using System;
 
 namespace Mt.ChangeLog.TransferObjects.ProjectStatus
 {
@@ -19,12 +18,12 @@ namespace Mt.ChangeLog.TransferObjects.ProjectStatus
         public string Title { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectStatusShortModel"/>
+        /// Инициализация экземпляра <see cref="ProjectStatusShortModel"/>.
         /// </summary>
         public ProjectStatusShortModel()
         {
             this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Status;
+            this.Title = "Внутренний";
         }
 
         /// <inheritdoc />

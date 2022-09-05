@@ -13,7 +13,7 @@ namespace Mt.ChangeLog.TransferObjects.Author
         public string Position { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="AuthorTableModel"/>
+        /// Инициализация экземпляра <see cref="AuthorTableModel"/>.
         /// </summary>
         public AuthorTableModel() : base()
         {

@@ -36,7 +36,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
         public PlatformShortModel Platform { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersionModel"/>
+        /// Инициализация экземпляра <see cref="ProjectVersionModel"/>.
         /// </summary>
         public ProjectVersionModel() : base()
         {

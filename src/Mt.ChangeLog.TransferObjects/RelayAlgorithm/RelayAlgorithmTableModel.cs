@@ -28,13 +28,13 @@ namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm
         public string Description { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="RelayAlgorithmTableModel"/>
+        /// Инициализация экземпляра <see cref="RelayAlgorithmTableModel"/>.
         /// </summary>
         public RelayAlgorithmTableModel() : base()
         {
             this.Group = DefaultString.AlgorithmGroup;
             this.ANSI = DefaultString.AlgorithmANSI;
-            this.LogicalNode = DefaultString.AlgorithmLN;
+            this.LogicalNode = DefaultString.LogicalNode;
             this.Description = DefaultString.Description;
         }
     }

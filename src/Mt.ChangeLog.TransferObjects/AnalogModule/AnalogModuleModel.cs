@@ -14,7 +14,7 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
         public IEnumerable<PlatformShortModel> Platforms { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="AnalogModuleModel"/>
+        /// Инициализация экземпляра <see cref="AnalogModuleModel"/>.
         /// </summary>
         public AnalogModuleModel() : base()
         {

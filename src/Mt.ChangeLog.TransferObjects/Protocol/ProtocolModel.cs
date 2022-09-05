@@ -9,11 +9,18 @@ namespace Mt.ChangeLog.TransferObjects.Protocol
     /// </summary>
     public class ProtocolModel : ProtocolShortModel
     {
+        /// <summary>
+        /// Описание.
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Перечень коммуникационных модулей.
+        /// </summary>
         public IEnumerable<CommunicationShortModel> Communications { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProtocolModel"/>
+        /// Инициализация экземпляра <see cref="ProtocolModel"/>.
         /// </summary>
         public ProtocolModel() : base()
         {

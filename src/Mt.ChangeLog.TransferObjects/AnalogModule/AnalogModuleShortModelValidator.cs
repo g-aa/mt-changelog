@@ -16,7 +16,7 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
             this.RuleFor(e => e.Title)
                 .NotEmpty()
                 .WithMessage("Наименование аналогово модуля обязательный параметр для заполнения.")
-                .Matches(Format.AnalogModule)
+                .Matches(StringFormat.AnalogModule)
                 .WithMessage("Наименование аналогово модуля должено иметь следующий вид БМРЗ-xxxx, где x - [0-9 A-Z А-Я].");
         }
     }

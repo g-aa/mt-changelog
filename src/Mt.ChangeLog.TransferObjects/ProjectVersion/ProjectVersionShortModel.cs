@@ -29,14 +29,14 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
         public string Version { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersionShortModel"/>
+        /// Инициализация экземпляра <see cref="ProjectVersionShortModel"/>.
         /// </summary>
         public ProjectVersionShortModel()
         {
             this.Id = Guid.NewGuid();
             this.Prefix = DefaultString.Prefix;
-            this.Title = "ПМК";
-            this.Version = "00";
+            this.Title = DefaultString.Project;
+            this.Version = DefaultString.Revision;
         }
 
         /// <inheritdoc />

@@ -30,7 +30,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
         {
             this.Date = DateTime.Now;
             this.ArmEdit = DefaultString.Version;
-            this.Reason = "Укажите причину изменения...";
+            this.Reason = DefaultString.Reason;
         }
     }
 }

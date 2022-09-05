@@ -8,7 +8,7 @@
         /// <summary>
         /// Инициализация экземпляра <see cref="RelayAlgorithmModel"/>
         /// </summary>
-        public RelayAlgorithmModel()
+        public RelayAlgorithmModel() : base()
         {
         }
 

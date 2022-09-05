@@ -33,12 +33,12 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
         public string Module { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersionTableModel"/>
+        /// Инициализация экземпляра <see cref="ProjectVersionTableModel"/>.
         /// </summary>
         public ProjectVersionTableModel() : base()
         {
             this.DIVG = DefaultString.DIVG;
-            this.Status = DefaultString.Status;
+            this.Status = "Внутренний";
             this.Description = DefaultString.Description;
             this.Platform = DefaultString.Platform;
             this.Module = DefaultString.AnalogModule;

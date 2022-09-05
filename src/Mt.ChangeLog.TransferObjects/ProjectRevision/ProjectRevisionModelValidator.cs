@@ -11,7 +11,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
     public sealed class ProjectRevisionModelValidator : AbstractValidator<ProjectRevisionModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectRevisionModelValidator"/>
+        /// Инициализация экземпляра <see cref="ProjectRevisionModelValidator"/>.
         /// </summary>
         public ProjectRevisionModelValidator()
         {

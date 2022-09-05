@@ -19,7 +19,7 @@ namespace Mt.ChangeLog.TransferObjects.Platform
         public string Title { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="PlatformShortModel"/>
+        /// Инициализация экземпляра <see cref="PlatformShortModel"/>.
         /// </summary>
         public PlatformShortModel()
         {

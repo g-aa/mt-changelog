@@ -19,7 +19,7 @@ namespace Mt.ChangeLog.TransferObjects.Communication
         public string Title { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="CommunicationShortModel"/>
+        /// Инициализация экземпляра <see cref="CommunicationShortModel"/>.
         /// </summary>
         public CommunicationShortModel()
         {

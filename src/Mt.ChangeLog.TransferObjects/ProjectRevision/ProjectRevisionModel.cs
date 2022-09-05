@@ -70,14 +70,14 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
         public IEnumerable<RelayAlgorithmShortModel> RelayAlgorithms { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectRevisionModel"/>
+        /// Инициализация экземпляра <see cref="ProjectRevisionModel"/>.
         /// </summary>
         public ProjectRevisionModel()
         {
             this.Id = Guid.NewGuid();
             this.Date = DateTime.Now;
-            this.Revision = "00";
-            this.Reason = "Укажите причину изменения...";
+            this.Revision = DefaultString.Revision;
+            this.Reason = DefaultString.Reason;
             this.Description = DefaultString.Description;
             this.ProjectVersion = new ProjectVersionShortModel();
             this.ParentRevision = new ProjectRevisionShortModel();

@@ -8,7 +8,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
     public class ProjectVersionHistoryModel
     {
         /// <summary>
-        /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version"
+        /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version".
         /// </summary>
         public string Title { get; set; }
         
@@ -18,7 +18,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         public ICollection<ProjectRevisionHistoryModel> History { get; private set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersionHistoryModel"/>
+        /// Инициализация экземпляра <see cref="ProjectVersionHistoryModel"/>.
         /// </summary>
         public ProjectVersionHistoryModel()
         {

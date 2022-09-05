@@ -13,7 +13,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         public Guid Id { get; set; }
         
         /// <summary>
-        /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version"_"ProjectRevision.Revision"
+        /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version"_"ProjectRevision.Revision".
         /// </summary>
         public string Title { get; set; }
         

@@ -12,7 +12,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
     public sealed class ProjectVersionModelValidator : AbstractValidator<ProjectVersionModel>
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersionModelValidator"/>
+        /// Инициализация экземпляра <see cref="ProjectVersionModelValidator"/>.
         /// </summary>
         public ProjectVersionModelValidator()
         {
@@ -21,7 +21,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
             this.RuleFor(e => e.DIVG)
                 .NotEmpty()
                 .WithMessage("Децимальный номер версии проекта обязательный параметр для заполнения.")
-                .Matches(Format.DIVG)
+                .Matches(StringFormat.DIVG)
                 .WithMessage("Децимальный номер должен иметь следующий вид ДИВГ.xxxxx-xx, где x - число [0-9].");
 
             this.RuleFor(e => e.Description)

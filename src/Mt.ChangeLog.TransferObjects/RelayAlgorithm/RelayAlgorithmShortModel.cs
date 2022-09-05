@@ -19,7 +19,7 @@ namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm
         public string Title { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="RelayAlgorithmShortModel"/>
+        /// Инициализация экземпляра <see cref="RelayAlgorithmShortModel"/>.
         /// </summary>
         public RelayAlgorithmShortModel()
         {

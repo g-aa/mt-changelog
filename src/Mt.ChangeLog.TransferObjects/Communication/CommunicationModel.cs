@@ -20,7 +20,7 @@ namespace Mt.ChangeLog.TransferObjects.Communication
         public IEnumerable<ProtocolShortModel> Protocols { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="CommunicationModel"/>
+        /// Инициализация экземпляра <see cref="CommunicationModel"/>.
         /// </summary>
         public CommunicationModel() : base()
         {

@@ -1,4 +1,6 @@
-﻿namespace Mt.ChangeLog.TransferObjects.Author
+﻿using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.Author
 {
     /// <summary>
     /// Модель автор вклад в проекты.
@@ -21,13 +23,13 @@
         public string ProjectVersion { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="AuthorProjectContributionModel"/>
+        /// Инициализация экземпляра <see cref="AuthorProjectContributionModel"/>.
         /// </summary>
         public AuthorProjectContributionModel()
         {
-            this.ProjectPrefix = string.Empty;
-            this.ProjectTitle = string.Empty;
-            this.ProjectVersion = string.Empty;    
+            this.ProjectPrefix = DefaultString.Prefix;
+            this.ProjectTitle = DefaultString.Project;
+            this.ProjectVersion = DefaultString.Revision;    
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Mt.ChangeLog.TransferObjects.Communication
         public string Description { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="CommunicationTableModel"/>
+        /// Инициализация экземпляра <see cref="CommunicationTableModel"/>.
         /// </summary>
         public CommunicationTableModel() : base()
         {

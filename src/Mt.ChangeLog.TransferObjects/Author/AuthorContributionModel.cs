@@ -18,7 +18,7 @@ namespace Mt.ChangeLog.TransferObjects.Author
         public int Contribution { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="AuthorContributionModel"/>
+        /// Инициализация экземпляра <see cref="AuthorContributionModel"/>.
         /// </summary>
         public AuthorContributionModel()
         {

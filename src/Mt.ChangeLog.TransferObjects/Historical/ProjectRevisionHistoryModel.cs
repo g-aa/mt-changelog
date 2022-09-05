@@ -40,7 +40,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         public string Description { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectRevisionHistoryModel"/>
+        /// Инициализация экземпляра <see cref="ProjectRevisionHistoryModel"/>.
         /// </summary>
         public ProjectRevisionHistoryModel()
         {
@@ -48,7 +48,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
             this.Communication = DefaultString.Communication;
             this.Authors = new HashSet<string>();
             this.RelayAlgorithms = new HashSet<string>();
-            this.Reason = "Укажите причину изменения...";
+            this.Reason = DefaultString.Reason;
             this.Description = DefaultString.Description;
         }
 

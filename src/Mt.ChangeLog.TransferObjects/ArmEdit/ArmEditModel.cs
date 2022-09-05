@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mt.ChangeLog.TransferObjects.ArmEdit
+﻿namespace Mt.ChangeLog.TransferObjects.ArmEdit
 {
     /// <summary>
     /// Полная модель ArmEdit.
@@ -8,7 +6,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
     public class ArmEditModel : ArmEditTableModel
     {
         /// <summary>
-        /// Инициализация экземпляра <see cref="ArmEditModel"/>
+        /// Инициализация экземпляра <see cref="ArmEditModel"/>.
         /// </summary>
         public ArmEditModel() : base()
         {

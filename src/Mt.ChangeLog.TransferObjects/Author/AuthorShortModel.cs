@@ -24,7 +24,7 @@ namespace Mt.ChangeLog.TransferObjects.Author
         public string LastName { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="AuthorShortModel"/>
+        /// Инициализация экземпляра <see cref="AuthorShortModel"/>.
         /// </summary>
         public AuthorShortModel()
         {

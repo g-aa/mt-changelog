@@ -19,7 +19,7 @@ namespace Mt.ChangeLog.TransferObjects.Protocol
         public string Title { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProtocolShortModel"/>
+        /// Инициализация экземпляра <see cref="ProtocolShortModel"/>.
         /// </summary>
         public ProtocolShortModel()
         {
