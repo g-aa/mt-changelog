@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj" />
+		<ProjectReference Include="..\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj" />
 	</ItemGroup>
 
 </Project>
