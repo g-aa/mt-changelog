@@ -88,14 +88,14 @@ namespace Mt.ChangeLog.Entities.Tables
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectRevision"/>
+        /// Инициализация экземпляра <see cref="ProjectRevision"/>.
         /// </summary>
         public ProjectRevision()
         {
             this.Id = Guid.NewGuid();
             this.Date = DateTime.Now;
-            this.Revision = "00";
-            this.Reason = "Укажите причину изменения...";
+            this.Revision = DefaultString.Revision;
+            this.Reason = DefaultString.Reason;
             this.Description = DefaultString.Description;
             this.Authors = new HashSet<Author>();
             this.RelayAlgorithms = new HashSet<RelayAlgorithm>();

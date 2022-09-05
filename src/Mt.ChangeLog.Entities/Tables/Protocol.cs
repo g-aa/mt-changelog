@@ -39,7 +39,7 @@ namespace Mt.ChangeLog.Entities.Tables
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="Protocol"/>
+        /// Инициализация экземпляра <see cref="Protocol"/>.
         /// </summary>
         public Protocol() 
         {

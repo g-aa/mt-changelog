@@ -54,7 +54,7 @@ namespace Mt.ChangeLog.Entities.Tables
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="RelayAlgorithm"/>
+        /// Инициализация экземпляра <see cref="RelayAlgorithm"/>.
         /// </summary>
         public RelayAlgorithm()
         {
@@ -62,7 +62,7 @@ namespace Mt.ChangeLog.Entities.Tables
             this.Group = DefaultString.AlgorithmGroup;
             this.Title = DefaultString.Algorithm;
             this.ANSI = DefaultString.AlgorithmANSI;
-            this.LogicalNode = DefaultString.AlgorithmLN;
+            this.LogicalNode = DefaultString.LogicalNode;
             this.Description = DefaultString.Description;
             this.Default = false;
             this.Removable = true;

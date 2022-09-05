@@ -49,7 +49,7 @@ namespace Mt.ChangeLog.Entities.Tables
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ArmEdit"/>
+        /// Инициализация экземпляра <see cref="ArmEdit"/>.
         /// </summary>
         public ArmEdit() 
         {

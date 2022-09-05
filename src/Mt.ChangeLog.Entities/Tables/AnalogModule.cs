@@ -54,7 +54,7 @@ namespace Mt.ChangeLog.Entities.Tables
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="AnalogModule"/>
+        /// Инициализация экземпляра <see cref="AnalogModule"/>.
         /// </summary>
         public AnalogModule()
         {

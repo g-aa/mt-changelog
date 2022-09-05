@@ -78,15 +78,15 @@ namespace Mt.ChangeLog.Entities.Tables
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersion"/>
+        /// Инициализация экземпляра <see cref="ProjectVersion"/>.
         /// </summary>
         public ProjectVersion()
         {
             this.Id = Guid.NewGuid();
             this.DIVG = DefaultString.DIVG;
             this.Prefix = DefaultString.Prefix;
-            this.Title = "ПМК";
-            this.Version = "00";
+            this.Title = DefaultString.Project;
+            this.Version = DefaultString.Revision;
             this.Description = DefaultString.Description;
             this.ProjectRevisions = new HashSet<ProjectRevision>();
         }

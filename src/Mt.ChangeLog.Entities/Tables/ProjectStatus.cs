@@ -39,12 +39,12 @@ namespace Mt.ChangeLog.Entities.Tables
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectStatus"/>
+        /// Инициализация экземпляра <see cref="ProjectStatus"/>.
         /// </summary>
         public ProjectStatus() 
         {
             this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Status;
+            this.Title = "Внутренний";
             this.Description = DefaultString.Description;
             this.Default = false;
             this.Removable = true;

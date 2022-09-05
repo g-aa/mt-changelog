@@ -44,7 +44,7 @@ namespace Mt.ChangeLog.Entities.Tables
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="Platform"/>
+        /// Инициализация экземпляра <see cref="Platform"/>.
         /// </summary>
         public Platform()
         {

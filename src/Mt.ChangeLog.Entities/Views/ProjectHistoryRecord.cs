@@ -28,7 +28,7 @@ namespace Mt.ChangeLog.Entities.Views
         public string Platform { get; set; }
 
         /// <summary>
-        /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version"_"ProjectRevision.Revision"
+        /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version"_"ProjectRevision.Revision".
         /// </summary>
         public string Title { get; set; }
 

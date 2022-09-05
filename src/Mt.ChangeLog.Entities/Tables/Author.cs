@@ -44,7 +44,7 @@ namespace Mt.ChangeLog.Entities.Tables
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="Author"/>
+        /// Инициализация экземпляра <see cref="Author"/>.
         /// </summary>
         public Author()
         {
