@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
+using Mt.ChangeLog.Logic.Models;
 using Mt.Utilities;
 using System;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Mt.ChangeLog.Logic.Pipelines
 	/// Препроцессор валидации.
 	/// </summary>
 	/// <typeparam name="TRequest">Тип запроса.</typeparam>
-    public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcessor<TRequest>
+    public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcessor<TRequest> where TRequest : IMtRequest
     {
         /// <summary>
 		/// Журнал логирования.

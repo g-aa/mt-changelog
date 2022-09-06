@@ -1,28 +1,28 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.Repositories.Abstractions.Interfaces;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.Utilities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
-using Mt.ChangeLog.Repositories.Abstractions.Interfaces;
 
 namespace Mt.ChangeLog.Logic.Features.AnalogModule
 {
     /// <summary>
     /// Запрос на получение перечня кратких моделий данных <see cref="AnalogModuleShortModel"/>.
     /// </summary>
-    public static class GetAnalogModuleShorts
+    public static class GetShorts
     {
         /// <inheritdoc />
-        public sealed class Command : MtQuery<Unit, IEnumerable<AnalogModuleShortModel>>
+        public sealed class Query : MtQuery<Unit, IEnumerable<AnalogModuleShortModel>>
         {
             /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
+            /// Инициализация нового экземпляра класса <see cref="Query"/>.
             /// </summary>
             /// <param name="unit">Тип void.</param>
-            public Command(Unit unit) : base(unit)
+            public Query(Unit unit) : base(unit)
             {
             }
             
@@ -34,7 +34,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, IEnumerable<AnalogModuleShortModel>>
+        public sealed class Handler : IRequestHandler<Query, IEnumerable<AnalogModuleShortModel>>
         {
             /// <summary>
             /// Журнал логирования.
@@ -58,7 +58,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public async Task<IEnumerable<AnalogModuleShortModel>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<AnalogModuleShortModel>> Handle(Query request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
