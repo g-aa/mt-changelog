@@ -1,44 +1,42 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.TransferObjects.ArmEdit;
+using Mt.ChangeLog.TransferObjects.ProjectStatus;
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="ArmEdit"/>.
+    /// Методы расширения для класса <see cref="ProjectStatus"/>.
     /// </summary>
-    public static class ArmEditExtensions
+    public static class ProjectStatusExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="ArmEdit"/> в модель <see cref="ArmEditShortModel"/>.
+        /// Преобразовать сущность <see cref="ProjectStatus"/> в модель <see cref="ProjectStatusShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ArmEditShortModel ToShortModel(this ArmEdit entity)
+        public static ProjectStatusShortModel ToShortModel(this ProjectStatus entity)
         {
             Check.NotNull(entity, nameof(entity));
-            var result = new ArmEditShortModel()
+            var result = new ProjectStatusShortModel()
             {
                 Id = entity.Id,
-                Version = entity.Version
+                Title = entity.Title
             };
             return result;
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ArmEdit"/> в модель <see cref="ArmEditModel"/>.
+        /// Преобразовать сущность <see cref="ProjectStatus"/> в модель <see cref="ProjectStatusModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ArmEditModel ToModel(this ArmEdit entity)
+        public static ProjectStatusModel ToModel(this ProjectStatus entity)
         {
             Check.NotNull(entity, nameof(entity));
-            var result = new ArmEditModel()
+            var result = new ProjectStatusModel()
             {
                 Id = entity.Id,
-                Date = entity.Date,
-                DIVG = entity.DIVG,
-                Version = entity.Version,
+                Title = entity.Title,
                 Description = entity.Description
             };
             return result;
@@ -49,9 +47,9 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static ArmEditBuilder GetBuilder(this ArmEdit entity)
+        public static ProjectStatusBuilder GetBuilder(this ProjectStatus entity)
         {
-            return new ArmEditBuilder(entity);
+            return new ProjectStatusBuilder(entity);
         }
     }
 }

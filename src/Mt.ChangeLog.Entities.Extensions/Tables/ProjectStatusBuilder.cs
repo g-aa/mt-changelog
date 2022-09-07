@@ -1,33 +1,29 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.TransferObjects.ArmEdit;
+using Mt.ChangeLog.TransferObjects.ProjectStatus;
 using Mt.Utilities;
 using System;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="ArmEdit"/>.
+    /// Строитель <see cref="ProjectStatus"/>.
     /// </summary>
-    public class ArmEditBuilder
+    public class ProjectStatusBuilder
     {
-        private readonly ArmEdit entity;
+        private readonly ProjectStatus entity;
 
-        private string divg;
-        private string version;
-        private DateTime? date;
+        private string title;
         private string description;
 
         /// <summary>
-        /// Инициализация экземпляра класса <see cref="ArmEditBuilder"/>.
+        /// Инициализация экземпляра класса <see cref="ProjectStatusBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ArmEditBuilder(ArmEdit entity) 
+        public ProjectStatusBuilder(ProjectStatus entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
-            this.divg = entity.DIVG;
-            this.version = entity.Version;
-            this.date = entity.Date;
+            this.title = entity.Title;
             this.description = entity.Description;
         }
 
@@ -37,12 +33,10 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="model">Модель.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если model равно null.</exception>
-        public ArmEditBuilder SetAttributes(ArmEditModel model)
+        public ProjectStatusBuilder SetAttributes(ProjectStatusModel model)
         {
             Check.NotNull(model, nameof(model));
-            this.divg = model.DIVG;
-            this.version = model.Version;
-            this.date = model.Date;
+            this.title = model.Title;
             this.description = model.Description;
             return this;
         }
@@ -51,26 +45,24 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public ArmEdit Build()
+        public ProjectStatus Build()
         {
             // атрибуты:
-            // this.entity.Id - не обновляется!
-            this.entity.DIVG = this.divg;
-            this.entity.Version = this.version;
-            this.entity.Date = date != null ? date.Value : DateTime.Now;
+            //this.entity.Id - не обновляется!
+            this.entity.Title = title;
             this.entity.Description = description;
             // реляционные связи:
-            // this.entity.ProjectRevisions - не обновляется!
-            return this.entity;
+            //this.entity.ProjectVersions - не обновляется!
+            return entity;
         }
 
         /// <summary>
         /// Получить строитель.
         /// </summary>
         /// <returns>Строитель.</returns>
-        public static ArmEditBuilder GetBuilder()
+        public static ProjectStatusBuilder GetBuilder()
         {
-            return new ArmEditBuilder(new ArmEdit());
+            return new ProjectStatusBuilder(new ProjectStatus());
         }
     }
 }

@@ -72,7 +72,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static AnalogModuleBuilder GetBuilder(this AnalogModule entity)
         {
-            return new AnalogModuleBuilder(Check.NotNull(entity, nameof(entity)));
+            return new AnalogModuleBuilder(entity);
         }
     }
 }

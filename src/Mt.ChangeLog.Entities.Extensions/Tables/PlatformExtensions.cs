@@ -68,7 +68,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static PlatformBuilder GetBuilder(this Platform entity)
         {
-            return new PlatformBuilder(Check.NotNull(entity, nameof(entity)));
+            return new PlatformBuilder(entity);
         }
     }
 }

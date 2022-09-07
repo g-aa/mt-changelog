@@ -1,33 +1,35 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.TransferObjects.ArmEdit;
+using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.Utilities;
 using System;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="ArmEdit"/>.
+    /// Строитель <see cref="RelayAlgorithm"/>.
     /// </summary>
-    public class ArmEditBuilder
+    public class RelayAlgorithmBuilder
     {
-        private readonly ArmEdit entity;
+        private readonly RelayAlgorithm entity;
 
-        private string divg;
-        private string version;
-        private DateTime? date;
+        private string group;
+        private string title;
+        private string ansi;
+        private string logicalnode;
         private string description;
 
         /// <summary>
-        /// Инициализация экземпляра класса <see cref="ArmEditBuilder"/>.
+        /// Инициализация экземпляра класса <see cref="RelayAlgorithmBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ArmEditBuilder(ArmEdit entity) 
+        public RelayAlgorithmBuilder(RelayAlgorithm entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
-            this.divg = entity.DIVG;
-            this.version = entity.Version;
-            this.date = entity.Date;
+            this.group = entity.Group;
+            this.title = entity.Title;
+            this.ansi = entity.ANSI;
+            this.logicalnode = entity.LogicalNode;
             this.description = entity.Description;
         }
 
@@ -37,12 +39,13 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="model">Модель.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если model равно null.</exception>
-        public ArmEditBuilder SetAttributes(ArmEditModel model)
+        public RelayAlgorithmBuilder SetAttributes(RelayAlgorithmModel model)
         {
             Check.NotNull(model, nameof(model));
-            this.divg = model.DIVG;
-            this.version = model.Version;
-            this.date = model.Date;
+            this.group = model.Group;
+            this.title = model.Title;
+            this.ansi = model.ANSI;
+            this.logicalnode = model.LogicalNode;
             this.description = model.Description;
             return this;
         }
@@ -51,15 +54,15 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public ArmEdit Build()
+        public RelayAlgorithm Build()
         {
             // атрибуты:
             // this.entity.Id - не обновляется!
-            this.entity.DIVG = this.divg;
-            this.entity.Version = this.version;
-            this.entity.Date = date != null ? date.Value : DateTime.Now;
-            this.entity.Description = description;
-            // реляционные связи:
+            this.entity.Group = this.group;
+            this.entity.Title = this.title;
+            this.entity.ANSI = this.ansi;
+            this.entity.LogicalNode = this.logicalnode;
+            this.entity.Description = this.description;
             // this.entity.ProjectRevisions - не обновляется!
             return this.entity;
         }
@@ -68,9 +71,9 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Получить строитель.
         /// </summary>
         /// <returns>Строитель.</returns>
-        public static ArmEditBuilder GetBuilder()
+        public static RelayAlgorithmBuilder GetBuilder() 
         {
-            return new ArmEditBuilder(new ArmEdit());
+            return new RelayAlgorithmBuilder(new RelayAlgorithm());
         }
     }
 }

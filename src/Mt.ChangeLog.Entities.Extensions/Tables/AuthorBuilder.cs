@@ -31,8 +31,9 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <summary>
         /// Добавить атрибуты.
         /// </summary>
-        /// <param name="model"Модель.</param>
+        /// <param name="model">Модель.</param>
         /// <returns>Строитель.</returns>
+        /// <exception cref="ArgumentNullException">Срабатывает если model равно null.</exception>
         public AuthorBuilder SetAttributes(AuthorModel model)
         {
             Check.NotNull(model, nameof(model));
@@ -46,7 +47,6 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        /// <exception cref="ArgumentException">Ошибка в логике обработки связей.</exception>
         public Author Build()
         {
             // атрибуты:

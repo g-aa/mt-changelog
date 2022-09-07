@@ -1,5 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
+using Mt.Utilities;
 using System;
 using System.Linq;
 
@@ -22,33 +23,42 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Инициализация экземпляра класса <see cref="AnalogModuleBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
+        /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
         public AnalogModuleBuilder(AnalogModule entity) 
         {
-            this.entity = entity;
+            this.entity = Check.NotNull(entity, nameof(entity));
+            this.divg = entity.DIVG;
+            this.title = entity.Title;
+            this.current = entity.Current;
+            this.description = entity.Description;
+            this.platforms = entity.Platforms.AsQueryable();
         }
 
         /// <summary>
         /// Добавить атрибуты.
         /// </summary>
-        /// <param name="model"Модель.</param>
+        /// <param name="model">Модель.</param>
         /// <returns>Строитель.</returns>
+        /// <exception cref="ArgumentNullException">Срабатывает если model равно null.</exception>
         public AnalogModuleBuilder SetAttributes(AnalogModuleModel model) 
         {
-            this.divg = model?.DIVG;
-            this.title = model?.Title;
-            this.current = model?.Current;
-            this.description = model?.Description;
+            Check.NotNull(model, nameof(model));
+            this.divg = model.DIVG;
+            this.title = model.Title;
+            this.current = model.Current;
+            this.description = model.Description;
             return this;
         }
 
         /// <summary>
-        /// Добавить платформы.
+        /// Добавить перечень платформ.
         /// </summary>
         /// <param name="platforms">Перечень платформ.</param>
         /// <returns>Строитель.</returns>
+        /// <exception cref="ArgumentNullException">Срабатывает если platforms равно null.</exception>
         public AnalogModuleBuilder SetPlatforms(IQueryable<Platform> platforms) 
         {
-            this.platforms = platforms;
+            this.platforms = Check.NotNull(platforms, nameof(platforms));
             return this;
         }
 
