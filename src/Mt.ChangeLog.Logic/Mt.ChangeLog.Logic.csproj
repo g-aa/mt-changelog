@@ -17,7 +17,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Mt.ChangeLog.Context\Mt.ChangeLog.Context.csproj" />
 		<ProjectReference Include="..\Mt.ChangeLog.Entities.Extensions\Mt.ChangeLog.Entities.Extensions.csproj" />
-		<ProjectReference Include="..\Mt.ChangeLog.Repositories.Abstractions\Mt.ChangeLog.Repositories.Abstractions.csproj" />
 		<ProjectReference Include="..\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj" />
 	</ItemGroup>
 
