@@ -30,7 +30,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <inheritdoc />
             public override string ToString()
             {
-                return $"{base.ToString()} - получение шаблона модели вида {nameof(AnalogModuleModel)}.";
+                return $"{base.ToString()} - получение шаблона сущности вида {nameof(AnalogModuleModel)}.";
             }
         }
 

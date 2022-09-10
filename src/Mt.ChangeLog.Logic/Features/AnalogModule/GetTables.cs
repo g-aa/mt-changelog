@@ -31,7 +31,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <inheritdoc />
             public override string ToString()
             {
-                return $"{base.ToString()} - получение перечня моделей вида {nameof(AnalogModuleTableModel)}.";
+                return $"{base.ToString()} - получение перечня сущностей вида {nameof(AnalogModuleTableModel)}.";
             }
         }
 

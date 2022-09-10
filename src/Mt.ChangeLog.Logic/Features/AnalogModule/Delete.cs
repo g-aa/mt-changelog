@@ -88,14 +88,17 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                     .Include(e => e.Platforms).ThenInclude(e => e.AnalogModules)
                     .AsSingleQuery()
                     .Search(request.Model.Id);
+
                 if (dbRemovable.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию \"{dbRemovable}\" не может быть удалена из БД");
+                    throw new ArgumentException($"Сущность по умолчанию '{dbRemovable}' не может быть удалена из системы.");
                 }
+
                 if (dbRemovable.Projects.Any())
                 {
-                    throw new ArgumentException($"Сущность \"{dbRemovable}\" используемая в проектах не может быть удалена из БД");
+                    throw new ArgumentException($"Сущность '{dbRemovable}' используемая в проектах не может быть удалена из системы.");
                 }
+
                 if (dbRemovable.Platforms.Any())
                 {
                     var defModule = this.context.AnalogModules.First(e => e.Default);
@@ -111,7 +114,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                 this.context.AnalogModules.Remove(dbRemovable);
                 await this.context.SaveChangesAsync();
 
-                return new StatusModel($"Аналоговый модуль ID: '{request.Model.Id}' был удален из системы.");
+                return new StatusModel($"Сущность '{dbRemovable}' был удалена из системы.");
             }
         }
     }

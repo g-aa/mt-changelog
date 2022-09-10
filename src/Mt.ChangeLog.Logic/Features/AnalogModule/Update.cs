@@ -88,10 +88,12 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                     .Include(e => e.Projects)
                     .Include(e => e.Platforms)
                     .Search(request.Model.Id);
+
                 if (dbAnalogModule.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию \"{request.Model.Id}\" не может быть обновлена");
+                    throw new ArgumentException($"Сущность по умолчанию '{dbAnalogModule}' не может быть обновлена.");
                 }
+
                 var dbPlatforms = this.context.Platforms
                     .SearchManyOrDefault(request.Model.Platforms.Select(e => e.Id));
                 dbAnalogModule.GetBuilder()
@@ -100,7 +102,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                     .Build();
                 await this.context.SaveChangesAsync();
 
-                return new StatusModel($"Аналоговый модуль {request.Model} обновлен в системе.");
+                return new StatusModel($"Аналоговый модуль '{dbAnalogModule}' обновлен в системе.");
             }
         }
     }

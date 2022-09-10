@@ -1,59 +1,42 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
-using Mt.ChangeLog.TransferObjects.AnalogModule;
-using Mt.ChangeLog.TransferObjects.Other;
-using Mt.Entities.Abstractions.Extensions;
+using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.Utilities;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
-namespace Mt.ChangeLog.Logic.Features.AnalogModule
+namespace Mt.ChangeLog.Logic.Features.ArmEdit
 {
     /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="AnalogModuleModel"/>.
+    /// Запрос на получение перечня кратких моделий данных <see cref="ArmEditShortModel"/>.
     /// </summary>
-    public static class GetById
+    public static class GetShorts
     {
         /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, AnalogModuleModel>
+        public sealed class Query : MtQuery<Unit, IEnumerable<ArmEditShortModel>>
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Query"/>.
             /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Query(BaseModel model) : base(model)
+            public Query() : base(Unit.Value)
             {
             }
-
+            
             /// <inheritdoc />
             public override string ToString()
             {
-                return $"{base.ToString()} - получение сущности вида {nameof(AnalogModuleModel)}.";
-            }
-        }
-
-        /// <summary>
-        /// Валидатор модели <see cref="Query"/>.
-        /// </summary>
-        public sealed class QueryValidator : AbstractValidator<Query>
-        {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="QueryValidator"/>.
-            /// </summary>
-            public QueryValidator(BaseModelValidator validator)
-            {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
+                return $"{base.ToString()} - получение перечня сущностей вида {nameof(ArmEditShortModel)}.";
             }
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, AnalogModuleModel>
+        public sealed class Handler : IRequestHandler<Query, IEnumerable<ArmEditShortModel>>
         {
             /// <summary>
             /// Журнал логирования.
@@ -77,16 +60,15 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public async Task<AnalogModuleModel> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<ArmEditShortModel>> Handle(Query request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.AnalogModules
+                var result = this.context.ArmEdits
                     .AsNoTracking()
-                    .Include(e => e.Platforms)
-                    .Search(request.Model.Id)
-                    .ToModel();
+                    .OrderBy(e => e.Version)
+                    .Select(e => e.ToShortModel());
 
                 return result;
             }

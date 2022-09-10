@@ -1,51 +1,50 @@
-﻿using FluentValidation;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Mt.Entities.Abstractions.Extensions;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
-using Mt.ChangeLog.TransferObjects.AnalogModule;
-using Mt.ChangeLog.TransferObjects.Other;
-using Mt.Entities.Abstractions.Extensions;
+using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.Utilities;
-using System.Threading;
+using System;
 using System.Threading.Tasks;
+using System.Threading;
+using FluentValidation;
 
-namespace Mt.ChangeLog.Logic.Features.AnalogModule
+namespace Mt.ChangeLog.Logic.Features.ArmEdit
 {
     /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="AnalogModuleModel"/>.
+    /// Запрос на добавления сущности <see cref="ArmEditModel"/>.
     /// </summary>
-    public static class GetById
+    public static class Add
     {
         /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, AnalogModuleModel>
+        public sealed class Command : MtCommand<ArmEditModel, Unit>
         {
             /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
+            /// Инициализация нового экземпляра класса <see cref="Command"/>.
             /// </summary>
             /// <param name="model">Базовая модель.</param>
-            public Query(BaseModel model) : base(model)
+            public Command(ArmEditModel model) : base(model)
             {
             }
 
             /// <inheritdoc />
             public override string ToString()
             {
-                return $"{base.ToString()} - получение сущности вида {nameof(AnalogModuleModel)}.";
+                return $"{base.ToString()} - добавление сущности вида {nameof(ArmEditModel)}.";
             }
         }
 
         /// <summary>
-        /// Валидатор модели <see cref="Query"/>.
+        /// Валидатор модели <see cref="Command"/>.
         /// </summary>
-        public sealed class QueryValidator : AbstractValidator<Query>
+        public sealed class CommandValidator : AbstractValidator<Command>
         {
             /// <summary>
-            /// Инициализация экземпляра <see cref="QueryValidator"/>.
+            /// Инициализация экземпляра <see cref="CommandValidator"/>.
             /// </summary>
-            public QueryValidator(BaseModelValidator validator)
+            public CommandValidator(ArmEditModelValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));
@@ -53,7 +52,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, AnalogModuleModel>
+        public sealed class Handler : IRequestHandler<Command, Unit>
         {
             /// <summary>
             /// Журнал логирования.
@@ -77,18 +76,23 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public async Task<AnalogModuleModel> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.AnalogModules
-                    .AsNoTracking()
-                    .Include(e => e.Platforms)
-                    .Search(request.Model.Id)
-                    .ToModel();
+                var dbArmEdit = ArmEditBuilder
+                .GetBuilder()
+                .SetAttributes(request.Model)
+                .Build();
+                if (this.context.ArmEdits.IsContained(dbArmEdit))
+                {
+                    throw new ArgumentException($"Сущность '{request.Model}' уже содержится в БД");
+                }
+                await this.context.ArmEdits.AddAsync(dbArmEdit);
+                await this.context.SaveChangesAsync();
 
-                return result;
+                return Unit.Value;
             }
         }
     }

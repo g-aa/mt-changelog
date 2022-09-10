@@ -5,22 +5,22 @@ using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
-using Mt.ChangeLog.TransferObjects.AnalogModule;
+using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mt.ChangeLog.Logic.Features.AnalogModule
+namespace Mt.ChangeLog.Logic.Features.ArmEdit
 {
     /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="AnalogModuleModel"/>.
+    /// Запрос на получение перечня моделий данных для таблиц <see cref="ArmEditModel"/>.
     /// </summary>
     public static class GetById
     {
         /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, AnalogModuleModel>
+        public sealed class Query : MtQuery<BaseModel, ArmEditModel>
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Query"/>.
@@ -33,7 +33,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <inheritdoc />
             public override string ToString()
             {
-                return $"{base.ToString()} - получение сущности вида {nameof(AnalogModuleModel)}.";
+                return $"{base.ToString()} - получение сущности вида {nameof(ArmEditModel)}.";
             }
         }
 
@@ -53,7 +53,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, AnalogModuleModel>
+        public sealed class Handler : IRequestHandler<Query, ArmEditModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -77,14 +77,13 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public async Task<AnalogModuleModel> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ArmEditModel> Handle(Query request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.AnalogModules
+                var result = this.context.ArmEdits
                     .AsNoTracking()
-                    .Include(e => e.Platforms)
                     .Search(request.Model.Id)
                     .ToModel();
 

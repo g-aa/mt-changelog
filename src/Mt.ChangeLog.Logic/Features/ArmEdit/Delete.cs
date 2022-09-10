@@ -1,39 +1,40 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
-using Mt.ChangeLog.TransferObjects.AnalogModule;
+using Mt.ChangeLog.TransferObjects.ArmEdit;
+using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Utilities;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
-using FluentValidation;
+using System;
+using System.Linq;
 
-namespace Mt.ChangeLog.Logic.Features.AnalogModule
+namespace Mt.ChangeLog.Logic.Features.ArmEdit
 {
     /// <summary>
-    /// Запрос на добавления сущности <see cref="AnalogModuleModel"/>.
+    /// Запрос на удаления модели аналогового модуля из системы <see cref="ArmEditModel"/>.
     /// </summary>
-    public static class Add
+    public static class Delete
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<AnalogModuleModel, Unit>
+        public sealed class Command : MtCommand<BaseModel, StatusModel>
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
             /// </summary>
             /// <param name="model">Базовая модель.</param>
-            public Command(AnalogModuleModel model) : base(model)
+            public Command(BaseModel model) : base(model)
             {
             }
 
             /// <inheritdoc />
             public override string ToString()
             {
-                return $"{base.ToString()} - добавление сущности вида {nameof(AnalogModuleModel)}.";
+                return $"{base.ToString()} - удаление сущности вида {nameof(ArmEditModel)}.";
             }
         }
 
@@ -45,7 +46,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <summary>
             /// Инициализация экземпляра <see cref="CommandValidator"/>.
             /// </summary>
-            public CommandValidator(AnalogModuleModelValidator validator)
+            public CommandValidator(BaseModelValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));
@@ -53,7 +54,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, Unit>
+        public sealed class Handler : IRequestHandler<Command, StatusModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -77,28 +78,29 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var dbPlatforms = this.context.Platforms
-                    .SearchManyOrDefault(request.Model.Platforms.Select(e => e.Id));
-
-                var dbAnalogModule = AnalogModuleBuilder.GetBuilder()
-                    .SetAttributes(request.Model)
-                    .SetPlatforms(dbPlatforms)
-                    .Build();
-
-                if (this.context.AnalogModules.IsContained(dbAnalogModule))
+                var dbRemovable = this.context.ArmEdits
+                    .Include(e => e.ProjectRevisions)
+                    .Search(request.Model.Id);
+                
+                if (dbRemovable.Default)
                 {
-                    throw new ArgumentException($"Сущность '{dbAnalogModule}' уже содержится в системе.");
+                    throw new ArgumentException($"Сущность по умолчанию '{dbRemovable}' нельзя удалить из системы.");
                 }
 
-                await this.context.AnalogModules.AddAsync(dbAnalogModule);
+                if (dbRemovable.ProjectRevisions.Any())
+                {
+                    throw new ArgumentException($"Сущность '{dbRemovable}' используется в редакциях БФПО и неможет быть удалена из системы.");
+                }
+
+                this.context.ArmEdits.Remove(dbRemovable);
                 await this.context.SaveChangesAsync();
 
-                return Unit.Value;
+                return new StatusModel($"Сущность '{dbRemovable}' был удалена из системы.");
             }
         }
     }
