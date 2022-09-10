@@ -4,6 +4,7 @@
 
 ## Перечень технологий (зависимости):
 
-netstandard2.1, [Mt.Utilities](https://github.com/g-aa/mt-utilities), [Mt.Entities.Abstractions](https://github.com/g-aa/mt-entities-abstractions).
+netstandard2.1, net6.0, [Mt.Utilities](https://github.com/g-aa/mt-utilities), [Mt.Entities.Abstractions](https://github.com/g-aa/mt-entities-abstractions),
+Npgsql EF Core, NUnit, Swashbuckle, MediatR, FluentValidation.
 
 ## [История изменения.](CHANGELOG.md)
