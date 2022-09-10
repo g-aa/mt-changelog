@@ -7,6 +7,7 @@ using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Utilities;
 using System.Threading.Tasks;
 using System.Threading;
+using FluentValidation;
 
 namespace Mt.ChangeLog.Logic.Features.AnalogModule
 {
@@ -30,6 +31,21 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             public override string ToString()
             {
                 return $"{base.ToString()} - получение полной модели вида {nameof(AnalogModuleModel)}.";
+            }
+        }
+
+        /// <summary>
+        /// Валидатор модели <see cref="Query"/>.
+        /// </summary>
+        public sealed class QueryValidator : AbstractValidator<Query>
+        {
+            /// <summary>
+            /// Инициализация экземпляра <see cref="QueryValidator"/>.
+            /// </summary>
+            public QueryValidator(BaseModelValidator validator)
+            {
+                this.RuleFor(e => e.Model)
+                    .SetValidator(Check.NotNull(validator, nameof(validator)));
             }
         }
 

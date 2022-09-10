@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.ChangeLog.Context;
@@ -11,16 +12,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using FluentValidation;
+using Mt.ChangeLog.TransferObjects.Other;
 
 namespace Mt.ChangeLog.Logic.Features.AnalogModule
 {
     /// <summary>
-    /// Запрос на добавления сущности <see cref="AnalogModuleModel"/>.
+    /// Запрос на обновление сущности <see cref="AnalogModuleModel"/>.
     /// </summary>
-    public static class Add
+    public static class Update
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<AnalogModuleModel, Unit>
+        public sealed class Command : MtCommand<AnalogModuleModel, StatusModel>
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -33,7 +35,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <inheritdoc />
             public override string ToString()
             {
-                return $"{base.ToString()} - добавление сущности вида {nameof(AnalogModuleModel)}.";
+                return $"{base.ToString()} - обновление сущности вида {nameof(AnalogModuleModel)}.";
             }
         }
 
@@ -53,7 +55,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, Unit>
+        public sealed class Handler : IRequestHandler<Command, StatusModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -77,28 +79,28 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
+                var dbAnalogModule = this.context.AnalogModules
+                    .Include(e => e.Projects)
+                    .Include(e => e.Platforms)
+                    .Search(request.Model.Id);
+                if (dbAnalogModule.Default)
+                {
+                    throw new ArgumentException($"Сущность по умолчанию \"{request.Model.Id}\" не может быть обновлена");
+                }
                 var dbPlatforms = this.context.Platforms
-                .SearchManyOrDefault(request.Model.Platforms.Select(e => e.Id));
-
-                var dbAnalogModule = AnalogModuleBuilder.GetBuilder()
+                    .SearchManyOrDefault(request.Model.Platforms.Select(e => e.Id));
+                dbAnalogModule.GetBuilder()
                     .SetAttributes(request.Model)
                     .SetPlatforms(dbPlatforms)
                     .Build();
-
-                if (this.context.AnalogModules.IsContained(dbAnalogModule))
-                {
-                    throw new ArgumentException($"Сущность \"{request.Model}\" уже содержится в БД");
-                }
-
-                await this.context.AnalogModules.AddAsync(dbAnalogModule);
                 await this.context.SaveChangesAsync();
 
-                return Unit.Value;
+                return new StatusModel($"Аналоговый модуль {request.Model} обновлен в системе.");
             }
         }
     }

@@ -21,8 +21,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Query"/>.
             /// </summary>
-            /// <param name="unit">Тип void.</param>
-            public Query(Unit unit) : base(unit)
+            public Query() : base(Unit.Value)
             {
             }
 
