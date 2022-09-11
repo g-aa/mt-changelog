@@ -5,6 +5,7 @@ using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
+using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using System;
@@ -19,7 +20,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
     public static class Add
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<ArmEditModel, Unit>
+        public sealed class Command : MtCommand<ArmEditModel, BaseModel>
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -52,7 +53,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, Unit>
+        public sealed class Handler : IRequestHandler<Command, BaseModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -76,7 +77,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             }
 
             /// <inheritdoc />
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -93,7 +94,10 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
                 await this.context.ArmEdits.AddAsync(dbArmEdit);
                 await this.context.SaveChangesAsync();
 
-                return Unit.Value;
+                return new BaseModel()
+                {
+                    Id = dbArmEdit.Id,
+                };
             }
         }
     }

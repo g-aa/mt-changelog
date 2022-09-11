@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Mt.ChangeLog.Logic.Features.AnalogModule;
-using Mt.ChangeLog.TransferObjects.AnalogModule;
+using Mt.ChangeLog.Logic.Features.ArmEdit;
+using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.ChangeLog.TransferObjects.Other;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 namespace Mt.ChangeLog.WebAPI.Controllers.V1
 {
     /// <summary>
-    /// Контроллер для работы с аналоговыми модулями.
+    /// Контроллер для работы с ArmEdit.
     /// </summary>
     [ApiController]
-    [Route("api/analog-module")]
+    [Route("api/arm-edit")]
     [Produces("application/json")]
-    public sealed class AnalogModuleController : ControllerBase
+    public sealed class ArmEditController : ControllerBase
     {
         /// <summary>
         /// Медиатор.
@@ -25,22 +25,22 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         private readonly IMediator mediator;
 
         /// <summary>
-        /// Инициализация экземпляра класса <see cref="AnalogModuleController"/>.
+        /// Инициализация экземпляра класса <see cref="ArmEditController"/>.
         /// </summary>
         /// <param name="mediator">Медиатор.</param>
-        public AnalogModuleController(IMediator mediator)
+        public ArmEditController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
         /// <summary>
-        /// Получить все краткие модели <see cref="AnalogModuleShortModel"/>.
+        /// Получить все краткие модели <see cref="ArmEditShortModel"/>.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpGet]
         [Route("short")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей аналогового модуля.", typeof(IEquatable<AnalogModuleShortModel>))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей ArmEdit.", typeof(IEquatable<ArmEditShortModel>))]
         public async Task<IActionResult> GetShortModels(CancellationToken token = default)
         {
             var query = new GetShorts.Query();
@@ -49,13 +49,13 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="AnalogModuleTableModel"/> представления для таблиц.
+        /// Получить все модели <see cref="ArmEditTableModel"/> представления для таблиц.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpGet]
         [Route("table")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей аналогового модуля для табличного представления.", typeof(IEquatable<AnalogModuleTableModel>))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей ArmEdit для табличного представления.", typeof(IEquatable<ArmEditTableModel>))]
         public async Task<IActionResult> GetTableModels(CancellationToken token = default)
         {
             var query = new GetTables.Query();
@@ -64,13 +64,13 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="AnalogModuleModel"/>.
+        /// Получить шаблон модели <see cref="ArmEditModel"/>.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpGet]
         [Route("template")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Шаблон полной модели аналогового модуля.", typeof(AnalogModuleModel))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Шаблон полной модели ArmEdit.", typeof(ArmEditModel))]
         public async Task<IActionResult> GetTemplateModel(CancellationToken token = default)
         {
             var query = new GetTemplate.Query();
@@ -79,14 +79,29 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="AnalogModuleModel"/> по идентификатору.
+        /// Получить актуальную версию модели <see cref="ArmEditModel"/>.
+        /// </summary>
+        /// <param name="token">Токен отмены.</param>
+        /// <returns>Результат действия.</returns>
+        [HttpGet]
+        [Route("actual")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Актуальная версия модели ArmEdit.", typeof(ArmEditModel))]
+        public async Task<IActionResult> GetActualModel(CancellationToken token = default)
+        {
+            var query = new GetActual.Query();
+            var result = await this.mediator.Send(query, token);
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// Получить полную модель <see cref="ArmEditModel"/> по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpGet]
         [Route("{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Модель аналогового модуля.", typeof(AnalogModuleModel))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Модель ArmEdit.", typeof(ArmEditModel))]
         public async Task<IActionResult> GetModel([FromQuery] Guid id, CancellationToken token = default)
         {
             var query = new GetById.Query(new BaseModel() { Id = id });
@@ -95,14 +110,14 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Добавить новый аналоговый модуль в систему.
+        /// Добавить новый ArmEdit в систему.
         /// </summary>
         /// <param name="model">Модель.</param>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpPost]
-        [SwaggerResponse(StatusCodes.Status200OK, "Модель аналогового модуля добавлена в систему, ID модели в системе.", typeof(BaseModel))]
-        public async Task<IActionResult> PostModel([FromBody] AnalogModuleModel model, CancellationToken token = default)
+        [SwaggerResponse(StatusCodes.Status200OK, "Модель ArmEdit добавлена в систему, ID модели в системе.", typeof(BaseModel))]
+        public async Task<IActionResult> PostModel([FromBody] ArmEditModel model, CancellationToken token = default)
         {
             var command = new Add.Command(model);
             var baseModel = await this.mediator.Send(command, token);
@@ -110,7 +125,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Обновить аналоговый модуль в системе.
+        /// Обновить ArmEdit в системе.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="model">Модель.</param>
@@ -118,8 +133,8 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <returns>Результат действия.</returns>
         [HttpPut]
         [Route("{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Модель аналогового модуля обновлена в системе.", typeof(StatusModel))]
-        public async Task<IActionResult> PutModel([FromQuery] Guid id, [FromBody] AnalogModuleModel model, CancellationToken token = default)
+        [SwaggerResponse(StatusCodes.Status200OK, "Модель ArmEdit обновлена в системе.", typeof(StatusModel))]
+        public async Task<IActionResult> PutModel([FromQuery] Guid id, [FromBody] ArmEditModel model, CancellationToken token = default)
         {
             if (id != model.Id)
             {
@@ -131,14 +146,14 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Удалить аналоговый модуль из системы.
+        /// Удалить ArmEdit из системы.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpDelete]
         [Route("{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Модель аналогового модуля удалена из системы.", typeof(StatusModel))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Модель ArmEdit удалена из системы.", typeof(StatusModel))]
         public async Task<IActionResult> DeleteModel([FromQuery] Guid id, CancellationToken token = default)
         {
             var command = new Delete.Command(new BaseModel() { Id = id });

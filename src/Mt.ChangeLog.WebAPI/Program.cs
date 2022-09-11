@@ -29,7 +29,7 @@ namespace Mt.ChangeLog.WebAPI
             var assembly = Assembly.GetExecutingAssembly();
             var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             CurrentVersion = $"v{fvi.FileVersion}";
-            AppName = $"MT ChangeLog: v{fvi.FileVersion}";
+            AppName = $"Mt-ChangeLog: v{fvi.FileVersion}";
         }
 
         /// <summary>
