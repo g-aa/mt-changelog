@@ -1,18 +1,18 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.Entities.Abstractions.Extensions;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
+using Mt.ChangeLog.TransferObjects.Other;
+using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Threading;
-using FluentValidation;
-using Mt.ChangeLog.TransferObjects.Other;
+using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.AnalogModule
 {
@@ -27,7 +27,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
             /// </summary>
-            /// <param name="model">Базовая модель.</param>
+            /// <param name="model">Модель данных.</param>
             public Command(AnalogModuleModel model) : base(model)
             {
             }
@@ -81,13 +81,13 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <inheritdoc />
             public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
-                Check.NotNull(request, nameof(request));
+                var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
 
                 var dbAnalogModule = this.context.AnalogModules
                     .Include(e => e.Projects)
                     .Include(e => e.Platforms)
-                    .Search(request.Model.Id);
+                    .Search(model.Id);
 
                 if (dbAnalogModule.Default)
                 {
@@ -95,11 +95,12 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                 }
 
                 var dbPlatforms = this.context.Platforms
-                    .SearchManyOrDefault(request.Model.Platforms.Select(e => e.Id));
+                    .SearchManyOrDefault(model.Platforms.Select(e => e.Id));
                 dbAnalogModule.GetBuilder()
-                    .SetAttributes(request.Model)
+                    .SetAttributes(model)
                     .SetPlatforms(dbPlatforms)
                     .Build();
+
                 await this.context.SaveChangesAsync();
 
                 return new StatusModel($"Аналоговый модуль '{dbAnalogModule}' обновлен в системе.");

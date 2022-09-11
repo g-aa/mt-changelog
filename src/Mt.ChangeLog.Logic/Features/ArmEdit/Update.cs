@@ -1,16 +1,16 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.Entities.Abstractions.Extensions;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
+using Mt.ChangeLog.TransferObjects.Other;
+using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using System;
-using System.Threading.Tasks;
 using System.Threading;
-using FluentValidation;
-using Mt.ChangeLog.TransferObjects.Other;
+using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.ArmEdit
 {
@@ -25,7 +25,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
             /// </summary>
-            /// <param name="model">Базовая модель.</param>
+            /// <param name="model">Модель данных.</param>
             public Command(ArmEditModel model) : base(model)
             {
             }
@@ -79,17 +79,17 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             /// <inheritdoc />
             public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
-                Check.NotNull(request, nameof(request));
+                var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
 
-                var dbArmEdit = this.context.ArmEdits.Search(request.Model.Id);
-                
+                var dbArmEdit = this.context.ArmEdits.Search(model.Id);
+
                 if (dbArmEdit.Default)
                 {
                     throw new ArgumentException($"Сущность по умолчанию '{dbArmEdit}' не может быть обновлена.");
                 }
 
-                dbArmEdit.GetBuilder().SetAttributes(request.Model).Build();
+                dbArmEdit.GetBuilder().SetAttributes(model).Build();
                 await this.context.SaveChangesAsync();
 
                 return new StatusModel($"'{dbArmEdit}' обновлен в системе.");

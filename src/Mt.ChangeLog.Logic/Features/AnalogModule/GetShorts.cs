@@ -7,9 +7,9 @@ using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace Mt.ChangeLog.Logic.Features.AnalogModule
 {
@@ -27,7 +27,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             public Query() : base(Unit.Value)
             {
             }
-            
+
             /// <inheritdoc />
             public override string ToString()
             {
@@ -65,8 +65,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.AnalogModules
-                    .AsNoTracking()
+                var result = this.context.AnalogModules.AsNoTracking()
                     .OrderBy(e => e.Title)
                     .Select(e => e.ToShortModel());
 

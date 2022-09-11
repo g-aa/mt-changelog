@@ -1,15 +1,15 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.Entities.Abstractions.Extensions;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
+using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using System;
-using System.Threading.Tasks;
 using System.Threading;
-using FluentValidation;
+using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.ArmEdit
 {
@@ -24,7 +24,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
             /// </summary>
-            /// <param name="model">Базовая модель.</param>
+            /// <param name="model">Модель данных.</param>
             public Command(ArmEditModel model) : base(model)
             {
             }
@@ -78,17 +78,18 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             /// <inheritdoc />
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Check.NotNull(request, nameof(request));
+                var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
 
-                var dbArmEdit = ArmEditBuilder
-                .GetBuilder()
-                .SetAttributes(request.Model)
-                .Build();
+                var dbArmEdit = ArmEditBuilder.GetBuilder()
+                    .SetAttributes(model)
+                    .Build();
+
                 if (this.context.ArmEdits.IsContained(dbArmEdit))
                 {
-                    throw new ArgumentException($"Сущность '{request.Model}' уже содержится в БД");
+                    throw new ArgumentException($"Сущность '{dbArmEdit}' уже содержится в системе.");
                 }
+
                 await this.context.ArmEdits.AddAsync(dbArmEdit);
                 await this.context.SaveChangesAsync();
 

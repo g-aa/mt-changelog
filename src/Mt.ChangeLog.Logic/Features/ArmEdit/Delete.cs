@@ -2,16 +2,16 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.Entities.Abstractions.Extensions;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.ChangeLog.TransferObjects.Other;
+using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System.Threading.Tasks;
-using System.Threading;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.ArmEdit
 {
@@ -86,7 +86,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
                 var dbRemovable = this.context.ArmEdits
                     .Include(e => e.ProjectRevisions)
                     .Search(request.Model.Id);
-                
+
                 if (dbRemovable.Default)
                 {
                     throw new ArgumentException($"Сущность по умолчанию '{dbRemovable}' нельзя удалить из системы.");

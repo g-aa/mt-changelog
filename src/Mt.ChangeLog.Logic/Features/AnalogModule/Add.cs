@@ -1,16 +1,16 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.Entities.Abstractions.Extensions;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
+using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Threading;
-using FluentValidation;
+using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.AnalogModule
 {
@@ -25,7 +25,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
             /// </summary>
-            /// <param name="model">Базовая модель.</param>
+            /// <param name="model">Модель данных.</param>
             public Command(AnalogModuleModel model) : base(model)
             {
             }
@@ -79,14 +79,14 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <inheritdoc />
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Check.NotNull(request, nameof(request));
+                var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
 
                 var dbPlatforms = this.context.Platforms
-                    .SearchManyOrDefault(request.Model.Platforms.Select(e => e.Id));
+                    .SearchManyOrDefault(model.Platforms.Select(e => e.Id));
 
                 var dbAnalogModule = AnalogModuleBuilder.GetBuilder()
-                    .SetAttributes(request.Model)
+                    .SetAttributes(model)
                     .SetPlatforms(dbPlatforms)
                     .Build();
 

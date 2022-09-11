@@ -27,6 +27,22 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
+        /// Преобразовать сущность <see cref="Protocol"/> в модель <see cref="ProtocolTableModel"/>.
+        /// </summary>
+        /// <param name="entity">Сущность.</param>
+        /// <returns>Модель.</returns>
+        public static ProtocolTableModel ToTableModel(this Protocol entity)
+        {
+            Check.NotNull(entity, nameof(entity));
+            var result = new ProtocolTableModel()
+            {
+                Id = entity.Id,
+                Title = entity.Title,
+            };
+            return result;
+        }
+
+        /// <summary>
         /// Преобразовать сущность <see cref="Protocol"/> в модель <see cref="ProtocolModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>

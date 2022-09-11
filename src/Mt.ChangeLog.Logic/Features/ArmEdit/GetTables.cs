@@ -7,9 +7,9 @@ using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace Mt.ChangeLog.Logic.Features.ArmEdit
 {
@@ -65,8 +65,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.ArmEdits
-                    .AsNoTracking()
+                var result = this.context.ArmEdits.AsNoTracking()
                     .OrderBy(e => e.Version)
                     .Select(e => e.ToModel());
 

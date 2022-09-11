@@ -82,8 +82,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.ArmEdits
-                    .AsNoTracking()
+                var result = this.context.ArmEdits.AsNoTracking()
                     .Search(request.Model.Id)
                     .ToModel();
 

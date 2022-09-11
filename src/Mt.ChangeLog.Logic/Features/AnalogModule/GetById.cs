@@ -82,8 +82,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.AnalogModules
-                    .AsNoTracking()
+                var result = this.context.AnalogModules.AsNoTracking()
                     .Include(e => e.Platforms)
                     .Search(request.Model.Id)
                     .ToModel();

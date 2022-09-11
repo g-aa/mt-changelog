@@ -2,16 +2,16 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.Entities.Abstractions.Extensions;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Other;
+using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System.Threading.Tasks;
-using System.Threading;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.AnalogModule
 {
@@ -34,7 +34,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <inheritdoc />
             public override string ToString()
             {
-                return $"{base.ToString()} - удаление аналогового модуля вида {nameof(AnalogModuleModel)}.";
+                return $"{base.ToString()} - удаление сущности вида {nameof(AnalogModuleModel)}.";
             }
         }
 
