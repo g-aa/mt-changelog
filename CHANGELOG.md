@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - 2022-xx-xx
 ### Добавлено
-- MT-0002: Реализация новой перераотанной версии проекта MT.ChangeLog;
+- MT-0003: Реализация новой перераотанной версии проекта MT.ChangeLog;
+- MT-0003: Реализация ппроекта MT.ChangeLog только с Swagger UI;
 
 ### Изменено
 - -//-
