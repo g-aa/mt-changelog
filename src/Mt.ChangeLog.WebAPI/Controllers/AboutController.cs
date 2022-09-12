@@ -17,12 +17,12 @@ namespace Mt.ChangeLog.WebAPI.Controllers
         /// Получить версию приложения.
         /// </summary>
         /// <returns>Версия приложения.</returns>
-        [HttpGet("version")]
+        [HttpGet]
+        [Route("version")]
         [SwaggerResponse(StatusCodes.Status200OK, "Версия приложения.", typeof(string))]
         public async Task<IActionResult> Version()
         {
-            var result = await Task.Run(() => this.Ok(Program.AppName));
-            return result;
+            return await Task.FromResult(this.Ok(Program.AppName));
         }
     }
 }

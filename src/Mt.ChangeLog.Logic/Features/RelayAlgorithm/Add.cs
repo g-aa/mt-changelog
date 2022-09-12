@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
@@ -19,7 +20,7 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
     public static class Add
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<RelayAlgorithmModel, Unit>
+        public sealed class Command : MtCommand<RelayAlgorithmModel, BaseModel>
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -52,7 +53,7 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, Unit>
+        public sealed class Handler : IRequestHandler<Command, BaseModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -76,7 +77,7 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
             }
 
             /// <inheritdoc />
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -93,7 +94,10 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
                 await this.context.RelayAlgorithms.AddAsync(dbAlgorithm);
                 await this.context.SaveChangesAsync();
 
-                return Unit.Value;
+                return new BaseModel()
+                {
+                    Id = dbAlgorithm.Id,
+                };
             }
         }
     }

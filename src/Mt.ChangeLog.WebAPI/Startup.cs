@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Logic;
 using Mt.ChangeLog.TransferObjects;
+using Mt.ChangeLog.WebAPI.Infrastracture;
 
 namespace Mt.ChangeLog.WebAPI
 {
@@ -41,28 +41,29 @@ namespace Mt.ChangeLog.WebAPI
 
             #endregion
 
-            services.AddControllers();
+            #region [ Infrastracture services configuration ]
 
+            services.AddSwaggerDocumentation();
+
+            #endregion
+
+            services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MtChangeLog.WebAPI", Version = "v1" });
-            });
         }
 
         /// <summary>
         /// Метод настройки конвейера HTTP-запросов.
         /// </summary>
-        /// <param name="builder">Построитель приложения.</param>
+        /// <param name="builder">Строитель приложения.</param>
         /// <param name="environment">Окружение приложения.</param>
         public void Configure(IApplicationBuilder builder, IWebHostEnvironment environment)
         {
             if (environment.IsDevelopment())
             {
                 builder.UseDeveloperExceptionPage();
-                builder.UseSwagger();
-                builder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MtChangeLog.WebAPI v1"));
             }
+
+            builder.UseSwaggerDocumentation();
 
             builder.UseDefaultFiles();
             builder.UseStaticFiles();

@@ -6,6 +6,7 @@ using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Other;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,23 +15,15 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
     /// <summary>
     /// Контроллер для работы с аналоговыми модулями.
     /// </summary>
-    [ApiController]
     [Route("api/analog-module")]
-    [Produces("application/json")]
-    public sealed class AnalogModuleController : ControllerBase
+    public sealed class AnalogModuleController : ApiControllerBase
     {
-        /// <summary>
-        /// Медиатор.
-        /// </summary>
-        private readonly IMediator mediator;
-
         /// <summary>
         /// Инициализация экземпляра класса <see cref="AnalogModuleController"/>.
         /// </summary>
         /// <param name="mediator">Медиатор.</param>
-        public AnalogModuleController(IMediator mediator)
+        public AnalogModuleController(IMediator mediator) : base(mediator)
         {
-            this.mediator = mediator;
         }
 
         /// <summary>
@@ -40,7 +33,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <returns>Результат действия.</returns>
         [HttpGet]
         [Route("short")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей аналогового модуля.", typeof(IEquatable<AnalogModuleShortModel>))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей аналогового модуля.", typeof(IEnumerable<AnalogModuleShortModel>))]
         public async Task<IActionResult> GetShortModels(CancellationToken token = default)
         {
             var query = new GetShorts.Query();
@@ -55,7 +48,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <returns>Результат действия.</returns>
         [HttpGet]
         [Route("table")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей аналогового модуля для табличного представления.", typeof(IEquatable<AnalogModuleTableModel>))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей аналогового модуля для табличного представления.", typeof(IEnumerable<AnalogModuleTableModel>))]
         public async Task<IActionResult> GetTableModels(CancellationToken token = default)
         {
             var query = new GetTables.Query();
@@ -85,9 +78,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Модель аналогового модуля.", typeof(AnalogModuleModel))]
-        public async Task<IActionResult> GetModel([FromQuery] Guid id, CancellationToken token = default)
+        public async Task<IActionResult> GetModel([FromRoute] Guid id, CancellationToken token = default)
         {
             var query = new GetById.Query(new BaseModel() { Id = id });
             var result = await this.mediator.Send(query, token);
@@ -117,14 +110,11 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Модель аналогового модуля обновлена в системе.", typeof(StatusModel))]
-        public async Task<IActionResult> PutModel([FromQuery] Guid id, [FromBody] AnalogModuleModel model, CancellationToken token = default)
+        public async Task<IActionResult> PutModel([FromRoute] Guid id, [FromBody] AnalogModuleModel model, CancellationToken token = default)
         {
-            if (id != model.Id)
-            {
-                throw new ArgumentException($"url id = {id} is not equal to entity id = {model.Id}");
-            }
+            this.CheckGuids(id, model.Id);
             var command = new Update.Command(model);
             var result = await this.mediator.Send(command, token);
             return this.Ok(result);
@@ -137,9 +127,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Модель аналогового модуля удалена из системы.", typeof(StatusModel))]
-        public async Task<IActionResult> DeleteModel([FromQuery] Guid id, CancellationToken token = default)
+        public async Task<IActionResult> DeleteModel([FromRoute] Guid id, CancellationToken token = default)
         {
             var command = new Delete.Command(new BaseModel() { Id = id });
             var result = await this.mediator.Send(command, token);
