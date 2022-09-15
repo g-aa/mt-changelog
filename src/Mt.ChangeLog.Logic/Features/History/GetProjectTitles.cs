@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mt.ChangeLog.Logic.Features.Tree
+namespace Mt.ChangeLog.Logic.Features.History
 {
     /// <summary>
     /// Запрос на получение перечня наименование версий проектов.

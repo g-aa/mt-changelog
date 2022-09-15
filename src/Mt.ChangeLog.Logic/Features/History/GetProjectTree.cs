@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mt.ChangeLog.Logic.Features.Tree
+namespace Mt.ChangeLog.Logic.Features.History
 {
     /// <summary>
     /// Перечень моделий для дерева изменений.
