@@ -13,9 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Mt.ChangeLog.Context\Mt.ChangeLog.Context.csproj" />
-      <ProjectReference Include="..\Mt.ChangeLog.Logic\Mt.ChangeLog.Logic.csproj" />
-      <ProjectReference Include="..\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj" />
+        <ProjectReference Include="..\Mt.ChangeLog.Context\Mt.ChangeLog.Context.csproj" />
+        <ProjectReference Include="..\Mt.ChangeLog.Logic\Mt.ChangeLog.Logic.csproj" />
+        <ProjectReference Include="..\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj" />
     </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Entities.Views;
+using Mt.ChangeLog.Context.Configurations;
 
 namespace Mt.ChangeLog.Context
 {
@@ -37,6 +38,7 @@ namespace Mt.ChangeLog.Context
         /// Перечень <see cref="ProjectVersion"/>. 
         /// </summary>
         public DbSet<ProjectVersion> ProjectVersions { get; set; }
+       
         #endregion
 
         #region [ ProjectRevisionEntities ]
@@ -70,6 +72,7 @@ namespace Mt.ChangeLog.Context
         /// Перечень <see cref="RelayAlgorithm"/>. 
         /// </summary>
         public DbSet<RelayAlgorithm> RelayAlgorithms { get; set; }
+        
         #endregion
 
         #region [ Views ]
@@ -93,6 +96,7 @@ namespace Mt.ChangeLog.Context
         /// Перечень <see cref="ProjectHistoryRecord"/>. 
         /// </summary>
         public DbSet<ProjectHistoryRecord> ProjectHistoryRecords { get; set; }
+        
         #endregion
 
         /// <summary>
@@ -127,6 +131,30 @@ namespace Mt.ChangeLog.Context
             {
                 modelBuilder.HasDefaultSchema("MT");
             }
+
+            #region [ Tables ]
+
+            new AnalogModuleConfiguration().Configure(modelBuilder.Entity<AnalogModule>());
+            new ArmEditConfiguration().Configure(modelBuilder.Entity<ArmEdit>());
+            new AuthorConfiguration().Configure(modelBuilder.Entity<Author>());
+            new ProtocolConfiguration().Configure(modelBuilder.Entity<Protocol>());
+            new CommunicationConfiguration().Configure(modelBuilder.Entity<Communication>());
+            new PlatformConfiguration().Configure(modelBuilder.Entity<Platform>());
+            new RelayAlgorithmConfiguration().Configure(modelBuilder.Entity<RelayAlgorithm>());
+            new ProjectVersionConfiguration().Configure(modelBuilder.Entity<ProjectVersion>());
+            new ProjectStatusConfiguration().Configure(modelBuilder.Entity<ProjectStatus>());
+            new ProjectRevisionConfiguration().Configure(modelBuilder.Entity<ProjectRevision>());
+
+            #endregion
+
+            #region [ Views ]
+
+            new LastProjectRevisionConfiguration().Configure(modelBuilder.Entity<LastProjectRevision>());
+            new AuthorContributionConfiguration().Configure(modelBuilder.Entity<AuthorContribution>());
+            new AuthorProjectContributionConfiguration().Configure(modelBuilder.Entity<AuthorProjectContribution>());
+            new ProjectHistoryRecordConfiguration().Configure(modelBuilder.Entity<ProjectHistoryRecord>());
+
+            #endregion
         }
     }
 }
