@@ -2,8 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
-		<Nullable>enable</Nullable>
-		<LangVersion>latest</LangVersion>
+		<Description>Абстракции уровня доступа к данным в MtChangeLog.</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 

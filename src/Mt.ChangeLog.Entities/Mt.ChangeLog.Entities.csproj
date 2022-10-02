@@ -2,8 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
-		<Nullable>enable</Nullable>
-		<LangVersion>latest</LangVersion>
+		<Description>Сущности реляционной модели данных проекта MtChangeLog.</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 

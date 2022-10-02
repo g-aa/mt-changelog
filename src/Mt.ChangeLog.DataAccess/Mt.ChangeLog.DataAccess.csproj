@@ -2,8 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
-		<Nullable>enable</Nullable>
-		<LangVersion>latest</LangVersion>
+		<Description>Уровень доступа к данным основанный на Npgsql, Dapper и хранимых процедурах для реализации механизма чтения данных в MtChangeLog.</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 

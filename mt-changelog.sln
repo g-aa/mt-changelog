@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{15D1714F-A
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		CHANGELOG.md = CHANGELOG.md
+		Directory.Build.props = Directory.Build.props
 		favicon.ico = favicon.ico
 		iconLog.png = iconLog.png
 		iconMt.png = iconMt.png
@@ -37,9 +38,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Logic.Test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.WebAPI", "src\Mt.ChangeLog.WebAPI\Mt.ChangeLog.WebAPI.csproj", "{2871FC10-6C24-4B9D-AD2C-A74C90AE32E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mt.ChangeLog.DataAccess", "src\Mt.ChangeLog.DataAccess\Mt.ChangeLog.DataAccess.csproj", "{3B602240-8582-4615-9935-B78AF1A3A762}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.DataAccess", "src\Mt.ChangeLog.DataAccess\Mt.ChangeLog.DataAccess.csproj", "{3B602240-8582-4615-9935-B78AF1A3A762}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mt.ChangeLog.DataAccess.Abstractions", "src\Mt.ChangeLog.DataAccess.Abstractions\Mt.ChangeLog.DataAccess.Abstractions.csproj", "{4202C3B4-F2C3-4DB8-B2D0-9E585581016E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.DataAccess.Abstractions", "src\Mt.ChangeLog.DataAccess.Abstractions\Mt.ChangeLog.DataAccess.Abstractions.csproj", "{4202C3B4-F2C3-4DB8-B2D0-9E585581016E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

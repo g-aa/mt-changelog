@@ -2,8 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
-		<LangVersion>latest</LangVersion>
+		<Description>Web-сервис для доступа к данным MtChangeLog.</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
