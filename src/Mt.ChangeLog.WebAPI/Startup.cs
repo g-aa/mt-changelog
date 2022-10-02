@@ -7,6 +7,7 @@ using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Logic;
 using Mt.ChangeLog.TransferObjects;
 using Mt.ChangeLog.WebAPI.Infrastracture;
+using System.Reflection;
 
 namespace Mt.ChangeLog.WebAPI
 {
@@ -34,10 +35,16 @@ namespace Mt.ChangeLog.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             #region [ MtChangeLog services configuration ]
+            
+            var assemblies = new Assembly[]
+            {
+                typeof(Mt.ChangeLog.TransferObjects.ServiceCollectionExtensions).Assembly,
+                typeof(Mt.ChangeLog.Logic.ServiceCollectionExtensions).Assembly,
+            };
 
-            services.AddTransferObjects();
-            services.AddApplicationContext(this.Configuration);
-            services.AddLogic();
+            services.AddTransferObjects(assemblies);
+            services.AddApplicationContext();
+            services.AddLogic(assemblies);
 
             #endregion
 
@@ -47,7 +54,10 @@ namespace Mt.ChangeLog.WebAPI
 
             #endregion
 
-            services.AddControllers();
+            services.AddControllers(configure =>
+            {
+                configure.Filters.Add<ApiExceptionFilter>();
+            });
             services.AddEndpointsApiExplorer();
         }
 
@@ -76,6 +86,8 @@ namespace Mt.ChangeLog.WebAPI
             {
                 endpoints.MapControllers();
             });
+
+            builder.UseDefaultDatabaseInitialization();
         }
     }
 }

@@ -8,17 +8,17 @@ namespace Mt.ChangeLog.WebAPI.Infrastracture
     /// <summary>
     /// Методы расширения для <see cref="IApplicationBuilder"/>.
     /// </summary>
-    public static class ApplicationBuilderExtensions
+    internal static class ApplicationBuilderExtensions
     {
         /// <summary>
         /// Инициализация начального состояния базы данных.
         /// </summary>
         /// <param name="builder">Строитель приложения.</param>
         /// <returns>Модифицированный строитель приложения.</returns>
-        public static IApplicationBuilder UseDefaultDatabaseInitialization(this IApplicationBuilder builder)
+        internal static IApplicationBuilder UseDefaultDatabaseInitialization(this IApplicationBuilder builder)
         {
             var scope = Check.NotNull(builder, nameof(builder)).ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            using (var context = Check.NotNull(scope, nameof(scope)).ServiceProvider.GetService<ApplicationContext>())
+            using (var context = Check.NotNull(scope, nameof(scope)).ServiceProvider.GetService<MtContext>())
             {
                 Check.NotNull(context, nameof(context)).InitializeDefaultState();
             }
