@@ -21,7 +21,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
     public static class Update
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<ProjectRevisionModel, StatusModel>
+        public sealed class Command : MtCommand<ProjectRevisionModel, StatusModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -64,14 +64,14 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
             /// <summary>
             /// Контекст данных.
             /// </summary>
-            private readonly ApplicationContext context;
+            private readonly MtContext context;
 
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Handler"/>.
             /// </summary>
             /// <param name="logger">Журнал логирования.</param>
             /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, ApplicationContext context)
+            public Handler(ILogger<Handler> logger, MtContext context)
             {
                 this.logger = Check.NotNull(logger, nameof(logger));
                 this.context = Check.NotNull(context, nameof(context));

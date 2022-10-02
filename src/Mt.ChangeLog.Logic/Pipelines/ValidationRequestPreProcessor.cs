@@ -3,7 +3,9 @@ using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Logic.Models;
 using Mt.Utilities;
+using Mt.Utilities.Exceptions;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +15,7 @@ namespace Mt.ChangeLog.Logic.Pipelines
 	/// Препроцессор валидации.
 	/// </summary>
 	/// <typeparam name="TRequest">Тип запроса.</typeparam>
-    public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcessor<TRequest> where TRequest : IMtRequest
+    public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcessor<TRequest> where TRequest : IMtRequest, IValidatedRequest
     {
         /// <summary>
 		/// Журнал логирования.
@@ -38,11 +40,30 @@ namespace Mt.ChangeLog.Logic.Pipelines
         }
 
         /// <inheritdoc />
-		public Task Process(TRequest request, CancellationToken cancellationToken)
+		public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
             Check.NotNull(request, nameof(request));
             logger.LogInformation($"{request} - валидация параметров.");
-            return Task.CompletedTask;
+            try
+            {
+                await validator.ValidateAsync(
+                    request,
+                    options =>
+                    {
+                        options.IncludeRuleSets("default", "command");
+                        options.ThrowOnFailures();
+                    },
+                    cancellationToken);
+            }
+            catch (ValidationException exception)
+            {
+                var properties = string.Join(", ", exception.Errors.Select(prop =>
+                {
+                    return prop.PropertyName.Substring(prop.PropertyName.LastIndexOf('.') + 1);
+                }).Distinct());
+
+                throw new MtException(exception, ErrorCode.EntityValidation, $"Ошибка валидации параметров: {properties}.");
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Mt.Utilities;
+using System.Reflection;
 
 namespace Mt.ChangeLog.Logic
 {
@@ -13,11 +14,13 @@ namespace Mt.ChangeLog.Logic
         /// Добавить компоненты логики в коллекцию сервисов.
         /// </summary>
         /// <param name="services">Коллекция сервисов.</param>
+        /// <param name="assemblies">Перечень сборок проекта.</param>
         /// <returns>Модифицированная коллекция сервисов.</returns>
-        public static IServiceCollection AddLogic(this IServiceCollection services)
+        public static IServiceCollection AddLogic(this IServiceCollection services, Assembly[] assemblies)
         {
             Check.NotNull(services, nameof(services));
-            services.AddMediatR(typeof(ServiceCollectionExtensions).Assembly);
+            Check.NotEmpty(assemblies, nameof(assemblies));
+            services.AddMediatR(assemblies);
             return services;
         }
     }

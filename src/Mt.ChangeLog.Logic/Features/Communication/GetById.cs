@@ -20,7 +20,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
     public static class GetById
     {
         /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, CommunicationModel>
+        public sealed class Query : MtQuery<BaseModel, CommunicationModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Query"/>.
@@ -63,14 +63,14 @@ namespace Mt.ChangeLog.Logic.Features.Communication
             /// <summary>
             /// Контекст данных.
             /// </summary>
-            private readonly ApplicationContext context;
+            private readonly MtContext context;
 
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Handler"/>.
             /// </summary>
             /// <param name="logger">Журнал логирования.</param>
             /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, ApplicationContext context)
+            public Handler(ILogger<Handler> logger, MtContext context)
             {
                 this.logger = Check.NotNull(logger, nameof(logger));
                 this.context = Check.NotNull(context, nameof(context));

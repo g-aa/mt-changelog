@@ -20,7 +20,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
     public static class GetById
     {
         /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, AnalogModuleModel>
+        public sealed class Query : MtQuery<BaseModel, AnalogModuleModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Query"/>.
@@ -63,14 +63,14 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <summary>
             /// Контекст данных.
             /// </summary>
-            private readonly ApplicationContext context;
+            private readonly MtContext context;
 
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Handler"/>.
             /// </summary>
             /// <param name="logger">Журнал логирования.</param>
             /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, ApplicationContext context)
+            public Handler(ILogger<Handler> logger, MtContext context)
             {
                 this.logger = Check.NotNull(logger, nameof(logger));
                 this.context = Check.NotNull(context, nameof(context));

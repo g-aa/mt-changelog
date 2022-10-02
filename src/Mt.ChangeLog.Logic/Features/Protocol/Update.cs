@@ -21,7 +21,7 @@ namespace Mt.ChangeLog.Logic.Features.Protocol
     public static class Update
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<ProtocolModel, StatusModel>
+        public sealed class Command : MtCommand<ProtocolModel, StatusModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -64,14 +64,14 @@ namespace Mt.ChangeLog.Logic.Features.Protocol
             /// <summary>
             /// Контекст данных.
             /// </summary>
-            private readonly ApplicationContext context;
+            private readonly MtContext context;
 
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Handler"/>.
             /// </summary>
             /// <param name="logger">Журнал логирования.</param>
             /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, ApplicationContext context)
+            public Handler(ILogger<Handler> logger, MtContext context)
             {
                 this.logger = Check.NotNull(logger, nameof(logger));
                 this.context = Check.NotNull(context, nameof(context));
