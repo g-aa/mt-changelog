@@ -19,13 +19,12 @@ namespace Mt.ChangeLog.DataAccess
         /// <returns>Модифицированная коллекция сервисов.</returns>
         public static IServiceCollection AddDataAccess(this IServiceCollection services)
         {
+            Check.NotNull(services, nameof(services));
             services.AddScoped<IDbConnection>(provider =>
             {
-                var configuration = Check.NotNull(provider.GetService<IConfiguration>(), nameof(IConfiguration));
-                var sPgSqlConnection = Check.NotNull(
-                    configuration["ConnectionStrings:PostgreSqlDbConnection"],
-                    "В файле 'appsettings.json' не указана строка подключения к БД.");
-                return new NpgsqlConnection(sPgSqlConnection);
+                var configuration = provider.GetService<IConfiguration>();
+                var sConnection = Check.NotNull(configuration["ConnectionStrings:NpgSqlDb"], "В файле 'appsettings.json' не указана строка подключения к БД.");
+                return new NpgsqlConnection(sConnection);
             });
 
             services.AddTransient<IAnalogModuleRepository, AnalogModuleRepository>();
