@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.Author;
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.ChangeLog.TransferObjects.Other;
+using Mt.ChangeLog.WebAPI.Infrastracture;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("short")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей авторов.", typeof(IEnumerable<AuthorShortModel>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> GetShortModels(CancellationToken token = default)
         {
             var query = new GetShorts.Query();
@@ -49,6 +53,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("table")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorTableModel>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> GetTableModels(CancellationToken token = default)
         {
             var query = new GetTables.Query();
@@ -64,6 +71,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("contribution")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorContributionModel>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> GetContributionModels(CancellationToken token = default)
         {
             var query = new GetContributions.Query();
@@ -79,6 +89,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("contribution/project")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorProjectContributionModel>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> GetProjectContributionModels(CancellationToken token = default)
         {
             var query = new GetProjectContributions.Query();
@@ -94,6 +107,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("template")]
         [SwaggerResponse(StatusCodes.Status200OK, "Шаблон полной модели автора.", typeof(AuthorModel))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> GetTemplateModel(CancellationToken token = default)
         {
             var query = new GetTemplate.Query();
@@ -110,6 +126,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Модель автора.", typeof(AuthorModel))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> GetModel([FromRoute] Guid id, CancellationToken token = default)
         {
             var query = new GetById.Query(new BaseModel() { Id = id });
@@ -125,6 +144,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <returns>Результат действия.</returns>
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status200OK, "Модель автора добавлена в систему, ID модели в системе.", typeof(BaseModel))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> PostModel([FromBody] AuthorModel model, CancellationToken token = default)
         {
             var command = new Add.Command(model);
@@ -142,6 +164,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpPut]
         [Route("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Модель автора обновлена в системе.", typeof(StatusModel))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> PutModel([FromRoute] Guid id, [FromBody] AuthorModel model, CancellationToken token = default)
         {
             this.CheckGuids(id, model.Id);
@@ -159,6 +184,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpDelete]
         [Route("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Модель автора удалена из системы.", typeof(StatusModel))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> DeleteModel([FromRoute] Guid id, CancellationToken token = default)
         {
             var command = new Delete.Command(new BaseModel() { Id = id });
