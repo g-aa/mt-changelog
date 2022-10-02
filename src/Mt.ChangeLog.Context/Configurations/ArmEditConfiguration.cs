@@ -19,7 +19,7 @@ namespace Mt.ChangeLog.Context.Configurations
             builder.ToTable("ArmEdit");
             builder.HasComment("Таблица с перечнем ArmEdit используемых при компиляции проектов блоков БМРЗ-100/120/150/160");
             builder.HasIndex(e => e.Version).HasDatabaseName("IX_ArmEdit_Version").IsUnique();
-            // builder.HasIndex(e => e.DIVG).HasDatabaseName("IX_ArmEdit_DIVG").IsUnique(); - точных данных по ДИВГ нет
+            // builder.HasIndex(e => e.DIVG).HasDatabaseName("IX_ArmEdit_DIVG").IsUnique(); // точных данных по ДИВГ нет
 
             builder.Property(e => e.DIVG)
                 .HasDefaultValue("ДИВГ.55101-00")
@@ -33,7 +33,7 @@ namespace Mt.ChangeLog.Context.Configurations
                 .IsRequired();
 
             builder.Property(e => e.Date)
-                .HasDefaultValue(DateTime.Now)
+                .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
             builder.Property(e => e.Description)
@@ -45,7 +45,7 @@ namespace Mt.ChangeLog.Context.Configurations
                 .IsRequired();
 
             builder.Property(e => e.Removable)
-                .HasDefaultValue(true)
+                .HasDefaultValue(false)
                 .IsRequired();
         }
     }

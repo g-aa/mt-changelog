@@ -18,8 +18,8 @@ namespace Mt.ChangeLog.Context.Configurations
             builder.ToTable("RelayAlgorithm");
             builder.HasComment("Таблица с перечнем алгоритмов РЗиА поддерживаемых в блоках БМРЗ-100/120/150/160");
             builder.HasIndex(e => e.Title).HasDatabaseName("IX_RelayAlgorithm_Title").IsUnique();
-            // builder.HasIndex(e => e.ANSI).HasDatabaseName("IX_RelayAlgorithm_ANSI").IsUnique(); - точных данных по кодам ANSI нет
-            // builder.HasIndex(e => e.LogicalNode).HasDatabaseName("IX_RelayAlgorithm_LN").IsUnique(); - точных данных по наименованию LN в 61850 нет
+            // builder.HasIndex(e => e.ANSI).HasDatabaseName("IX_RelayAlgorithm_ANSI").IsUnique(); // точных данных по кодам ANSI нет
+            // builder.HasIndex(e => e.LogicalNode).HasDatabaseName("IX_RelayAlgorithm_LN").IsUnique(); // точных данных по наименованию LN в 61850 нет
 
             builder.Property(e => e.Group)
                 .HasMaxLength(32)
@@ -46,7 +46,7 @@ namespace Mt.ChangeLog.Context.Configurations
                 .IsRequired();
 
             builder.Property(e => e.Removable)
-                .HasDefaultValue(true)
+                .HasDefaultValue(false)
                 .IsRequired();
         }
     }

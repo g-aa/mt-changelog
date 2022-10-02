@@ -36,7 +36,7 @@ namespace Mt.ChangeLog.Context.Configurations
                 .IsRequired();
 
             builder.Property(e => e.Removable)
-                .HasDefaultValue(true)
+                .HasDefaultValue(false)
                 .IsRequired();
         }
     }

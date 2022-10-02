@@ -10,12 +10,17 @@ namespace Mt.ChangeLog.Context
     /// <summary>
     /// Контекст данных приложения.
     /// </summary>
-    public sealed class ApplicationContext : DbContext
+    public sealed class MtContext : DbContext
     {
+        /// <summary>
+        /// Схема базы данных: ChangeLog.
+        /// </summary>
+        public const string Schema = "changelog";
+
         /// <summary>
         /// Журнал логирования.
         /// </summary>
-        private readonly ILogger<ApplicationContext> logger;
+        private readonly ILogger<MtContext> logger;
 
         #region [ ProjectVersionEntities ]
 
@@ -100,11 +105,11 @@ namespace Mt.ChangeLog.Context
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра класса <see cref="ApplicationContext"/>.
+        /// Инициализация экземпляра класса <see cref="MtContext"/>.
         /// </summary>
         /// <param name="options">Настройки.</param>
         /// <param name="logger">Журнал логирования.</param>
-        public ApplicationContext(DbContextOptions<ApplicationContext> options, ILogger<ApplicationContext> logger) : base(options)
+        public MtContext(DbContextOptions<MtContext> options, ILogger<MtContext> logger) : base(options)
         {
             this.logger = logger;
         }
@@ -129,7 +134,7 @@ namespace Mt.ChangeLog.Context
 
             if (this.Database.IsNpgsql())
             {
-                modelBuilder.HasDefaultSchema("MT");
+                modelBuilder.HasDefaultSchema(MtContext.Schema);
             }
 
             #region [ Tables ]

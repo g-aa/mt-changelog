@@ -18,7 +18,7 @@ namespace Mt.ChangeLog.Context.Configurations
             builder.ToTable("AnalogModule");
             builder.HasComment("Таблица с перечнем аналоговых модулей используемых в блоках БМРЗ-100/120/150/160");
             builder.HasIndex(e => e.Title).HasDatabaseName("IX_AnalogModule_Title").IsUnique();
-            // builder.HasIndex(e => e.DIVG).HasDatabaseName("IX_AnalogModule_DIVG").IsUnique(); //точных данных по ДИВГ нет
+            // builder.HasIndex(e => e.DIVG).HasDatabaseName("IX_AnalogModule_DIVG").IsUnique(); // точных данных по ДИВГ нет
 
             builder.HasMany(am => am.Platforms)
                 .WithMany(p => p.AnalogModules)
@@ -32,7 +32,6 @@ namespace Mt.ChangeLog.Context.Configurations
 
             builder.Property(e => e.Title)
                 .HasMaxLength(10)
-                .IsFixedLength()
                 .IsRequired();
 
             builder.Property(e => e.Current)
@@ -50,7 +49,7 @@ namespace Mt.ChangeLog.Context.Configurations
                 .IsRequired();
 
             builder.Property(e => e.Removable)
-                .HasDefaultValue(true)
+                .HasDefaultValue(false)
                 .IsRequired();
         }
     }

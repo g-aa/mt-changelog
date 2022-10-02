@@ -6,29 +6,29 @@ using System;
 namespace Mt.ChangeLog.Context
 {
     /// <summary>
-    /// Методы расширения для <see cref="ApplicationContext"/>.
+    /// Методы расширения для <see cref="MtContext"/>.
     /// </summary>
-    public static class ApplicationContextExtensions
+    public static class MtContextExtensions
     {
         /// <summary>
         /// Инициализировать состояние контекста данных по умолчанию.
         /// </summary>
         /// <param name="context">Контекст данных.</param>
-        public static void InitializeDefaultState(this ApplicationContext context)
+        public static void InitializeDefaultState(this MtContext context)
         {
             if (Check.NotNull(context, nameof(context)).Database.EnsureCreated())
             {
-                ApplicationContextExtensions.AddDefaultEntities(context);
-                ApplicationContextExtensions.CreateViews(context);
+                MtContextExtensions.AddDefaultEntities(context);
+                MtContextExtensions.CreateViews(context);
                 context.SaveChanges();
             }
         }
 
         /// <summary>
-        /// Добавить сущности по умолчанию в базу данных <see cref="ApplicationContext"/>.
+        /// Добавить сущности по умолчанию в базу данных <see cref="MtContext"/>.
         /// </summary>
         /// <param name="context">Контекст данных.</param>
-        private static void AddDefaultEntities(ApplicationContext context)
+        private static void AddDefaultEntities(MtContext context)
         {
             var armEdit = new ArmEdit()
             {
@@ -44,7 +44,7 @@ namespace Mt.ChangeLog.Context
 
             var author = new Author()
             {
-                Id = Guid.Parse("3A90CF3A-B9E3-43F7-ABFD-0E4483A9FE55"),
+                Id = Guid.Parse("1de61f12-7634-47cc-bcff-f146ca538f49"),
                 FirstName = "-//-",
                 LastName = "-//-",
                 Position = "Автор по умолчанию.",
@@ -215,23 +215,24 @@ namespace Mt.ChangeLog.Context
                     Title = "Пгр. смены уставок",
                     LogicalNode = "-//-",
                     Description = "Алгоритм по умолчанию, смена программы уставок блока БМРЗ.",
-                    Default = true
+                    Default = true,
+                    Removable = false,
                 },
             });
         }
 
         /// <summary>
-        /// Создать представления в базе данных <see cref="ApplicationContext"/>.
+        /// Создать представления в базе данных <see cref="MtContext"/>.
         /// </summary>
         /// <param name="context">Контекст данных.</param>
-        private static void CreateViews(ApplicationContext context)
+        private static void CreateViews(MtContext context)
         {
             context.Database.ExecuteSqlRaw(
-                @$"CREATE OR REPLACE VIEW ""MT"".""LastProjectsRevision"" AS
+                @$"CREATE OR REPLACE VIEW ""{MtContext.Schema}"".""LastProjectsRevision"" AS
                 WITH LastRevision AS(
                 SELECT  pr.""ProjectVersionId"",
                         Max(pr.""Revision"") AS ""Revision""
-                FROM ""MT"".""ProjectRevision"" pr
+                FROM ""{MtContext.Schema}"".""ProjectRevision"" pr
                 GROUP BY pr.""ProjectVersionId""
                 )
                 SELECT  pr.""ProjectVersionId"" AS ""ProjectVersionId"",
@@ -244,50 +245,50 @@ namespace Mt.ChangeLog.Context
                         arm.""Version"" AS ""ArmEdit"",
                         pr.""Date""
                 FROM LastRevision lr
-                JOIN ""MT"".""ProjectRevision"" pr
+                JOIN ""{MtContext.Schema}"".""ProjectRevision"" pr
                 ON lr.""Revision"" = pr.""Revision""
                 AND lr.""ProjectVersionId"" = pr.""ProjectVersionId""
-                JOIN ""MT"".""ArmEdit"" arm
+                JOIN ""{MtContext.Schema}"".""ArmEdit"" arm
                 ON arm.""Id"" = pr.""ArmEditId""
-                JOIN ""MT"".""ProjectVersion"" pv
+                JOIN ""{MtContext.Schema}"".""ProjectVersion"" pv
                 ON pv.""Id"" = pr.""ProjectVersionId""
-                JOIN ""MT"".""Platform"" pl
+                JOIN ""{MtContext.Schema}"".""Platform"" pl
                 ON pv.""PlatformId"" = pl.""Id"";");
 
             context.Database.ExecuteSqlRaw(
-                $@"CREATE OR REPLACE VIEW ""MT"".""AuthorContribution"" AS
+                $@"CREATE OR REPLACE VIEW ""{MtContext.Schema}"".""AuthorContribution"" AS
                 SELECT  CONCAT(athr.""LastName"", ' ', athr.""FirstName"") AS ""Author"",
                         count(athr.""Id"") AS ""Contribution""
-                FROM ""MT"".""Author"" athr
-                JOIN ""MT"".""ProjectRevisionAuthor"" pra
+                FROM ""{MtContext.Schema}"".""Author"" athr
+                JOIN ""{MtContext.Schema}"".""ProjectRevisionAuthor"" pra
                 ON athr.""Id"" = pra.""AuthorsId""
                 GROUP BY athr.""LastName"", athr.""FirstName""
                 ORDER BY ""Contribution"" DESC;");
 
             context.Database.ExecuteSqlRaw(
-                $@"CREATE OR REPLACE VIEW ""MT"".""AuthorProjectContribution"" AS
+                $@"CREATE OR REPLACE VIEW ""{MtContext.Schema}"".""AuthorProjectContribution"" AS
                 SELECT  CONCAT(athr.""LastName"", ' ', athr.""FirstName"") AS ""Author"",
                         pv.""Prefix"" AS ""ProjectPrefix"",
                         pv.""Title"" AS ""ProjectTitle"",
                         pv.""Version"" AS ""ProjectVersion"",
                         count(pv.""Id"") AS ""Contribution""
-                FROM ""MT"".""Author"" athr
-                JOIN ""MT"".""ProjectRevisionAuthor"" pra
+                FROM ""{MtContext.Schema}"".""Author"" athr
+                JOIN ""{MtContext.Schema}"".""ProjectRevisionAuthor"" pra
                 ON athr.""Id"" = pra.""AuthorsId""
-                JOIN ""MT"".""ProjectRevision"" pr
+                JOIN ""{MtContext.Schema}"".""ProjectRevision"" pr
                 ON pr.""Id"" = pra.""ProjectRevisionsId""
-                JOIN ""MT"".""ProjectVersion"" pv
+                JOIN ""{MtContext.Schema}"".""ProjectVersion"" pv
                 ON pv.""Id"" = pr.""ProjectVersionId""
                 GROUP BY athr.""LastName"", athr.""FirstName"", pv.""Prefix"", pv.""Title"", pv.""Version""
                 ORDER BY ""Author"" ASC, ""ProjectTitle"" ASC, ""ProjectPrefix"" ASC, ""ProjectVersion"" ASC;");
 
             context.Database.ExecuteSqlRaw(
-                $@"CREATE OR REPLACE VIEW ""MT"".""ProjectHistoryRecord"" AS
+                $@"CREATE OR REPLACE VIEW ""{MtContext.Schema}"".""ProjectHistoryRecord"" AS
                 WITH SortProjectRevisionsAlgs AS(
                 SELECT  ra.""Title"" AS ""Algorithm"",
                         pra.""ProjectRevisionsId""
-                FROM ""MT"".""RelayAlgorithm"" ra
-                JOIN ""MT"".""ProjectRevisionRelayAlgorithm"" pra
+                FROM ""{MtContext.Schema}"".""RelayAlgorithm"" ra
+                JOIN ""{MtContext.Schema}"".""ProjectRevisionRelayAlgorithm"" pra
                 ON ra.""Id"" = pra.""RelayAlgorithmsId""
                 ORDER BY pra.""ProjectRevisionsId"" ASC, ra.""Title"" ASC
                 ),
@@ -300,8 +301,8 @@ namespace Mt.ChangeLog.Context
                 SortProjectRevisionsAuthors AS(
                 SELECT  concat(athr.""LastName"", ' ', athr.""FirstName"") AS ""Author"",
                         pra.""ProjectRevisionsId""
-                FROM ""MT"".""Author"" athr
-                JOIN ""MT"".""ProjectRevisionAuthor"" pra
+                FROM ""{MtContext.Schema}"".""Author"" athr
+                JOIN ""{MtContext.Schema}"".""ProjectRevisionAuthor"" pra
                 ON athr.""Id"" = pra.""AuthorsId""
                 ORDER BY pra.""ProjectRevisionsId"" ASC, ""Author"" ASC
                 ),
@@ -312,18 +313,18 @@ namespace Mt.ChangeLog.Context
                 GROUP BY spra.""ProjectRevisionsId""
                 ),
                 SortProjectRevisionsProtocols AS(
-                SELECT  cmp.""CommunicationModulesId"",
+                SELECT  cmp.""CommunicationsId"",
                         prot.""Title"" AS ""Protocol""
-                FROM ""MT"".""Protocol"" prot
-                JOIN ""MT"".""CommunicationModuleProtocol"" cmp
+                FROM ""{MtContext.Schema}"".""Protocol"" prot
+                JOIN ""{MtContext.Schema}"".""CommunicationProtocol"" cmp
                 ON prot.""Id"" = cmp.""ProtocolsId""
-                ORDER BY cmp.""CommunicationModulesId"" ASC, prot.""Title"" ASC
+                ORDER BY cmp.""CommunicationsId"" ASC, prot.""Title"" ASC
                 ),
                 ProjectRevisionsProtocols AS(
-                SELECT  sprp.""CommunicationModulesId"" AS ""CommunicationModuleId"",
+                SELECT  sprp.""CommunicationsId"" AS ""CommunicationId"",
                             string_agg(sprp.""Protocol"", ', ') AS ""Protocols""
                 FROM SortProjectRevisionsProtocols sprp
-                GROUP BY sprp.""CommunicationModulesId""
+                GROUP BY sprp.""CommunicationsId""
                 )
                 SELECT  pv.""Id"" AS ""ProjectVersionId"",
                         pr.""ParentRevisionId"",
@@ -337,13 +338,13 @@ namespace Mt.ChangeLog.Context
                         prProts.""Protocols"",
                         pr.""Reason"",
                         pr.""Description""
-                FROM ""MT"".""ProjectRevision"" pr
-                JOIN ""MT"".""ProjectVersion"" pv ON pv.""Id"" = pr.""ProjectVersionId""
-                JOIN ""MT"".""ArmEdit"" arm ON arm.""Id"" = pr.""ArmEditId""
-                JOIN ""MT"".""Platform"" plat ON plat.""Id"" = pv.""PlatformId""
+                FROM ""{MtContext.Schema}"".""ProjectRevision"" pr
+                JOIN ""{MtContext.Schema}"".""ProjectVersion"" pv ON pv.""Id"" = pr.""ProjectVersionId""
+                JOIN ""{MtContext.Schema}"".""ArmEdit"" arm ON arm.""Id"" = pr.""ArmEditId""
+                JOIN ""{MtContext.Schema}"".""Platform"" plat ON plat.""Id"" = pv.""PlatformId""
                 JOIN ProjectRevisionsAlgs prAlgs ON prAlgs.""ProjectRevisionId"" = pr.""Id""
                 JOIN ProjectRevisionsAthrs prAthrs ON prAthrs.""ProjectRevisionId"" = pr.""Id""
-                JOIN ProjectRevisionsProtocols prProts ON prProts.""CommunicationModuleId"" = pr.""CommunicationModuleId"";");
+                JOIN ProjectRevisionsProtocols prProts ON prProts.""CommunicationId"" = pr.""CommunicationId"";");
         }
     }
 }

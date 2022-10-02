@@ -21,7 +21,6 @@ namespace Mt.ChangeLog.Context.Configurations
 
             builder.Property(e => e.Title)
                 .HasMaxLength(32)
-                .IsFixedLength()
                 .IsRequired();
 
             builder.Property(e => e.Description)
@@ -33,7 +32,7 @@ namespace Mt.ChangeLog.Context.Configurations
                 .IsRequired();
 
             builder.Property(e => e.Removable)
-                .HasDefaultValue(true)
+                .HasDefaultValue(false)
                 .IsRequired();
         }
     }

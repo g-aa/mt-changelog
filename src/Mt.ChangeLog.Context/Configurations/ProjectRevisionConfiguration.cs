@@ -28,6 +28,7 @@ namespace Mt.ChangeLog.Context.Configurations
                 .UsingEntity(e => e.ToTable("ProjectRevisionRelayAlgorithm"));
 
             builder.Property(e => e.Date)
+                .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
             builder.Property(e => e.Revision)

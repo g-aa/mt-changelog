@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Mt.Utilities;
 
 namespace Mt.ChangeLog.Context
 {
@@ -14,14 +15,15 @@ namespace Mt.ChangeLog.Context
         /// </summary>
         /// <param name="services">Коллекция сервисов.</param>
         /// <returns>Модифицированная коллекция сервисов.</returns>
-        public static IServiceCollection AddApplicationContext(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplicationContext(this IServiceCollection services)
         {
-            services.AddDbContext<ApplicationContext>(options =>
+            Check.NotNull(services, nameof(services));
+            services.AddDbContext<MtContext>((provider, options) =>
             {
-                string sPgSqlConnection = configuration["ConnectionStrings:NpgSqlConnection"];
-                options.UseNpgsql(sPgSqlConnection);
+                var configuration = provider.GetService<IConfiguration>();
+                var sConnection = Check.NotNull(configuration["ConnectionStrings:NpgSqlDb"], "В файле 'appsettings.json' не указана строка подключения к БД.");
+                options.UseNpgsql(sConnection);
             });
-
             return services;
         }
     }
