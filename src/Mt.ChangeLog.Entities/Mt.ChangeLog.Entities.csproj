@@ -8,8 +8,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Mt.Entities.Abstractions" Version="6.0.1" />
-		<PackageReference Include="Mt.Utilities" Version="6.0.1" />
+		<PackageReference Include="Mt.Entities.Abstractions" Version="6.1.0" />
+		<PackageReference Include="Mt.Utilities" Version="6.1.0" />
 	</ItemGroup>
 
 </Project>
