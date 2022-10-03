@@ -64,6 +64,12 @@ namespace Mt.ChangeLog.Entities.Tables
         }
 
         /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is Author e && ( this.Id.Equals(e.Id) || this.FirstName == e.FirstName && this.LastName == e.LastName );
+        }
+
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return HashCode.Combine(this.FirstName, this.LastName);
@@ -72,7 +78,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"ID: {this.Id}, {this.LastName ?? ""} {this.FirstName ?? ""}";
+            return $"ID: {this.Id}, {this.LastName} {this.FirstName}";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mt.Utilities;
+using System;
 
 namespace Mt.ChangeLog.Entities.Views
 {
@@ -66,6 +67,25 @@ namespace Mt.ChangeLog.Entities.Views
         /// Описание.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Инициализация экземпляра класса <see cref="ProjectHistoryRecord"/>.
+        /// </summary>
+        public ProjectHistoryRecord()
+        {
+            this.ProjectVersionId = Guid.Empty;
+            this.ParentRevisionId = Guid.Empty;
+            this.ProjectRevisionId = Guid.Empty;
+            this.Platform = DefaultString.Platform;
+            this.Title = DefaultString.Project;
+            this.Date = DateTime.Now;
+            this.ArmEdit = DefaultString.Version;
+            this.Algorithms = DefaultString.Algorithm;
+            this.Authors = $"{DefaultString.LastName} {DefaultString.FirstName}";
+            this.Protocols = DefaultString.Protocol;
+            this.Reason = string.Empty;
+            this.Description = string.Empty;
+        }
 
         /// <inheritdoc />
         public override string ToString()

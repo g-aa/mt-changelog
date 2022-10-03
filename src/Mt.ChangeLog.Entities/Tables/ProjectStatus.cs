@@ -58,6 +58,12 @@ namespace Mt.ChangeLog.Entities.Tables
         }
 
         /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is ProjectStatus e && ( this.Id.Equals(e.Id) || this.Title == e.Title );
+        }
+
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return HashCode.Combine(this.Title);

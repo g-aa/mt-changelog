@@ -16,7 +16,7 @@ namespace Mt.ChangeLog.Entities.Tables
 
         /// <summary>
         /// ДИВГ.
-        /// </summary
+        /// </summary>
         public string DIVG { get; set; }
 
         /// <summary>
@@ -68,9 +68,15 @@ namespace Mt.ChangeLog.Entities.Tables
         {
             /*
              * пока нет полных данных по ДИВГ-ам
-             * return (ArmEdit e) => e.Id == this.Id || e.DIVG == this.DIVG || e.Version == this.Version;
+             * return (ArmEdit e) => e.Id == this.Id || e.DIVG == this.DIVG || e.Version == this.Version
              */
             return (ArmEdit e) => e.Id == this.Id || e.Version == this.Version;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is ArmEdit arm && ( this.Id.Equals(arm.Id) || this.Version == arm.Version );
         }
 
         /// <inheritdoc />
@@ -82,7 +88,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"ID: {this.Id}, ArmEdit: {this.DIVG ?? ""}, {this.Version ?? ""}";
+            return $"ID: {this.Id}, ArmEdit: {this.DIVG}, {this.Version}";
         }
     }
 }

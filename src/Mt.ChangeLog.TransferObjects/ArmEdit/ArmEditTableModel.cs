@@ -10,7 +10,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
     {
         /// <summary>
         /// ДИВГ.
-        /// </summary
+        /// </summary>
         public string DIVG { get; set; }
 
         /// <summary>

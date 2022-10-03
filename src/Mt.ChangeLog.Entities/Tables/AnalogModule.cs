@@ -74,9 +74,15 @@ namespace Mt.ChangeLog.Entities.Tables
         {
             /*
              * пока нет данных по ДИВГ-ам
-             * return (AnalogModule e) => e.Id == this.Id || e.DIVG == this.DIVG || e.Title == this.Title;
+             * return (AnalogModule e) => e.Id == this.Id || e.DIVG == this.DIVG || e.Title == this.Title
              */
             return (AnalogModule e) => e.Id == this.Id || e.Title == this.Title;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is AnalogModule module && ( this.Id.Equals(module.Id) || this.Title == module.Title );
         }
 
         /// <inheritdoc />
@@ -88,7 +94,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"ID: {this.Id}, модуль: {this.Title ?? ""}";
+            return $"ID: {this.Id}, модуль: {this.Title}";
         }
     }
 }

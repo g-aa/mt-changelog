@@ -1,4 +1,6 @@
-﻿namespace Mt.ChangeLog.Entities.Views
+﻿using Mt.Utilities;
+
+namespace Mt.ChangeLog.Entities.Views
 {
     /// <summary>
     /// Представление автор общий вклад в проекты.
@@ -14,6 +16,15 @@
         /// Общий вклад в проекты.
         /// </summary>
         public int Contribution { get; set; }
+
+        /// <summary>
+        /// Инициализация экземпляра класса <see cref="AuthorContribution"/>.
+        /// </summary>
+        public AuthorContribution()
+        {
+            this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
+            this.Contribution = 0;
+        }
 
         /// <inheritdoc />
         public override string ToString()

@@ -94,9 +94,17 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public Expression<Func<ProjectVersion, bool>> GetEqualityPredicate()
         {
-            return (ProjectVersion e) => e.Id == this.Id 
-            || e.DIVG == this.DIVG 
+            return (ProjectVersion e) => e.Id == this.Id
+            || e.DIVG == this.DIVG
             || e.Prefix == this.Prefix && e.Title == this.Title && e.Version == this.Version;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is ProjectVersion e && ( this.Id.Equals(e.Id)
+                || this.DIVG == e.DIVG
+                || this.Prefix == e.Prefix && this.Title == e.Title && this.Version == e.Version );
         }
 
         /// <inheritdoc />

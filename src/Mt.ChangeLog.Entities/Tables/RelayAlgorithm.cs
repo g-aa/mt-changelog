@@ -76,6 +76,12 @@ namespace Mt.ChangeLog.Entities.Tables
         }
 
         /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is RelayAlgorithm algorithm && ( Id.Equals(algorithm.Id) || Group == algorithm.Group && Title == algorithm.Title );
+        }
+
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return HashCode.Combine(this.Group, this.Title, this.ANSI, this.LogicalNode);

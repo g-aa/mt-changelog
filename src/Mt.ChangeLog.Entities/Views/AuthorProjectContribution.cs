@@ -1,4 +1,6 @@
-﻿namespace Mt.ChangeLog.Entities.Views
+﻿using Mt.Utilities;
+
+namespace Mt.ChangeLog.Entities.Views
 {
     /// <summary>
     /// Представление автор вклад в проект.
@@ -29,6 +31,18 @@
         /// Версия проекта.
         /// </summary>
         public string ProjectVersion { get; set; }
+
+        /// <summary>
+        /// Инициализация экземпляра класса <see cref="AuthorProjectContribution"/>.
+        /// </summary>
+        public AuthorProjectContribution()
+        {
+            this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
+            this.Contribution = 0;
+            this.ProjectPrefix = DefaultString.Prefix;
+            this.ProjectTitle = DefaultString.Project;
+            this.ProjectVersion = DefaultString.Revision;
+        }
 
         /// <inheritdoc />
         public override string ToString()

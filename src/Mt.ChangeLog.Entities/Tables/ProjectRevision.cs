@@ -109,6 +109,12 @@ namespace Mt.ChangeLog.Entities.Tables
         }
 
         /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is ProjectRevision e && ( this.Id.Equals(e.Id) || ProjectVersionId.Equals(e.ProjectVersionId) && Revision == e.Revision );
+        }
+
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             /*

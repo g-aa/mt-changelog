@@ -64,6 +64,12 @@ namespace Mt.ChangeLog.Entities.Tables
         }
 
         /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is Communication e && ( this.Id.Equals(e.Id) || this.Title == e.Title );
+        }
+
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return HashCode.Combine(this.Title);
@@ -72,7 +78,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"ID: {this.Id}, адаптер: {this.Title ?? ""}";
+            return $"ID: {this.Id}, адаптер: {this.Title}";
         }
     }
 }
