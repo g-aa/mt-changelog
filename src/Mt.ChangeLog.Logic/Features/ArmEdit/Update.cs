@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -77,22 +77,32 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
 
                 var dbArmEdit = this.context.ArmEdits.Search(model.Id);
-
                 if (dbArmEdit.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию '{dbArmEdit}' не может быть обновлена.");
+                    throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbArmEdit}' не может быть обновлена.");
                 }
 
                 dbArmEdit.GetBuilder().SetAttributes(model).Build();
-                await this.context.SaveChangesAsync();
+                return this.SaveChangesAsync(dbArmEdit, cancellationToken);
+            }
 
-                return new StatusModel($"'{dbArmEdit}' обновлен в системе.");
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ArmEdit entity, CancellationToken cancellationToken)
+            {
+                this.context.ArmEdits.Update(entity);
+                await this.context.SaveChangesAsync(cancellationToken);
+                return new StatusModel($"'{entity}' обновлен в системе.");
             }
         }
     }

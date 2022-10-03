@@ -65,9 +65,10 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.ArmEdits.AsNoTracking()
+                var result = await this.context.ArmEdits.AsNoTracking()
                     .OrderBy(e => e.Version)
-                    .Select(e => e.ToModel());
+                    .Select(e => e.ToModel())
+                    .ToListAsync(cancellationToken);
 
                 return result;
             }

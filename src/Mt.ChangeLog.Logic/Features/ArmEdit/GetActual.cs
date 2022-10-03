@@ -69,7 +69,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
                     .First()
                     .ToModel();
 
-                return result;
+                return await  Task.FromResult(result);
             }
         }
     }

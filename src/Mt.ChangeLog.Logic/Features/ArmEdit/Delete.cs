@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,7 +78,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
@@ -89,18 +89,28 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
 
                 if (dbRemovable.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию '{dbRemovable}' нельзя удалить из системы.");
+                    throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность по умолчанию '{dbRemovable}' нельзя удалить из системы.");
                 }
 
                 if (dbRemovable.ProjectRevisions.Any())
                 {
-                    throw new ArgumentException($"Сущность '{dbRemovable}' используется в редакциях БФПО и неможет быть удалена из системы.");
+                    throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используется в редакциях БФПО и неможет быть удалена из системы.");
                 }
 
-                this.context.ArmEdits.Remove(dbRemovable);
-                await this.context.SaveChangesAsync();
+                return this.SaveChangesAsync(dbRemovable, cancellationToken);
+            }
 
-                return new StatusModel($"Сущность '{dbRemovable}' был удалена из системы.");
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ArmEdit entity, CancellationToken cancellationToken)
+            {
+                this.context.ArmEdits.Remove(entity);
+                await this.context.SaveChangesAsync(cancellationToken);
+                return new StatusModel($"'{entity}' был удален из системы.");
             }
         }
     }
