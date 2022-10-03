@@ -9,7 +9,7 @@ using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -79,7 +79,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -91,7 +91,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
 
                 if (dbAnalogModule.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию '{dbAnalogModule}' не может быть обновлена.");
+                    throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbAnalogModule}' не может быть обновлена.");
                 }
 
                 var dbPlatforms = this.context.Platforms
@@ -101,9 +101,20 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                     .SetPlatforms(dbPlatforms)
                     .Build();
 
-                await this.context.SaveChangesAsync();
+                return this.SaveChangesAsync(dbAnalogModule, cancellationToken);
+            }
 
-                return new StatusModel($"Аналоговый модуль '{dbAnalogModule}' обновлен в системе.");
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.AnalogModule entity, CancellationToken cancellationToken)
+            {
+                this.context.AnalogModules.Update(entity);
+                await this.context.SaveChangesAsync(cancellationToken);
+                return new StatusModel($"'{entity}' обновлен в системе.");
             }
         }
     }

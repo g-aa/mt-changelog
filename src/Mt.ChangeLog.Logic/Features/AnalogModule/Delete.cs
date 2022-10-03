@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,7 +78,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
@@ -91,30 +91,37 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
 
                 if (dbRemovable.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию '{dbRemovable}' не может быть удалена из системы.");
+                    throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность по умолчанию '{dbRemovable}' не может быть удалена из системы.");
                 }
 
                 if (dbRemovable.Projects.Any())
                 {
-                    throw new ArgumentException($"Сущность '{dbRemovable}' используемая в проектах не может быть удалена из системы.");
+                    throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используемая в проектах не может быть удалена из системы.");
                 }
 
                 if (dbRemovable.Platforms.Any())
                 {
                     var defModule = this.context.AnalogModules.First(e => e.Default);
-                    foreach (var dbPlatform in dbRemovable.Platforms)
+                    foreach (var dbPlatform in dbRemovable.Platforms.Where(p => p.AnalogModules.Remove(dbRemovable) && !p.AnalogModules.Any()))
                     {
-                        dbPlatform.AnalogModules.Remove(dbRemovable);
-                        if (!dbPlatform.AnalogModules.Any())
-                        {
-                            dbPlatform.AnalogModules.Add(defModule);
-                        }
+                        dbPlatform.AnalogModules.Add(defModule);
                     }
                 }
-                this.context.AnalogModules.Remove(dbRemovable);
-                await this.context.SaveChangesAsync();
 
-                return new StatusModel($"Сущность '{dbRemovable}' был удалена из системы.");
+                return this.SaveChangesAsync(dbRemovable, cancellationToken);
+            }
+
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.AnalogModule entity, CancellationToken cancellationToken)
+            {
+                this.context.AnalogModules.Remove(entity);
+                await this.context.SaveChangesAsync(cancellationToken);
+                return new StatusModel($"'{entity}' был удален из системы.");
             }
         }
     }

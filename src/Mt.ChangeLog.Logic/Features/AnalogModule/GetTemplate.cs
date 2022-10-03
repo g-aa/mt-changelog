@@ -64,14 +64,15 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var platforms = this.context.Platforms.AsNoTracking()
+                var platforms = await this.context.Platforms.AsNoTracking()
                     .Where(p => p.Default)
-                    .Select(p => p.ToShortModel());
+                    .Select(p => p.ToShortModel())
+                    .ToListAsync(cancellationToken);
 
-                return await Task.FromResult(new AnalogModuleModel()
+                return new AnalogModuleModel()
                 {
-                    Platforms = platforms
-                });
+                    Platforms = platforms,
+                };
             }
         }
     }

@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,7 +78,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public async Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -93,15 +93,25 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
 
                 if (this.context.AnalogModules.IsContained(dbAnalogModule))
                 {
-                    throw new ArgumentException($"Сущность '{dbAnalogModule}' уже содержится в системе.");
+                    throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbAnalogModule}' уже содержится в системе.");
                 }
 
-                await this.context.AnalogModules.AddAsync(dbAnalogModule);
-                await this.context.SaveChangesAsync();
+                return this.SaveChangesAsync(dbAnalogModule, cancellationToken);
+            }
 
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<BaseModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.AnalogModule entity, CancellationToken cancellationToken)
+            {
+                await this.context.AnalogModules.AddAsync(entity, cancellationToken);
+                await this.context.SaveChangesAsync(cancellationToken);
                 return new BaseModel()
                 {
-                    Id = dbAnalogModule.Id,
+                    Id = entity.Id,
                 };
             }
         }

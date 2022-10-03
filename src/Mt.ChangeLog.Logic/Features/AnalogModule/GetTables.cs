@@ -65,9 +65,10 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.AnalogModules.AsNoTracking()
+                var result = await this.context.AnalogModules.AsNoTracking()
                     .OrderBy(e => e.Title)
-                    .Select(e => e.ToTableModel());
+                    .Select(e => e.ToTableModel())
+                    .ToListAsync(cancellationToken);
 
                 return result;
             }
