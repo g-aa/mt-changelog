@@ -9,7 +9,7 @@ using Mt.ChangeLog.TransferObjects.Communication;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -79,7 +79,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -90,7 +90,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
 
                 if (dbCommunication.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию '{dbCommunication}' не может быть обновлена.");
+                    throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbCommunication}' не может быть обновлена.");
                 }
 
                 var dbProtocols = this.context.Protocols
@@ -99,9 +99,21 @@ namespace Mt.ChangeLog.Logic.Features.Communication
                     .SetAttributes(model)
                     .SetProtocols(dbProtocols)
                     .Build();
-                await this.context.SaveChangesAsync();
+                
+                return this.SaveChangesAsync(dbCommunication, cancellationToken);
+            }
 
-                return new StatusModel($"АК '{dbCommunication}' обновлен в системе.");
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.Communication entity, CancellationToken cancellationToken)
+            {
+                this.context.Communications.Update(entity);
+                await this.context.SaveChangesAsync(cancellationToken);
+                return new StatusModel($"'{entity}' обновлен в системе.");
             }
         }
     }
