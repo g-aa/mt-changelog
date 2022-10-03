@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,7 +78,7 @@ namespace Mt.ChangeLog.Logic.Features.Platform
             }
 
             /// <inheritdoc />
-            public async Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -93,15 +93,25 @@ namespace Mt.ChangeLog.Logic.Features.Platform
 
                 if (this.context.Platforms.IsContained(dbPlatform))
                 {
-                    throw new ArgumentException($"Сущность '{dbPlatform}' уже содержится в системе.");
+                    throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbPlatform}' уже содержится в системе.");
                 }
 
-                await this.context.Platforms.AddAsync(dbPlatform);
-                await this.context.SaveChangesAsync();
+                return this.SaveChangesAsync(dbPlatform, cancellationToken);
+            }
 
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<BaseModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.Platform entity, CancellationToken cancellationToken)
+            {
+                await this.context.Platforms.AddAsync(entity, cancellationToken);
+                await this.context.SaveChangesAsync(cancellationToken);
                 return new BaseModel()
                 {
-                    Id = dbPlatform.Id,
+                    Id = entity.Id,
                 };
             }
         }
