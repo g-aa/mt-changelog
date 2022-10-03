@@ -84,14 +84,15 @@ namespace Mt.ChangeLog.Logic.Features.History
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.ProjectRevisions.AsNoTracking()
+                var result = await this.context.ProjectRevisions.AsNoTracking()
                     .Include(pr => pr.ArmEdit)
                     .Include(pr => pr.ProjectVersion.AnalogModule)
                     .Include(pr => pr.ProjectVersion.Platform)
                     .Where(pr => pr.ProjectVersion.Title == request.Model)
-                    .Select(pr => pr.ToTreeModel());
+                    .Select(pr => pr.ToTreeModel())
+                    .ToListAsync(cancellationToken);
 
-                return await Task.FromResult(result);
+                return result;
             }
         }
     }

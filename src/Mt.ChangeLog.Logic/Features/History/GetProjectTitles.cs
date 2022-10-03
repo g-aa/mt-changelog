@@ -63,12 +63,13 @@ namespace Mt.ChangeLog.Logic.Features.History
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.ProjectVersions.AsNoTracking()
+                var result = await this.context.ProjectVersions.AsNoTracking()
                     .Select(e => e.Title)
                     .Distinct()
-                    .OrderBy(e => e);
+                    .OrderBy(e => e)
+                    .ToListAsync(cancellationToken);
 
-                return await Task.FromResult(result);
+                return result;
             }
         }
     }

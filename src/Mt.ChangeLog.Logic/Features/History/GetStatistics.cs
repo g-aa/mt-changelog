@@ -67,21 +67,21 @@ namespace Mt.ChangeLog.Logic.Features.History
                 var distributions = await this.context.ProjectStatuses.AsNoTracking()
                     .Include(e => e.ProjectVersions)
                     .OrderByDescending(e => e.ProjectVersions.Count)
-                    .ToDictionaryAsync(k => k.Title, v => v.ProjectVersions.Count);
+                    .ToDictionaryAsync(k => k.Title, v => v.ProjectVersions.Count, cancellationToken);
 
                 var sArmEdit = await this.context.ArmEdits.AsNoTracking()
                     .OrderByDescending(e => e.Version)
-                    .FirstAsync();
+                    .FirstAsync(cancellationToken);
 
                 var lastModifiedProjects = await this.context.LastProjectRevisions
                     .OrderByDescending(e => e.Date)
                     .Take(10)
                     .Select(e => e.ToHistoryShortModel())
-                    .ToArrayAsync();
+                    .ToArrayAsync(cancellationToken);
 
                 var contributions = await this.context.AuthorContributions
                     .Select(e => e.ToModel())
-                    .ToArrayAsync();
+                    .ToArrayAsync(cancellationToken);
 
                 var result = new StatisticsModel()
                 {
