@@ -65,9 +65,10 @@ namespace Mt.ChangeLog.Logic.Features.Author
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.Authors.AsNoTracking()
+                var result = await this.context.Authors.AsNoTracking()
                     .OrderBy(e => e.LastName)
-                    .Select(e => e.ToShortModel());
+                    .Select(e => e.ToShortModel())
+                    .ToListAsync(cancellationToken);
 
                 return result;
             }

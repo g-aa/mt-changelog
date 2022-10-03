@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Views;
@@ -63,8 +64,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
-
-                var result = this.context.AuthorProjectContributions.Select(e => e.ToModel());
+                var result = await this.context.AuthorProjectContributions.Select(e => e.ToModel()).ToListAsync(cancellationToken);
                 return result;
             }
         }

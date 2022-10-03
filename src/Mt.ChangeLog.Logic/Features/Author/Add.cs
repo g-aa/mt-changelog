@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.Author;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -77,7 +77,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
             }
 
             /// <inheritdoc />
-            public async Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -88,15 +88,25 @@ namespace Mt.ChangeLog.Logic.Features.Author
 
                 if (this.context.Authors.IsContained(dbAuthor))
                 {
-                    throw new ArgumentException($"Сущность '{dbAuthor}' уже содержится в системе.");
+                    throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbAuthor}' уже содержится в системе.");
                 }
 
-                await this.context.Authors.AddAsync(dbAuthor);
-                await this.context.SaveChangesAsync();
+                return this.SaveChangesAsync(dbAuthor, cancellationToken);
+            }
 
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<BaseModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.Author entity, CancellationToken cancellationToken)
+            {
+                await this.context.Authors.AddAsync(entity, cancellationToken);
+                await this.context.SaveChangesAsync(cancellationToken);
                 return new BaseModel()
                 {
-                    Id = dbAuthor.Id,
+                    Id = entity.Id,
                 };
             }
         }
