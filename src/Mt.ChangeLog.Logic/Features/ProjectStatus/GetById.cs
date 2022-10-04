@@ -86,7 +86,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectStatus
                     .Search(request.Model.Id)
                     .ToModel();
 
-                return result;
+                return await Task.FromResult(result);
             }
         }
     }

@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectStatus;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -77,24 +77,32 @@ namespace Mt.ChangeLog.Logic.Features.ProjectStatus
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
 
                 var dbProjectStatus = this.context.ProjectStatuses.Search(model.Id);
-
                 if (dbProjectStatus.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию '{dbProjectStatus}' не может быть обновлена.");
+                    throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbProjectStatus}' не может быть обновлена.");
                 }
 
-                dbProjectStatus.GetBuilder()
-                    .SetAttributes(model)
-                    .Build();
-                await this.context.SaveChangesAsync();
+                dbProjectStatus.GetBuilder().SetAttributes(model).Build();
+                return this.SaveChangesAsync(dbProjectStatus, cancellationToken);
+            }
 
-                return new StatusModel($"'{dbProjectStatus}' обновлен в системе.");
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ProjectStatus entity, CancellationToken cancellationToken)
+            {
+                this.context.ProjectStatuses.Update(entity);
+                await this.context.SaveChangesAsync(cancellationToken);
+                return new StatusModel($"'{entity}' обновлен в системе.");
             }
         }
     }
