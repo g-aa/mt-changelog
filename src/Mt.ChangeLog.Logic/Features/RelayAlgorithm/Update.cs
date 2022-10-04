@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -77,7 +77,7 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -86,15 +86,24 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
 
                 if (dbAlgorithm.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию '{dbAlgorithm}' не может быть обновлена.");
+                    throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbAlgorithm}' не может быть обновлена.");
                 }
 
-                dbAlgorithm.GetBuilder()
-                    .SetAttributes(model)
-                    .Build();
-                await this.context.SaveChangesAsync();
+                dbAlgorithm.GetBuilder().SetAttributes(model).Build();
+                return this.SaveChangesAsync(dbAlgorithm, cancellationToken);
+            }
 
-                return new StatusModel($"'{dbAlgorithm}' обновлен в системе.");
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.RelayAlgorithm entity, CancellationToken cancellationToken)
+            {
+                this.context.RelayAlgorithms.Update(entity);
+                await this.context.SaveChangesAsync(cancellationToken);
+                return new StatusModel($"'{entity}' обновлен в системе.");
             }
         }
     }

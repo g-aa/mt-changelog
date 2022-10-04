@@ -65,10 +65,11 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.RelayAlgorithms.AsNoTracking()
+                var result = await this.context.RelayAlgorithms.AsNoTracking()
                     .OrderBy(e => e.Group)
                     .ThenBy(e => e.Title)
-                    .Select(e => e.ToShortModel());
+                    .Select(e => e.ToShortModel())
+                    .ToListAsync(cancellationToken);
 
                 return result;
             }
