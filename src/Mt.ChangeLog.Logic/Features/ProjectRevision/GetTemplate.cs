@@ -85,10 +85,10 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
                     .FirstOrDefault()
                     .ToShortModel();
 
-                var communications = lastRevision?.Communication.ToShortModel();
-                if (communications is null)
+                var communication = lastRevision?.Communication.ToShortModel();
+                if (communication is null)
                 {
-                    communications = this.context.Communications
+                    communication = this.context.Communications
                         .OrderByDescending(e => e.Title)
                         .FirstOrDefault()
                         .ToShortModel();
@@ -108,7 +108,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
                     ProjectVersion = project,
                     Revision = revision,
                     ArmEdit = armEdit,
-                    Communication = communications,
+                    Communication = communication,
                     RelayAlgorithms = algorithms,
                     Authors = authors,
                 });

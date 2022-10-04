@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -77,7 +77,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
@@ -86,7 +86,9 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
                     .Include(e => e.ProjectVersion)
                     .Search(request.Model.Id);
 
-                throw new NotImplementedException($"Удаление редакций проекта '{dbRemovable}' не доступно, поддерживается только функционал по удалению версии проекта со всеми редакциями");
+                return Task.FromException<StatusModel>(new MtException(
+                    ErrorCode.EntityCannotBeDeleted,
+                    $"Удаление редакций проекта '{dbRemovable}' не доступно, поддерживается только функционал по удалению версии проекта со всеми редакциями."));
             }
         }
     }

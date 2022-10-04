@@ -94,12 +94,12 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
 
                 if (result.ParentRevisionId != Guid.Empty)
                 {
-                    this.context.ProjectRevisions.AsNoTracking()
+                    result.ParentRevision = this.context.ProjectRevisions.AsNoTracking()
                         .Include(e => e.ProjectVersion.AnalogModule)
                         .Search(result.ParentRevisionId);
                 }
 
-                return result.ToModel();
+                return await Task.FromResult(result.ToModel());
             }
         }
     }

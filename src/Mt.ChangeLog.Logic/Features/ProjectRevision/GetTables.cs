@@ -65,11 +65,12 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.ProjectRevisions.AsNoTracking()
+                var result = await this.context.ProjectRevisions.AsNoTracking()
                     .Include(pr => pr.ArmEdit)
                     .Include(pr => pr.ProjectVersion.AnalogModule)
                     .OrderByDescending(pr => pr.Date).ThenByDescending(pr => pr.ArmEdit.Version)
-                    .Select(pr => pr.ToTableModel());
+                    .Select(pr => pr.ToTableModel())
+                    .ToListAsync(cancellationToken);
 
                 return result;
             }

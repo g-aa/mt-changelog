@@ -9,6 +9,7 @@ using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
+using Mt.Utilities.Exceptions;
 using System;
 using System.Linq;
 using System.Threading;
@@ -79,7 +80,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
             }
 
             /// <inheritdoc />
-            public async Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -114,15 +115,25 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
 
                 if (this.context.ProjectRevisions.Include(e => e.ProjectVersion).IsContained(dbProjectRevision))
                 {
-                    throw new ArgumentException($"Сущность '{dbProjectRevision}' уже содержится в системе.");
+                    throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbProjectRevision}' уже содержится в системе.");
                 }
 
-                await this.context.ProjectRevisions.AddAsync(dbProjectRevision);
-                await this.context.SaveChangesAsync();
+                return this.SaveChangesAsync(dbProjectRevision, cancellationToken);
+            }
 
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<BaseModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ProjectRevision entity, CancellationToken cancellationToken)
+            {
+                await this.context.ProjectRevisions.AddAsync(entity, cancellationToken);
+                await this.context.SaveChangesAsync(cancellationToken);
                 return new BaseModel()
                 {
-                    Id = dbProjectRevision.Id,
+                    Id = entity.Id,
                 };
             }
         }

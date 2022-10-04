@@ -1,19 +1,18 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
+using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.Utilities;
 using Mt.Utilities.IO;
 using System;
-using System.Collections.Generic;
-using System.IO.Compression;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Mt.ChangeLog.Entities.Extensions.Views;
-using Microsoft.EntityFrameworkCore;
 
 namespace Mt.ChangeLog.Logic.Features.File
 {
@@ -69,33 +68,66 @@ namespace Mt.ChangeLog.Logic.Features.File
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var projects = await this.context.LastProjectRevisions
-                    .OrderBy(e => e.Prefix).ThenBy(e => e.Title).ThenBy(e => e.Version)
-                    .Select(e => e.ToProjectVersionShortModel()).ToListAsync();
+                // получить полный перечень ID-s всех проектов.
+                var projectIds = await this.context.ProjectVersions.AsNoTracking()
+                    .Select(e => e.Id).ToListAsync(cancellationToken);
 
-                //FileModel result = null;
-                //using (MemoryStream outStream = new MemoryStream())
-                //{
-                //    using (ZipArchive archive = new ZipArchive(outStream, ZipArchiveMode.Create, true))
-                //    {
-                //        foreach (var project in projects)
-                //        {
-                //            var projectFile = new FileModel(this.service.GetProjectVersionHistory(project.Id));
-                //            ZipArchiveEntry entry = archive.CreateEntry(projectFile.Title);
-                //            using (var entryStream = entry.Open())
-                //            {
-                //                using (MemoryStream writer = new MemoryStream(projectFile.Bytes.ToArray()))
-                //                {
-                //                    writer.CopyTo(entryStream);
-                //                }
-                //            }
-                //        }
-                //    }
-                //    result = new FileModel("ChangeLog.zip", outStream.ToArray());
-                //}
+                FileModel result = null;
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    using (ZipArchive archive = new ZipArchive(outStream, ZipArchiveMode.Create, true))
+                    {
+                        foreach (var id in projectIds)
+                        {
+                            var projectFile = new ProjectHistoryFileModel(await this.GetProjectVersionHistory(id, cancellationToken));
+                            ZipArchiveEntry entry = archive.CreateEntry(projectFile.Title);
+                            using (var entryStream = entry.Open())
+                            {
+                                using (MemoryStream writer = new MemoryStream(projectFile.Bytes.ToArray()))
+                                {
+                                    writer.CopyTo(entryStream);
+                                }
+                            }
+                        }
+                    }
+                    result = new ZipFileModel("ChangeLog", outStream.ToArray());
+                }
 
-                //return await Task.FromResult(result);
-                throw new Exception();
+                return result;
+            }
+
+            /// <summary>
+            /// Получить полную историю версии проекта.
+            /// </summary>
+            /// <param name="guid">ИД версии проекта.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат.</returns>
+            private async Task<ProjectVersionHistoryModel> GetProjectVersionHistory(Guid guid, CancellationToken cancellationToken)
+            {
+                var query = this.context.ProjectRevisions.AsNoTracking()
+                    .Include(e => e.ArmEdit)
+                    .Include(e => e.Authors)
+                    .Include(e => e.ProjectVersion.AnalogModule)
+                    .Include(e => e.ProjectVersion.Platform)
+                    .Include(e => e.Communication.Protocols)
+                    .Include(e => e.RelayAlgorithms)
+                    .AsSingleQuery();
+
+                var entity = await query.Where(pr => pr.ProjectVersion.Id == guid)
+                    .OrderByDescending(pr => pr.Revision)
+                    .FirstAsync(cancellationToken);
+
+                var result = new ProjectVersionHistoryModel()
+                {
+                    Title = $"{entity.ProjectVersion.Prefix}-{entity.ProjectVersion.Title}-{entity.ProjectVersion.Version}",
+                };
+                
+                do
+                {
+                    result.History.Add(entity.ToHistoryModel());
+                } while ((entity = await query.FirstOrDefaultAsync(pr => pr.Id == entity.ParentRevisionId, cancellationToken)) != null);
+                
+                return result;
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Mt.ChangeLog.Logic.Features.File;
 using Mt.ChangeLog.Logic.Features.History;
 using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.Other;
@@ -59,7 +60,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
         public async Task<IActionResult> GetChangeLogArchive(CancellationToken token = default)
         {
-            return this.Ok();
+            var query = new GetFullArchive.Query();
+            var result = await this.mediator.Send(query, token);
+            return this.Ok(result);
         }
     }
 }
