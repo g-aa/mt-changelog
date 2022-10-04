@@ -100,6 +100,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
                     .SetAnalogModule(dbAnalogModule)
                     .Build();
 
+                this.context.ProjectVersions.Update(dbProjectVersion);
                 await this.context.SaveChangesAsync();
 
                 return new StatusModel($"'{dbProjectVersion}' обновлен в системе.");
