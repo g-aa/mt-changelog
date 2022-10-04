@@ -65,9 +65,10 @@ namespace Mt.ChangeLog.Logic.Features.Protocol
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = this.context.Protocols.AsNoTracking()
+                var result = await this.context.Protocols.AsNoTracking()
                     .OrderBy(p => p.Title)
-                    .Select(p => p.ToTableModel());
+                    .Select(p => p.ToTableModel())
+                    .ToListAsync(cancellationToken);
 
                 return result;
             }

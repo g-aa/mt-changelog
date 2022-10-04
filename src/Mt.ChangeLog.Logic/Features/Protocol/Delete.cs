@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.Protocol;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,7 +78,7 @@ namespace Mt.ChangeLog.Logic.Features.Protocol
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -90,25 +90,32 @@ namespace Mt.ChangeLog.Logic.Features.Protocol
 
                 if (dbRemovable.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию '{dbRemovable}' не может быть удалена из системы.");
+                    throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность по умолчанию '{dbRemovable}' не может быть удалена из системы.");
                 }
 
                 if (dbRemovable.Communications.Any())
                 {
                     var defProtocol = this.context.Protocols.First(e => e.Default);
-                    foreach (var dbModule in dbRemovable.Communications)
+                    foreach (var dbModule in dbRemovable.Communications.Where(c => c.Protocols.Remove(dbRemovable) && !c.Protocols.Any()))
                     {
-                        dbModule.Protocols.Remove(dbRemovable);
-                        if (!dbModule.Protocols.Any())
-                        {
-                            dbModule.Protocols.Add(defProtocol);
-                        }
+                        dbModule.Protocols.Add(defProtocol);
                     }
                 }
-                this.context.Protocols.Remove(dbRemovable);
-                await this.context.SaveChangesAsync();
+                
+                return this.SaveChangesAsync(dbRemovable, cancellationToken);
+            }
 
-                return new StatusModel($"Сущность '{dbRemovable}' был удалена из системы.");
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.Protocol entity, CancellationToken cancellationToken)
+            {
+                this.context.Protocols.Remove(entity);
+                await this.context.SaveChangesAsync(cancellationToken);
+                return new StatusModel($"'{entity}' был удален из системы.");
             }
         }
     }

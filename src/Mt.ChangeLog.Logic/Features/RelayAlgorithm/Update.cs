@@ -83,7 +83,6 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
                 this.logger.LogInformation(request.ToString());
 
                 var dbAlgorithm = this.context.RelayAlgorithms.Search(model.Id);
-
                 if (dbAlgorithm.Default)
                 {
                     throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbAlgorithm}' не может быть обновлена.");

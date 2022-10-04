@@ -8,7 +8,7 @@ using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.Protocol;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System;
+using Mt.Utilities.Exceptions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -78,16 +78,15 @@ namespace Mt.ChangeLog.Logic.Features.Protocol
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
 
                 var dbProtocol = this.context.Protocols.Search(model.Id);
-
                 if (dbProtocol.Default)
                 {
-                    throw new ArgumentException($"Сущность по умолчанию '{dbProtocol}' не может быть обновлена.");
+                    throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbProtocol}' не может быть обновлена.");
                 }
 
                 var dbModules = this.context.Communications
@@ -96,9 +95,21 @@ namespace Mt.ChangeLog.Logic.Features.Protocol
                     .SetAttributes(model)
                     .SetModules(dbModules)
                     .Build();
-                await this.context.SaveChangesAsync();
 
-                return new StatusModel($"'{dbProtocol}' обновлен в системе.");
+                return this.SaveChangesAsync(dbProtocol, cancellationToken);
+            }
+
+            /// <summary>
+            /// Сохранить изменения сущности.
+            /// </summary>
+            /// <param name="entity">Сущность.</param>
+            /// <param name="cancellationToken">Токен отмены.</param>
+            /// <returns>Результат выполнения.</returns>
+            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.Protocol entity, CancellationToken cancellationToken)
+            {
+                this.context.Protocols.Update(entity);
+                await this.context.SaveChangesAsync(cancellationToken);
+                return new StatusModel($"'{entity}' обновлен в системе.");
             }
         }
     }

@@ -64,14 +64,15 @@ namespace Mt.ChangeLog.Logic.Features.Protocol
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var communications = this.context.Communications.AsNoTracking()
+                var communications = await this.context.Communications.AsNoTracking()
                     .Where(e => e.Default)
-                    .Select(e => e.ToShortModel());
+                    .Select(e => e.ToShortModel())
+                    .ToListAsync(cancellationToken);
 
-                return await Task.FromResult(new ProtocolModel()
+                return new ProtocolModel()
                 {
                     Communications = communications,
-                });
+                };
             }
         }
     }
