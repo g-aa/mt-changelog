@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.File;
 using Mt.ChangeLog.Logic.Features.History;
-using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.WebAPI.Infrastracture;
 using Mt.Utilities.IO;
@@ -36,7 +35,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <returns>Результат действия.</returns>
         [HttpGet]
         [Route("changelog/{id:guid}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Полная история изменения версии проекта.", typeof(ProjectVersionHistoryModel))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Полная история изменения версии проекта.", typeof(FileModel))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]

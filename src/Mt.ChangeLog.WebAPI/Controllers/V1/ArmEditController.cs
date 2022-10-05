@@ -28,7 +28,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все краткие модели <see cref="ArmEditShortModel"/>.
+        /// Получить полный перечень краткие модели Arm-Edit.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -46,7 +46,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="ArmEditTableModel"/> представления для таблиц.
+        /// Получить полный перечень модели Arm-Edit для табличного представления.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -64,7 +64,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="ArmEditModel"/>.
+        /// Получить шаблон модели Arm-Edit.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -82,7 +82,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить актуальную версию модели <see cref="ArmEditModel"/>.
+        /// Получить актуальную версию Arm-Edit.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -100,7 +100,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="ArmEditModel"/> по идентификатору.
+        /// Получить полную модель Arm-Edit по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>
@@ -119,7 +119,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Добавить новый ArmEdit в систему.
+        /// Добавить новый Arm-Edit в систему.
         /// </summary>
         /// <param name="model">Модель.</param>
         /// <param name="token">Токен отмены.</param>
@@ -137,7 +137,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Обновить ArmEdit в системе.
+        /// Обновить Arm-Edit в системе.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="model">Модель.</param>
@@ -158,7 +158,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Удалить ArmEdit из системы.
+        /// Удалить Arm-Edit из системы.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>

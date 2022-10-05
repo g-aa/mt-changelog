@@ -28,7 +28,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все краткие модели <see cref="CommunicationShortModel"/>.
+        /// Получить полный перечень кратких моделей коммуникационных модулей.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -46,7 +46,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="CommunicationTableModel"/> представления для таблиц.
+        /// Получить полный перечень моделей коммуникационных модулей для табличного представления.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -64,7 +64,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="CommunicationModel"/>.
+        /// Получить шаблон модели коммуникационного модуля.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -82,7 +82,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="CommunicationModel"/> по идентификатору.
+        /// Получить полную модель коммуникационного модуля по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>

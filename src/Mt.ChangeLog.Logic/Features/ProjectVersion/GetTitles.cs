@@ -9,12 +9,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mt.ChangeLog.Logic.Features.History
+namespace Mt.ChangeLog.Logic.Features.ProjectVersion
 {
     /// <summary>
     /// Запрос на получение перечня наименование версий проектов.
     /// </summary>
-    public static class GetProjectTitles
+    public static class GetTitles
     {
         /// <inheritdoc />
         public sealed class Query : MtQuery<Unit, IEnumerable<string>>
@@ -61,9 +61,9 @@ namespace Mt.ChangeLog.Logic.Features.History
             public async Task<IEnumerable<string>> Handle(Query request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
+                logger.LogInformation(request.ToString());
 
-                var result = await this.context.ProjectVersions.AsNoTracking()
+                var result = await context.ProjectVersions.AsNoTracking()
                     .Select(e => e.Title)
                     .Distinct()
                     .OrderBy(e => e)

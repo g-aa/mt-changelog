@@ -28,7 +28,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все краткие модели <see cref="AuthorShortModel"/>.
+        /// Получить полный перечень кратких моделей авторов проектов.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -46,7 +46,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="AuthorTableModel"/> представления для таблиц.
+        /// Получить полный перечень моделей авторов проектов для табличного представления.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -64,7 +64,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="AuthorContributionModel"/>.
+        /// Получить полный перечень моделей автор-общий вклад в разработку.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -82,7 +82,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="AuthorProjectContributionModel"/>.
+        /// Получить полный перечень моделей автор-вклад по проектам.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -100,7 +100,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="AuthorModel"/>.
+        /// Получить шаблон модели автора проекта.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -118,7 +118,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="AuthorModel"/> по идентификатору.
+        /// Получить полную модель автора проекта по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>
@@ -137,7 +137,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Добавить нового автора в систему.
+        /// Добавить нового автора проектов в систему.
         /// </summary>
         /// <param name="model">Модель.</param>
         /// <param name="token">Токен отмены.</param>
@@ -155,7 +155,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Обновить автора в системе.
+        /// Обновить автора проектов в системе.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="model">Модель.</param>
@@ -176,7 +176,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Удалить автора из системы.
+        /// Удалить автора проектов из системы.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>

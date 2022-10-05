@@ -21,7 +21,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
             var result = new ProtocolShortModel()
             {
                 Id = entity.Id,
-                Title = entity.Title
+                Title = entity.Title,
             };
             return result;
         }
@@ -38,6 +38,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
             {
                 Id = entity.Id,
                 Title = entity.Title,
+                Description = entity.Description,
             };
             return result;
         }
@@ -55,7 +56,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
                 Id = entity.Id,
                 Title = entity.Title,
                 Description = entity.Description,
-                Communications = entity.Communications.OrderBy(e => e.Title).Select(e => e.ToShortModel())
+                Communications = entity.Communications.OrderBy(e => e.Title).Select(e => e.ToShortModel()),
             };
             return result;
         }

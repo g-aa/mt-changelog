@@ -28,6 +28,24 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
+        /// Получить статистику по имеющимся данным в системе.
+        /// </summary>
+        /// <param name="token">Токен отмены.</param>
+        /// <returns>Результат действия.</returns>
+        [HttpGet]
+        [Route("statistics")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Получить статистику по имеющимся данным в системе.", typeof(StatisticsModel))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
+        public async Task<IActionResult> GetStatisticsModel(CancellationToken token = default)
+        {
+            var query = new GetStatistics.Query();
+            var result = await this.mediator.Send(query, token);
+            return this.Ok(result);
+        }
+
+        /// <summary>
         /// Получить историю изменения для версии проета.
         /// </summary>
         /// <param name="id">Идентификатор версии проекта.</param>
@@ -66,24 +84,6 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить перечень наименование версий проектов.
-        /// </summary>
-        /// <param name="token">Токен отмены.</param>
-        /// <returns>Результат действия.</returns>
-        [HttpGet]
-        [Route("project/title")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень наименование проектов.", typeof(IEnumerable<string>))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
-        public async Task<IActionResult> GetProjectTitles(CancellationToken token = default)
-        {
-            var query = new GetProjectTitles.Query();
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
-        }
-
-        /// <summary>
         /// Получить дерево изменений проекта.
         /// </summary>
         /// <param name="title">Наименование версии проекта.</param>
@@ -98,24 +98,6 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         public async Task<IActionResult> GetTreeModel([FromRoute] string title, CancellationToken token = default)
         {
             var query = new GetProjectTree.Query(title);
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
-        }
-
-        /// <summary>
-        /// Получить статистику по имеющимся данным в системе.
-        /// </summary>
-        /// <param name="token">Токен отмены.</param>
-        /// <returns>Результат действия.</returns>
-        [HttpGet]
-        [Route("statistics")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Получить статистику по имеющимся данным в системе.", typeof(StatisticsModel))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
-        public async Task<IActionResult> GetStatisticsModel(CancellationToken token = default)
-        {
-            var query = new GetStatistics.Query();
             var result = await this.mediator.Send(query, token);
             return this.Ok(result);
         }

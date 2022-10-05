@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.RelayAlgorithm;
-using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.ChangeLog.TransferObjects.Other;
+using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
+using Mt.ChangeLog.WebAPI.Infrastracture;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Mt.ChangeLog.WebAPI.Infrastracture;
 
 namespace Mt.ChangeLog.WebAPI.Controllers.V1
 {
@@ -28,7 +28,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все краткие модели <see cref="RelayAlgorithmShortModel"/>.
+        /// Получить полный перечень кратких моделей алгоритмов РЗиА.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -46,7 +46,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="RelayAlgorithmTableModel"/> представления для таблиц.
+        /// Получить полный перечень моделей алгоритмов РЗиА для табличного представления.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -64,7 +64,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="RelayAlgorithmModel"/>.
+        /// Получить шаблон модели алгоритма РЗиА.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -82,7 +82,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="RelayAlgorithmModel"/> по идентификатору.
+        /// Получить полную модель алгоритма РЗиА по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>
@@ -101,7 +101,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Добавить новый алгоритм в систему.
+        /// Добавить новый алгоритм РЗиА в систему.
         /// </summary>
         /// <param name="model">Модель.</param>
         /// <param name="token">Токен отмены.</param>
@@ -119,7 +119,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Обновить алгоритм в системе.
+        /// Обновить алгоритм РЗиА в системе.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="model">Модель.</param>
@@ -140,7 +140,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Удалить алгоритм из системы.
+        /// Удалить алгоритм РЗиА из системы.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>

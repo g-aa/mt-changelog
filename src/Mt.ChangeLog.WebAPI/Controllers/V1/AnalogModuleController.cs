@@ -28,7 +28,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все краткие модели <see cref="AnalogModuleShortModel"/>.
+        /// Получить полный перечень кратких модели аналоговых модулей применяемых в блоках БМРЗ.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -46,7 +46,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="AnalogModuleTableModel"/> представления для таблиц.
+        /// Получить полный перечень моделей аналоговых модулей применяемых в блоках БМРЗ для табличного представления.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -64,7 +64,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="AnalogModuleModel"/>.
+        /// Получить шаблон модели аналогового модуля применяемого в блоках БМРЗ.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -82,7 +82,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="AnalogModuleModel"/> по идентификатору.
+        /// Получить полную модель аналогового модуля применяемого в блоках БМРЗ по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>

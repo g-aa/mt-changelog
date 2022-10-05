@@ -31,7 +31,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         #region [ Project status ]
 
         /// <summary>
-        /// Получить все краткие модели <see cref="ProjectStatusShortModel"/>.
+        /// Получить полный перечень кратких моделей статусов проекта.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -49,7 +49,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="ProjectStatusTableModel"/> представления для таблиц.
+        /// Получить полный перечень моделей статусов проекта для табличного представления.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -67,7 +67,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="ProjectStatusModel"/>.
+        /// Получить шаблон модели статуса проекта.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -85,7 +85,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="ProjectStatusModel"/> по идентификатору.
+        /// Получить полную модель статуса проекта по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>
@@ -167,7 +167,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         #region [ Project version ]
 
         /// <summary>
-        /// Получить все краткие модели <see cref="ProjectVersionShortModel"/>.
+        /// Получить полный перечень кратких моделей версий проектов.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -185,7 +185,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="ProjectVersionTableModel"/> представления для таблиц.
+        /// Получить полный перечень модели версий проектов для табличного представления.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -203,7 +203,25 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="ProjectVersionModel"/>.
+        /// Получить перечень наименование версий проектов.
+        /// </summary>
+        /// <param name="token">Токен отмены.</param>
+        /// <returns>Результат действия.</returns>
+        [HttpGet]
+        [Route("version/title")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень наименование версий проектов.", typeof(IEnumerable<string>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
+        public async Task<IActionResult> GetProjectTitles(CancellationToken token = default)
+        {
+            var query = new Mt.ChangeLog.Logic.Features.ProjectVersion.GetTitles.Query();
+            var result = await this.mediator.Send(query, token);
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// Получить шаблон модели версии проекта.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -221,7 +239,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="ProjectVersionModel"/> по идентификатору.
+        /// Получить полную модель версии проекта по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>
@@ -303,7 +321,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         #region [ Project revision ]
 
         /// <summary>
-        /// Получить все краткие модели <see cref="ProjectRevisionShortModel"/>.
+        /// Получить полный перечень кратких модели редакций проектов.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -321,7 +339,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="ProjectRevisionTableModel"/> представления для таблиц.
+        /// Получить полный перечень модели редакций проектов для табличного представления.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -339,9 +357,27 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="ProjectRevisionModel"/>.
+        /// Получить перечень последних редакций проектов.
         /// </summary>
-        /// <param name="id">Идентификатор.</param>
+        /// <param name="token">Токен отмены.</param>
+        /// <returns>Результат действия.</returns>
+        [HttpGet]
+        [Route("revision/last")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Перечень модель последних редакции проектов.", typeof(IEnumerable<LastProjectRevisionModel>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
+        public async Task<IActionResult> GetLatestRevisionModel(CancellationToken token = default)
+        {
+            var query = new Mt.ChangeLog.Logic.Features.ProjectRevision.GetLatest.Query();
+            var result = await this.mediator.Send(query, token);
+            return this.Ok(result);
+        }
+
+        /// <summary>
+        /// Получить шаблон модели редакции проекта.
+        /// </summary>
+        /// <param name="id">Идентификатор версии проекта.</param>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpGet]
@@ -358,7 +394,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="ProjectRevisionModel"/> по идентификатору.
+        /// Получить полную модель редакции проекта по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>

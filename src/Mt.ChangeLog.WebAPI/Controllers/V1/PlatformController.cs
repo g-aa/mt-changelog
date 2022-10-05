@@ -28,7 +28,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все краткие модели <see cref="PlatformShortModel"/>.
+        /// Получить полный перечень кратких моделей платформ БМРЗ.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -46,7 +46,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить все модели <see cref="PlatformTableModel"/> представления для таблиц.
+        /// Получить полный перечень моделей платформ БМРЗ для табличного представления.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -64,7 +64,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить шаблон модели <see cref="PlatformModel"/>.
+        /// Получить шаблон модели платформы БМРЗ.
         /// </summary>
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
@@ -82,7 +82,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Получить полную модель <see cref="PlatformModel"/> по идентификатору.
+        /// Получить полную модель платформ БМРЗ по идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>
@@ -101,7 +101,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Добавить новую платформу в систему.
+        /// Добавить новую платформу БМРЗ в систему.
         /// </summary>
         /// <param name="model">Модель.</param>
         /// <param name="token">Токен отмены.</param>
@@ -119,7 +119,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Обновить платформу в системе.
+        /// Обновить платформу БМРЗ в системе.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="model">Модель.</param>
@@ -140,7 +140,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         }
 
         /// <summary>
-        /// Удалить платформу из системы.
+        /// Удалить платформу БМРЗ из системы.
         /// </summary>
         /// <param name="id">Идентификатор.</param>
         /// <param name="token">Токен отмены.</param>

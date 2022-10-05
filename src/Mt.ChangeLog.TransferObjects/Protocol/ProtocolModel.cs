@@ -7,13 +7,8 @@ namespace Mt.ChangeLog.TransferObjects.Protocol
     /// <summary>
     /// Полная модель протокола информационнго обмена.
     /// </summary>
-    public class ProtocolModel : ProtocolShortModel
+    public class ProtocolModel : ProtocolTableModel
     {
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        public string Description { get; set; }
-
         /// <summary>
         /// Перечень коммуникационных модулей.
         /// </summary>
@@ -24,7 +19,6 @@ namespace Mt.ChangeLog.TransferObjects.Protocol
         /// </summary>
         public ProtocolModel() : base()
         {
-            this.Description = DefaultString.Description;
             this.Communications = new HashSet<CommunicationShortModel>();
         }
 
