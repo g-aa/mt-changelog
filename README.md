@@ -97,6 +97,6 @@ SonarAnalyzer.CSharp, Npgsql, Npgsql.EFCore, Dapper, NUnit, Swashbuckle, MediatR
     - При выводе и визуализации истории изменений также выводятся версии и редакции проектов (в хронологическом порядке), на основании которых разработана рассматриваемая версия проекта.
         <p align="center"><img src="images/projectHistory.png" width="65%" /></p>
 
-14. **таблица актуальных редакций БФПО**
+14. **таблица актуальных редакций БФПО:**
     - Раздел предназначен для просмотра номеров актуальных редакций всех проектов (БФПО) используемых в блоках БМРЗ-100/120/150/160.
-        <p align="center"><img src="images/lastProjectRevision.PNG" width="65%" /></p>
+        <p align="center"><img src="images/lastProjectRevision.png" width="65%" /></p>
