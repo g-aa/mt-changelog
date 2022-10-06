@@ -42,6 +42,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.DataAccess", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.DataAccess.Abstractions", "src\Mt.ChangeLog.DataAccess.Abstractions\Mt.ChangeLog.DataAccess.Abstractions.csproj", "{4202C3B4-F2C3-4DB8-B2D0-9E585581016E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{A73544EB-99CC-4FCB-96B7-2C3B5A96E6DB}"
+	ProjectSection(SolutionItems) = preProject
+		images\analogModule.png = images\analogModule.png
+		images\armEdit.png = images\armEdit.png
+		images\communication.png = images\communication.png
+		images\database.png = images\database.png
+		images\home.png = images\home.png
+		images\homeLog.png = images\homeLog.png
+		images\information.png = images\information.png
+		images\lastProjectRevision.png = images\lastProjectRevision.png
+		images\platform.png = images\platform.png
+		images\projectHistory.png = images\projectHistory.png
+		images\projectRevision.png = images\projectRevision.png
+		images\projectStatus.png = images\projectStatus.png
+		images\projectVersion.png = images\projectVersion.png
+		images\protocol.png = images\protocol.png
+		images\relayAlgorithm.png = images\relayAlgorithm.png
+		images\tree.png = images\tree.png
+		images\treeLog.png = images\treeLog.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
