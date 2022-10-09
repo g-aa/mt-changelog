@@ -21,7 +21,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
     public static class Delete
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<BaseModel, StatusModel>, IValidatedRequest
+        public sealed class Command : MtCommand<BaseModel, string>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -54,7 +54,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, StatusModel>
+        public sealed class Handler : IRequestHandler<Command, string>
         {
             /// <summary>
             /// Журнал логирования.
@@ -78,7 +78,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             }
 
             /// <inheritdoc />
-            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
@@ -106,11 +106,11 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ArmEdit entity, CancellationToken cancellationToken)
+            private async Task<string> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ArmEdit entity, CancellationToken cancellationToken)
             {
                 this.context.ArmEdits.Remove(entity);
                 await this.context.SaveChangesAsync(cancellationToken);
-                return new StatusModel($"'{entity}' был удален из системы.");
+                return $"'{entity}' был удален из системы.";
             }
         }
     }

@@ -6,7 +6,7 @@
 ## Перечень технологий (зависимости):
 
 netstandard2.1, net6.0, [Mt.Utilities](https://github.com/g-aa/mt-utilities), [Mt.Entities.Abstractions](https://github.com/g-aa/mt-entities-abstractions),
-SonarAnalyzer.CSharp, Npgsql, Npgsql.EFCore, Dapper, NUnit, Swashbuckle, MediatR, FluentValidation.
+[Mt.Results](https://github.com/g-aa/mt-results), SonarAnalyzer.CSharp, Npgsql, Npgsql.EFCore, Dapper, NUnit, Swashbuckle, MediatR, FluentValidation.
 
 ## [История изменения.](CHANGELOG.md)
 

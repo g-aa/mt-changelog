@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
-using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
@@ -21,7 +20,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
     public static class Add
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<ProjectVersionModel, BaseModel>, IValidatedRequest
+        public sealed class Command : MtCommand<ProjectVersionModel, string>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -54,7 +53,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, BaseModel>
+        public sealed class Handler : IRequestHandler<Command, string>
         {
             /// <summary>
             /// Журнал логирования.
@@ -78,7 +77,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
             }
 
             /// <inheritdoc />
-            public Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -114,14 +113,11 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<BaseModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ProjectVersion entity, CancellationToken cancellationToken)
+            private async Task<string> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ProjectVersion entity, CancellationToken cancellationToken)
             {
                 await this.context.ProjectVersions.AddAsync(entity, cancellationToken);
                 await this.context.SaveChangesAsync(cancellationToken);
-                return new BaseModel()
-                {
-                    Id = entity.Id,
-                };
+                return $"'{entity}' была добавлена в систему.";
             }
         }
     }

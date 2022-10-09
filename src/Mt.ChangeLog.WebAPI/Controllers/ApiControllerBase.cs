@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.Utilities;
+using Mt.Utilities.Exceptions;
 using System;
+using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.WebAPI.Controllers
 {
@@ -32,11 +34,11 @@ namespace Mt.ChangeLog.WebAPI.Controllers
         /// <param name="queryId">Идентификаторов полученый из URL.</param>
         /// <param name="bodyId">Идентификаторов полученый из модели в теле запроса.</param>
         /// <exception cref="ArgumentException">Срабатывает если uuids не равны между собой.</exception>
-        protected void CheckGuids(Guid queryId, Guid bodyId)
+        protected async Task CheckGuidsAsync(Guid queryId, Guid bodyId)
         {
             if (!queryId.Equals(bodyId))
             {
-                throw new ArgumentException($"Идентификатор из URL: '{queryId}' не равен идентификатору в модели из тела запроса: '{bodyId}'.");
+                await Task.FromException(new MtException(ErrorCode.EntityValidation, $"Идентификатор из URL: '{queryId}' не равен идентификатору в модели из тела запроса: '{bodyId}'."));
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
     public static class Delete
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<BaseModel, StatusModel>, IValidatedRequest
+        public sealed class Command : MtCommand<BaseModel, string>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -53,7 +53,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, StatusModel>
+        public sealed class Handler : IRequestHandler<Command, string>
         {
             /// <summary>
             /// Журнал логирования.
@@ -77,7 +77,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
             }
 
             /// <inheritdoc />
-            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
@@ -86,7 +86,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
                     .Include(e => e.ProjectVersion)
                     .Search(request.Model.Id);
 
-                return Task.FromException<StatusModel>(new MtException(
+                return Task.FromException<string>(new MtException(
                     ErrorCode.EntityCannotBeDeleted,
                     $"Удаление редакций проекта '{dbRemovable}' не доступно, поддерживается только функционал по удалению версии проекта со всеми редакциями."));
             }

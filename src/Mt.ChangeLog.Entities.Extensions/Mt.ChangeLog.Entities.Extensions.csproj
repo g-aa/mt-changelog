@@ -7,6 +7,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Mt.Utilities" Version="6.1.1" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Mt.ChangeLog.Entities\Mt.ChangeLog.Entities.csproj" />
 		<ProjectReference Include="..\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj" />
 	</ItemGroup>

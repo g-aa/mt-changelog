@@ -5,7 +5,6 @@ using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Communication;
-using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
@@ -21,7 +20,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
     public static class Add
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<CommunicationModel, BaseModel>, IValidatedRequest
+        public sealed class Command : MtCommand<CommunicationModel, string>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -54,7 +53,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, BaseModel>
+        public sealed class Handler : IRequestHandler<Command, string>
         {
             /// <summary>
             /// Журнал логирования.
@@ -78,7 +77,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
             }
 
             /// <inheritdoc />
-            public Task<BaseModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -105,14 +104,11 @@ namespace Mt.ChangeLog.Logic.Features.Communication
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<BaseModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.Communication entity, CancellationToken cancellationToken)
+            private async Task<string> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.Communication entity, CancellationToken cancellationToken)
             {
                 await this.context.Communications.AddAsync(entity, cancellationToken);
                 await this.context.SaveChangesAsync(cancellationToken);
-                return new BaseModel()
-                {
-                    Id = entity.Id,
-                };
+                return $"'{entity}' был добавлен в систему.";
             }
         }
     }

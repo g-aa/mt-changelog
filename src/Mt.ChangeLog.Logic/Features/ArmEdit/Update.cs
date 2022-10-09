@@ -5,7 +5,6 @@ using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
-using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
@@ -20,7 +19,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
     public static class Update
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<ArmEditModel, StatusModel>, IValidatedRequest
+        public sealed class Command : MtCommand<ArmEditModel, string>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -53,7 +52,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, StatusModel>
+        public sealed class Handler : IRequestHandler<Command, string>
         {
             /// <summary>
             /// Журнал логирования.
@@ -77,7 +76,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             }
 
             /// <inheritdoc />
-            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -98,11 +97,11 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ArmEdit entity, CancellationToken cancellationToken)
+            private async Task<string> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ArmEdit entity, CancellationToken cancellationToken)
             {
                 this.context.ArmEdits.Update(entity);
                 await this.context.SaveChangesAsync(cancellationToken);
-                return new StatusModel($"'{entity}' обновлен в системе.");
+                return $"'{entity}' обновлен в системе.";
             }
         }
     }

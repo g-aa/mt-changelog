@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.File;
 using Mt.ChangeLog.Logic.Features.History;
 using Mt.ChangeLog.TransferObjects.Other;
-using Mt.ChangeLog.WebAPI.Infrastracture;
+using Mt.Results;
 using Mt.Utilities.IO;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
@@ -36,9 +36,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("changelog/{id:guid}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полная история изменения версии проекта.", typeof(FileModel))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
         public async Task<IActionResult> GetProjectVersionChangeLog([FromRoute] Guid id, CancellationToken token = default)
         {
             var query = new GetProjectVersionHistory.Query(new BaseModel() { Id = id });
@@ -54,9 +54,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("changelog/archive/full")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный архив логов изменения проектов.", typeof(FileModel))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(ApiProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(ApiProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(ApiProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
         public async Task<IActionResult> GetChangeLogArchive(CancellationToken token = default)
         {
             var query = new GetFullArchive.Query();

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
-using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
@@ -20,7 +19,7 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
     public static class Update
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<RelayAlgorithmModel, StatusModel>, IValidatedRequest
+        public sealed class Command : MtCommand<RelayAlgorithmModel, string>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -53,7 +52,7 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, StatusModel>
+        public sealed class Handler : IRequestHandler<Command, string>
         {
             /// <summary>
             /// Журнал логирования.
@@ -77,7 +76,7 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
             }
 
             /// <inheritdoc />
-            public Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -98,11 +97,11 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<StatusModel> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.RelayAlgorithm entity, CancellationToken cancellationToken)
+            private async Task<string> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.RelayAlgorithm entity, CancellationToken cancellationToken)
             {
                 this.context.RelayAlgorithms.Update(entity);
                 await this.context.SaveChangesAsync(cancellationToken);
-                return new StatusModel($"'{entity}' обновлен в системе.");
+                return $"'{entity}' обновлен в системе.";
             }
         }
     }

@@ -18,7 +18,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
     public static class Delete
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<BaseModel, StatusModel>, IValidatedRequest
+        public sealed class Command : MtCommand<BaseModel, string>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -51,7 +51,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, StatusModel>
+        public sealed class Handler : IRequestHandler<Command, string>
         {
             /// <summary>
             /// Журнал логирования.
@@ -75,7 +75,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
             }
 
             /// <inheritdoc />
-            public async Task<StatusModel> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
@@ -84,7 +84,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
                 this.context.ProjectVersions.Remove(dbRemovable);
                 await this.context.SaveChangesAsync();
 
-                return new StatusModel($"'{dbRemovable}' был удалена из системы.");
+                return $"'{dbRemovable}' был удалена из системы.";
             }
         }
     }
