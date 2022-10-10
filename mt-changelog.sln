@@ -1,0 +1,136 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{15D1714F-A923-40B8-B477-6324E500C3A8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		CHANGELOG.md = CHANGELOG.md
+		Directory.Build.props = Directory.Build.props
+		favicon.ico = favicon.ico
+		iconLog.png = iconLog.png
+		iconMt.png = iconMt.png
+		iconNet.png = iconNet.png
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{183CB288-C2B0-43A2-ADEE-284A57BD6689}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2AC971DC-87FF-4172-8480-461D1FBAF942}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.TransferObjects", "src\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj", "{2BE9DD3E-ACA7-45C5-BF4D-A30474941BBA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.TransferObjects.Test", "tests\Mt.ChangeLog.TransferObjects.Test\Mt.ChangeLog.TransferObjects.Test.csproj", "{7C4B67E1-DF33-48C5-B8BE-30B4D6498B78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Entities", "src\Mt.ChangeLog.Entities\Mt.ChangeLog.Entities.csproj", "{E972F4C0-830F-48B1-83AE-E251274F6A25}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Entities.Extensions", "src\Mt.ChangeLog.Entities.Extensions\Mt.ChangeLog.Entities.Extensions.csproj", "{8ED63BED-A87D-48F3-B5BC-8FA57E68DD98}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Logic", "src\Mt.ChangeLog.Logic\Mt.ChangeLog.Logic.csproj", "{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Context", "src\Mt.ChangeLog.Context\Mt.ChangeLog.Context.csproj", "{BFA3A75E-CB7D-4C9A-BF92-20708ED5FB7B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Entities.Test", "tests\Mt.ChangeLog.Entities.Test\Mt.ChangeLog.Entities.Test.csproj", "{54A2A329-D0B5-4F0D-B973-EFA6C6724BA9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Logic.Test", "tests\Mt.ChangeLog.Logic.Test\Mt.ChangeLog.Logic.Test.csproj", "{D136EFD3-9A37-451E-BB30-E2ABEAEF101B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.WebAPI", "src\Mt.ChangeLog.WebAPI\Mt.ChangeLog.WebAPI.csproj", "{2871FC10-6C24-4B9D-AD2C-A74C90AE32E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.DataAccess", "src\Mt.ChangeLog.DataAccess\Mt.ChangeLog.DataAccess.csproj", "{3B602240-8582-4615-9935-B78AF1A3A762}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.DataAccess.Abstractions", "src\Mt.ChangeLog.DataAccess.Abstractions\Mt.ChangeLog.DataAccess.Abstractions.csproj", "{4202C3B4-F2C3-4DB8-B2D0-9E585581016E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{A73544EB-99CC-4FCB-96B7-2C3B5A96E6DB}"
+	ProjectSection(SolutionItems) = preProject
+		images\analogModule.png = images\analogModule.png
+		images\armEdit.png = images\armEdit.png
+		images\communication.png = images\communication.png
+		images\database.png = images\database.png
+		images\home.png = images\home.png
+		images\homeLog.png = images\homeLog.png
+		images\information.png = images\information.png
+		images\lastProjectRevision.png = images\lastProjectRevision.png
+		images\platform.png = images\platform.png
+		images\projectHistory.png = images\projectHistory.png
+		images\projectRevision.png = images\projectRevision.png
+		images\projectStatus.png = images\projectStatus.png
+		images\projectVersion.png = images\projectVersion.png
+		images\protocol.png = images\protocol.png
+		images\relayAlgorithm.png = images\relayAlgorithm.png
+		images\tree.png = images\tree.png
+		images\treeLog.png = images\treeLog.png
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BE9DD3E-ACA7-45C5-BF4D-A30474941BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BE9DD3E-ACA7-45C5-BF4D-A30474941BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BE9DD3E-ACA7-45C5-BF4D-A30474941BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BE9DD3E-ACA7-45C5-BF4D-A30474941BBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C4B67E1-DF33-48C5-B8BE-30B4D6498B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C4B67E1-DF33-48C5-B8BE-30B4D6498B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C4B67E1-DF33-48C5-B8BE-30B4D6498B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C4B67E1-DF33-48C5-B8BE-30B4D6498B78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E972F4C0-830F-48B1-83AE-E251274F6A25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E972F4C0-830F-48B1-83AE-E251274F6A25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E972F4C0-830F-48B1-83AE-E251274F6A25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E972F4C0-830F-48B1-83AE-E251274F6A25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ED63BED-A87D-48F3-B5BC-8FA57E68DD98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ED63BED-A87D-48F3-B5BC-8FA57E68DD98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ED63BED-A87D-48F3-B5BC-8FA57E68DD98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ED63BED-A87D-48F3-B5BC-8FA57E68DD98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFA3A75E-CB7D-4C9A-BF92-20708ED5FB7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFA3A75E-CB7D-4C9A-BF92-20708ED5FB7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFA3A75E-CB7D-4C9A-BF92-20708ED5FB7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFA3A75E-CB7D-4C9A-BF92-20708ED5FB7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54A2A329-D0B5-4F0D-B973-EFA6C6724BA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54A2A329-D0B5-4F0D-B973-EFA6C6724BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54A2A329-D0B5-4F0D-B973-EFA6C6724BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54A2A329-D0B5-4F0D-B973-EFA6C6724BA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D136EFD3-9A37-451E-BB30-E2ABEAEF101B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D136EFD3-9A37-451E-BB30-E2ABEAEF101B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D136EFD3-9A37-451E-BB30-E2ABEAEF101B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D136EFD3-9A37-451E-BB30-E2ABEAEF101B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2871FC10-6C24-4B9D-AD2C-A74C90AE32E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2871FC10-6C24-4B9D-AD2C-A74C90AE32E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2871FC10-6C24-4B9D-AD2C-A74C90AE32E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2871FC10-6C24-4B9D-AD2C-A74C90AE32E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B602240-8582-4615-9935-B78AF1A3A762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B602240-8582-4615-9935-B78AF1A3A762}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B602240-8582-4615-9935-B78AF1A3A762}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B602240-8582-4615-9935-B78AF1A3A762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4202C3B4-F2C3-4DB8-B2D0-9E585581016E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4202C3B4-F2C3-4DB8-B2D0-9E585581016E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4202C3B4-F2C3-4DB8-B2D0-9E585581016E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4202C3B4-F2C3-4DB8-B2D0-9E585581016E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2BE9DD3E-ACA7-45C5-BF4D-A30474941BBA} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+		{7C4B67E1-DF33-48C5-B8BE-30B4D6498B78} = {2AC971DC-87FF-4172-8480-461D1FBAF942}
+		{E972F4C0-830F-48B1-83AE-E251274F6A25} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+		{8ED63BED-A87D-48F3-B5BC-8FA57E68DD98} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+		{554A9F1D-A8C2-491A-82C9-AC9F38C15A43} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+		{BFA3A75E-CB7D-4C9A-BF92-20708ED5FB7B} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+		{54A2A329-D0B5-4F0D-B973-EFA6C6724BA9} = {2AC971DC-87FF-4172-8480-461D1FBAF942}
+		{D136EFD3-9A37-451E-BB30-E2ABEAEF101B} = {2AC971DC-87FF-4172-8480-461D1FBAF942}
+		{2871FC10-6C24-4B9D-AD2C-A74C90AE32E6} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+		{3B602240-8582-4615-9935-B78AF1A3A762} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+		{4202C3B4-F2C3-4DB8-B2D0-9E585581016E} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {162FF285-BB5B-4CD2-8CFF-69C996967D1E}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+		<Description>Web-сервис для доступа к данным MtChangeLog.</Description>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Mt.Results" Version="6.0.0" />
+        <PackageReference Include="Mt.Utilities" Version="6.1.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Mt.ChangeLog.Context\Mt.ChangeLog.Context.csproj" />
+        <ProjectReference Include="..\Mt.ChangeLog.DataAccess\Mt.ChangeLog.DataAccess.csproj" />
+        <ProjectReference Include="..\Mt.ChangeLog.Logic\Mt.ChangeLog.Logic.csproj" />
+        <ProjectReference Include="..\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj" />
+    </ItemGroup>
+
+</Project>
