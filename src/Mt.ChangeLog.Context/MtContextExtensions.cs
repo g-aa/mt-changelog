@@ -20,6 +20,7 @@ namespace Mt.ChangeLog.Context
             {
                 MtContextExtensions.AddDefaultEntities(context);
                 MtContextExtensions.CreateViews(context);
+                MtContextExtensions.CreateSqlFuncs(context);
                 context.SaveChanges();
             }
         }
@@ -345,6 +346,188 @@ namespace Mt.ChangeLog.Context
                 JOIN ProjectRevisionsAlgs prAlgs ON prAlgs.""ProjectRevisionId"" = pr.""Id""
                 JOIN ProjectRevisionsAthrs prAthrs ON prAthrs.""ProjectRevisionId"" = pr.""Id""
                 JOIN ProjectRevisionsProtocols prProts ON prProts.""CommunicationId"" = pr.""CommunicationId"";");
+        }
+
+        /// <summary>
+        /// Создать представления в базе данных <see cref="MtContext"/>.
+        /// </summary>
+        /// <param name="context">Контекст данных.</param>
+        private static void CreateSqlFuncs(MtContext context)
+        {
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_ActualArmEdit""()
+                    RETURNS TABLE(""Id"" uuid, ""Version"" character, ""DIVG"" character, ""Date"" timestamp without time zone, ""Description"" character varying) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT	arm.""Id"",
+			                arm.""Version"",
+			                arm.""DIVG"",
+			                arm.""Date"",                    
+			                arm.""Description""
+	                FROM ""{MtContext.Schema}"".""ArmEdit"" arm
+	                ORDER BY arm.""Version"" DESC
+	                LIMIT 1;
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_AnalogModule""(guid uuid)
+                    RETURNS TABLE(""Id"" uuid, ""Title"" character, ""DIVG"" character, ""Current"" character, ""Description"" character varying) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT 	am.""Id"",
+			                am.""Title"",
+		                    am.""DIVG"",
+                        	am.""Current"",
+		                    am.""Description""
+	                FROM ""{MtContext.Schema}"".""AnalogModule"" am
+	                WHERE am.""Id"" = ""guid"";       
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_ArmEdit""(guid uuid)
+                    RETURNS TABLE(""Id"" uuid, ""Version"" character, ""DIVG"" character, ""Date"" timestamp without time zone, ""Description"" character varying) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT	arm.""Id"",
+  			                arm.""Version"",
+                            arm.""DIVG"",
+                            arm.""Date"",                    
+                            arm.""Description""
+	                FROM ""{MtContext.Schema}"".""ArmEdit"" arm
+                    WHERE arm.""Id"" = guid;
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_PlatformsForAnalogModule""(guid uuid)
+                    RETURNS TABLE(""Id"" uuid, ""Title"" character) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                WITH AmPlatforms AS(
+		                SELECT pam.""PlatformsId""
+                        FROM ""{MtContext.Schema}"".""PlatformAnalogModule"" pam
+                        WHERE pam.""AnalogModulesId"" = ""guid""
+                    )                              
+	                SELECT p.""Id"",
+		                   p.""Title""
+  	                FROM ""{MtContext.Schema}"".""Platform"" p
+  	                JOIN AmPlatforms amp
+  	                ON p.""Id"" = amp.""PlatformsId"";
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_ShortAnalogModules""()
+                    RETURNS TABLE(""Id"" uuid, ""Title"" character) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT 	am.""Id"",
+           	                am.""Title""
+	                FROM ""{MtContext.Schema}"".""AnalogModule"" am;
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_ShortArmEdits""()
+                    RETURNS TABLE(""Id"" uuid, ""Version"" character) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT 	arm.""Id"", 
+    		                arm.""Version""
+	                FROM ""{MtContext.Schema}"".""ArmEdit"" arm;
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_TableAnalogModules""()
+                    RETURNS TABLE(""Id"" uuid, ""Title"" character, ""DIVG"" character, ""Current"" character, ""Description"" character varying) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT 	am.""Id"",
+           	                am.""Title"",
+		 	                am.""DIVG"",
+		 	                am.""Current"",
+		 	                am.""Description""
+  	                FROM ""{MtContext.Schema}"".""AnalogModule"" am;
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_TableArmEdits""()
+                    RETURNS TABLE(""Id"" uuid, ""Version"" character, ""DIVG"" character, ""Date"" timestamp without time zone, ""Description"" character varying) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT	arm.""Id"",
+    		                arm.""Version"",
+                            arm.""DIVG"",
+                            arm.""Date"",                    
+                            arm.""Description""
+	                FROM ""{MtContext.Schema}"".""ArmEdit"" arm;
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_Author""(guid uuid)
+                    RETURNS TABLE(""Id"" uuid, ""FirstName"" character varying, ""LastName"" character varying, ""Position"" character varying) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT	a.""Id"",
+                            a.""FirstName"",
+                            a.""LastName"",
+                            a.""Position""                    
+	                FROM ""{MtContext.Schema}"".""Author"" a
+	                WHERE a.""Id"" = guid;          
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_ShortAuthors""()
+                    RETURNS TABLE(""Id"" uuid, ""FirstName"" character varying, ""LastName"" character varying) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT	a.""Id"",
+                            a.""FirstName"",
+                            a.""LastName""
+                    FROM ""{MtContext.Schema}"".""Author"" a;            
+                $BODY$;");
+
+            context.Database.ExecuteSqlRaw(
+                $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_TableAuthors""()
+                    RETURNS TABLE(""Id"" uuid, ""FirstName"" character varying, ""LastName"" character varying, ""Position"" character varying) 
+                    LANGUAGE 'sql'
+                    COST 100
+                    VOLATILE PARALLEL UNSAFE
+                    ROWS 1000
+                AS $BODY$
+	                SELECT	a.""Id"",
+                            a.""FirstName"",
+                            a.""LastName"",
+			                a.""Position""
+                    FROM ""{MtContext.Schema}"".""Author"" a;            
+                $BODY$;");
         }
     }
 }

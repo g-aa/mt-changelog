@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Mt.ChangeLog.Context\Mt.ChangeLog.Context.csproj" />
+		<ProjectReference Include="..\Mt.ChangeLog.DataAccess.Abstractions\Mt.ChangeLog.DataAccess.Abstractions.csproj" />
 		<ProjectReference Include="..\Mt.ChangeLog.Entities.Extensions\Mt.ChangeLog.Entities.Extensions.csproj" />
 		<ProjectReference Include="..\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj" />
 	</ItemGroup>

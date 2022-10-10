@@ -1,8 +1,6 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
+using Mt.ChangeLog.DataAccess.Abstractions;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.Utilities;
@@ -44,19 +42,19 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             private readonly ILogger<Handler> logger;
 
             /// <summary>
-            /// Контекст данных.
+            /// Репозиторий с данными.
             /// </summary>
-            private readonly MtContext context;
+            private readonly IArmEditRepository repository;
 
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Handler"/>.
             /// </summary>
             /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
+            /// <param name="repository">Репозиторий с данными.</param>
+            public Handler(ILogger<Handler> logger, IArmEditRepository repository)
             {
                 this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
+                this.repository = Check.NotNull(repository, nameof(repository));
             }
 
             /// <inheritdoc />
@@ -65,12 +63,8 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
 
-                var result = await this.context.ArmEdits.AsNoTracking()
-                    .OrderBy(e => e.Version)
-                    .Select(e => e.ToShortModel())
-                    .ToListAsync(cancellationToken);
-
-                return result;
+                var result = await this.repository.GetShortEntitiesAsync();
+                return result.OrderByDescending(e => e.Version);
             }
         }
     }

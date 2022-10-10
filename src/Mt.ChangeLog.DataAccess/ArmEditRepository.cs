@@ -25,22 +25,17 @@ namespace Mt.ChangeLog.DataAccess
         }
 
         /// <inheritdoc />
-        public Task<ArmEditModel> GetActualAsync()
+        public async Task<ArmEditModel> GetActualAsync()
         {
-            throw new NotImplementedException();
+            var qSql = @$"SELECT * FROM ""{Schema}"".""get_ActualArmEdit""();";
+            var result = await this.connection.QuerySingleAsync<ArmEditModel>(qSql);
+            return result;
         }
 
         /// <inheritdoc />
         public async Task<ArmEditModel> GetEntityAsync(Guid guid)
         {
-            var qSql = @$"SELECT arm.""Id"",
-                                 arm.""Version"",
-                                 arm.""DIVG"",
-                                 arm.""Date"",                    
-                                 arm.""Description""
-                          FROM ""{Schema}"".""ArmEdit"" arm
-                          WHERE arm.""Id""= @guid;";
-
+            var qSql = @$"SELECT * FROM ""{Schema}"".""get_ArmEdit""(@guid);";
             var result = await this.connection.QuerySingleAsync<ArmEditModel>(qSql, new { guid });
             return result;
         }
@@ -48,10 +43,7 @@ namespace Mt.ChangeLog.DataAccess
         /// <inheritdoc />
         public async Task<IEnumerable<ArmEditShortModel>> GetShortEntitiesAsync()
         {
-            var qSql = @$"SELECT arm.""Id"", 
-                                 arm.""Version""
-                          FROM ""{Schema}"".""ArmEdit"" arm";
-
+            var qSql = @$"SELECT * FROM ""{Schema}"".""get_ShortArmEdits""();";
             var result = await this.connection.QueryAsync<ArmEditShortModel>(qSql);
             return result;
         }
@@ -59,13 +51,7 @@ namespace Mt.ChangeLog.DataAccess
         /// <inheritdoc />
         public async Task<IEnumerable<ArmEditTableModel>> GetTableEntitiesAsync()
         {
-            var qSql = @$"SELECT arm.""Id"",
-                                 arm.""Version"",
-                                 arm.""DIVG"",
-                                 arm.""Date"",                    
-                                 arm.""Description""
-                          FROM ""{Schema}"".""ArmEdit"" arm";
-
+            var qSql = @$"SELECT * FROM ""{Schema}"".""get_TableArmEdits""();";
             var result = await this.connection.QueryAsync<ArmEditTableModel>(qSql);
             return result;
         }

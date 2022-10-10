@@ -43,7 +43,7 @@ namespace Mt.ChangeLog.Logic.Pipelines
 		public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
             Check.NotNull(request, nameof(request));
-            logger.LogInformation($"{request} - валидация параметров.");
+            logger.LogInformation($"Mt request: '{request.Guid}', username: '{request.UserName}' - валидация параметров.");
             try
             {
                 await validator.ValidateAsync(

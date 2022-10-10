@@ -1,13 +1,10 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Views;
+using Mt.ChangeLog.DataAccess.Abstractions;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.Utilities;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,19 +41,19 @@ namespace Mt.ChangeLog.Logic.Features.Author
             private readonly ILogger<Handler> logger;
 
             /// <summary>
-            /// Контекст данных.
+            /// Репозиторий с данными.
             /// </summary>
-            private readonly MtContext context;
+            private readonly IAuthorRepository repository;
 
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Handler"/>.
             /// </summary>
             /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
+            /// <param name="repository">Репозиторий с данными.</param>
+            public Handler(ILogger<Handler> logger, IAuthorRepository repository)
             {
                 this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
+                this.repository = Check.NotNull(repository, nameof(repository));
             }
 
             /// <inheritdoc />
@@ -64,7 +61,8 @@ namespace Mt.ChangeLog.Logic.Features.Author
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
-                var result = await this.context.AuthorProjectContributions.Select(e => e.ToModel()).ToListAsync(cancellationToken);
+
+                var result = await this.repository.GetAuthorProjectContributionsAsync();
                 return result;
             }
         }

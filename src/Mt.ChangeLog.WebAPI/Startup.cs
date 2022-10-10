@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mt.ChangeLog.Context;
+using Mt.ChangeLog.DataAccess;
 using Mt.ChangeLog.Logic;
 using Mt.ChangeLog.TransferObjects;
 using Mt.ChangeLog.WebAPI.Infrastracture;
@@ -44,6 +45,7 @@ namespace Mt.ChangeLog.WebAPI
 
             services.AddTransferObjects(assemblies);
             services.AddApplicationContext();
+            services.AddDataAccess();
             services.AddLogic(assemblies);
 
             #endregion

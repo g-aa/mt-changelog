@@ -28,9 +28,8 @@ namespace Mt.ChangeLog.DataAccess
         /// <inheritdoc />
         public async Task<AnalogModuleModel> GetEntityAsync(Guid guid)
         {
-            var qSql = $@"SELECT * FROM ""{Schema}"".""ConcretAnalogModule""(@guid);
-                          SELECT * FROM ""{Schema}"".""AnalogModulePlatforms""(@guid);";
-
+            var qSql = $@"SELECT * FROM ""{Schema}"".""get_AnalogModule""(@guid);
+                          SELECT * FROM ""{Schema}"".""get_PlatformsForAnalogModule""(@guid);";
             var qMultiple = await this.connection.QueryMultipleAsync(qSql, new { guid });
             var module = await qMultiple.ReadSingleAsync<AnalogModuleModel>();
             module.Platforms = await qMultiple.ReadAsync<PlatformShortModel>();
@@ -40,8 +39,7 @@ namespace Mt.ChangeLog.DataAccess
         /// <inheritdoc />
         public async Task<IEnumerable<AnalogModuleShortModel>> GetShortEntitiesAsync()
         {
-            var qSql = @$"SELECT * FROM ""{Schema}"".""AnalogModuleShorts""();";
-
+            var qSql = @$"SELECT * FROM ""{Schema}"".""get_ShortAnalogModules""();";
             var result = await this.connection.QueryAsync<AnalogModuleShortModel>(qSql);
             return result;
         }
@@ -49,8 +47,7 @@ namespace Mt.ChangeLog.DataAccess
         /// <inheritdoc />
         public async Task<IEnumerable<AnalogModuleTableModel>> GetTableEntitiesAsync()
         {
-            var qSql = $@"SELECT * FROM ""{Schema}"".""AnalogModulesForTable""();";
-
+            var qSql = $@"SELECT * FROM ""{Schema}"".""get_TableAnalogModules""();";
             var result = await this.connection.QueryAsync<AnalogModuleTableModel>(qSql);
             return result;
         }

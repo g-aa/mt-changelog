@@ -29,6 +29,7 @@ namespace Mt.ChangeLog.DataAccess
 
             services.AddTransient<IAnalogModuleRepository, AnalogModuleRepository>();
             services.AddTransient<IArmEditRepository, ArmEditRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
 
             return services;
         }

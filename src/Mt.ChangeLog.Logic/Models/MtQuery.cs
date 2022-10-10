@@ -37,7 +37,7 @@ namespace Mt.ChangeLog.Logic.Models
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"Mt query: {this.Guid}, username: {this.UserName}";
+            return $"Mt query: '{this.Guid}', username: '{this.UserName}'";
         }
     }
 }
