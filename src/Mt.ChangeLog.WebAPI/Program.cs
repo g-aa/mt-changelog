@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog;
+using NLog.Web;
+using System;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -38,7 +41,22 @@ namespace Mt.ChangeLog.WebAPI
         /// <param name="args">Аргументы запуска приложения.</param>
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            
+            try
+            {
+                logger.Debug($"'{AppName}' - запущено на выполнение...");
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception exception)
+            {
+                logger.Error(exception, $"'{AppName}' - остановлено из за перехвата не необработанного исключения!");
+            }
+            finally
+            {
+                logger.Debug($"'{AppName}' - остановлено.");
+                LogManager.Shutdown();
+            }
         }
 
         /// <summary>
@@ -49,14 +67,23 @@ namespace Mt.ChangeLog.WebAPI
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .ConfigureLogging(logging =>
+                .ConfigureLogging((context, logging) =>
                 {
-                    logging.AddConsole();
+                    /*
+                    * var nLogSection = context.Configuration.GetSection("NLog"); // пока уберем
+                    * LogManager.Configuration = new NLogLoggingConfiguration(nLogSection); // пока уберем
+                    */
+                    logging.ClearProviders();
+                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    /*
+                     * logging.AddNLogWeb(); // пока уберем
+                     */
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseNLog(); 
         }
     }
 }
