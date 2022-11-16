@@ -32,11 +32,11 @@ namespace Mt.ChangeLog.WebAPI.Infrastracture
         {
             Check.NotNull(context, nameof(context));
             var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<ApiExceptionFilter>>();
-            logger?.LogError(context.Exception, context.Exception.Message);
-
+            
             switch (context.Exception)
             {
                 case MtException exception:
+                    logger?.LogWarning(context.Exception, context.Exception.Message);
                     context.Result = new ObjectResult(new MtProblemDetails(exception))
                     {
                         StatusCode = exception.Code.HttpStatusCode(),
@@ -44,6 +44,7 @@ namespace Mt.ChangeLog.WebAPI.Infrastracture
                     break;
 
                 case MtBaseException exception:
+                    logger?.LogWarning(context.Exception, context.Exception.Message);
                     context.Result = new ObjectResult(new MtProblemDetails(exception))
                     {
                         StatusCode = 400,
@@ -51,6 +52,7 @@ namespace Mt.ChangeLog.WebAPI.Infrastracture
                     break;
 
                 default:
+                    logger?.LogError(context.Exception, context.Exception.Message);
                     var code = ErrorCode.InternalServerError;
                     var details = new MtProblemDetails(code.Title(), this.passDetails ? context.Exception.Message : code.Desc());
                     context.Result = new ObjectResult(details)
