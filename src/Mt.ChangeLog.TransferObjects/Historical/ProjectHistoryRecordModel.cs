@@ -21,31 +21,37 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// <summary>
         /// Версия ArmEdit.
         /// </summary>
+        /// <example>v0.00.00.00</example>
         public string ArmEdit { get; set; }
         
         /// <summary>
         /// Перечень алгоритмов.
         /// </summary>
+        /// <example>ТО, МТЗ, УРОВ, АПВ</example>
         public string Algorithms { get; set; }
-        
+
         /// <summary>
         /// Перечень авторов.
         /// </summary>
+        /// <example>Иванов Иван</example>
         public string Authors { get; set; }
-        
+
         /// <summary>
         /// Перечень протоколов.
         /// </summary>
+        /// <example>ModBus-RTU, Modbus-MT, Modbus-TCP</example>
         public string Protocols { get; set; }
-        
+
         /// <summary>
         /// Причина изменений.
         /// </summary>
+        /// <example>Причина изменения...</example>
         public string Reason { get; set; }
-        
+
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
 
         /// <summary>

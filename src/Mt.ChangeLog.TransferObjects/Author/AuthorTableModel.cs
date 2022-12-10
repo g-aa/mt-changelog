@@ -10,6 +10,7 @@ namespace Mt.ChangeLog.TransferObjects.Author
         /// <summary>
         /// Должность.
         /// </summary>
+        /// <example>Инженер-системотехник</example>
         public string Position { get; set; }
 
         /// <summary>

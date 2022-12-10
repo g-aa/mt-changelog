@@ -75,8 +75,6 @@ namespace Mt.ChangeLog.WebAPI
                 builder.UseDeveloperExceptionPage();
             }
 
-            builder.UseSwaggerDocumentation();
-
             builder.UseDefaultFiles();
             builder.UseStaticFiles();
 
@@ -88,6 +86,8 @@ namespace Mt.ChangeLog.WebAPI
             {
                 endpoints.MapControllers();
             });
+
+            builder.UseSwaggerDocumentation();
 
             builder.UseDefaultDatabaseInitialization();
         }

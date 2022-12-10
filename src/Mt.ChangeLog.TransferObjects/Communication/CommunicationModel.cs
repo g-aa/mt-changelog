@@ -12,6 +12,7 @@ namespace Mt.ChangeLog.TransferObjects.Communication
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
         
         /// <summary>

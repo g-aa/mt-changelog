@@ -10,26 +10,31 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
         /// <summary>
         /// ДИВГ.
         /// </summary>
+        /// <example>ДИВГ.00000.00</example>
         public string DIVG { get; set; }
-        
+
         /// <summary>
         /// Статус.
         /// </summary>
+        /// <example>Внутренний</example>
         public string Status { get; set; }
-        
+
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
-        
+
         /// <summary>
         /// Платформа.
         /// </summary>
+        /// <example>БМРЗ-000</example>
         public string Platform { get; set; }
-        
+
         /// <summary>
         /// Аналоговый модуль.
         /// </summary>
+        /// <example>БМРЗ-000</example>
         public string Module { get; set; }
 
         /// <summary>

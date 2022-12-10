@@ -10,11 +10,13 @@ namespace Mt.ChangeLog.TransferObjects.Communication
         /// <summary>
         /// Перечень протоколов через ','.
         /// </summary>
+        /// <example>ModBus-RTU, Modbus-MT, Modbus-TCP</example>
         public string Protocols { get; set; }
-        
+
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
 
         /// <summary>

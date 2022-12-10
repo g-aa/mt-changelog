@@ -15,6 +15,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectStatus
         /// <summary>
         /// Наименование.
         /// </summary>
+        /// <example>Внутренний</example>
         public string Title { get; set; }
 
         /// <summary>

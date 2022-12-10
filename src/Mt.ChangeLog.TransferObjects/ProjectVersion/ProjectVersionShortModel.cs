@@ -12,20 +12,23 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
         /// ИД.
         /// </summary>
         public Guid Id { get; set; }
-        
+
         /// <summary>
         /// Префикс.
         /// </summary>
+        /// <example>БФПО-000</example>
         public string Prefix { get; set; }
-        
+
         /// <summary>
         /// Наименование.
         /// </summary>
+        /// <example>ПМК</example>
         public string Title { get; set; }
         
         /// <summary>
         /// Версия.
         /// </summary>
+        /// <example>00</example>
         public string Version { get; set; }
 
         /// <summary>

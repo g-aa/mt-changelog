@@ -12,11 +12,13 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// <summary>
         /// Версия ArmEdit.
         /// </summary>
+        /// <example>v0.00.00.00</example>
         public string ArmEdit { get; set; }
-        
+
         /// <summary>
         /// Коммуникационный модуль.
         /// </summary>
+        /// <example>АК Virtual</example>
         public string Communication { get; set; }
 
         /// <summary>
@@ -32,11 +34,13 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// <summary>
         /// Причина изменений.
         /// </summary>
+        /// <example>Причина изменения...</example>
         public string Reason { get; set; }
-        
+
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
 
         /// <summary>

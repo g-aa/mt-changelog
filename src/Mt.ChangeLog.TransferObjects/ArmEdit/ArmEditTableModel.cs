@@ -11,6 +11,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
         /// <summary>
         /// ДИВГ.
         /// </summary>
+        /// <example>ДИВГ.00000.00</example>
         public string DIVG { get; set; }
 
         /// <summary>
@@ -21,6 +22,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
 
         /// <summary>
