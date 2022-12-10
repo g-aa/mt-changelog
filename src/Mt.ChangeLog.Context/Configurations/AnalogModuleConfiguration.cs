@@ -6,12 +6,12 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Context.Configurations
 {
     /// <summary>
-    /// Конфигуратор сущности <see cref="AnalogModule"/>.
+    /// Конфигуратор сущности <see cref="AnalogModuleEntity"/>.
     /// </summary>
-    internal sealed class AnalogModuleConfiguration : IEntityTypeConfiguration<AnalogModule>
+    internal sealed class AnalogModuleConfiguration : IEntityTypeConfiguration<AnalogModuleEntity>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<AnalogModule> builder)
+        public void Configure(EntityTypeBuilder<AnalogModuleEntity> builder)
         {
             Check.NotNull(builder, nameof(builder));
 

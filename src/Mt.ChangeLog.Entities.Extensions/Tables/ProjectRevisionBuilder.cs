@@ -7,29 +7,29 @@ using System.Linq;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="ProjectRevision"/>.
+    /// Строитель <see cref="ProjectRevisionEntity"/>.
     /// </summary>
     public class ProjectRevisionBuilder
     {
-        private readonly ProjectRevision entity;
+        private readonly ProjectRevisionEntity entity;
 
         private DateTime? date;
         private string revision;
         private string reason;
         private string description;
-        private ProjectVersion project;
-        private ProjectRevision parent;
-        private ArmEdit armedit;
-        private Communication communication;
-        private IQueryable<Author> authors;
-        private IQueryable<RelayAlgorithm> algorithms;
+        private ProjectVersionEntity project;
+        private ProjectRevisionEntity parent;
+        private ArmEditEntity armedit;
+        private CommunicationEntity communication;
+        private IQueryable<AuthorEntity> authors;
+        private IQueryable<RelayAlgorithmEntity> algorithms;
 
         /// <summary>
         /// Инициализация экземпляра класса <see cref="ProjectRevisionBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ProjectRevisionBuilder(ProjectRevision entity) 
+        public ProjectRevisionBuilder(ProjectRevisionEntity entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.date = entity.Date;
@@ -66,7 +66,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="project">Версия проекта.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если project равно null.</exception>
-        public ProjectRevisionBuilder SetProjectVersion(ProjectVersion project) 
+        public ProjectRevisionBuilder SetProjectVersion(ProjectVersionEntity project) 
         {
             this.project = Check.NotNull(project, nameof(project));
             return this;
@@ -78,7 +78,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="parent">Родительская редакция.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если parent равно null.</exception>
-        public ProjectRevisionBuilder SetParentRevision(ProjectRevision parent) 
+        public ProjectRevisionBuilder SetParentRevision(ProjectRevisionEntity parent) 
         {
             this.parent = Check.NotNull(parent, nameof(parent));
             return this;
@@ -90,7 +90,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="armedit">ArmEdit.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если armedit равно null.</exception>
-        public ProjectRevisionBuilder SetArmEdit(ArmEdit armedit)
+        public ProjectRevisionBuilder SetArmEdit(ArmEditEntity armedit)
         {
             this.armedit = Check.NotNull(armedit, nameof(armedit));
             return this;
@@ -102,7 +102,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="communication">АК.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если communication равно null.</exception>
-        public ProjectRevisionBuilder SetCommunication(Communication communication)
+        public ProjectRevisionBuilder SetCommunication(CommunicationEntity communication)
         {
             this.communication = Check.NotNull(communication, nameof(communication));
             return this;
@@ -114,7 +114,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="authors">Перечень авторов.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если authors равно null.</exception>
-        public ProjectRevisionBuilder SetAuthors(IQueryable<Author> authors)
+        public ProjectRevisionBuilder SetAuthors(IQueryable<AuthorEntity> authors)
         {
             this.authors = Check.NotNull(authors, nameof(authors));
             return this;
@@ -126,7 +126,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="algorithms">Перечень алгоритмов.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если algorithms равно null.</exception>
-        public ProjectRevisionBuilder SetAlgorithms(IQueryable<RelayAlgorithm> algorithms)
+        public ProjectRevisionBuilder SetAlgorithms(IQueryable<RelayAlgorithmEntity> algorithms)
         {
             this.algorithms = Check.NotNull(algorithms, nameof(algorithms));
             return this;
@@ -136,7 +136,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public ProjectRevision Build()
+        public ProjectRevisionEntity Build()
         {
             // атрибуты:
             // this.entity.Id - не обновляется!
@@ -168,7 +168,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static ProjectRevisionBuilder GetBuilder()
         {
-            return new ProjectRevisionBuilder(new ProjectRevision());
+            return new ProjectRevisionBuilder(new ProjectRevisionEntity());
         }
     }
 }

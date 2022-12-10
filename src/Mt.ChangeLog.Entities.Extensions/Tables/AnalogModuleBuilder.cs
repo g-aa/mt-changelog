@@ -7,24 +7,24 @@ using System.Linq;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="AnalogModule"/>.
+    /// Строитель <see cref="AnalogModuleEntity"/>.
     /// </summary>
     public sealed class AnalogModuleBuilder
     {
-        private readonly AnalogModule entity;
+        private readonly AnalogModuleEntity entity;
 
         private string divg;
         private string title;
         private string current;
         private string description;
-        private IQueryable<Platform> platforms;
+        private IQueryable<PlatformEntity> platforms;
 
         /// <summary>
         /// Инициализация экземпляра класса <see cref="AnalogModuleBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public AnalogModuleBuilder(AnalogModule entity) 
+        public AnalogModuleBuilder(AnalogModuleEntity entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.divg = entity.DIVG;
@@ -56,7 +56,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="platforms">Перечень платформ.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если platforms равно null.</exception>
-        public AnalogModuleBuilder SetPlatforms(IQueryable<Platform> platforms) 
+        public AnalogModuleBuilder SetPlatforms(IQueryable<PlatformEntity> platforms) 
         {
             this.platforms = Check.NotNull(platforms, nameof(platforms));
             return this;
@@ -67,7 +67,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <returns>Сущность.</returns>
         /// <exception cref="ArgumentException">Ошибка в логике обработки связей.</exception>
-        public AnalogModule Build()
+        public AnalogModuleEntity Build()
         {
             var prohibPlatforms = this.entity.Platforms.Except(this.platforms).Where(e => e.Projects.Intersect(this.entity.Projects).Any()).Select(e => e.Title);
             if (prohibPlatforms.Any())
@@ -92,7 +92,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static AnalogModuleBuilder GetBuilder() 
         {
-            return new AnalogModuleBuilder(new AnalogModule());
+            return new AnalogModuleBuilder(new AnalogModuleEntity());
         }
     }
 }

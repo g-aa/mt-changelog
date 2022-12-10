@@ -5,16 +5,16 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="RelayAlgorithm"/>.
+    /// Методы расширения для класса <see cref="RelayAlgorithmEntity"/>.
     /// </summary>
     public static class RelayAlgorithmExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="RelayAlgorithm"/> в модель <see cref="RelayAlgorithmShortModel"/>.
+        /// Преобразовать сущность <see cref="RelayAlgorithmEntity"/> в модель <see cref="RelayAlgorithmShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static RelayAlgorithmShortModel ToShortModel(this RelayAlgorithm entity)
+        public static RelayAlgorithmShortModel ToShortModel(this RelayAlgorithmEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new RelayAlgorithmShortModel()
@@ -26,11 +26,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="RelayAlgorithm"/> в модель <see cref="RelayAlgorithmModel"/>.
+        /// Преобразовать сущность <see cref="RelayAlgorithmEntity"/> в модель <see cref="RelayAlgorithmModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static RelayAlgorithmModel ToModel(this RelayAlgorithm entity)
+        public static RelayAlgorithmModel ToModel(this RelayAlgorithmEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new RelayAlgorithmModel()
@@ -50,7 +50,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static RelayAlgorithmBuilder GetBuilder(this RelayAlgorithm entity)
+        public static RelayAlgorithmBuilder GetBuilder(this RelayAlgorithmEntity entity)
         {
             return new RelayAlgorithmBuilder(entity);
         }

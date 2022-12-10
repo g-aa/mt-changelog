@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
+using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
@@ -106,7 +107,7 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<string> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.RelayAlgorithm entity, CancellationToken cancellationToken)
+            private async Task<string> SaveChangesAsync(RelayAlgorithmEntity entity, CancellationToken cancellationToken)
             {
                 this.context.RelayAlgorithms.Remove(entity);
                 await this.context.SaveChangesAsync(cancellationToken);

@@ -6,16 +6,16 @@ using System.Linq;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="Platform"/>.
+    /// Методы расширения для класса <see cref="PlatformEntity"/>.
     /// </summary>
     public static class PlatformExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="Platform"/> в модель <see cref="PlatformShortModel"/>.
+        /// Преобразовать сущность <see cref="PlatformEntity"/> в модель <see cref="PlatformShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static PlatformShortModel ToShortModel(this Platform entity)
+        public static PlatformShortModel ToShortModel(this PlatformEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new PlatformShortModel()
@@ -27,11 +27,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="Platform"/> в модель <see cref="PlatformTableModel"/>.
+        /// Преобразовать сущность <see cref="PlatformEntity"/> в модель <see cref="PlatformTableModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static PlatformTableModel ToTableModel(this Platform entity)
+        public static PlatformTableModel ToTableModel(this PlatformEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new PlatformTableModel()
@@ -44,11 +44,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="Platform"/> в модель <see cref="PlatformModel"/>.
+        /// Преобразовать сущность <see cref="PlatformEntity"/> в модель <see cref="PlatformModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static PlatformModel ToModel(this Platform entity)
+        public static PlatformModel ToModel(this PlatformEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new PlatformModel()
@@ -66,7 +66,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static PlatformBuilder GetBuilder(this Platform entity)
+        public static PlatformBuilder GetBuilder(this PlatformEntity entity)
         {
             return new PlatformBuilder(entity);
         }

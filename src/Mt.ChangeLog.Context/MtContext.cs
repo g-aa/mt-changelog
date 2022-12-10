@@ -25,82 +25,82 @@ namespace Mt.ChangeLog.Context
         #region [ ProjectVersionEntities ]
 
         /// <summary>
-        /// Перечень <see cref="Platform"/>.
+        /// Перечень <see cref="PlatformEntity"/>.
         /// </summary>
-        public DbSet<Platform> Platforms { get; set; }
+        public DbSet<PlatformEntity> Platforms { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="AnalogModule"/>. 
+        /// Перечень <see cref="AnalogModuleEntity"/>. 
         /// </summary>
-        public DbSet<AnalogModule> AnalogModules { get; set; }
+        public DbSet<AnalogModuleEntity> AnalogModules { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="ProjectStatus"/>. 
+        /// Перечень <see cref="ProjectStatusEntity"/>. 
         /// </summary>
-        public DbSet<ProjectStatus> ProjectStatuses { get; set; }
+        public DbSet<ProjectStatusEntity> ProjectStatuses { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="ProjectVersion"/>. 
+        /// Перечень <see cref="ProjectVersionEntity"/>. 
         /// </summary>
-        public DbSet<ProjectVersion> ProjectVersions { get; set; }
+        public DbSet<ProjectVersionEntity> ProjectVersions { get; set; }
        
         #endregion
 
         #region [ ProjectRevisionEntities ]
 
         /// <summary>
-        /// Перечень <see cref="ProjectRevision"/>. 
+        /// Перечень <see cref="ProjectRevisionEntity"/>. 
         /// </summary>
-        public DbSet<ProjectRevision> ProjectRevisions { get; set; }
+        public DbSet<ProjectRevisionEntity> ProjectRevisions { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="ArmEdit"/>. 
+        /// Перечень <see cref="ArmEditEntity"/>. 
         /// </summary>
-        public DbSet<ArmEdit> ArmEdits { get; set; }
+        public DbSet<ArmEditEntity> ArmEdits { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="Author"/>. 
+        /// Перечень <see cref="AuthorEntity"/>. 
         /// </summary>
-        public DbSet<Author> Authors { get; set; }
+        public DbSet<AuthorEntity> Authors { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="Protocol"/>. 
+        /// Перечень <see cref="ProtocolEntity"/>. 
         /// </summary>
-        public DbSet<Protocol> Protocols { get; set; }
+        public DbSet<ProtocolEntity> Protocols { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="Communication"/>. 
+        /// Перечень <see cref="CommunicationEntity"/>. 
         /// </summary>
-        public DbSet<Communication> Communications { get; set; }
+        public DbSet<CommunicationEntity> Communications { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="RelayAlgorithm"/>. 
+        /// Перечень <see cref="RelayAlgorithmEntity"/>. 
         /// </summary>
-        public DbSet<RelayAlgorithm> RelayAlgorithms { get; set; }
+        public DbSet<RelayAlgorithmEntity> RelayAlgorithms { get; set; }
         
         #endregion
 
         #region [ Views ]
 
         /// <summary>
-        /// Перечень <see cref="LastProjectRevision"/>. 
+        /// Перечень <see cref="LastProjectRevisionView"/>. 
         /// </summary>
-        public DbSet<LastProjectRevision> LastProjectRevisions { get; set; }
+        public DbSet<LastProjectRevisionView> LastProjectRevisions { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="AuthorContribution"/>. 
+        /// Перечень <see cref="AuthorContributionView"/>. 
         /// </summary>
-        public DbSet<AuthorContribution> AuthorContributions { get; set; }
+        public DbSet<AuthorContributionView> AuthorContributions { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="AuthorProjectContribution"/>. 
+        /// Перечень <see cref="AuthorProjectContributionView"/>. 
         /// </summary>
-        public DbSet<AuthorProjectContribution> AuthorProjectContributions { get; set; }
+        public DbSet<AuthorProjectContributionView> AuthorProjectContributions { get; set; }
 
         /// <summary>
-        /// Перечень <see cref="ProjectHistoryRecord"/>. 
+        /// Перечень <see cref="ProjectHistoryRecordView"/>. 
         /// </summary>
-        public DbSet<ProjectHistoryRecord> ProjectHistoryRecords { get; set; }
+        public DbSet<ProjectHistoryRecordView> ProjectHistoryRecords { get; set; }
         
         #endregion
 
@@ -139,25 +139,25 @@ namespace Mt.ChangeLog.Context
 
             #region [ Tables ]
 
-            new AnalogModuleConfiguration().Configure(modelBuilder.Entity<AnalogModule>());
-            new ArmEditConfiguration().Configure(modelBuilder.Entity<ArmEdit>());
-            new AuthorConfiguration().Configure(modelBuilder.Entity<Author>());
-            new ProtocolConfiguration().Configure(modelBuilder.Entity<Protocol>());
-            new CommunicationConfiguration().Configure(modelBuilder.Entity<Communication>());
-            new PlatformConfiguration().Configure(modelBuilder.Entity<Platform>());
-            new RelayAlgorithmConfiguration().Configure(modelBuilder.Entity<RelayAlgorithm>());
-            new ProjectVersionConfiguration().Configure(modelBuilder.Entity<ProjectVersion>());
-            new ProjectStatusConfiguration().Configure(modelBuilder.Entity<ProjectStatus>());
-            new ProjectRevisionConfiguration().Configure(modelBuilder.Entity<ProjectRevision>());
+            new AnalogModuleConfiguration().Configure(modelBuilder.Entity<AnalogModuleEntity>());
+            new ArmEditConfiguration().Configure(modelBuilder.Entity<ArmEditEntity>());
+            new AuthorConfiguration().Configure(modelBuilder.Entity<AuthorEntity>());
+            new ProtocolConfiguration().Configure(modelBuilder.Entity<ProtocolEntity>());
+            new CommunicationConfiguration().Configure(modelBuilder.Entity<CommunicationEntity>());
+            new PlatformConfiguration().Configure(modelBuilder.Entity<PlatformEntity>());
+            new RelayAlgorithmConfiguration().Configure(modelBuilder.Entity<RelayAlgorithmEntity>());
+            new ProjectVersionConfiguration().Configure(modelBuilder.Entity<ProjectVersionEntity>());
+            new ProjectStatusConfiguration().Configure(modelBuilder.Entity<ProjectStatusEntity>());
+            new ProjectRevisionConfiguration().Configure(modelBuilder.Entity<ProjectRevisionEntity>());
 
             #endregion
 
             #region [ Views ]
 
-            new LastProjectRevisionConfiguration().Configure(modelBuilder.Entity<LastProjectRevision>());
-            new AuthorContributionConfiguration().Configure(modelBuilder.Entity<AuthorContribution>());
-            new AuthorProjectContributionConfiguration().Configure(modelBuilder.Entity<AuthorProjectContribution>());
-            new ProjectHistoryRecordConfiguration().Configure(modelBuilder.Entity<ProjectHistoryRecord>());
+            new LastProjectRevisionConfiguration().Configure(modelBuilder.Entity<LastProjectRevisionView>());
+            new AuthorContributionConfiguration().Configure(modelBuilder.Entity<AuthorContributionView>());
+            new AuthorProjectContributionConfiguration().Configure(modelBuilder.Entity<AuthorProjectContributionView>());
+            new ProjectHistoryRecordConfiguration().Configure(modelBuilder.Entity<ProjectHistoryRecordView>());
 
             #endregion
         }

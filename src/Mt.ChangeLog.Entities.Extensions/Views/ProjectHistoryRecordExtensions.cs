@@ -5,16 +5,16 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Entities.Extensions.Views
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="ProjectHistoryRecord"/>.
+    /// Методы расширения для класса <see cref="ProjectHistoryRecordView"/>.
     /// </summary>
     public static class ProjectHistoryRecordExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectHistoryRecord"/> в краткую модель <see cref="ProjectHistoryRecordShortModel"/>.
+        /// Преобразовать сущность <see cref="ProjectHistoryRecordView"/> в краткую модель <see cref="ProjectHistoryRecordShortModel"/>.
         /// </summary>
         /// <param name="record">Запись.</param>
         /// <returns>Модель.</returns>
-        public static ProjectHistoryRecordShortModel ToShortModel(this ProjectHistoryRecord record) 
+        public static ProjectHistoryRecordShortModel ToShortModel(this ProjectHistoryRecordView record) 
         {
             Check.NotNull(record, nameof(record));
             var result = new ProjectHistoryRecordShortModel()
@@ -28,11 +28,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Views
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectHistoryRecord"/> в модель <see cref="ProjectHistoryRecordModel"/>.
+        /// Преобразовать сущность <see cref="ProjectHistoryRecordView"/> в модель <see cref="ProjectHistoryRecordModel"/>.
         /// </summary>
         /// <param name="record">Запись.</param>
         /// <returns>Модель.</returns>
-        public static ProjectHistoryRecordModel ToModel(this ProjectHistoryRecord record) 
+        public static ProjectHistoryRecordModel ToModel(this ProjectHistoryRecordView record) 
         {
             Check.NotNull(record, nameof(record));
             var result = new ProjectHistoryRecordModel()

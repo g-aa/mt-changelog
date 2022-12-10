@@ -6,11 +6,11 @@ using System;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="ProjectStatus"/>.
+    /// Строитель <see cref="ProjectStatusEntity"/>.
     /// </summary>
     public class ProjectStatusBuilder
     {
-        private readonly ProjectStatus entity;
+        private readonly ProjectStatusEntity entity;
 
         private string title;
         private string description;
@@ -20,7 +20,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ProjectStatusBuilder(ProjectStatus entity) 
+        public ProjectStatusBuilder(ProjectStatusEntity entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.title = entity.Title;
@@ -45,7 +45,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public ProjectStatus Build()
+        public ProjectStatusEntity Build()
         {
             // атрибуты:
             //this.entity.Id - не обновляется!
@@ -62,7 +62,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static ProjectStatusBuilder GetBuilder()
         {
-            return new ProjectStatusBuilder(new ProjectStatus());
+            return new ProjectStatusBuilder(new ProjectStatusEntity());
         }
     }
 }

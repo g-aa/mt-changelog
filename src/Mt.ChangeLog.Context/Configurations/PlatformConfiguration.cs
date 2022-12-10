@@ -6,12 +6,12 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Context.Configurations
 {
     /// <summary>
-    /// Конфигуратор сущности <see cref="Platform"/>.
+    /// Конфигуратор сущности <see cref="PlatformEntity"/>.
     /// </summary>
-    internal sealed class PlatformConfiguration : IEntityTypeConfiguration<Platform>
+    internal sealed class PlatformConfiguration : IEntityTypeConfiguration<PlatformEntity>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<Platform> builder)
+        public void Configure(EntityTypeBuilder<PlatformEntity> builder)
         {
             Check.NotNull(builder, nameof(builder));
 

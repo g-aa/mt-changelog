@@ -6,12 +6,12 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Context.Configurations
 {
     /// <summary>
-    /// Конфигуратор сущности <see cref="RelayAlgorithm"/>.
+    /// Конфигуратор сущности <see cref="RelayAlgorithmEntity"/>.
     /// </summary>
-    internal sealed class RelayAlgorithmConfiguration : IEntityTypeConfiguration<RelayAlgorithm>
+    internal sealed class RelayAlgorithmConfiguration : IEntityTypeConfiguration<RelayAlgorithmEntity>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<RelayAlgorithm> builder)
+        public void Configure(EntityTypeBuilder<RelayAlgorithmEntity> builder)
         {
             Check.NotNull(builder, nameof(builder));
 

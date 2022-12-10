@@ -6,16 +6,16 @@ using System.Linq;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="AnalogModule"/>.
+    /// Методы расширения для класса <see cref="AnalogModuleEntity"/>.
     /// </summary>
     public static class AnalogModuleExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="AnalogModule"/> в модель <see cref="AnalogModuleShortModel"/>.
+        /// Преобразовать сущность <see cref="AnalogModuleEntity"/> в модель <see cref="AnalogModuleShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static AnalogModuleShortModel ToShortModel(this AnalogModule entity) 
+        public static AnalogModuleShortModel ToShortModel(this AnalogModuleEntity entity) 
         {
             Check.NotNull(entity, nameof(entity));
             var result = new AnalogModuleShortModel()
@@ -27,11 +27,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="AnalogModule"/> в модель <see cref="AnalogModuleTableModel"/>.
+        /// Преобразовать сущность <see cref="AnalogModuleEntity"/> в модель <see cref="AnalogModuleTableModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static AnalogModuleTableModel ToTableModel(this AnalogModule entity)
+        public static AnalogModuleTableModel ToTableModel(this AnalogModuleEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new AnalogModuleTableModel()
@@ -46,11 +46,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="AnalogModule"/> в модель <see cref="AnalogModuleModel"/>.
+        /// Преобразовать сущность <see cref="AnalogModuleEntity"/> в модель <see cref="AnalogModuleModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static AnalogModuleModel ToModel(this AnalogModule entity)
+        public static AnalogModuleModel ToModel(this AnalogModuleEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new AnalogModuleModel()
@@ -70,7 +70,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static AnalogModuleBuilder GetBuilder(this AnalogModule entity)
+        public static AnalogModuleBuilder GetBuilder(this AnalogModuleEntity entity)
         {
             return new AnalogModuleBuilder(entity);
         }
