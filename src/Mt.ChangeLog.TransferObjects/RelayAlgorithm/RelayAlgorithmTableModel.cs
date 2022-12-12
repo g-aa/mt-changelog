@@ -10,21 +10,25 @@ namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm
         /// <summary>
         /// Наименование группы.
         /// </summary>
+        /// <example>МТЗ</example>
         public string Group { get; set; }
-        
+
         /// <summary>
         /// Код ANSI.
         /// </summary>
+        /// <example>51</example>
         public string ANSI { get; set; }
-        
+
         /// <summary>
         /// Логический узел IEC-61850.
         /// </summary>
+        /// <example>PTOC</example>
         public string LogicalNode { get; set; }
-        
+
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
 
         /// <summary>

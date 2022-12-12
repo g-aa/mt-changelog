@@ -9,7 +9,7 @@ namespace Mt.ChangeLog.Entities.Tables
     /// <summary>
     /// Сущность версии проекта.
     /// </summary>
-    public class ProjectVersion : IEntity, IEqualityPredicate<ProjectVersion>
+    public class ProjectVersionEntity : IEntity, IEqualityPredicate<ProjectVersionEntity>
     {
         /// <inheritdoc />
         public Guid Id { get; set; }
@@ -49,7 +49,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Платформа.
         /// </summary>
-        public Platform Platform { get; set; }
+        public PlatformEntity Platform { get; set; }
 
         /// <summary>
         /// ИД аналогового модуля.
@@ -59,7 +59,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Аналоговый модуль.
         /// </summary>
-        public AnalogModule AnalogModule { get; set; }
+        public AnalogModuleEntity AnalogModule { get; set; }
 
         /// <summary>
         /// ИД статуса проекта.
@@ -69,18 +69,18 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Статус проекта.
         /// </summary>
-        public ProjectStatus ProjectStatus { get; set; } 
+        public ProjectStatusEntity ProjectStatus { get; set; } 
 
         /// <summary>
         /// Перечень редакций проектов.
         /// </summary>
-        public ICollection<ProjectRevision> ProjectRevisions { get; set; }
+        public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersion"/>.
+        /// Инициализация экземпляра <see cref="ProjectVersionEntity"/>.
         /// </summary>
-        public ProjectVersion()
+        public ProjectVersionEntity()
         {
             this.Id = Guid.NewGuid();
             this.DIVG = DefaultString.DIVG;
@@ -88,13 +88,13 @@ namespace Mt.ChangeLog.Entities.Tables
             this.Title = DefaultString.Project;
             this.Version = DefaultString.Revision;
             this.Description = DefaultString.Description;
-            this.ProjectRevisions = new HashSet<ProjectRevision>();
+            this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
         }
 
         /// <inheritdoc />
-        public Expression<Func<ProjectVersion, bool>> GetEqualityPredicate()
+        public Expression<Func<ProjectVersionEntity, bool>> GetEqualityPredicate()
         {
-            return (ProjectVersion e) => e.Id == this.Id
+            return (ProjectVersionEntity e) => e.Id == this.Id
             || e.DIVG == this.DIVG
             || e.Prefix == this.Prefix && e.Title == this.Title && e.Version == this.Version;
         }
@@ -102,7 +102,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is ProjectVersion e && ( this.Id.Equals(e.Id)
+            return obj is ProjectVersionEntity e && ( this.Id.Equals(e.Id)
                 || this.DIVG == e.DIVG
                 || this.Prefix == e.Prefix && this.Title == e.Title && this.Version == e.Version );
         }

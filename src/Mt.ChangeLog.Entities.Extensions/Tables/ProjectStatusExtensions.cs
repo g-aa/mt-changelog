@@ -5,16 +5,16 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="ProjectStatus"/>.
+    /// Методы расширения для класса <see cref="ProjectStatusEntity"/>.
     /// </summary>
     public static class ProjectStatusExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectStatus"/> в модель <see cref="ProjectStatusShortModel"/>.
+        /// Преобразовать сущность <see cref="ProjectStatusEntity"/> в модель <see cref="ProjectStatusShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectStatusShortModel ToShortModel(this ProjectStatus entity)
+        public static ProjectStatusShortModel ToShortModel(this ProjectStatusEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectStatusShortModel()
@@ -26,11 +26,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectStatus"/> в модель <see cref="ProjectStatusModel"/>.
+        /// Преобразовать сущность <see cref="ProjectStatusEntity"/> в модель <see cref="ProjectStatusModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectStatusModel ToModel(this ProjectStatus entity)
+        public static ProjectStatusModel ToModel(this ProjectStatusEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectStatusModel()
@@ -47,7 +47,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static ProjectStatusBuilder GetBuilder(this ProjectStatus entity)
+        public static ProjectStatusBuilder GetBuilder(this ProjectStatusEntity entity)
         {
             return new ProjectStatusBuilder(entity);
         }

@@ -6,7 +6,7 @@ namespace Mt.ChangeLog.Entities.Views
     /// <summary>
     /// Представление истории проекта.
     /// </summary>
-    public class ProjectHistoryRecord
+    public class ProjectHistoryRecordView
     {
         /// <summary>
         /// ИД версии проекта.
@@ -69,9 +69,9 @@ namespace Mt.ChangeLog.Entities.Views
         public string Description { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра класса <see cref="ProjectHistoryRecord"/>.
+        /// Инициализация экземпляра класса <see cref="ProjectHistoryRecordView"/>.
         /// </summary>
-        public ProjectHistoryRecord()
+        public ProjectHistoryRecordView()
         {
             this.ProjectVersionId = Guid.Empty;
             this.ParentRevisionId = Guid.Empty;

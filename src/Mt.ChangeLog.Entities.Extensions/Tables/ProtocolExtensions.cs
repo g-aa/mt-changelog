@@ -6,16 +6,16 @@ using System.Linq;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="Protocol"/>.
+    /// Методы расширения для класса <see cref="ProtocolEntity"/>.
     /// </summary>
     public static class ProtocolExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="Protocol"/> в модель <see cref="ProtocolShortModel"/>.
+        /// Преобразовать сущность <see cref="ProtocolEntity"/> в модель <see cref="ProtocolShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProtocolShortModel ToShortModel(this Protocol entity)
+        public static ProtocolShortModel ToShortModel(this ProtocolEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProtocolShortModel()
@@ -27,11 +27,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="Protocol"/> в модель <see cref="ProtocolTableModel"/>.
+        /// Преобразовать сущность <see cref="ProtocolEntity"/> в модель <see cref="ProtocolTableModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProtocolTableModel ToTableModel(this Protocol entity)
+        public static ProtocolTableModel ToTableModel(this ProtocolEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProtocolTableModel()
@@ -44,11 +44,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="Protocol"/> в модель <see cref="ProtocolModel"/>.
+        /// Преобразовать сущность <see cref="ProtocolEntity"/> в модель <see cref="ProtocolModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProtocolModel ToModel(this Protocol entity)
+        public static ProtocolModel ToModel(this ProtocolEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProtocolModel()
@@ -66,7 +66,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static ProtocolBuilder GetBuilder(this Protocol entity) 
+        public static ProtocolBuilder GetBuilder(this ProtocolEntity entity) 
         {
             return new ProtocolBuilder(entity);
         }

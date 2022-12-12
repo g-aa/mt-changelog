@@ -31,7 +31,7 @@ namespace Mt.ChangeLog.Context
         /// <param name="context">Контекст данных.</param>
         private static void AddDefaultEntities(MtContext context)
         {
-            var armEdit = new ArmEdit()
+            var armEdit = new ArmEditEntity()
             {
                 Id = Guid.Parse("3E4DF70F-63EC-4101-8119-762B32464A27"),
                 Date = DateTime.Now,
@@ -43,7 +43,7 @@ namespace Mt.ChangeLog.Context
             };
             context.ArmEdits.Add(armEdit);
 
-            var author = new Author()
+            var author = new AuthorEntity()
             {
                 Id = Guid.Parse("1de61f12-7634-47cc-bcff-f146ca538f49"),
                 FirstName = "-//-",
@@ -54,7 +54,7 @@ namespace Mt.ChangeLog.Context
             };
             context.Authors.Add(author);
 
-            var protocol = new Protocol()
+            var protocol = new ProtocolEntity()
             {
                 Id = Guid.Parse("275EAE7E-797D-4EA0-B8DF-915E155FD117"),
                 Title = DefaultString.Protocol,
@@ -62,7 +62,7 @@ namespace Mt.ChangeLog.Context
                 Default = true,
                 Removable = false,
             };
-            var communication = new Communication()
+            var communication = new CommunicationEntity()
             {
                 Id = Guid.Parse("B7A2DA8E-2494-4C6C-BFB9-5CCA01E7EB1C"),
                 Title = DefaultString.Communication,
@@ -75,7 +75,7 @@ namespace Mt.ChangeLog.Context
             context.Protocols.Add(protocol);
             context.Communications.Add(communication);
 
-            var analogModule = new AnalogModule()
+            var analogModule = new AnalogModuleEntity()
             {
                 Id = Guid.Parse("3A90CF3A-B9E3-43F7-ABFD-0E4483A9FE55"),
                 DIVG = DefaultString.DIVG,
@@ -85,7 +85,7 @@ namespace Mt.ChangeLog.Context
                 Default = true,
                 Removable = false,
             };
-            var platform = new Platform()
+            var platform = new PlatformEntity()
             {
                 Id = Guid.Parse("2405C011-D0F1-4FBF-9D1C-32E814DE7087"),
                 Title = DefaultString.Platform,
@@ -98,9 +98,9 @@ namespace Mt.ChangeLog.Context
             context.AnalogModules.Add(analogModule);
             context.Platforms.Add(platform);
 
-            context.ProjectStatuses.AddRange(new ProjectStatus[]
+            context.ProjectStatuses.AddRange(new ProjectStatusEntity[]
             {
-                new ProjectStatus()
+                new ProjectStatusEntity()
                 {
                     Id = Guid.Parse("6C19D2AD-B68F-4F30-A3C8-5E89263B5067"),
                     Title = "Внутренний",
@@ -108,31 +108,31 @@ namespace Mt.ChangeLog.Context
                     Default = true,
                     Removable = false,
                 },
-                new ProjectStatus()
+                new ProjectStatusEntity()
                 {
                     Id = Guid.Parse("3c51f11b-3e0c-46c0-9673-a4e9f6384c7f"),
                     Title = "Актуальный",
                     Description = "Проект для коммерческого использования в блоках БМРЗ НТЦ Механотроника.",
                 },
-                new ProjectStatus()
+                new ProjectStatusEntity()
                 {
                     Id = Guid.Parse("e3174f9d-0820-41a6-abe5-1f8a2376f359"),
                     Title = "Тестовый",
                     Description = "Проект для проведения внутренних и внешних испытаний, сертификаций.",
                 },
-                new ProjectStatus()
+                new ProjectStatusEntity()
                 {
                     Id = Guid.Parse("f3e018df-6e03-4f2c-96f8-c166ade9ed18"),
                     Title = "Технологический",
                     Description = "Проект для использования в технологических стендах НТЦ Механотроника.",
                 },
-                new ProjectStatus()
+                new ProjectStatusEntity()
                 {
                     Id = Guid.Parse("502d78f6-015f-45df-aa57-7d952fc84549"),
                     Title = "Аннулированный",
                     Description = "Проект блока БМРЗ, поддержка и доработка которого прекращена в НТЦ Механотроника.",
                 },
-                new ProjectStatus()
+                new ProjectStatusEntity()
                 {
                     Id = Guid.Parse("6d1a530e-0f3e-476d-b633-208c929de09f"),
                     Title = "На аннулирование",
@@ -140,9 +140,9 @@ namespace Mt.ChangeLog.Context
                 },
             });
 
-            context.RelayAlgorithms.AddRange(new RelayAlgorithm[]
+            context.RelayAlgorithms.AddRange(new RelayAlgorithmEntity[]
             {
-                new RelayAlgorithm()
+                new RelayAlgorithmEntity()
                 {
                     Id = Guid.Parse("D2D7B8D8-6AEF-4D1C-A56D-99117B7040D6"),
                     Group = "МТ",
@@ -153,7 +153,7 @@ namespace Mt.ChangeLog.Context
                     Default = true,
                     Removable = false,
                 },
-                new RelayAlgorithm()
+                new RelayAlgorithmEntity()
                 {
                     Id = Guid.Parse("5CFC833D-EFCA-40AA-8652-E7CC9B51610F"),
                     Group = "МТ",
@@ -164,7 +164,7 @@ namespace Mt.ChangeLog.Context
                     Default = true,
                     Removable = false,
                 },
-                new RelayAlgorithm()
+                new RelayAlgorithmEntity()
                 {
                     Id = Guid.Parse("6417F76B-F1C7-4BFF-A550-5A0863F84B06"),
                     Group = "МТ",
@@ -175,7 +175,7 @@ namespace Mt.ChangeLog.Context
                     Default = true,
                     Removable = false,
                 },
-                new RelayAlgorithm()
+                new RelayAlgorithmEntity()
                 {
                     Id = Guid.Parse("3942C6E4-7BE6-4B45-9897-20C655D5FE22"),
                     Group = "МТ",
@@ -186,7 +186,7 @@ namespace Mt.ChangeLog.Context
                     Default = true,
                     Removable = false,
                 },
-                new RelayAlgorithm()
+                new RelayAlgorithmEntity()
                 {
                     Id = Guid.Parse("71416188-61BE-42FC-9142-4DC5D26CDFE4"),
                     Group = "МТ",
@@ -197,7 +197,7 @@ namespace Mt.ChangeLog.Context
                     Default = true,
                     Removable = false,
                 },
-                new RelayAlgorithm()
+                new RelayAlgorithmEntity()
                 {
                     Id = Guid.Parse("31BCC150-731F-4109-81D0-42F837D2929D"),
                     Group = "МТ",
@@ -208,7 +208,7 @@ namespace Mt.ChangeLog.Context
                     Default = true,
                     Removable = false,
                 },
-                new RelayAlgorithm()
+                new RelayAlgorithmEntity()
                 {
                     Id = Guid.Parse("E655F180-FAC1-47CC-A4E6-A72AA3C3D754"),
                     Group = "МТ",

@@ -9,7 +9,7 @@ namespace Mt.ChangeLog.Entities.Tables
     /// <summary>
     /// Сущность алгоритма РЗиА.
     /// </summary>
-    public class RelayAlgorithm : IEntity, IDefaultable, IEqualityPredicate<RelayAlgorithm>, IRemovable
+    public class RelayAlgorithmEntity : IEntity, IDefaultable, IEqualityPredicate<RelayAlgorithmEntity>, IRemovable
     {
         /// <inheritdoc />
         public Guid Id { get; set; }
@@ -50,13 +50,13 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Перечень редакций проектов.
         /// </summary>
-        public ICollection<ProjectRevision> ProjectRevisions { get; set; }
+        public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="RelayAlgorithm"/>.
+        /// Инициализация экземпляра <see cref="RelayAlgorithmEntity"/>.
         /// </summary>
-        public RelayAlgorithm()
+        public RelayAlgorithmEntity()
         {
             this.Id = Guid.NewGuid();
             this.Group = DefaultString.AlgorithmGroup;
@@ -66,19 +66,19 @@ namespace Mt.ChangeLog.Entities.Tables
             this.Description = DefaultString.Description;
             this.Default = false;
             this.Removable = true;
-            this.ProjectRevisions = new HashSet<ProjectRevision>();
+            this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
         }
 
         /// <inheritdoc />
-        public Expression<Func<RelayAlgorithm, bool>> GetEqualityPredicate()
+        public Expression<Func<RelayAlgorithmEntity, bool>> GetEqualityPredicate()
         {
-            return (RelayAlgorithm e) => e.Id == this.Id || e.Group == this.Group && e.Title == this.Title;
+            return (RelayAlgorithmEntity e) => e.Id == this.Id || e.Group == this.Group && e.Title == this.Title;
         }
 
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is RelayAlgorithm algorithm && ( Id.Equals(algorithm.Id) || Group == algorithm.Group && Title == algorithm.Title );
+            return obj is RelayAlgorithmEntity algorithm && ( Id.Equals(algorithm.Id) || Group == algorithm.Group && Title == algorithm.Title );
         }
 
         /// <inheritdoc />

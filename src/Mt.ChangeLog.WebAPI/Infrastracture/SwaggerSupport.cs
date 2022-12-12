@@ -30,9 +30,18 @@ namespace Mt.ChangeLog.WebAPI.Infrastracture
 
                 options.EnableAnnotations();
 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
-                options.SchemaGeneratorOptions.SchemaIdSelector = type => type.FullName;
+                var xmlWebAPI = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlWebAPI));
+
+                var xmlTransferObjects = $"{typeof(Mt.ChangeLog.TransferObjects.ServiceCollectionExtensions).Assembly.GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlTransferObjects));
+
+                /*
+                 * var xmlResults = $"{typeof(Mt.Results.MtProblemDetails).Assembly.GetName().Name}.xml"
+                 * options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlResults))
+                */
+
+                options.SchemaGeneratorOptions.SchemaIdSelector = (Type type) => type.Name;
             });
 
             return services;

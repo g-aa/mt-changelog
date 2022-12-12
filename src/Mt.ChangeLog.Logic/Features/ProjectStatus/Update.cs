@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
+using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ProjectStatus;
 using Mt.Entities.Abstractions.Extensions;
@@ -97,7 +98,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectStatus
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<string> SaveChangesAsync(Mt.ChangeLog.Entities.Tables.ProjectStatus entity, CancellationToken cancellationToken)
+            private async Task<string> SaveChangesAsync(ProjectStatusEntity entity, CancellationToken cancellationToken)
             {
                 this.context.ProjectStatuses.Update(entity);
                 await this.context.SaveChangesAsync(cancellationToken);

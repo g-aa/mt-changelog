@@ -6,12 +6,12 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Context.Configurations
 {
     /// <summary>
-    /// Конфигуратор сущности <see cref="Communication"/>.
+    /// Конфигуратор сущности <see cref="CommunicationEntity"/>.
     /// </summary>
-    internal sealed class CommunicationConfiguration : IEntityTypeConfiguration<Communication>
+    internal sealed class CommunicationConfiguration : IEntityTypeConfiguration<CommunicationEntity>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<Communication> builder)
+        public void Configure(EntityTypeBuilder<CommunicationEntity> builder)
         {
             Check.NotNull(builder, nameof(builder));
 

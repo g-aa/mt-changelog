@@ -10,16 +10,19 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
         /// <summary>
         /// ДИВГ.
         /// </summary>
+        /// <example>ДИВГ.00000-00</example>
         public string DIVG { get; set; }
-        
+
         /// <summary>
         /// Номинальный ток.
         /// </summary>
+        /// <example>0A</example>
         public string Current { get; set; }
-        
+
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
 
         /// <summary>

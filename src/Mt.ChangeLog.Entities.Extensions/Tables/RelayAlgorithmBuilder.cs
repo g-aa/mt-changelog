@@ -6,11 +6,11 @@ using System;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="RelayAlgorithm"/>.
+    /// Строитель <see cref="RelayAlgorithmEntity"/>.
     /// </summary>
     public class RelayAlgorithmBuilder
     {
-        private readonly RelayAlgorithm entity;
+        private readonly RelayAlgorithmEntity entity;
 
         private string group;
         private string title;
@@ -23,7 +23,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public RelayAlgorithmBuilder(RelayAlgorithm entity) 
+        public RelayAlgorithmBuilder(RelayAlgorithmEntity entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.group = entity.Group;
@@ -54,7 +54,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public RelayAlgorithm Build()
+        public RelayAlgorithmEntity Build()
         {
             // атрибуты:
             // this.entity.Id - не обновляется!
@@ -73,7 +73,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static RelayAlgorithmBuilder GetBuilder() 
         {
-            return new RelayAlgorithmBuilder(new RelayAlgorithm());
+            return new RelayAlgorithmBuilder(new RelayAlgorithmEntity());
         }
     }
 }

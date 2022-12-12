@@ -6,12 +6,12 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Context.Configurations
 {
     /// <summary>
-    /// Конфигуратор сущности <see cref="ProjectHistoryRecord"/>.
+    /// Конфигуратор сущности <see cref="ProjectHistoryRecordView"/>.
     /// </summary>
-    public class ProjectHistoryRecordConfiguration : IEntityTypeConfiguration<ProjectHistoryRecord>
+    public class ProjectHistoryRecordConfiguration : IEntityTypeConfiguration<ProjectHistoryRecordView>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<ProjectHistoryRecord> builder)
+        public void Configure(EntityTypeBuilder<ProjectHistoryRecordView> builder)
         {
             Check.NotNull(builder, nameof(builder));
 

@@ -12,15 +12,17 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
         /// Дата компиляции.
         /// </summary>
         public DateTime Date { get; set; }
-        
+
         /// <summary>
         /// Версия ArmEdit.
         /// </summary>
+        /// <example>v0.00.00.00</example>
         public string ArmEdit { get; set; }
 
         /// <summary>
         /// Причина изменений.
         /// </summary>
+        /// <example>Причина изменения...</example>
         public string Reason { get; set; }
 
         /// <summary>

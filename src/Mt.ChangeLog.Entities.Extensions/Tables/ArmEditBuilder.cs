@@ -6,11 +6,11 @@ using System;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="ArmEdit"/>.
+    /// Строитель <see cref="ArmEditEntity"/>.
     /// </summary>
     public class ArmEditBuilder
     {
-        private readonly ArmEdit entity;
+        private readonly ArmEditEntity entity;
 
         private string divg;
         private string version;
@@ -22,7 +22,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ArmEditBuilder(ArmEdit entity) 
+        public ArmEditBuilder(ArmEditEntity entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.divg = entity.DIVG;
@@ -51,7 +51,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public ArmEdit Build()
+        public ArmEditEntity Build()
         {
             // атрибуты:
             // this.entity.Id - не обновляется!
@@ -70,7 +70,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static ArmEditBuilder GetBuilder()
         {
-            return new ArmEditBuilder(new ArmEdit());
+            return new ArmEditBuilder(new ArmEditEntity());
         }
     }
 }

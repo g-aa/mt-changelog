@@ -6,27 +6,27 @@ using System;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="ProjectVersion"/>.
+    /// Строитель <see cref="ProjectVersionEntity"/>.
     /// </summary>
     public class ProjectVersionBuilder
     {
-        private readonly ProjectVersion entity;
+        private readonly ProjectVersionEntity entity;
 
         private string divg;
         private string prefix;
         private string title;
         private string version;
         private string description;
-        private Platform platform;
-        private AnalogModule module;
-        private ProjectStatus status;
+        private PlatformEntity platform;
+        private AnalogModuleEntity module;
+        private ProjectStatusEntity status;
 
         /// <summary>
         /// Инициализация экземпляра класса <see cref="ProjectVersionBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ProjectVersionBuilder(ProjectVersion entity) 
+        public ProjectVersionBuilder(ProjectVersionEntity entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.divg = entity.DIVG;
@@ -62,7 +62,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="platform">Платформа.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если platform равно null.</exception>
-        public ProjectVersionBuilder SetPlatform(Platform platform) 
+        public ProjectVersionBuilder SetPlatform(PlatformEntity platform) 
         {
             this.platform = Check.NotNull(platform, nameof(platform));
             return this;
@@ -74,7 +74,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="module">Модуль.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если module равно null.</exception>
-        public ProjectVersionBuilder SetAnalogModule(AnalogModule module) 
+        public ProjectVersionBuilder SetAnalogModule(AnalogModuleEntity module) 
         {
             this.module = Check.NotNull(module, nameof(module));
             return this;
@@ -86,7 +86,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="status">Статус.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если status равно null.</exception>
-        public ProjectVersionBuilder SetProjectStatus(ProjectStatus status) 
+        public ProjectVersionBuilder SetProjectStatus(ProjectStatusEntity status) 
         {
             this.status = Check.NotNull(status, nameof(status));
             return this;
@@ -96,7 +96,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public ProjectVersion Build()
+        public ProjectVersionEntity Build()
         {
             // атрибуты:
             // this.entity.Id - не обновляется!
@@ -119,7 +119,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static ProjectVersionBuilder GetBuilder() 
         {
-            return new ProjectVersionBuilder(new ProjectVersion());
+            return new ProjectVersionBuilder(new ProjectVersionEntity());
         }
     }
 }

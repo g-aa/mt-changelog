@@ -10,6 +10,7 @@ namespace Mt.ChangeLog.TransferObjects.Protocol
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
 
         /// <summary>

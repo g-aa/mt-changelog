@@ -7,16 +7,16 @@ using System.Linq;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="ProjectRevision"/>.
+    /// Методы расширения для класса <see cref="ProjectRevisionEntity"/>.
     /// </summary>
     public static class ProjectRevisionExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectRevision"/> в модель <see cref="ProjectRevisionShortModel"/>.
+        /// Преобразовать сущность <see cref="ProjectRevisionEntity"/> в модель <see cref="ProjectRevisionShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectRevisionShortModel ToShortModel(this ProjectRevision entity)
+        public static ProjectRevisionShortModel ToShortModel(this ProjectRevisionEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectRevisionShortModel()
@@ -31,11 +31,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectRevision"/> в модель <see cref="ProjectRevisionTableModel"/>.
+        /// Преобразовать сущность <see cref="ProjectRevisionEntity"/> в модель <see cref="ProjectRevisionTableModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectRevisionTableModel ToTableModel(this ProjectRevision entity)
+        public static ProjectRevisionTableModel ToTableModel(this ProjectRevisionEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectRevisionTableModel()
@@ -53,11 +53,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectRevision"/> в модель <see cref="ProjectRevisionTreeModel"/>.
+        /// Преобразовать сущность <see cref="ProjectRevisionEntity"/> в модель <see cref="ProjectRevisionTreeModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectRevisionTreeModel ToTreeModel(this ProjectRevision entity)
+        public static ProjectRevisionTreeModel ToTreeModel(this ProjectRevisionEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectRevisionTreeModel()
@@ -76,11 +76,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectRevision"/> в модель <see cref="ProjectRevisionHistoryShortModel"/>.
+        /// Преобразовать сущность <see cref="ProjectRevisionEntity"/> в модель <see cref="ProjectRevisionHistoryShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectRevisionHistoryShortModel ToHistoryShortModel(this ProjectRevision entity)
+        public static ProjectRevisionHistoryShortModel ToHistoryShortModel(this ProjectRevisionEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectRevisionHistoryShortModel()
@@ -94,11 +94,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectRevision"/> в модель <see cref="ProjectRevisionHistoryModel"/>.
+        /// Преобразовать сущность <see cref="ProjectRevisionEntity"/> в модель <see cref="ProjectRevisionHistoryModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectRevisionHistoryModel ToHistoryModel(this ProjectRevision entity)
+        public static ProjectRevisionHistoryModel ToHistoryModel(this ProjectRevisionEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectRevisionHistoryModel()
@@ -118,11 +118,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectRevision"/> в модель <see cref="ProjectRevisionModel"/>.
+        /// Преобразовать сущность <see cref="ProjectRevisionEntity"/> в модель <see cref="ProjectRevisionModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectRevisionModel ToModel(this ProjectRevision entity)
+        public static ProjectRevisionModel ToModel(this ProjectRevisionEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectRevisionModel()
@@ -147,7 +147,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static ProjectRevisionBuilder GetBuilder(this ProjectRevision entity)
+        public static ProjectRevisionBuilder GetBuilder(this ProjectRevisionEntity entity)
         {
             return new ProjectRevisionBuilder(entity);
         }

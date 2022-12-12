@@ -6,16 +6,16 @@ using System.Linq;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="Communication"/>.
+    /// Методы расширения для класса <see cref="CommunicationEntity"/>.
     /// </summary>
     public static class CommunicationExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="Communication"/> в модель <see cref="CommunicationShortModel"/>.
+        /// Преобразовать сущность <see cref="CommunicationEntity"/> в модель <see cref="CommunicationShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static CommunicationShortModel ToShortModel(this Communication entity)
+        public static CommunicationShortModel ToShortModel(this CommunicationEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new CommunicationShortModel()
@@ -27,11 +27,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="Communication"/> в модель <see cref="CommunicationTableModel"/>.
+        /// Преобразовать сущность <see cref="CommunicationEntity"/> в модель <see cref="CommunicationTableModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static CommunicationTableModel ToTableModel(this Communication entity)
+        public static CommunicationTableModel ToTableModel(this CommunicationEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new CommunicationTableModel()
@@ -45,11 +45,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="Communication"/> в модель <see cref="CommunicationModel"/>.
+        /// Преобразовать сущность <see cref="CommunicationEntity"/> в модель <see cref="CommunicationModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static CommunicationModel ToModel(this Communication entity)
+        public static CommunicationModel ToModel(this CommunicationEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new CommunicationModel()
@@ -67,7 +67,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static CommunicationBuilder GetBuilder(this Communication entity)
+        public static CommunicationBuilder GetBuilder(this CommunicationEntity entity)
         {
             return new CommunicationBuilder(entity);
         }

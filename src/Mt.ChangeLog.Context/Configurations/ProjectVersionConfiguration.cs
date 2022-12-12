@@ -6,12 +6,12 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Context.Configurations
 {
     /// <summary>
-    /// Конфигуратор сущности <see cref="ProjectVersion"/>.
+    /// Конфигуратор сущности <see cref="ProjectVersionEntity"/>.
     /// </summary>
-    internal sealed class ProjectVersionConfiguration : IEntityTypeConfiguration<ProjectVersion>
+    internal sealed class ProjectVersionConfiguration : IEntityTypeConfiguration<ProjectVersionEntity>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<ProjectVersion> builder)
+        public void Configure(EntityTypeBuilder<ProjectVersionEntity> builder)
         {
             Check.NotNull(builder, nameof(builder));
 

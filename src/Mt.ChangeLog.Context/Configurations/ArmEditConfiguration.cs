@@ -7,12 +7,12 @@ using System;
 namespace Mt.ChangeLog.Context.Configurations
 {
     /// <summary>
-    /// Конфигуратор сущности <see cref="ArmEdit"/>.
+    /// Конфигуратор сущности <see cref="ArmEditEntity"/>.
     /// </summary>
-    internal sealed class ArmEditConfiguration : IEntityTypeConfiguration<ArmEdit>
+    internal sealed class ArmEditConfiguration : IEntityTypeConfiguration<ArmEditEntity>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<ArmEdit> builder)
+        public void Configure(EntityTypeBuilder<ArmEditEntity> builder)
         {
             Check.NotNull(builder, nameof(builder));
 

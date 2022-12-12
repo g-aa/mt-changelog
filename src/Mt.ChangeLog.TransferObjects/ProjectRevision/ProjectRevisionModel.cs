@@ -27,16 +27,19 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
         /// <summary>
         /// Редакция.
         /// </summary>
+        /// <example>00</example>
         public string Revision { get; set; }
-        
+
         /// <summary>
         /// Причина изменений.
         /// </summary>
+        /// <example>Причина изменения...</example>
         public string Reason { get; set; }
-        
+
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
         
         /// <summary>

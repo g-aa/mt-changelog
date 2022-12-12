@@ -5,7 +5,7 @@ namespace Mt.ChangeLog.Entities.Views
     /// <summary>
     /// Представление автор вклад в проект.
     /// </summary>
-    public class AuthorProjectContribution
+    public class AuthorProjectContributionView
     {
         /// <summary>
         /// Ф.И.О. автора (LastName FirstName). 
@@ -33,9 +33,9 @@ namespace Mt.ChangeLog.Entities.Views
         public string ProjectVersion { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра класса <see cref="AuthorProjectContribution"/>.
+        /// Инициализация экземпляра класса <see cref="AuthorProjectContributionView"/>.
         /// </summary>
-        public AuthorProjectContribution()
+        public AuthorProjectContributionView()
         {
             this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
             this.Contribution = 0;

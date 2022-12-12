@@ -16,6 +16,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
         /// <summary>
         /// Версия ArmEdit.
         /// </summary>
+        /// <example>v0.00.00.00</example>
         public string Version { get; set; }
 
         /// <summary>

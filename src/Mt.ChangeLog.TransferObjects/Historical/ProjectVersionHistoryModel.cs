@@ -10,6 +10,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// <summary>
         /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version".
         /// </summary>
+        /// <example>БФПО-000-ПМК-00</example>
         public string Title { get; set; }
         
         /// <summary>

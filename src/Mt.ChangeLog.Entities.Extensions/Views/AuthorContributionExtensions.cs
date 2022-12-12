@@ -5,16 +5,16 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Entities.Extensions.Views
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="AuthorContribution"/>.
+    /// Методы расширения для класса <see cref="AuthorContributionView"/>.
     /// </summary>
     public static class AuthorContributionExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="AuthorContribution"/> в модель <see cref="AuthorContributionModel"/>.
+        /// Преобразовать сущность <see cref="AuthorContributionView"/> в модель <see cref="AuthorContributionModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static AuthorContributionModel ToModel(this AuthorContribution entity)
+        public static AuthorContributionModel ToModel(this AuthorContributionView entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new AuthorContributionModel()
@@ -26,11 +26,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Views
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="AuthorProjectContribution"/> в модель <see cref="AuthorProjectContributionModel"/>.
+        /// Преобразовать сущность <see cref="AuthorProjectContributionView"/> в модель <see cref="AuthorProjectContributionModel"/>.
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static AuthorProjectContributionModel ToModel(this AuthorProjectContribution entity)
+        public static AuthorProjectContributionModel ToModel(this AuthorProjectContributionView entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new AuthorProjectContributionModel()

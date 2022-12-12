@@ -5,16 +5,16 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="ArmEdit"/>.
+    /// Методы расширения для класса <see cref="ArmEditEntity"/>.
     /// </summary>
     public static class ArmEditExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="ArmEdit"/> в модель <see cref="ArmEditShortModel"/>.
+        /// Преобразовать сущность <see cref="ArmEditEntity"/> в модель <see cref="ArmEditShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ArmEditShortModel ToShortModel(this ArmEdit entity)
+        public static ArmEditShortModel ToShortModel(this ArmEditEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ArmEditShortModel()
@@ -26,11 +26,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ArmEdit"/> в модель <see cref="ArmEditModel"/>.
+        /// Преобразовать сущность <see cref="ArmEditEntity"/> в модель <see cref="ArmEditModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ArmEditModel ToModel(this ArmEdit entity)
+        public static ArmEditModel ToModel(this ArmEditEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ArmEditModel()
@@ -49,7 +49,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static ArmEditBuilder GetBuilder(this ArmEdit entity)
+        public static ArmEditBuilder GetBuilder(this ArmEditEntity entity)
         {
             return new ArmEditBuilder(entity);
         }

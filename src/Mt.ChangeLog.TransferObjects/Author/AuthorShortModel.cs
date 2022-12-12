@@ -16,11 +16,13 @@ namespace Mt.ChangeLog.TransferObjects.Author
         /// <summary>
         /// Имя.
         /// </summary>
+        /// <example>Иван</example>
         public string FirstName { get; set; }
 
         /// <summary>
         /// Фамилия.
         /// </summary>
+        /// <example>Иванов</example>
         public string LastName { get; set; }
 
         /// <summary>

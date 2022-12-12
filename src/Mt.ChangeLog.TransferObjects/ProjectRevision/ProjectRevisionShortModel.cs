@@ -11,6 +11,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
         /// <summary>
         /// Редакция
         /// </summary>
+        /// <example>00</example>
         public string Revision { get; set; }
 
         /// <summary>
