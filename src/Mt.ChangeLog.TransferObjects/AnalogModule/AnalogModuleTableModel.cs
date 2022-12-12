@@ -10,7 +10,7 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
         /// <summary>
         /// ДИВГ.
         /// </summary>
-        /// <example>ДИВГ.00000.00</example>
+        /// <example>ДИВГ.00000-00</example>
         public string DIVG { get; set; }
 
         /// <summary>
