@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Mt.ChangeLog.WebAPI.Infrastracture;
 using Mt.Results;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
@@ -35,12 +34,12 @@ namespace Mt.ChangeLog.WebAPI.Controllers
         /// <returns>Описание приложения.</returns>
         [HttpGet]
         [Route("description")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Версия приложения.", typeof(MtAppDescriptionModel))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Версия приложения.", typeof(MtAppDescription))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
         public async Task<IActionResult> Description()
         {
-            return await Task.FromResult(this.Ok(new MtAppDescriptionModel()
+            return await Task.FromResult(this.Ok(new MtAppDescription()
             {
                 Version = Program.AppName,
                 Copyright = "НТЦ Механотроники 1993 – 2022.",
