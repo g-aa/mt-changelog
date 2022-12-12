@@ -15,10 +15,11 @@ namespace Mt.ChangeLog.TransferObjects.Other
         /// Дата сбора статистики.
         /// </summary>
         public DateTime Date { get; set; }
-        
+
         /// <summary>
         /// Актуальная версия ArmEdit.
         /// </summary>
+        /// <example>v0.00.00.00</example>
         public string ArmEdit { get; set; }
         
         /// <summary>

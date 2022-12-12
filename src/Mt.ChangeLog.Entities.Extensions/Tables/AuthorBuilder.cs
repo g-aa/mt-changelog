@@ -6,11 +6,11 @@ using System;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="Author"/>.
+    /// Строитель <see cref="AuthorEntity"/>.
     /// </summary>
     public sealed class AuthorBuilder
     {
-        private readonly Author entity;
+        private readonly AuthorEntity entity;
 
         private string firstname;
         private string lastname;
@@ -20,7 +20,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Инициализация экземпляра класса <see cref="AuthorBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
-        public AuthorBuilder(Author entity) 
+        public AuthorBuilder(AuthorEntity entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.firstname = entity.FirstName;
@@ -47,7 +47,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public Author Build()
+        public AuthorEntity Build()
         {
             // атрибуты:
             // this.entity.Id - не обновляется!
@@ -65,7 +65,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static AuthorBuilder GetBuilder()
         {
-            return new AuthorBuilder(new Author());
+            return new AuthorBuilder(new AuthorEntity());
         }
     }
 }

@@ -13,11 +13,13 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
         /// <summary>
         /// ДИВГ.
         /// </summary>
+        /// <example>ДИВГ.00000-00</example>
         public string DIVG { get; set; }
-        
+
         /// <summary>
         /// Описание.
         /// </summary>
+        /// <example>Описание...</example>
         public string Description { get; set; }
         
         /// <summary>

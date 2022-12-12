@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 namespace Mt.ChangeLog.Entities.Tables
 {
     /// <summary>
-    /// Сущность статус проекта.
+    /// Сущность коммуникационного модуля.
     /// </summary>
-    public class ProjectStatus : IDefaultable, IEntity, IEqualityPredicate<ProjectStatus>, IRemovable
+    public class CommunicationEntity : IDefaultable, IEntity, IEqualityPredicate<CommunicationEntity>, IRemovable
     {
         /// <inheritdoc />
         public Guid Id { get; set; }
@@ -33,34 +33,40 @@ namespace Mt.ChangeLog.Entities.Tables
         #region [ Relationships ]
         
         /// <summary>
-        /// Перечень версий проектов.
+        /// Перечень протоколов.
         /// </summary>
-        public ICollection<ProjectVersion> ProjectVersions { get; set; }
+        public ICollection<ProtocolEntity> Protocols { get; set; }
+        
+        /// <summary>
+        /// Перечень редакций проектов.
+        /// </summary>
+        public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectStatus"/>.
+        /// Инициализация экземпляра <see cref="CommunicationEntity"/>.
         /// </summary>
-        public ProjectStatus() 
+        public CommunicationEntity()
         {
             this.Id = Guid.NewGuid();
-            this.Title = "Внутренний";
+            this.Title = DefaultString.Communication;
             this.Description = DefaultString.Description;
             this.Default = false;
             this.Removable = true;
-            this.ProjectVersions = new HashSet<ProjectVersion>();
+            this.Protocols = new HashSet<ProtocolEntity>();
+            this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
         }
 
         /// <inheritdoc />
-        public Expression<Func<ProjectStatus, bool>> GetEqualityPredicate()
+        public Expression<Func<CommunicationEntity, bool>> GetEqualityPredicate()
         {
-            return (ProjectStatus e) => e.Id == this.Id || e.Title == this.Title;
+            return (CommunicationEntity e) => e.Id == this.Id || e.Title == this.Title;
         }
 
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is ProjectStatus e && ( this.Id.Equals(e.Id) || this.Title == e.Title );
+            return obj is CommunicationEntity e && ( this.Id.Equals(e.Id) || this.Title == e.Title );
         }
 
         /// <inheritdoc />
@@ -72,7 +78,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"ID: {this.Id}, статус: {this.Title}";
+            return $"ID: {this.Id}, адаптер: {this.Title}";
         }
     }
 }

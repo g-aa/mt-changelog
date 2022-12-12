@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 namespace Mt.ChangeLog.Entities.Tables
 {
     /// <summary>
-    /// Сущность ArmEdit.
+    /// Сущность аналогового модуля.
     /// </summary>
-    public class ArmEdit : IDefaultable, IEntity, IEqualityPredicate<ArmEdit>, IRemovable
+    public class AnalogModuleEntity : IDefaultable, IEntity, IEqualityPredicate<AnalogModuleEntity>, IRemovable
     {
         /// <inheritdoc />
         public Guid Id { get; set; }
@@ -20,14 +20,14 @@ namespace Mt.ChangeLog.Entities.Tables
         public string DIVG { get; set; }
 
         /// <summary>
-        /// Версия ArmEdit.
+        /// Наименование.
         /// </summary>
-        public string Version { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
-        /// Дата и время компиляции.
+        /// Номинальный ток.
         /// </summary>
-        public DateTime Date { get; set; }
+        public string Current { get; set; }
 
         /// <summary>
         /// Описание.
@@ -36,59 +36,65 @@ namespace Mt.ChangeLog.Entities.Tables
 
         /// <inheritdoc />
         public bool Default { get; set; }
-
+        
         /// <inheritdoc />
         public bool Removable { get; set; }
 
         #region [ Relationships ]
-        
+
         /// <summary>
         /// Перечень версий проектов.
         /// </summary>
-        public ICollection<ProjectRevision> ProjectRevisions { get; set; }
+        public ICollection<ProjectVersionEntity> Projects { get; set; }
+
+        /// <summary>
+        /// Перечень платформ.
+        /// </summary>
+        public ICollection<PlatformEntity> Platforms { get; set; }
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ArmEdit"/>.
+        /// Инициализация экземпляра <see cref="AnalogModuleEntity"/>.
         /// </summary>
-        public ArmEdit() 
+        public AnalogModuleEntity()
         {
             this.Id = Guid.NewGuid();
             this.DIVG = DefaultString.DIVG;
-            this.Version = DefaultString.Version;
-            this.Date = DateTime.Now;
+            this.Title = DefaultString.AnalogModule;
+            this.Current = DefaultString.Current;
             this.Description = DefaultString.Description;
             this.Default = false;
             this.Removable = true;
-            this.ProjectRevisions = new HashSet<ProjectRevision>();
+            this.Projects = new HashSet<ProjectVersionEntity>();
+            this.Platforms = new HashSet<PlatformEntity>();
         }
 
         /// <inheritdoc />
-        public Expression<Func<ArmEdit, bool>> GetEqualityPredicate()
+        public Expression<Func<AnalogModuleEntity, bool>> GetEqualityPredicate()
         {
             /*
-             * пока нет полных данных по ДИВГ-ам
-             * return (ArmEdit e) => e.Id == this.Id || e.DIVG == this.DIVG || e.Version == this.Version
+             * пока нет данных по ДИВГ-ам
+             * return (AnalogModule e) => e.Id == this.Id || e.DIVG == this.DIVG || e.Title == this.Title
              */
-            return (ArmEdit e) => e.Id == this.Id || e.Version == this.Version;
+            return (AnalogModuleEntity e) => e.Id == this.Id || e.Title == this.Title;
         }
 
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is ArmEdit arm && ( this.Id.Equals(arm.Id) || this.Version == arm.Version );
+            return obj is AnalogModuleEntity module && ( this.Id.Equals(module.Id) || this.Title == module.Title );
         }
 
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.DIVG, this.Version);
+            return HashCode.Combine(this.DIVG, this.Title, this.Current);
         }
 
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"ID: {this.Id}, ArmEdit: {this.DIVG}, {this.Version}";
+            return $"ID: {this.Id}, модуль: {this.Title}";
         }
     }
 }

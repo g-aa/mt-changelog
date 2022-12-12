@@ -6,12 +6,12 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Context.Configurations
 {
     /// <summary>
-    /// Конфигуратор сущности <see cref="AuthorProjectContribution"/>.
+    /// Конфигуратор сущности <see cref="AuthorProjectContributionView"/>.
     /// </summary>
-    internal sealed class AuthorProjectContributionConfiguration : IEntityTypeConfiguration<AuthorProjectContribution>
+    internal sealed class AuthorProjectContributionConfiguration : IEntityTypeConfiguration<AuthorProjectContributionView>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<AuthorProjectContribution> builder)
+        public void Configure(EntityTypeBuilder<AuthorProjectContributionView> builder)
         {
             Check.NotNull(builder, nameof(builder));
 

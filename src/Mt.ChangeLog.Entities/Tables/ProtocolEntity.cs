@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 namespace Mt.ChangeLog.Entities.Tables
 {
     /// <summary>
-    /// Сущность платформы БМРЗ.
+    /// Сущность протокола информационнго обмена.
     /// </summary>
-    public class Platform : IDefaultable, IEntity, IEqualityPredicate<Platform>, IRemovable
+    public class ProtocolEntity : IDefaultable, IEntity, IEqualityPredicate<ProtocolEntity>, IRemovable
     {
         /// <inheritdoc />
         public Guid Id { get; set; }
@@ -23,7 +23,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// Описание.
         /// </summary>
         public string Description { get; set; }
-        
+
         /// <inheritdoc />
         public bool Default { get; set; }
         
@@ -33,40 +33,34 @@ namespace Mt.ChangeLog.Entities.Tables
         #region [ Relationships ]
 
         /// <summary>
-        /// Перечень аналоговых модулей.
+        /// Перечень коммуникационных модулей.
         /// </summary>
-        public ICollection<AnalogModule> AnalogModules { get; set; }
-        
-        /// <summary>
-        /// Перечень версий проектов.
-        /// </summary>
-        public ICollection<ProjectVersion> Projects { get; set; }
+        public ICollection<CommunicationEntity> Communications { get; set; }
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="Platform"/>.
+        /// Инициализация экземпляра <see cref="ProtocolEntity"/>.
         /// </summary>
-        public Platform()
+        public ProtocolEntity() 
         {
             this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Platform;
+            this.Title = DefaultString.Protocol;
             this.Description = DefaultString.Description;
             this.Default = false;
             this.Removable = true;
-            this.AnalogModules = new HashSet<AnalogModule>();
-            this.Projects = new HashSet<ProjectVersion>();
+            this.Communications = new HashSet<CommunicationEntity>();
         }
 
         /// <inheritdoc />
-        public Expression<Func<Platform, bool>> GetEqualityPredicate()
+        public Expression<Func<ProtocolEntity, bool>> GetEqualityPredicate()
         {
-            return (Platform e) => e.Id == this.Id || e.Title == this.Title;
+            return (ProtocolEntity e) => e.Id == this.Id || e.Title == this.Title;
         }
 
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is Platform platform && (Id.Equals(platform.Id) || Title == platform.Title);
+            return obj is ProtocolEntity protocol && ( Id.Equals(protocol.Id) || Title == protocol.Title);
         }
 
         /// <inheritdoc />
@@ -78,7 +72,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"ID: {this.Id}, платформа: {this.Title}";
+            return $"ID: {this.Id}, протокол: {this.Title}";
         }
     }
 }

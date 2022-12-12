@@ -6,7 +6,7 @@ namespace Mt.ChangeLog.Entities.Views
     /// <summary>
     /// Сущность последняя редакции проекта.
     /// </summary>
-    public class LastProjectRevision
+    public class LastProjectRevisionView
     {
         /// <summary>
         /// ИД версии проекта.
@@ -54,9 +54,9 @@ namespace Mt.ChangeLog.Entities.Views
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Инициализация экземпляра класса <see cref="LastProjectRevision"/>.
+        /// Инициализация экземпляра класса <see cref="LastProjectRevisionView"/>.
         /// </summary>
-        public LastProjectRevision()
+        public LastProjectRevisionView()
         {
             this.ProjectVersionId = Guid.Empty;
             this.ProjectRevisionId = Guid.Empty;

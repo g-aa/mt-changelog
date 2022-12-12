@@ -6,12 +6,12 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Context.Configurations
 {
     /// <summary>
-    /// Конфигуратор сущности <see cref="Protocol"/>.
+    /// Конфигуратор сущности <see cref="ProtocolEntity"/>.
     /// </summary>
-    internal sealed class ProtocolConfiguration : IEntityTypeConfiguration<Protocol>
+    internal sealed class ProtocolConfiguration : IEntityTypeConfiguration<ProtocolEntity>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<Protocol> builder)
+        public void Configure(EntityTypeBuilder<ProtocolEntity> builder)
         {
             Check.NotNull(builder, nameof(builder));
 

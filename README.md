@@ -10,6 +10,12 @@ netstandard2.1, net6.0, [Mt.Utilities](https://github.com/g-aa/mt-utilities), [M
 
 ## [История изменения.](CHANGELOG.md)
 
+## Покрытие кода тестами:
+
+Перед первым запуском ```.test.bat```, для просмотра покрытия кода тестами необходимо выполнить команду:
+
+```dotnet tool install -g dotnet-reportgenerator-globaltool```
+
 ## Состав проекта:
 
 | Компонент                            | Описание                                                                                                                |

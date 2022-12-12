@@ -12,10 +12,11 @@ namespace Mt.ChangeLog.TransferObjects.Protocol
         /// ИД.
         /// </summary>
         public Guid Id { get; set; }
-        
+
         /// <summary>
         /// Наименование.
         /// </summary>
+        /// <example>Modbus-MT</example>
         public string Title { get; set; }
 
         /// <summary>

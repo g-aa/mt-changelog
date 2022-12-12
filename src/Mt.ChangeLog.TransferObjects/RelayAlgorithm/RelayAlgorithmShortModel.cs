@@ -16,6 +16,7 @@ namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm
         /// <summary>
         /// Наименование.
         /// </summary>
+        /// <example>МТЗ</example>
         public string Title { get; set; }
 
         /// <summary>

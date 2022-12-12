@@ -7,16 +7,16 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Entities.Extensions.Views
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="LastProjectRevision"/>.
+    /// Методы расширения для класса <see cref="LastProjectRevisionView"/>.
     /// </summary>
     public static class LastProjectRevisionExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="LastProjectRevision"/> в модель <see cref="LastProjectRevisionModel"/>.
+        /// Преобразовать сущность <see cref="LastProjectRevisionView"/> в модель <see cref="LastProjectRevisionModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static LastProjectRevisionModel ToModel(this LastProjectRevision entity)
+        public static LastProjectRevisionModel ToModel(this LastProjectRevisionView entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new LastProjectRevisionModel()
@@ -33,11 +33,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Views
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="LastProjectRevision"/> в краткую модель истории редакции <see cref="ProjectRevisionHistoryShortModel"/>.
+        /// Преобразовать сущность <see cref="LastProjectRevisionView"/> в краткую модель истории редакции <see cref="ProjectRevisionHistoryShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectRevisionHistoryShortModel ToHistoryShortModel(this LastProjectRevision entity)
+        public static ProjectRevisionHistoryShortModel ToHistoryShortModel(this LastProjectRevisionView entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectRevisionHistoryShortModel()
@@ -51,11 +51,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Views
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="LastProjectRevision"/> в краткую модель истории версии <see cref="ProjectVersionShortModel"/>.
+        /// Преобразовать сущность <see cref="LastProjectRevisionView"/> в краткую модель истории версии <see cref="ProjectVersionShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectVersionShortModel ToProjectVersionShortModel(this LastProjectRevision entity)
+        public static ProjectVersionShortModel ToProjectVersionShortModel(this LastProjectRevisionView entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectVersionShortModel()

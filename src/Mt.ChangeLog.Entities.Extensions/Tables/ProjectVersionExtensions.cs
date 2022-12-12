@@ -5,16 +5,16 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="ProjectVersion"/>.
+    /// Методы расширения для класса <see cref="ProjectVersionEntity"/>.
     /// </summary>
     public static class ProjectVersionExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectVersion"/> в модель <see cref="ProjectVersionShortModel"/>.
+        /// Преобразовать сущность <see cref="ProjectVersionEntity"/> в модель <see cref="ProjectVersionShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectVersionShortModel ToShortModel(this ProjectVersion entity)
+        public static ProjectVersionShortModel ToShortModel(this ProjectVersionEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectVersionShortModel()
@@ -28,11 +28,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectVersion"/> в модель <see cref="ProjectVersionTableModel"/>.
+        /// Преобразовать сущность <see cref="ProjectVersionEntity"/> в модель <see cref="ProjectVersionTableModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectVersionTableModel ToTableModel(this ProjectVersion entity)
+        public static ProjectVersionTableModel ToTableModel(this ProjectVersionEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectVersionTableModel()
@@ -51,11 +51,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="ProjectVersion"/> в модель <see cref="ProjectVersionModel"/>.
+        /// Преобразовать сущность <see cref="ProjectVersionEntity"/> в модель <see cref="ProjectVersionModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static ProjectVersionModel ToModel(this ProjectVersion entity)
+        public static ProjectVersionModel ToModel(this ProjectVersionEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new ProjectVersionModel()
@@ -77,7 +77,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Получить строитель.
         /// </summary>
         /// <returns>Строитель.</returns>
-        public static ProjectVersionBuilder GetBuilder(this ProjectVersion project)
+        public static ProjectVersionBuilder GetBuilder(this ProjectVersionEntity project)
         {
             return new ProjectVersionBuilder(project);
         }

@@ -5,16 +5,16 @@ using Mt.Utilities;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Методы расширения для класса <see cref="Author"/>.
+    /// Методы расширения для класса <see cref="AuthorEntity"/>.
     /// </summary>
     public static class AuthorExtensions
     {
         /// <summary>
-        /// Преобразовать сущность <see cref="Author"/> в модель <see cref="AuthorShortModel"/>.
+        /// Преобразовать сущность <see cref="AuthorEntity"/> в модель <see cref="AuthorShortModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static AuthorShortModel ToShortModel(this Author entity)
+        public static AuthorShortModel ToShortModel(this AuthorEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new AuthorShortModel()
@@ -27,11 +27,11 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         }
 
         /// <summary>
-        /// Преобразовать сущность <see cref="Author"/> в модель <see cref="AuthorModel"/>.
+        /// Преобразовать сущность <see cref="AuthorEntity"/> в модель <see cref="AuthorModel"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static AuthorModel ToModel(this Author entity)
+        public static AuthorModel ToModel(this AuthorEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new AuthorModel()
@@ -49,7 +49,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static AuthorBuilder GetBuilder(this Author entity)
+        public static AuthorBuilder GetBuilder(this AuthorEntity entity)
         {
             return new AuthorBuilder(entity);
         }

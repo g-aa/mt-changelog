@@ -9,7 +9,7 @@ namespace Mt.ChangeLog.Entities.Tables
     /// <summary>
     /// Сущность редакции проекта.
     /// </summary>
-    public class ProjectRevision : IEntity, IEqualityPredicate<ProjectRevision>
+    public class ProjectRevisionEntity : IEntity, IEqualityPredicate<ProjectRevisionEntity>
     {
         /// <inheritdoc />
         public Guid Id { get; set; }
@@ -44,7 +44,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Версия проекта.
         /// </summary>
-        public ProjectVersion ProjectVersion { get; set; }
+        public ProjectVersionEntity ProjectVersion { get; set; }
 
         /// <summary>
         /// ИД родительской редакции проекта.
@@ -54,7 +54,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Родительская редакция проекта.
         /// </summary>
-        public ProjectRevision ParentRevision { get; set; }
+        public ProjectRevisionEntity ParentRevision { get; set; }
 
         /// <summary>
         /// ИД версии ArmEdit.
@@ -64,7 +64,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Версия ArmEdit.
         /// </summary>
-        public ArmEdit ArmEdit { get; set; }
+        public ArmEditEntity ArmEdit { get; set; }
 
         /// <summary>
         /// ИД коммуникационного модуля.
@@ -74,44 +74,44 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Коммуникационный модуль.
         /// </summary>
-        public Communication Communication { get; set; }
+        public CommunicationEntity Communication { get; set; }
 
         /// <summary>
         /// Перечень авторов.
         /// </summary>
-        public ICollection<Author> Authors { get; set; }
+        public ICollection<AuthorEntity> Authors { get; set; }
 
         /// <summary>
         /// Перечень алгоритмов.
         /// </summary>
-        public ICollection<RelayAlgorithm> RelayAlgorithms { get; set; }
+        public ICollection<RelayAlgorithmEntity> RelayAlgorithms { get; set; }
         #endregion
 
         /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectRevision"/>.
+        /// Инициализация экземпляра <see cref="ProjectRevisionEntity"/>.
         /// </summary>
-        public ProjectRevision()
+        public ProjectRevisionEntity()
         {
             this.Id = Guid.NewGuid();
             this.Date = DateTime.Now;
             this.Revision = DefaultString.Revision;
             this.Reason = DefaultString.Reason;
             this.Description = DefaultString.Description;
-            this.Authors = new HashSet<Author>();
-            this.RelayAlgorithms = new HashSet<RelayAlgorithm>();
+            this.Authors = new HashSet<AuthorEntity>();
+            this.RelayAlgorithms = new HashSet<RelayAlgorithmEntity>();
         }
 
         /// <inheritdoc />
-        public Expression<Func<ProjectRevision, bool>> GetEqualityPredicate()
+        public Expression<Func<ProjectRevisionEntity, bool>> GetEqualityPredicate()
         {
-            return (ProjectRevision e) => e.Id == this.Id
+            return (ProjectRevisionEntity e) => e.Id == this.Id
             || (e.ProjectVersionId == this.ProjectVersionId || e.ProjectVersion.DIVG == this.ProjectVersion.DIVG) && e.Revision == this.Revision;
         }
 
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is ProjectRevision e && ( this.Id.Equals(e.Id) || ProjectVersionId.Equals(e.ProjectVersionId) && Revision == e.Revision );
+            return obj is ProjectRevisionEntity e && ( this.Id.Equals(e.Id) || ProjectVersionId.Equals(e.ProjectVersionId) && Revision == e.Revision );
         }
 
         /// <inheritdoc />

@@ -10,6 +10,7 @@ namespace Mt.ChangeLog.TransferObjects.Author
         /// <summary>
         /// Ф.И.О. автора (LastName FirstName). 
         /// </summary>
+        /// <example>Иванов Иван</example>
         public string Author { get; set; }
         
         /// <summary>

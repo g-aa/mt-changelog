@@ -7,22 +7,22 @@ using System.Linq;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="Protocol"/>.
+    /// Строитель <see cref="ProtocolEntity"/>.
     /// </summary>
     public class ProtocolBuilder
     {
-        private readonly Protocol entity;
+        private readonly ProtocolEntity entity;
 
         private string title;
         private string description;
-        private IQueryable<Communication> communications;
+        private IQueryable<CommunicationEntity> communications;
 
         /// <summary>
         /// Инициализация экземпляра класса <see cref="ProtocolBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ProtocolBuilder(Protocol entity) 
+        public ProtocolBuilder(ProtocolEntity entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.title = entity.Title;
@@ -50,7 +50,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="modules">Перечень протоколов.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если modules равно null.</exception>
-        public ProtocolBuilder SetModules(IQueryable<Communication> modules) 
+        public ProtocolBuilder SetModules(IQueryable<CommunicationEntity> modules) 
         {
             this.communications = Check.NotNull(modules, nameof(modules));
             return this;
@@ -60,7 +60,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public Protocol Build() 
+        public ProtocolEntity Build() 
         {
             // атрибуты:
             // this.entity.Id - не обновляется!
@@ -77,7 +77,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static ProtocolBuilder GetBuilder() 
         {
-            return new ProtocolBuilder(new Protocol());
+            return new ProtocolBuilder(new ProtocolEntity());
         }
     }
 }

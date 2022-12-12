@@ -10,16 +10,19 @@ namespace Mt.ChangeLog.TransferObjects.Author
         /// <summary>
         /// Префикс наименования проекта.
         /// </summary>
+        /// <example>БФПО-000</example>
         public string ProjectPrefix { get; set; }
-        
+
         /// <summary>
         /// Заголовок проекта.
         /// </summary>
+        /// <example>ПМК</example>
         public string ProjectTitle { get; set; }
-        
+
         /// <summary>
         /// Версия проекта.
         /// </summary>
+        /// <example>00</example>
         public string ProjectVersion { get; set; }
 
         /// <summary>

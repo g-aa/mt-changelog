@@ -16,6 +16,7 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
         /// <summary>
         /// Наименование.
         /// </summary>
+        /// <example>БМРЗ-000</example>
         public string Title { get; set; }
 
         /// <summary>

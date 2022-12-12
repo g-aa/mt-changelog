@@ -7,22 +7,22 @@ using System.Linq;
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
     /// <summary>
-    /// Строитель <see cref="Communication"/>.
+    /// Строитель <see cref="CommunicationEntity"/>.
     /// </summary>
     public sealed class CommunicationBuilder
     {
-        private readonly Communication entity;
+        private readonly CommunicationEntity entity;
 
         private string title;
         private string description;
-        private IQueryable<Protocol> protocols;
+        private IQueryable<ProtocolEntity> protocols;
 
         /// <summary>
         /// Инициализация экземпляра класса <see cref="CommunicationBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public CommunicationBuilder(Communication entity) 
+        public CommunicationBuilder(CommunicationEntity entity) 
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.title = entity.Title;
@@ -50,7 +50,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="protocols">Перечень протоколов.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если protocols равно null.</exception>
-        public CommunicationBuilder SetProtocols(IQueryable<Protocol> protocols)
+        public CommunicationBuilder SetProtocols(IQueryable<ProtocolEntity> protocols)
         {
             this.protocols = Check.NotNull(protocols, nameof(protocols));
             return this;
@@ -60,7 +60,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Построить сущность.
         /// </summary>
         /// <returns>Сущность.</returns>
-        public Communication Build()
+        public CommunicationEntity Build()
         {
             // атрибуты:
             // this.entity.Id - не обновляется!
@@ -77,7 +77,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Строитель.</returns>
         public static CommunicationBuilder GetBuilder() 
         {
-            return new CommunicationBuilder(new Communication());
+            return new CommunicationBuilder(new CommunicationEntity());
         }
     }
 }

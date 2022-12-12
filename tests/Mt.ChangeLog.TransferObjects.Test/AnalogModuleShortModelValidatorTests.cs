@@ -4,16 +4,27 @@ using NUnit.Framework;
 
 namespace Mt.ChangeLog.TransferObjects.Test
 {
+    /// <summary>
+    /// Набор тестов для <see cref="AnalogModuleShortModel"/>.
+    /// </summary>
+    [TestFixture]
     public sealed class AnalogModuleShortModelValidatorTests
     {
         private AnalogModuleShortModelValidator validator;
 
+        /// <summary>
+        /// Настройка.
+        /// </summary>
         [OneTimeSetUp]
         public void Setup()
         {
             validator = new AnalogModuleShortModelValidator();
         }
 
+        /// <summary>
+        /// Положительные тесты для <see cref="AnalogModuleShortModel.Title"/>.
+        /// </summary>
+        /// <param name="title">Наименование.</param>
         [Test]
         [TestCase("БМРЗ-000")]
         [TestCase("БМРЗ-999")]
@@ -31,10 +42,15 @@ namespace Mt.ChangeLog.TransferObjects.Test
             result.ShouldNotHaveValidationErrorFor(m => m.Title);
         }
 
+        /// <summary>
+        /// Отрицательные тесты для <see cref="AnalogModuleShortModel.Title"/>.
+        /// </summary>
+        /// <param name="title">Наименование.</param>
         [Test]
         [TestCase(null)]
         [TestCase("")]
         [TestCase(" ")]
+        [TestCase("\t")]
         [TestCase("БМРЗ-0")]
         [TestCase("БМРЗ-00000")]
         [TestCase(" БМРЗ-100N ")]

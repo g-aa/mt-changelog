@@ -12,10 +12,11 @@ namespace Mt.ChangeLog.TransferObjects.Communication
         /// ИД.
         /// </summary>
         public Guid Id { get; set; }
-        
+
         /// <summary>
         /// Наименование.
         /// </summary>
+        /// <example>АК Virtual</example>
         public string Title { get; set; }
 
         /// <summary>
