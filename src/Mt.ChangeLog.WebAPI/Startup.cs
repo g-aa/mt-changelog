@@ -75,11 +75,7 @@ namespace Mt.ChangeLog.WebAPI
                 builder.UseDeveloperExceptionPage();
             }
 
-            builder.UseDefaultFiles();
-            builder.UseStaticFiles();
-
             builder.UseRouting();
-
             builder.UseAuthorization();
 
             builder.UseEndpoints(endpoints =>
