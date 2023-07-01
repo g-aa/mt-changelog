@@ -2,10 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.DataAccess.Abstractions;
 using Mt.ChangeLog.TransferObjects.Author;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.DataAccess
 {

@@ -1,8 +1,5 @@
 ﻿using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.DataAccess.Abstractions
 {

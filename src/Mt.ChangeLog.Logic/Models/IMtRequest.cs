@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mt.ChangeLog.Logic.Models
+﻿namespace Mt.ChangeLog.Logic.Models
 {
     /// <summary>
     /// Запрос используемый в логике MT.

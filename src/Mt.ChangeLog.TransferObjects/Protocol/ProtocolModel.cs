@@ -1,6 +1,4 @@
 ﻿using Mt.ChangeLog.TransferObjects.Communication;
-using Mt.Utilities;
-using System.Collections.Generic;
 
 namespace Mt.ChangeLog.TransferObjects.Protocol
 {

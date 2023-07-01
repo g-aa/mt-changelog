@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Mt.ChangeLog.Context;
+﻿using Mt.ChangeLog.Context;
 using Mt.ChangeLog.DataAccess;
 using Mt.ChangeLog.Logic;
 using Mt.ChangeLog.TransferObjects;
@@ -36,7 +31,7 @@ namespace Mt.ChangeLog.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             #region [ MtChangeLog services configuration ]
-            
+
             var assemblies = new Assembly[]
             {
                 typeof(Mt.ChangeLog.TransferObjects.ServiceCollectionExtensions).Assembly,

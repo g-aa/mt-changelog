@@ -9,9 +9,6 @@ using Mt.ChangeLog.TransferObjects.Protocol;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.Protocol
 {
@@ -96,7 +93,7 @@ namespace Mt.ChangeLog.Logic.Features.Protocol
                     throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbProtocol}' уже содержится в системе.");
                 }
 
-                return this.SaveChangesAsync(dbProtocol, cancellationToken);                
+                return this.SaveChangesAsync(dbProtocol, cancellationToken);
             }
 
             /// <summary>

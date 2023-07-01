@@ -17,7 +17,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
         public ProjectVersionModelValidator()
         {
             this.Include(new ProjectVersionShortModelValidator());
-            
+
             this.RuleFor(e => e.DIVG)
                 .NotEmpty()
                 .WithMessage("Децимальный номер версии проекта обязательный параметр для заполнения.")

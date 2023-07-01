@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Mt.ChangeLog.DataAccess.Abstractions
+﻿namespace Mt.ChangeLog.DataAccess.Abstractions
 {
     /// <summary>
     /// Пишущий репозиторий.

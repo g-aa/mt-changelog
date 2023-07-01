@@ -1,8 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.Utilities;
-using System;
-using System.Linq;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -24,7 +22,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public AnalogModuleBuilder(AnalogModuleEntity entity) 
+        public AnalogModuleBuilder(AnalogModuleEntity entity)
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.divg = entity.DIVG;
@@ -40,7 +38,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="model">Модель.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если model равно null.</exception>
-        public AnalogModuleBuilder SetAttributes(AnalogModuleModel model) 
+        public AnalogModuleBuilder SetAttributes(AnalogModuleModel model)
         {
             Check.NotNull(model, nameof(model));
             this.divg = model.DIVG;
@@ -56,7 +54,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="platforms">Перечень платформ.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если platforms равно null.</exception>
-        public AnalogModuleBuilder SetPlatforms(IQueryable<PlatformEntity> platforms) 
+        public AnalogModuleBuilder SetPlatforms(IQueryable<PlatformEntity> platforms)
         {
             this.platforms = Check.NotNull(platforms, nameof(platforms));
             return this;
@@ -90,7 +88,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Получить строитель.
         /// </summary>
         /// <returns>Строитель.</returns>
-        public static AnalogModuleBuilder GetBuilder() 
+        public static AnalogModuleBuilder GetBuilder()
         {
             return new AnalogModuleBuilder(new AnalogModuleEntity());
         }

@@ -1,7 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.Utilities;
-using System.Linq;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -15,7 +14,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Модель.</returns>
-        public static AnalogModuleShortModel ToShortModel(this AnalogModuleEntity entity) 
+        public static AnalogModuleShortModel ToShortModel(this AnalogModuleEntity entity)
         {
             Check.NotNull(entity, nameof(entity));
             var result = new AnalogModuleShortModel()

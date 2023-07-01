@@ -32,7 +32,7 @@ namespace Mt.ChangeLog.TransferObjects.Author
         {
             this.ProjectPrefix = DefaultString.Prefix;
             this.ProjectTitle = DefaultString.Project;
-            this.ProjectVersion = DefaultString.Revision;    
+            this.ProjectVersion = DefaultString.Revision;
         }
     }
 }

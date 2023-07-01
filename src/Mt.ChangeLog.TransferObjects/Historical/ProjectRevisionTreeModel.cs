@@ -1,5 +1,3 @@
-﻿using System;
-
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.Historical
@@ -13,7 +11,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// ИД родительской ревизии.
         /// </summary>
         public Guid ParentId { get; set; }
-        
+
         /// <summary>
         /// ИД.
         /// </summary>
@@ -30,7 +28,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// </summary>
         /// <example>ПМК</example>
         public string Title { get; set; }
-        
+
         /// <summary>
         /// Версия проекта.
         /// </summary>
@@ -60,5 +58,21 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// </summary>
         /// <example>БМРЗ-000</example>
         public string Platform { get; set; }
+
+        /// <summary>
+        /// Инициализация экземпляра <see cref="ProjectRevisionTreeModel"/>.
+        /// </summary>
+        public ProjectRevisionTreeModel()
+        {
+            this.ParentId = Guid.Empty;
+            this.Id = Guid.Empty;
+            this.Prefix = DefaultString.Prefix;
+            this.Title = DefaultString.Project;
+            this.Version = DefaultString.Revision;
+            this.Revision = DefaultString.Revision;
+            this.ArmEdit = DefaultString.Version;
+            this.Date = DateTime.UtcNow.ToString("yyyy-MM-dd");
+            this.Platform = DefaultString.Platform;
+        }
     }
 }

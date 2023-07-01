@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -23,10 +21,10 @@ namespace Mt.ChangeLog.Entities.Tables
         /// Описание.
         /// </summary>
         public string Description { get; set; }
-        
+
         /// <inheritdoc />
         public bool Default { get; set; }
-        
+
         /// <inheritdoc />
         public bool Removable { get; set; }
 
@@ -36,7 +34,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// Перечень аналоговых модулей.
         /// </summary>
         public ICollection<AnalogModuleEntity> AnalogModules { get; set; }
-        
+
         /// <summary>
         /// Перечень версий проектов.
         /// </summary>

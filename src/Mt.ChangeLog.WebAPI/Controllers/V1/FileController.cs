@@ -1,15 +1,10 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.File;
 using Mt.ChangeLog.Logic.Features.History;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Results;
-using Mt.Utilities.IO;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.WebAPI.Controllers.V1
 {

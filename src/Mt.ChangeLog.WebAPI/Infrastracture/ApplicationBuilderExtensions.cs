@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Mt.ChangeLog.Context;
+﻿using Mt.ChangeLog.Context;
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.WebAPI.Infrastracture

@@ -1,8 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.Utilities;
-using System;
-using System.Linq;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -22,7 +20,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public PlatformBuilder(PlatformEntity entity) 
+        public PlatformBuilder(PlatformEntity entity)
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.title = entity.Title;
@@ -62,7 +60,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <returns>Сущность.</returns>
         /// <exception cref="ArgumentException">Ошибка в логике обработки связей.</exception>
         public PlatformEntity Build()
-        { 
+        {
             var prohibModules = this.entity.AnalogModules.Except(modules).Where(e => e.Projects.Intersect(this.entity.Projects).Any()).Select(e => e.Title);
             if (prohibModules.Any())
             {

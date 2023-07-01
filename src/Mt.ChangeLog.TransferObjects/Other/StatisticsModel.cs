@@ -1,8 +1,6 @@
 ﻿using Mt.ChangeLog.TransferObjects.Author;
 using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 
 namespace Mt.ChangeLog.TransferObjects.Other
 {
@@ -21,7 +19,7 @@ namespace Mt.ChangeLog.TransferObjects.Other
         /// </summary>
         /// <example>v0.00.00.00</example>
         public string ArmEdit { get; set; }
-        
+
         /// <summary>
         /// Количество проектов.
         /// </summary>
@@ -36,7 +34,7 @@ namespace Mt.ChangeLog.TransferObjects.Other
         /// Модель автор общий вклад в проекты.
         /// </summary>
         public IEnumerable<AuthorContributionModel> AuthorContributions { get; set; }
-        
+
         /// <summary>
         /// Последние изменения по проектам.
         /// </summary>

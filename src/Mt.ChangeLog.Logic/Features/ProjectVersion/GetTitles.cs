@@ -4,10 +4,6 @@ using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Logic.Models;
 using Mt.Utilities;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.ProjectVersion
 {

@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -36,7 +34,7 @@ namespace Mt.ChangeLog.Entities.Tables
 
         /// <inheritdoc />
         public bool Default { get; set; }
-        
+
         /// <inheritdoc />
         public bool Removable { get; set; }
 
@@ -82,7 +80,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is AnalogModuleEntity module && ( this.Id.Equals(module.Id) || this.Title == module.Title );
+            return obj is AnalogModuleEntity module && (this.Id.Equals(module.Id) || this.Title == module.Title);
         }
 
         /// <inheritdoc />

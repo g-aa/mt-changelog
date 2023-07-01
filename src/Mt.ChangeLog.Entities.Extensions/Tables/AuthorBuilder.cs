@@ -1,7 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.Utilities;
-using System;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -20,7 +19,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Инициализация экземпляра класса <see cref="AuthorBuilder"/>.
         /// </summary>
         /// <param name="entity">Сущность.</param>
-        public AuthorBuilder(AuthorEntity entity) 
+        public AuthorBuilder(AuthorEntity entity)
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.firstname = entity.FirstName;

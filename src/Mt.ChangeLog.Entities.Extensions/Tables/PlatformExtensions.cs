@@ -1,7 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.Utilities;
-using System.Linq;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {

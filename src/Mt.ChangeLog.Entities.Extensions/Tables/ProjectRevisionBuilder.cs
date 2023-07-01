@@ -1,8 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Utilities;
-using System;
-using System.Linq;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -29,7 +27,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ProjectRevisionBuilder(ProjectRevisionEntity entity) 
+        public ProjectRevisionBuilder(ProjectRevisionEntity entity)
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.date = entity.Date;
@@ -66,7 +64,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="project">Версия проекта.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если project равно null.</exception>
-        public ProjectRevisionBuilder SetProjectVersion(ProjectVersionEntity project) 
+        public ProjectRevisionBuilder SetProjectVersion(ProjectVersionEntity project)
         {
             this.project = Check.NotNull(project, nameof(project));
             return this;
@@ -78,7 +76,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="parent">Родительская редакция.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если parent равно null.</exception>
-        public ProjectRevisionBuilder SetParentRevision(ProjectRevisionEntity parent) 
+        public ProjectRevisionBuilder SetParentRevision(ProjectRevisionEntity parent)
         {
             this.parent = Check.NotNull(parent, nameof(parent));
             return this;
@@ -142,17 +140,17 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
             // this.entity.Id - не обновляется!
             this.entity.Date = this.date != null ? this.date.Value : DateTime.Now;
             // - не обновляется!
-            if (string.IsNullOrEmpty(this.entity.Revision)) 
+            if (string.IsNullOrEmpty(this.entity.Revision))
             {
-                this.entity.Revision = this.revision;     
+                this.entity.Revision = this.revision;
             }
             this.entity.Reason = this.reason;
             this.entity.Description = description;
             // реляционные связи:
             // - не обновляется!
-            if (this.entity.ProjectVersion is null) 
+            if (this.entity.ProjectVersion is null)
             {
-                this.entity.ProjectVersion = this.project;    
+                this.entity.ProjectVersion = this.project;
             }
             this.entity.ParentRevision = this.parent;
             this.entity.ArmEdit = this.armedit;

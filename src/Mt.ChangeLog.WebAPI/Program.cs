@@ -1,9 +1,5 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Web;
-using System;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -42,7 +38,7 @@ namespace Mt.ChangeLog.WebAPI
         public static void Main(string[] args)
         {
             var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-            
+
             try
             {
                 logger.Debug($"'{AppName}' - запущено на выполнение...");
@@ -83,7 +79,7 @@ namespace Mt.ChangeLog.WebAPI
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-                .UseNLog(); 
+                .UseNLog();
         }
     }
 }

@@ -4,8 +4,6 @@ using Mt.ChangeLog.TransferObjects.Communication;
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 
 namespace Mt.ChangeLog.TransferObjects.ProjectRevision
 {
@@ -18,12 +16,12 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
         /// ИД.
         /// </summary>
         public Guid Id { get; set; }
-        
+
         /// <summary>
         /// Дата компиляции.
         /// </summary>
         public DateTime Date { get; set; }
-        
+
         /// <summary>
         /// Редакция.
         /// </summary>
@@ -41,17 +39,17 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
         /// </summary>
         /// <example>Описание...</example>
         public string Description { get; set; }
-        
+
         /// <summary>
         /// Версия проекта.
         /// </summary>
         public ProjectVersionShortModel ProjectVersion { get; set; }
-        
+
         /// <summary>
         /// Родительская редакция.
         /// </summary>
         public ProjectRevisionShortModel ParentRevision { get; set; }
-        
+
         /// <summary>
         /// Коммуникационный модуль.
         /// </summary>
@@ -61,12 +59,12 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision
         /// Версия ArmEdit.
         /// </summary>
         public ArmEditShortModel ArmEdit { get; set; }
-        
+
         /// <summary>
         /// Перечень авторов.
         /// </summary>
         public IEnumerable<AuthorShortModel> Authors { get; set; }
-        
+
         /// <summary>
         /// Перечень алгоритмов.
         /// </summary>

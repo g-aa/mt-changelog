@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mt.ChangeLog.TransferObjects.ProjectStatus
+﻿namespace Mt.ChangeLog.TransferObjects.ProjectStatus
 {
     /// <summary>
     /// Краткая модель статуса проекта.

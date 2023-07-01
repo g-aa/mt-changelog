@@ -1,4 +1,4 @@
-# <p><img src="iconMt.png" width="64px" height="64px" align="middle"/><img src="iconLog.png" width="64px" height="64px" align="middle"/> Mt ChangeLog</p>
+# <p><img src="iconMt.png" width="64px" height="64px" align="middle"/> <img src="iconLog.png" width="64px" height="64px" align="middle"/> Mt ChangeLog</p>
 
 Клиент-серверное приложение, предназначенное для отслеживания и регистрации изменений, в 'firmware' устройств автоматизации (БМРЗ-100//120/150/160) электроэнергетической системы (ЭЭС) НТЦ Механотроники.
     <p align="center"><img src="images/information.png" width="60%" /></p>
@@ -13,6 +13,15 @@ netstandard2.1, net6.0, [Mt.Utilities](https://github.com/g-aa/mt-utilities), [M
 ## Покрытие кода тестами:
 
 Перед первым запуском ```.test.bat```, для просмотра покрытия кода тестами необходимо выполнить команду:
+
+```dotnet tool list --global```
+
+```
+Идентификатор пакета                   Версия      Команды
+------------------------------------------------------------------
+dotnet-reportgenerator-globaltool      5.1.19      reportgenerator
+```
+
 
 ```dotnet tool install -g dotnet-reportgenerator-globaltool```
 

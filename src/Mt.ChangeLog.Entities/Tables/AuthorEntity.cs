@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -28,15 +26,15 @@ namespace Mt.ChangeLog.Entities.Tables
         /// Должность.
         /// </summary>
         public string Position { get; set; }
-        
+
         /// <inheritdoc />
         public bool Default { get; set; }
-        
+
         /// <inheritdoc />
         public bool Removable { get; set; }
 
         #region [ Relationships ]
-        
+
         /// <summary>
         /// Перечень редакций проектов.
         /// </summary>
@@ -66,7 +64,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is AuthorEntity e && ( this.Id.Equals(e.Id) || this.FirstName == e.FirstName && this.LastName == e.LastName );
+            return obj is AuthorEntity e && (this.Id.Equals(e.Id) || this.FirstName == e.FirstName && this.LastName == e.LastName);
         }
 
         /// <inheritdoc />
@@ -74,7 +72,7 @@ namespace Mt.ChangeLog.Entities.Tables
         {
             return HashCode.Combine(this.FirstName, this.LastName);
         }
-        
+
         /// <inheritdoc />
         public override string ToString()
         {

@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
-		<Description>Сущности реляционной модели данных проекта MtChangeLog.</Description>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Mt.Entities.Abstractions" Version="6.2.0" />
-		<PackageReference Include="Mt.Utilities" Version="6.2.0" />
-	</ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Description>Сущности реляционной модели данных проекта MtChangeLog.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Mt.Entities.Abstractions" Version="6.3.0" />
+    <PackageReference Include="Mt.Utilities" Version="6.3.1" />
+  </ItemGroup>
 </Project>

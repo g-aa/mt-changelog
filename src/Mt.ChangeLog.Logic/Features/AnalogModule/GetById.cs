@@ -6,8 +6,6 @@ using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Utilities;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.AnalogModule
 {

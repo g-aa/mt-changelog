@@ -14,7 +14,7 @@ namespace Mt.ChangeLog.TransferObjects.Platform
         public PlatformModelValidator()
         {
             this.Include(new PlatformShortModelValidator());
-            
+
             this.RuleFor(e => e.Description)
                 .NotNull()
                 .WithMessage("Описание платформы БМРЗ не может принимать значение null.")

@@ -8,23 +8,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{15D1714F-A
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		.test.bat = .test.bat
+		.version = .version
 		CHANGELOG.md = CHANGELOG.md
 		coverlet.runsettings = coverlet.runsettings
 		Directory.Build.props = Directory.Build.props
 		favicon.ico = favicon.ico
 		iconLog.png = iconLog.png
 		iconMt.png = iconMt.png
-		iconNet.png = iconNet.png
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{183CB288-C2B0-43A2-ADEE-284A57BD6689}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2AC971DC-87FF-4172-8480-461D1FBAF942}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2AC971DC-87FF-4172-8480-461D1FBAF942}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.TransferObjects", "src\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj", "{2BE9DD3E-ACA7-45C5-BF4D-A30474941BBA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.TransferObjects.Test", "tests\Mt.ChangeLog.TransferObjects.Test\Mt.ChangeLog.TransferObjects.Test.csproj", "{7C4B67E1-DF33-48C5-B8BE-30B4D6498B78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.TransferObjects.Test", "test\Mt.ChangeLog.TransferObjects.Test\Mt.ChangeLog.TransferObjects.Test.csproj", "{7C4B67E1-DF33-48C5-B8BE-30B4D6498B78}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Entities", "src\Mt.ChangeLog.Entities\Mt.ChangeLog.Entities.csproj", "{E972F4C0-830F-48B1-83AE-E251274F6A25}"
 EndProject
@@ -34,9 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Logic", "src\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Context", "src\Mt.ChangeLog.Context\Mt.ChangeLog.Context.csproj", "{BFA3A75E-CB7D-4C9A-BF92-20708ED5FB7B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Entities.Test", "tests\Mt.ChangeLog.Entities.Test\Mt.ChangeLog.Entities.Test.csproj", "{54A2A329-D0B5-4F0D-B973-EFA6C6724BA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Entities.Test", "test\Mt.ChangeLog.Entities.Test\Mt.ChangeLog.Entities.Test.csproj", "{54A2A329-D0B5-4F0D-B973-EFA6C6724BA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Logic.Test", "tests\Mt.ChangeLog.Logic.Test\Mt.ChangeLog.Logic.Test.csproj", "{D136EFD3-9A37-451E-BB30-E2ABEAEF101B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.Logic.Test", "test\Mt.ChangeLog.Logic.Test\Mt.ChangeLog.Logic.Test.csproj", "{D136EFD3-9A37-451E-BB30-E2ABEAEF101B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.WebAPI", "src\Mt.ChangeLog.WebAPI\Mt.ChangeLog.WebAPI.csproj", "{2871FC10-6C24-4B9D-AD2C-A74C90AE32E6}"
 EndProject

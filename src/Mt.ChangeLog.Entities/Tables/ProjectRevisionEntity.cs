@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -111,7 +109,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is ProjectRevisionEntity e && ( this.Id.Equals(e.Id) || ProjectVersionId.Equals(e.ProjectVersionId) && Revision == e.Revision );
+            return obj is ProjectRevisionEntity e && (this.Id.Equals(e.Id) || ProjectVersionId.Equals(e.ProjectVersionId) && Revision == e.Revision);
         }
 
         /// <inheritdoc />
@@ -120,7 +118,7 @@ namespace Mt.ChangeLog.Entities.Tables
             /*
              * при определении уникальности картежа нужно учитывать и версию проекта к которой он привязан !!!
              * ПС чисто теоретически даты и время компиляции должны отличасться, но так происходит не всегда
-             */ 
+             */
             return HashCode.Combine(this.ProjectVersionId, this.Date, this.Revision);
         }
 

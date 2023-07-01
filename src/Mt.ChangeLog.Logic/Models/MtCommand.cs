@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Mt.Utilities;
-using System;
 
 namespace Mt.ChangeLog.Logic.Models
 {

@@ -14,7 +14,7 @@ namespace Mt.ChangeLog.TransferObjects.Communication
         public CommunicationModelValidator()
         {
             this.Include(new CommunicationShortModelValidator());
-            
+
             this.RuleFor(e => e.Description)
                 .NotNull()
                 .WithMessage("Описание адаптера не может принимать значение null.")

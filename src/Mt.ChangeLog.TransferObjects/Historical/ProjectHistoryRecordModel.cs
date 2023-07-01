@@ -1,4 +1,4 @@
-﻿using System;
+using Mt.Utilities;
 using System.Text;
 
 namespace Mt.ChangeLog.TransferObjects.Historical
@@ -12,7 +12,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// ИД версии проекта.
         /// </summary>
         public Guid ProjectVersionId { get; set; }
-        
+
         /// <summary>
         /// ИД родительской редакции проекта.
         /// </summary>
@@ -23,7 +23,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// </summary>
         /// <example>v0.00.00.00</example>
         public string ArmEdit { get; set; }
-        
+
         /// <summary>
         /// Перечень алгоритмов.
         /// </summary>
@@ -55,12 +55,27 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         public string Description { get; set; }
 
         /// <summary>
+        /// Инициализация экземпляра <see cref="ProjectHistoryRecordModel"/>.
+        /// </summary>
+        public ProjectHistoryRecordModel() : base()
+        {
+            this.ProjectVersionId = Guid.Empty;
+            this.ParentRevisionId = Guid.Empty;
+            this.ArmEdit = DefaultString.Version;
+            this.Algorithms = DefaultString.Algorithm;
+            this.Authors = "Иванов Иван";
+            this.Protocols = DefaultString.Protocol;
+            this.Reason = DefaultString.Reason;
+            this.Description = DefaultString.Description;
+        }
+
+        /// <summary>
         /// Преобразовать в текстовый формат.
         /// </summary>
         /// <returns>Строка с текстом.</returns>
         public string ToText()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.AppendLine(new string('=', 100))
                 .Append("Разработка ПрО:\t\t").Append(this.Title)
                 .Append(" от ").Append(this.Date.ToString("yyyy-MM-dd"))
