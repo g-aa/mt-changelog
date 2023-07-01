@@ -1,5 +1,4 @@
 ﻿using Mt.Utilities;
-using System;
 
 namespace Mt.ChangeLog.Entities.Views
 {
@@ -12,7 +11,7 @@ namespace Mt.ChangeLog.Entities.Views
         /// ИД версии проекта.
         /// </summary>
         public Guid ProjectVersionId { get; set; }
-        
+
         /// <summary>
         /// ИД редакции проекта.
         /// </summary>

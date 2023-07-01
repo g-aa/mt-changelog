@@ -14,7 +14,7 @@ namespace Mt.ChangeLog.TransferObjects.Protocol
         public ProtocolModelValidator()
         {
             this.Include(new ProtocolShortModelValidator());
-            
+
             this.RuleFor(e => e.Description)
                 .NotNull()
                 .WithMessage("Описание протокола не может принимать значение null.")

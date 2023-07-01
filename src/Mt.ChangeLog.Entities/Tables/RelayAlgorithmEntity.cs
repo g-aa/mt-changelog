@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -38,7 +36,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// Описание.
         /// </summary>
         public string Description { get; set; }
-        
+
         /// <inheritdoc />
         public bool Default { get; set; }
 
@@ -46,7 +44,7 @@ namespace Mt.ChangeLog.Entities.Tables
         public bool Removable { get; set; }
 
         #region [ Relationships ]
-        
+
         /// <summary>
         /// Перечень редакций проектов.
         /// </summary>
@@ -78,7 +76,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is RelayAlgorithmEntity algorithm && ( Id.Equals(algorithm.Id) || Group == algorithm.Group && Title == algorithm.Title );
+            return obj is RelayAlgorithmEntity algorithm && (Id.Equals(algorithm.Id) || Group == algorithm.Group && Title == algorithm.Title);
         }
 
         /// <inheritdoc />

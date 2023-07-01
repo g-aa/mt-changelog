@@ -1,6 +1,5 @@
 ﻿using Mt.ChangeLog.TransferObjects.Protocol;
 using Mt.Utilities;
-using System.Collections.Generic;
 
 namespace Mt.ChangeLog.TransferObjects.Communication
 {
@@ -14,7 +13,7 @@ namespace Mt.ChangeLog.TransferObjects.Communication
         /// </summary>
         /// <example>Описание...</example>
         public string Description { get; set; }
-        
+
         /// <summary>
         /// Перечень протоколов.
         /// </summary>

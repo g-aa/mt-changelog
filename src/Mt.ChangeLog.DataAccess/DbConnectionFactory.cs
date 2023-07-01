@@ -15,12 +15,12 @@ namespace Mt.ChangeLog.DataAccess
         /// Ключ.
         /// </summary>
         private const string key = "ConnectionStrings:NpgSqlDb";
-        
+
         /// <summary>
         /// Журнал логирования.
         /// </summary>
         private readonly ILogger<NpgsqlConnectionFactory> logger;
-        
+
         /// <summary>
         /// Строка подключения к БД.
         /// </summary>

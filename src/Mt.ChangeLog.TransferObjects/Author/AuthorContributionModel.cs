@@ -12,7 +12,7 @@ namespace Mt.ChangeLog.TransferObjects.Author
         /// </summary>
         /// <example>Иванов Иван</example>
         public string Author { get; set; }
-        
+
         /// <summary>
         /// Общий вклад в проекты.
         /// </summary>

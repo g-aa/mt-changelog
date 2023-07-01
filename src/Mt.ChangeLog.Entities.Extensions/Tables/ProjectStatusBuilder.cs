@@ -1,7 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.ProjectStatus;
 using Mt.Utilities;
-using System;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -20,7 +19,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ProjectStatusBuilder(ProjectStatusEntity entity) 
+        public ProjectStatusBuilder(ProjectStatusEntity entity)
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.title = entity.Title;

@@ -1,11 +1,10 @@
 using FluentValidation.TestHelper;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
-using NUnit.Framework;
 
 namespace Mt.ChangeLog.TransferObjects.Test
 {
     /// <summary>
-    /// Набор тестов для <see cref="AnalogModuleShortModel"/>.
+    /// РќР°Р±РѕСЂ С‚РµСЃС‚РѕРІ РґР»СЏ <see cref="AnalogModuleShortModel"/>.
     /// </summary>
     [TestFixture]
     public sealed class AnalogModuleShortModelValidatorTests
@@ -13,55 +12,65 @@ namespace Mt.ChangeLog.TransferObjects.Test
         private AnalogModuleShortModelValidator validator;
 
         /// <summary>
-        /// Настройка.
+        /// РќР°СЃС‚СЂРѕР№РєР°.
         /// </summary>
         [OneTimeSetUp]
         public void Setup()
         {
-            validator = new AnalogModuleShortModelValidator();
+            this.validator = new AnalogModuleShortModelValidator();
         }
 
         /// <summary>
-        /// Положительные тесты для <see cref="AnalogModuleShortModel.Title"/>.
+        /// РџРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Рµ С‚РµСЃС‚С‹ РґР»СЏ <see cref="AnalogModuleShortModel.Title"/>.
         /// </summary>
-        /// <param name="title">Наименование.</param>
+        /// <param name="title">РќР°РёРјРµРЅРѕРІР°РЅРёРµ.</param>
         [Test]
-        [TestCase("БМРЗ-000")]
-        [TestCase("БМРЗ-999")]
-        [TestCase("БМРЗ-100N")]
-        [TestCase("БМРЗ-100У")]
-        [TestCase("БМРЗ-М4")]
-        [TestCase("БМРЗ-М4М")]
+        [TestCase("Р‘РњР Р—-000")]
+        [TestCase("Р‘РњР Р—-999")]
+        [TestCase("Р‘РњР Р—-100N")]
+        [TestCase("Р‘РњР Р—-100РЈ")]
+        [TestCase("Р‘РњР Р—-Рњ4")]
+        [TestCase("Р‘РњР Р—-Рњ4Рњ")]
         public void TitlePositiveTest(string title)
         {
+            // arrange
             var model = new AnalogModuleShortModel()
             {
                 Title = title,
             };
-            var result = validator.TestValidate(model);
+
+            // act
+            var result = this.validator.TestValidate(model);
+
+            // assert
             result.ShouldNotHaveValidationErrorFor(m => m.Title);
         }
 
         /// <summary>
-        /// Отрицательные тесты для <see cref="AnalogModuleShortModel.Title"/>.
+        /// РћС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рµ С‚РµСЃС‚С‹ РґР»СЏ <see cref="AnalogModuleShortModel.Title"/>.
         /// </summary>
-        /// <param name="title">Наименование.</param>
+        /// <param name="title">РќР°РёРјРµРЅРѕРІР°РЅРёРµ.</param>
         [Test]
         [TestCase(null)]
         [TestCase("")]
         [TestCase(" ")]
         [TestCase("\t")]
-        [TestCase("БМРЗ-0")]
-        [TestCase("БМРЗ-00000")]
-        [TestCase(" БМРЗ-100N ")]
-        [TestCase("\tБМРЗ-100N\t")]
+        [TestCase("Р‘РњР Р—-0")]
+        [TestCase("Р‘РњР Р—-00000")]
+        [TestCase(" Р‘РњР Р—-100N ")]
+        [TestCase("\tР‘РњР Р—-100N\t")]
         public void TitleNegativeTest(string title)
         {
+            // arrange
             var model = new AnalogModuleShortModel()
             {
                 Title = title,
             };
-            var result = validator.TestValidate(model);
+
+            // act
+            var result = this.validator.TestValidate(model);
+
+            // assert
             result.ShouldHaveValidationErrorFor(m => m.Title);
         }
     }

@@ -1,6 +1,4 @@
-﻿using Mt.Utilities.IO;
-using System;
-using System.Linq;
+using Mt.ChangeLog.TransferObjects.Other;
 using System.Text;
 
 namespace Mt.ChangeLog.TransferObjects.Historical

@@ -1,18 +1,13 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Historical;
+using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Utilities;
-using Mt.Utilities.IO;
-using System;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.File
 {
@@ -121,12 +116,12 @@ namespace Mt.ChangeLog.Logic.Features.File
                 {
                     Title = $"{entity.ProjectVersion.Prefix}-{entity.ProjectVersion.Title}-{entity.ProjectVersion.Version}",
                 };
-                
+
                 do
                 {
                     result.History.Add(entity.ToHistoryModel());
                 } while ((entity = await query.FirstOrDefaultAsync(pr => pr.Id == entity.ParentRevisionId, cancellationToken)) != null);
-                
+
                 return result;
             }
         }

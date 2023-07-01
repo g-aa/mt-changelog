@@ -1,5 +1,4 @@
 ﻿using Mt.Utilities;
-using System;
 
 namespace Mt.ChangeLog.TransferObjects.ProjectVersion
 {
@@ -24,7 +23,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
         /// </summary>
         /// <example>ПМК</example>
         public string Title { get; set; }
-        
+
         /// <summary>
         /// Версия.
         /// </summary>

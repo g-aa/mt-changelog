@@ -1,6 +1,4 @@
 ﻿using Mt.ChangeLog.TransferObjects.Author;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.DataAccess.Abstractions
 {

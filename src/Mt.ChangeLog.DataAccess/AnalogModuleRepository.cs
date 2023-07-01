@@ -3,10 +3,7 @@ using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.DataAccess.Abstractions;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Platform;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.DataAccess
 {

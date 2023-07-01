@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
+using Mt.ChangeLog.Context.Configurations;
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Entities.Views;
-using Mt.ChangeLog.Context.Configurations;
 
 namespace Mt.ChangeLog.Context
 {
@@ -43,7 +43,7 @@ namespace Mt.ChangeLog.Context
         /// Перечень <see cref="ProjectVersionEntity"/>. 
         /// </summary>
         public DbSet<ProjectVersionEntity> ProjectVersions { get; set; }
-       
+
         #endregion
 
         #region [ ProjectRevisionEntities ]
@@ -77,7 +77,7 @@ namespace Mt.ChangeLog.Context
         /// Перечень <see cref="RelayAlgorithmEntity"/>. 
         /// </summary>
         public DbSet<RelayAlgorithmEntity> RelayAlgorithms { get; set; }
-        
+
         #endregion
 
         #region [ Views ]
@@ -101,7 +101,7 @@ namespace Mt.ChangeLog.Context
         /// Перечень <see cref="ProjectHistoryRecordView"/>. 
         /// </summary>
         public DbSet<ProjectHistoryRecordView> ProjectHistoryRecords { get; set; }
-        
+
         #endregion
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Mt.ChangeLog.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            
+
             optionsBuilder.LogTo((message) =>
             {
                 this.logger.LogInformation(message);

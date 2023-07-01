@@ -1,7 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
 using Mt.Utilities;
-using System;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -26,7 +25,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public ProjectVersionBuilder(ProjectVersionEntity entity) 
+        public ProjectVersionBuilder(ProjectVersionEntity entity)
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.divg = entity.DIVG;
@@ -62,7 +61,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="platform">Платформа.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если platform равно null.</exception>
-        public ProjectVersionBuilder SetPlatform(PlatformEntity platform) 
+        public ProjectVersionBuilder SetPlatform(PlatformEntity platform)
         {
             this.platform = Check.NotNull(platform, nameof(platform));
             return this;
@@ -74,7 +73,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="module">Модуль.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если module равно null.</exception>
-        public ProjectVersionBuilder SetAnalogModule(AnalogModuleEntity module) 
+        public ProjectVersionBuilder SetAnalogModule(AnalogModuleEntity module)
         {
             this.module = Check.NotNull(module, nameof(module));
             return this;
@@ -86,7 +85,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// <param name="status">Статус.</param>
         /// <returns>Строитель.</returns>
         /// <exception cref="ArgumentNullException">Срабатывает если status равно null.</exception>
-        public ProjectVersionBuilder SetProjectStatus(ProjectStatusEntity status) 
+        public ProjectVersionBuilder SetProjectStatus(ProjectStatusEntity status)
         {
             this.status = Check.NotNull(status, nameof(status));
             return this;
@@ -117,7 +116,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Получить строитель.
         /// </summary>
         /// <returns>Строитель.</returns>
-        public static ProjectVersionBuilder GetBuilder() 
+        public static ProjectVersionBuilder GetBuilder()
         {
             return new ProjectVersionBuilder(new ProjectVersionEntity());
         }

@@ -13,7 +13,7 @@ namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm
         public RelayAlgorithmModelValidator()
         {
             this.Include(new RelayAlgorithmShortModelValidator());
-            
+
             this.RuleFor(e => e.Group)
                 .NotNull()
                 .WithMessage("Наименование группы алгоритмов не может принимать значение null.")

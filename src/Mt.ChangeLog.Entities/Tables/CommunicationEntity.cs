@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -31,12 +29,12 @@ namespace Mt.ChangeLog.Entities.Tables
         public bool Removable { get; set; }
 
         #region [ Relationships ]
-        
+
         /// <summary>
         /// Перечень протоколов.
         /// </summary>
         public ICollection<ProtocolEntity> Protocols { get; set; }
-        
+
         /// <summary>
         /// Перечень редакций проектов.
         /// </summary>
@@ -66,7 +64,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is CommunicationEntity e && ( this.Id.Equals(e.Id) || this.Title == e.Title );
+            return obj is CommunicationEntity e && (this.Id.Equals(e.Id) || this.Title == e.Title);
         }
 
         /// <inheritdoc />

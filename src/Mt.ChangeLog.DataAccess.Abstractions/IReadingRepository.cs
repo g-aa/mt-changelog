@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Mt.ChangeLog.DataAccess.Abstractions
+﻿namespace Mt.ChangeLog.DataAccess.Abstractions
 {
     /// <summary>
     /// Читающий репозиторий.

@@ -1,5 +1,4 @@
 ﻿using Mt.Utilities;
-using System;
 
 namespace Mt.ChangeLog.TransferObjects.Communication
 {

@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -69,7 +67,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Статус проекта.
         /// </summary>
-        public ProjectStatusEntity ProjectStatus { get; set; } 
+        public ProjectStatusEntity ProjectStatus { get; set; }
 
         /// <summary>
         /// Перечень редакций проектов.
@@ -102,9 +100,9 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is ProjectVersionEntity e && ( this.Id.Equals(e.Id)
+            return obj is ProjectVersionEntity e && (this.Id.Equals(e.Id)
                 || this.DIVG == e.DIVG
-                || this.Prefix == e.Prefix && this.Title == e.Title && this.Version == e.Version );
+                || this.Prefix == e.Prefix && this.Title == e.Title && this.Version == e.Version);
         }
 
         /// <inheritdoc />

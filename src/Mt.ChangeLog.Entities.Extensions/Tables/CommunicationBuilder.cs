@@ -1,8 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.Communication;
 using Mt.Utilities;
-using System;
-using System.Linq;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -22,7 +20,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public CommunicationBuilder(CommunicationEntity entity) 
+        public CommunicationBuilder(CommunicationEntity entity)
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.title = entity.Title;
@@ -75,7 +73,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Получить строитель.
         /// </summary>
         /// <returns>Строитель.</returns>
-        public static CommunicationBuilder GetBuilder() 
+        public static CommunicationBuilder GetBuilder()
         {
             return new CommunicationBuilder(new CommunicationEntity());
         }

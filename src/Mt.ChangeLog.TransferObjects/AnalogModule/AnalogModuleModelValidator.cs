@@ -15,7 +15,7 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule
         public AnalogModuleModelValidator()
         {
             this.Include(new AnalogModuleShortModelValidator());
-            
+
             this.RuleFor(e => e.DIVG)
                 .NotEmpty()
                 .WithMessage("Децимальный номер аналогового модуля обязательный параметр для заполнения.")

@@ -11,7 +11,7 @@
         public AuthorModel() : base()
         {
         }
-        
+
         /// <inheritdoc />
         public override string ToString()
         {

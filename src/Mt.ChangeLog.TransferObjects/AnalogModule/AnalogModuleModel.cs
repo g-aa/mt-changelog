@@ -1,5 +1,4 @@
 ﻿using Mt.ChangeLog.TransferObjects.Platform;
-using System.Collections.Generic;
 
 namespace Mt.ChangeLog.TransferObjects.AnalogModule
 {

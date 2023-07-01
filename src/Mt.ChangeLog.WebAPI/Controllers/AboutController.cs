@@ -1,13 +1,11 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mt.Results;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.WebAPI.Controllers
 {
     /// <summary>
-    /// Методы работы с квитанциями.
+    /// РњРµС‚РѕРґС‹ СЂР°Р±РѕС‚С‹ СЃ РєРІРёС‚Р°РЅС†РёСЏРјРё.
     /// </summary>
     [ApiController]
     [Route("api/about")]
@@ -15,40 +13,39 @@ namespace Mt.ChangeLog.WebAPI.Controllers
     public class AboutController : ControllerBase
     {
         /// <summary>
-        /// Получить версию приложения.
+        /// РџРѕР»СѓС‡РёС‚СЊ РІРµСЂСЃРёСЋ РїСЂРёР»РѕР¶РµРЅРёСЏ.
         /// </summary>
-        /// <returns>Версия приложения.</returns>
+        /// <returns>Р’РµСЂСЃРёСЏ РїСЂРёР»РѕР¶РµРЅРёСЏ.</returns>
         [HttpGet]
         [Route("version")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Версия приложения.", typeof(MtMessageResult))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Р’РµСЂСЃРёСЏ РїСЂРёР»РѕР¶РµРЅРёСЏ.", typeof(MtMessageResult))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "РћС€РёР±РєР° РІ Р»РѕРіРёРєРµ РїСЂРёР»РѕР¶РµРЅРёСЏ, РѕС€РёР±РєР° РІР°Р»РёРґР°С†РёРё.", typeof(MtProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР° СЃРµСЂРІРµСЂР°.", typeof(MtProblemDetails))]
         public async Task<IActionResult> Version()
         {
             return await Task.FromResult(this.Ok(new MtMessageResult(Program.AppName)));
         }
 
         /// <summary>
-        /// Получить описание приложения.
+        /// РџРѕР»СѓС‡РёС‚СЊ РѕРїРёСЃР°РЅРёРµ РїСЂРёР»РѕР¶РµРЅРёСЏ.
         /// </summary>
-        /// <returns>Описание приложения.</returns>
+        /// <returns>РћРїРёСЃР°РЅРёРµ РїСЂРёР»РѕР¶РµРЅРёСЏ.</returns>
         [HttpGet]
         [Route("description")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Версия приложения.", typeof(MtAppDescription))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Р’РµСЂСЃРёСЏ РїСЂРёР»РѕР¶РµРЅРёСЏ.", typeof(MtAppDescription))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "РћС€РёР±РєР° РІ Р»РѕРіРёРєРµ РїСЂРёР»РѕР¶РµРЅРёСЏ, РѕС€РёР±РєР° РІР°Р»РёРґР°С†РёРё.", typeof(MtProblemDetails))]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Р’РЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР° СЃРµСЂРІРµСЂР°.", typeof(MtProblemDetails))]
         public async Task<IActionResult> Description()
         {
             return await Task.FromResult(this.Ok(new MtAppDescription()
             {
                 Version = Program.AppName,
-                Copyright = "НТЦ Механотроники 1993 – 2022.",
                 Repository = "https://github.com/g-aa/mt-changelog",
-                Description = "Приложение предназначено для "
-                    + "отслеживания и регистрации изменений, "
-                    + "в программном обеспечении устройств автоматизации "
-                    + "(БМРЗ-100/120/150/160/M4) "
-                    + "электроэнергетической системы (ЭЭС).",
+                Description = "РџСЂРёР»РѕР¶РµРЅРёРµ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅРѕ РґР»СЏ "
+                    + "РѕС‚СЃР»РµР¶РёРІР°РЅРёСЏ Рё СЂРµРіРёСЃС‚СЂР°С†РёРё РёР·РјРµРЅРµРЅРёР№, "
+                    + "РІ РїСЂРѕРіСЂР°РјРјРЅРѕРј РѕР±РµСЃРїРµС‡РµРЅРёРё СѓСЃС‚СЂРѕР№СЃС‚РІ Р°РІС‚РѕРјР°С‚РёР·Р°С†РёРё "
+                    + "(Р‘РњР Р—-100/120/150/160/M4) "
+                    + "СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРµС‚РёС‡РµСЃРєРѕР№ СЃРёСЃС‚РµРјС‹ (Р­Р­РЎ).",
             }));
         }
     }

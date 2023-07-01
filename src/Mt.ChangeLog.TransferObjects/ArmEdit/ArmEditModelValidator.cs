@@ -14,7 +14,7 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit
         public ArmEditModelValidator()
         {
             this.Include(new ArmEditShortModelValidator());
-            
+
             this.RuleFor(e => e.DIVG)
                 .NotEmpty()
                 .WithMessage("Децимальный номер ArmEdit обязательный параметр для заполнения.")

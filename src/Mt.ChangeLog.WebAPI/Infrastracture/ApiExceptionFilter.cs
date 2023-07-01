@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Mt.Results;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
@@ -32,7 +30,7 @@ namespace Mt.ChangeLog.WebAPI.Infrastracture
         {
             Check.NotNull(context, nameof(context));
             var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<ApiExceptionFilter>>();
-            
+
             switch (context.Exception)
             {
                 case MtException exception:

@@ -6,10 +6,6 @@ using Mt.ChangeLog.Entities.Extensions.Views;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Utilities;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.ProjectRevision
 {
