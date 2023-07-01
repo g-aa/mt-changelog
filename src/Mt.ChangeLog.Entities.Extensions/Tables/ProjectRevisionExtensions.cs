@@ -2,7 +2,6 @@
 using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Utilities;
-using System.Linq;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {

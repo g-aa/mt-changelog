@@ -1,7 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.Protocol;
 using Mt.Utilities;
-using System.Linq;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -66,7 +65,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <returns>Строитель.</returns>
-        public static ProtocolBuilder GetBuilder(this ProtocolEntity entity) 
+        public static ProtocolBuilder GetBuilder(this ProtocolEntity entity)
         {
             return new ProtocolBuilder(entity);
         }

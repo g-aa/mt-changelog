@@ -1,7 +1,6 @@
 ﻿using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.Utilities;
-using System;
 
 namespace Mt.ChangeLog.Entities.Extensions.Tables
 {
@@ -23,7 +22,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// </summary>
         /// <param name="entity">Сущность.</param>
         /// <exception cref="ArgumentNullException">Срабатывает если entity равно null.</exception>
-        public RelayAlgorithmBuilder(RelayAlgorithmEntity entity) 
+        public RelayAlgorithmBuilder(RelayAlgorithmEntity entity)
         {
             this.entity = Check.NotNull(entity, nameof(entity));
             this.group = entity.Group;
@@ -71,7 +70,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Tables
         /// Получить строитель.
         /// </summary>
         /// <returns>Строитель.</returns>
-        public static RelayAlgorithmBuilder GetBuilder() 
+        public static RelayAlgorithmBuilder GetBuilder()
         {
             return new RelayAlgorithmBuilder(new RelayAlgorithmEntity());
         }

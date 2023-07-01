@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -26,7 +24,7 @@ namespace Mt.ChangeLog.Entities.Tables
 
         /// <inheritdoc />
         public bool Default { get; set; }
-        
+
         /// <inheritdoc />
         public bool Removable { get; set; }
 
@@ -41,7 +39,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Инициализация экземпляра <see cref="ProtocolEntity"/>.
         /// </summary>
-        public ProtocolEntity() 
+        public ProtocolEntity()
         {
             this.Id = Guid.NewGuid();
             this.Title = DefaultString.Protocol;
@@ -60,7 +58,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is ProtocolEntity protocol && ( Id.Equals(protocol.Id) || Title == protocol.Title);
+            return obj is ProtocolEntity protocol && (Id.Equals(protocol.Id) || Title == protocol.Title);
         }
 
         /// <inheritdoc />

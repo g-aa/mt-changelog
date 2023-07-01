@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mt.Utilities;
-using System;
 using System.Data;
 
 namespace Mt.ChangeLog.DataAccess.Abstractions

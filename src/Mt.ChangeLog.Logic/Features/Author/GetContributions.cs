@@ -4,9 +4,6 @@ using Mt.ChangeLog.DataAccess.Abstractions;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.Utilities;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.Author
 {

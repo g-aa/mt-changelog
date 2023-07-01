@@ -8,9 +8,6 @@ using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.ProjectRevision
 {

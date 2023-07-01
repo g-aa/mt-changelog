@@ -13,7 +13,7 @@ namespace Mt.ChangeLog.TransferObjects.ProjectStatus
         public ProjectStatusModelValidator()
         {
             this.Include(new ProjectStatusShortModelValidator());
-            
+
             this.RuleFor(e => e.Description)
                 .NotNull()
                 .WithMessage("Описание статуса не может принимать значение null.")

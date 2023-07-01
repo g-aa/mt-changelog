@@ -10,8 +10,6 @@ using Mt.ChangeLog.TransferObjects.ProjectVersion;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.ProjectVersion
 {

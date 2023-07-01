@@ -8,9 +8,6 @@ using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Utilities;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.History
 {
@@ -96,7 +93,7 @@ namespace Mt.ChangeLog.Logic.Features.History
                 var entity = query.Where(pr => pr.ProjectVersion.Id == request.Model.Id)
                     .OrderByDescending(pr => pr.Revision)
                     .FirstOrDefault();
-                
+
                 if (entity != null)
                 {
                     result.Title = entity.ProjectVersion.ToShortModel().ToString();
@@ -105,7 +102,7 @@ namespace Mt.ChangeLog.Logic.Features.History
                         result.History.Add(entity.ToHistoryModel());
                     } while ((entity = query.FirstOrDefault(pr => pr.Id == entity.ParentRevisionId)) != null);
                 }
-                
+
                 return await Task.FromResult(result);
             }
         }

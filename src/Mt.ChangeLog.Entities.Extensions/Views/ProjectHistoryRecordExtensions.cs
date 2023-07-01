@@ -14,7 +14,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Views
         /// </summary>
         /// <param name="record">Запись.</param>
         /// <returns>Модель.</returns>
-        public static ProjectHistoryRecordShortModel ToShortModel(this ProjectHistoryRecordView record) 
+        public static ProjectHistoryRecordShortModel ToShortModel(this ProjectHistoryRecordView record)
         {
             Check.NotNull(record, nameof(record));
             var result = new ProjectHistoryRecordShortModel()
@@ -32,7 +32,7 @@ namespace Mt.ChangeLog.Entities.Extensions.Views
         /// </summary>
         /// <param name="record">Запись.</param>
         /// <returns>Модель.</returns>
-        public static ProjectHistoryRecordModel ToModel(this ProjectHistoryRecordView record) 
+        public static ProjectHistoryRecordModel ToModel(this ProjectHistoryRecordView record)
         {
             Check.NotNull(record, nameof(record));
             var result = new ProjectHistoryRecordModel()

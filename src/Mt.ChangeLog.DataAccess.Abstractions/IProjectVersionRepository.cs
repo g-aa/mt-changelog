@@ -1,7 +1,5 @@
 ﻿using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
-using System;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.DataAccess.Abstractions
 {

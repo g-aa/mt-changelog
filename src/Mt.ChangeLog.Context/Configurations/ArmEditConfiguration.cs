@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Mt.ChangeLog.Entities.Tables;
 using Mt.Utilities;
-using System;
 
 namespace Mt.ChangeLog.Context.Configurations
 {

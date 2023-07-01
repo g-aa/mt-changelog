@@ -1,5 +1,4 @@
 ﻿using Mt.Utilities;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Mt.ChangeLog.TransferObjects.Historical
@@ -25,7 +24,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// Перечень авторов.
         /// </summary>
         public IEnumerable<string> Authors { get; set; }
-        
+
         /// <summary>
         /// Перечень алгоритмов.
         /// </summary>

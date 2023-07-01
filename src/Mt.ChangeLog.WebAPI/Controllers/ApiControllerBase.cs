@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
-using System;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.WebAPI.Controllers
 {

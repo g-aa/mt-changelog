@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -41,7 +39,7 @@ namespace Mt.ChangeLog.Entities.Tables
         public bool Removable { get; set; }
 
         #region [ Relationships ]
-        
+
         /// <summary>
         /// Перечень версий проектов.
         /// </summary>
@@ -51,7 +49,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Инициализация экземпляра <see cref="ArmEditEntity"/>.
         /// </summary>
-        public ArmEditEntity() 
+        public ArmEditEntity()
         {
             this.Id = Guid.NewGuid();
             this.DIVG = DefaultString.DIVG;
@@ -76,7 +74,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is ArmEditEntity arm && ( this.Id.Equals(arm.Id) || this.Version == arm.Version );
+            return obj is ArmEditEntity arm && (this.Id.Equals(arm.Id) || this.Version == arm.Version);
         }
 
         /// <inheritdoc />

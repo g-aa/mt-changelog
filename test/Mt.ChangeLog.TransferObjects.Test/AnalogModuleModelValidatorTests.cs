@@ -1,8 +1,6 @@
-﻿using FluentValidation.TestHelper;
+using FluentValidation.TestHelper;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Platform;
-using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Mt.ChangeLog.TransferObjects.Test
 {
@@ -20,7 +18,7 @@ namespace Mt.ChangeLog.TransferObjects.Test
         [OneTimeSetUp]
         public void Setup()
         {
-            validator = new AnalogModuleModelValidator();
+            this.validator = new AnalogModuleModelValidator();
         }
 
         /// <summary>
@@ -33,11 +31,16 @@ namespace Mt.ChangeLog.TransferObjects.Test
         [TestCase("ДИВГ.99999-99")]
         public void DIVGPositiveTest(string divg)
         {
+            // arrange
             var model = new AnalogModuleModel()
             {
                 DIVG = divg,
             };
-            var result = validator.TestValidate(model);
+
+            // act
+            var result = this.validator.TestValidate(model);
+
+            // assert
             result.ShouldNotHaveValidationErrorFor(m => m.DIVG);
         }
 
@@ -57,11 +60,16 @@ namespace Mt.ChangeLog.TransferObjects.Test
         [TestCase("\tДИВГ.00000-00\t")]
         public void DIVGNegativeTest(string divg)
         {
+            // arrange
             var model = new AnalogModuleModel()
             {
                 DIVG = divg,
             };
-            var result = validator.TestValidate(model);
+
+            // act
+            var result = this.validator.TestValidate(model);
+
+            // assert
             result.ShouldHaveValidationErrorFor(m => m.DIVG);
         }
 
@@ -75,11 +83,16 @@ namespace Mt.ChangeLog.TransferObjects.Test
         [TestCase("9A")]
         public void CurrentPositiveTest(string current)
         {
+            // arrange
             var model = new AnalogModuleModel()
             {
                 Current = current,
             };
-            var result = validator.TestValidate(model);
+
+            // act
+            var result = this.validator.TestValidate(model);
+
+            // assert
             result.ShouldNotHaveValidationErrorFor(m => m.Current);
         }
 
@@ -95,11 +108,16 @@ namespace Mt.ChangeLog.TransferObjects.Test
         [TestCase("10A")]
         public void CurrentNegativeTest(string current)
         {
+            // arrange
             var model = new AnalogModuleModel()
             {
                 Current = current,
             };
-            var result = validator.TestValidate(model);
+
+            // act
+            var result = this.validator.TestValidate(model);
+
+            // assert
             result.ShouldHaveValidationErrorFor(m => m.Current);
         }
 
@@ -116,11 +134,16 @@ namespace Mt.ChangeLog.TransferObjects.Test
         [TestCase("A", 500)]
         public void DescriptionPositiveTest(string desc, int count)
         {
+            // arrange
             var model = new AnalogModuleModel()
             {
                 Description = desc.PadRight(count, 'B'),
             };
-            var result = validator.TestValidate(model);
+
+            // act
+            var result = this.validator.TestValidate(model);
+
+            // assert
             result.ShouldNotHaveValidationErrorFor(m => m.Description);
         }
 
@@ -134,11 +157,18 @@ namespace Mt.ChangeLog.TransferObjects.Test
         [TestCase("A", 501)]
         public void DescriptionNegativeTest(string desc, int count)
         {
+            // arrange
+#pragma warning disable CS8601 // Possible null reference assignment.
             var model = new AnalogModuleModel()
             {
                 Description = desc?.PadRight(count, 'B'),
             };
-            var result = validator.TestValidate(model);
+#pragma warning restore CS8601 // Possible null reference assignment.
+
+            // act
+            var result = this.validator.TestValidate(model);
+
+            // assert
             result.ShouldHaveValidationErrorFor(m => m.Description);
         }
 
@@ -150,11 +180,16 @@ namespace Mt.ChangeLog.TransferObjects.Test
         [TestCase(null)]
         public void DescriptionNegativeTest(IEnumerable<PlatformShortModel> platforms)
         {
+            // arrange
             var model = new AnalogModuleModel()
             {
                 Platforms = platforms,
             };
-            var result = validator.TestValidate(model);
+
+            // act
+            var result = this.validator.TestValidate(model);
+
+            // assert
             result.ShouldHaveValidationErrorFor(m => m.Platforms);
         }
     }

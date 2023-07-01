@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mt.ChangeLog.TransferObjects.Historical
+﻿namespace Mt.ChangeLog.TransferObjects.Historical
 {
     /// <summary>
     /// Модель истории версии проекта.
@@ -12,7 +10,7 @@ namespace Mt.ChangeLog.TransferObjects.Historical
         /// </summary>
         /// <example>БФПО-000-ПМК-00</example>
         public string Title { get; set; }
-        
+
         /// <summary>
         /// Перечень моделей истории редакции проекта.
         /// </summary>

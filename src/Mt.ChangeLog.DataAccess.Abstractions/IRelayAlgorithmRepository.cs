@@ -1,5 +1,4 @@
 ﻿using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
-using System;
 
 namespace Mt.ChangeLog.DataAccess.Abstractions
 {

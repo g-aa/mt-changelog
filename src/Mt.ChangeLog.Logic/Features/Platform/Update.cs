@@ -10,9 +10,6 @@ using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Mt.ChangeLog.Logic.Features.Platform
 {
@@ -100,7 +97,7 @@ namespace Mt.ChangeLog.Logic.Features.Platform
                     .SetAttributes(model)
                     .SetAnalogModules(dbAnalogModules)
                     .Build();
-                
+
                 return this.SaveChangesAsync(dbPlatform, cancellationToken);
             }
 

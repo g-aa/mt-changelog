@@ -1,7 +1,5 @@
 ﻿using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables
@@ -31,7 +29,7 @@ namespace Mt.ChangeLog.Entities.Tables
         public bool Removable { get; set; }
 
         #region [ Relationships ]
-        
+
         /// <summary>
         /// Перечень версий проектов.
         /// </summary>
@@ -41,7 +39,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <summary>
         /// Инициализация экземпляра <see cref="ProjectStatusEntity"/>.
         /// </summary>
-        public ProjectStatusEntity() 
+        public ProjectStatusEntity()
         {
             this.Id = Guid.NewGuid();
             this.Title = "Внутренний";
@@ -60,7 +58,7 @@ namespace Mt.ChangeLog.Entities.Tables
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is ProjectStatusEntity e && ( this.Id.Equals(e.Id) || this.Title == e.Title );
+            return obj is ProjectStatusEntity e && (this.Id.Equals(e.Id) || this.Title == e.Title);
         }
 
         /// <inheritdoc />

@@ -21,17 +21,17 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion
         /// </summary>
         /// <example>Описание...</example>
         public string Description { get; set; }
-        
+
         /// <summary>
         /// Статус.
         /// </summary>
         public ProjectStatusShortModel ProjectStatus { get; set; }
-        
+
         /// <summary>
         /// Аналоговый модуль.
         /// </summary>
         public AnalogModuleShortModel AnalogModule { get; set; }
-        
+
         /// <summary>
         /// Платформа.
         /// </summary>
