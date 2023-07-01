@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
@@ -6,6 +6,7 @@ using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Author;
+using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
@@ -18,7 +19,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
     public static class Update
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<AuthorModel, string>, IValidatedRequest
+        public sealed class Command : MtCommand<AuthorModel, MessageModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -51,7 +52,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, string>
+        public sealed class Handler : IRequestHandler<Command, MessageModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -75,7 +76,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
             }
 
             /// <inheritdoc />
-            public Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -96,11 +97,14 @@ namespace Mt.ChangeLog.Logic.Features.Author
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<string> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
+            private async Task<MessageModel> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
             {
                 this.context.Authors.Update(entity);
                 await this.context.SaveChangesAsync(cancellationToken);
-                return $"'{entity}' обновлен в системе.";
+                return new MessageModel()
+                {
+                    Message = $"'{entity}' обновлен в системе.",
+                };
             }
         }
     }

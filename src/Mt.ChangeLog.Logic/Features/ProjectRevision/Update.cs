@@ -1,10 +1,11 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
 using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
@@ -17,7 +18,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
     public static class Update
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<ProjectRevisionModel, string>, IValidatedRequest
+        public sealed class Command : MtCommand<ProjectRevisionModel, MessageModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -50,7 +51,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, string>
+        public sealed class Handler : IRequestHandler<Command, MessageModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -74,7 +75,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
             }
 
             /// <inheritdoc />
-            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -110,7 +111,10 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision
 
                 await this.context.SaveChangesAsync();
 
-                return $"'{dbProjectRevision}' обновлена в системе.";
+                return new MessageModel()
+                {
+                    Message = $"'{dbProjectRevision}' обновлена в системе.",
+                };
             }
         }
     }

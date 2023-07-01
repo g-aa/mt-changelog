@@ -1,9 +1,8 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.Author;
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.ChangeLog.TransferObjects.Other;
-using Mt.Results;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mt.ChangeLog.WebAPI.Controllers.V1
@@ -30,14 +29,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("short")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей авторов.", typeof(IEnumerable<AuthorShortModel>))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> GetShortModels(CancellationToken token = default)
+        public Task<IEnumerable<AuthorShortModel>> GetShortModels(CancellationToken token)
         {
             var query = new GetShorts.Query();
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
+            return this.mediator.Send(query, token);
         }
 
         /// <summary>
@@ -48,14 +43,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("table")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorTableModel>))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> GetTableModels(CancellationToken token = default)
+        public Task<IEnumerable<AuthorTableModel>> GetTableModels(CancellationToken token)
         {
             var query = new GetTables.Query();
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
+            return this.mediator.Send(query, token);
         }
 
         /// <summary>
@@ -66,14 +57,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("contribution")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorContributionModel>))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> GetContributionModels(CancellationToken token = default)
+        public Task<IEnumerable<AuthorContributionModel>> GetContributionModels(CancellationToken token)
         {
             var query = new GetContributions.Query();
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
+            return this.mediator.Send(query, token);
         }
 
         /// <summary>
@@ -84,14 +71,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("contribution/project")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorProjectContributionModel>))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> GetProjectContributionModels(CancellationToken token = default)
+        public Task<IEnumerable<AuthorProjectContributionModel>> GetProjectContributionModels(CancellationToken token)
         {
             var query = new GetProjectContributions.Query();
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
+            return this.mediator.Send(query, token);
         }
 
         /// <summary>
@@ -102,14 +85,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("template")]
         [SwaggerResponse(StatusCodes.Status200OK, "Шаблон полной модели автора.", typeof(AuthorModel))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> GetTemplateModel(CancellationToken token = default)
+        public Task<AuthorModel> GetTemplateModel(CancellationToken token)
         {
             var query = new GetTemplate.Query();
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
+            return this.mediator.Send(query, token);
         }
 
         /// <summary>
@@ -121,14 +100,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("{id:guid}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Модель автора.", typeof(AuthorModel))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> GetModel([FromRoute] Guid id, CancellationToken token = default)
+        public Task<AuthorModel> GetModel([FromRoute] Guid id, CancellationToken token)
         {
             var query = new GetById.Query(new BaseModel() { Id = id });
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
+            return this.mediator.Send(query, token);
         }
 
         /// <summary>
@@ -138,15 +113,11 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <param name="token">Токен отмены.</param>
         /// <returns>Результат действия.</returns>
         [HttpPost]
-        [SwaggerResponse(StatusCodes.Status200OK, "Модель автора добавлена в систему, ID модели в системе.", typeof(MtMessageResult))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> PostModel([FromBody] AuthorModel model, CancellationToken token = default)
+        [SwaggerResponse(StatusCodes.Status200OK, "Модель автора добавлена в систему, ID модели в системе.", typeof(MessageModel))]
+        public Task<MessageModel> PostModel([FromBody] AuthorModel model, CancellationToken token)
         {
             var command = new Add.Command(model);
-            var result = await this.mediator.Send(command, token);
-            return this.Ok(new MtMessageResult(result));
+            return this.mediator.Send(command, token);
         }
 
         /// <summary>
@@ -158,16 +129,12 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <returns>Результат действия.</returns>
         [HttpPut]
         [Route("{id:guid}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Модель автора обновлена в системе.", typeof(MtMessageResult))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> PutModel([FromRoute] Guid id, [FromBody] AuthorModel model, CancellationToken token = default)
+        [SwaggerResponse(StatusCodes.Status200OK, "Модель автора обновлена в системе.", typeof(MessageModel))]
+        public Task<MessageModel> PutModel([FromRoute] Guid id, [FromBody] AuthorModel model, CancellationToken token)
         {
-            await this.CheckGuidsAsync(id, model.Id);
+            this.CheckGuids(id, model.Id);
             var command = new Update.Command(model);
-            var result = await this.mediator.Send(command, token);
-            return this.Ok(new MtMessageResult(result));
+            return this.mediator.Send(command, token);
         }
 
         /// <summary>
@@ -178,15 +145,11 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <returns>Результат действия.</returns>
         [HttpDelete]
         [Route("{id:guid}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Модель автора удалена из системы.", typeof(MtMessageResult))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> DeleteModel([FromRoute] Guid id, CancellationToken token = default)
+        [SwaggerResponse(StatusCodes.Status200OK, "Модель автора удалена из системы.", typeof(MessageModel))]
+        public Task<MessageModel> DeleteModel([FromRoute] Guid id, CancellationToken token)
         {
             var command = new Delete.Command(new BaseModel() { Id = id });
-            var result = await this.mediator.Send(command, token);
-            return this.Ok(new MtMessageResult(result));
+            return this.mediator.Send(command, token);
         }
     }
 }
