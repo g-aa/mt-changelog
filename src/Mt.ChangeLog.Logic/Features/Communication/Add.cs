@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
@@ -6,6 +6,7 @@ using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Communication;
+using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
@@ -18,7 +19,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
     public static class Add
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<CommunicationModel, string>, IValidatedRequest
+        public sealed class Command : MtCommand<CommunicationModel, MessageModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -51,7 +52,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, string>
+        public sealed class Handler : IRequestHandler<Command, MessageModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -75,7 +76,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
             }
 
             /// <inheritdoc />
-            public Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -102,11 +103,14 @@ namespace Mt.ChangeLog.Logic.Features.Communication
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<string> SaveChangesAsync(CommunicationEntity entity, CancellationToken cancellationToken)
+            private async Task<MessageModel> SaveChangesAsync(CommunicationEntity entity, CancellationToken cancellationToken)
             {
                 await this.context.Communications.AddAsync(entity, cancellationToken);
                 await this.context.SaveChangesAsync(cancellationToken);
-                return $"'{entity}' был добавлен в систему.";
+                return new MessageModel()
+                {
+                    Message = $"'{entity}' был добавлен в систему.",
+                };
             }
         }
     }

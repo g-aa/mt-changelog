@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.DataAccess.Abstractions;
 using Mt.ChangeLog.Logic.Models;
@@ -13,7 +13,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
     public static class GetProjectContributions
     {
         /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, IEnumerable<AuthorContributionModel>>
+        public sealed class Query : MtQuery<Unit, IEnumerable<AuthorProjectContributionModel>>
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Query"/>.
@@ -30,7 +30,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, IEnumerable<AuthorContributionModel>>
+        public sealed class Handler : IRequestHandler<Query, IEnumerable<AuthorProjectContributionModel>>
         {
             /// <summary>
             /// Журнал логирования.
@@ -54,7 +54,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
             }
 
             /// <inheritdoc />
-            public async Task<IEnumerable<AuthorContributionModel>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<AuthorProjectContributionModel>> Handle(Query request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());

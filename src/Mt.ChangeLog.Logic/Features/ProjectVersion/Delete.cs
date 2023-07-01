@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Context;
@@ -16,7 +16,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
     public static class Delete
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<BaseModel, string>, IValidatedRequest
+        public sealed class Command : MtCommand<BaseModel, MessageModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -49,7 +49,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, string>
+        public sealed class Handler : IRequestHandler<Command, MessageModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -73,7 +73,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
             }
 
             /// <inheritdoc />
-            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
@@ -82,7 +82,10 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
                 this.context.ProjectVersions.Remove(dbRemovable);
                 await this.context.SaveChangesAsync();
 
-                return $"'{dbRemovable}' был удалена из системы.";
+                return new MessageModel()
+                {
+                    Message = $"'{dbRemovable}' был удалена из системы.",
+                };
             }
         }
     }

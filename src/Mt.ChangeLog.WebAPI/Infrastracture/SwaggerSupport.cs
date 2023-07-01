@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+using Crm.Api.Service.Infrastracture;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 namespace Mt.ChangeLog.WebAPI.Infrastracture
@@ -25,6 +26,7 @@ namespace Mt.ChangeLog.WebAPI.Infrastracture
                 });
 
                 options.EnableAnnotations();
+                options.OperationFilter<SwaggerResponseOperationFilter>();
 
                 var xmlWebAPI = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlWebAPI));

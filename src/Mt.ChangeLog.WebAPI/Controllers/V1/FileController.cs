@@ -2,8 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.File;
 using Mt.ChangeLog.Logic.Features.History;
+using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.Other;
-using Mt.Results;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Mt.ChangeLog.WebAPI.Controllers.V1
@@ -30,15 +30,11 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         /// <returns>Результат действия.</returns>
         [HttpGet]
         [Route("changelog/{id:guid}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Полная история изменения версии проекта.", typeof(FileModel))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> GetProjectVersionChangeLog([FromRoute] Guid id, CancellationToken token = default)
+        [SwaggerResponse(StatusCodes.Status200OK, "Полная история изменения версии проекта.", typeof(ProjectVersionHistoryModel))]
+        public Task<ProjectVersionHistoryModel> GetProjectVersionChangeLog([FromRoute] Guid id, CancellationToken token)
         {
             var query = new GetProjectVersionHistory.Query(new BaseModel() { Id = id });
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
+            return this.mediator.Send(query, token);
         }
 
         /// <summary>
@@ -49,14 +45,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1
         [HttpGet]
         [Route("changelog/archive/full")]
         [SwaggerResponse(StatusCodes.Status200OK, "Полный архив логов изменения проектов.", typeof(FileModel))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Пользователь не авторизован.", typeof(MtProblemDetails))]
-        [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> GetChangeLogArchive(CancellationToken token = default)
+        public Task<FileModel> GetChangeLogArchive(CancellationToken token)
         {
             var query = new GetFullArchive.Query();
-            var result = await this.mediator.Send(query, token);
-            return this.Ok(result);
+            return this.mediator.Send(query, token);
         }
     }
 }
