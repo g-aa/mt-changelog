@@ -1,6 +1,5 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 
 namespace Mt.ChangeLog.WebAPI.Controllers
@@ -23,7 +22,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers
         /// <param name="mediator">Медиатор.</param>
         protected ApiControllerBase(IMediator mediator)
         {
-            this.mediator = Check.NotNull(mediator, nameof(mediator));
+            this.mediator = mediator;
         }
 
         /// <summary>
@@ -32,11 +31,11 @@ namespace Mt.ChangeLog.WebAPI.Controllers
         /// <param name="queryId">Идентификаторов полученый из URL.</param>
         /// <param name="bodyId">Идентификаторов полученый из модели в теле запроса.</param>
         /// <exception cref="ArgumentException">Срабатывает если uuids не равны между собой.</exception>
-        protected async Task CheckGuidsAsync(Guid queryId, Guid bodyId)
+        protected void CheckGuids(Guid queryId, Guid bodyId)
         {
             if (!queryId.Equals(bodyId))
             {
-                await Task.FromException(new MtException(ErrorCode.EntityValidation, $"Идентификатор из URL: '{queryId}' не равен идентификатору в модели из тела запроса: '{bodyId}'."));
+                throw new MtException(ErrorCode.EntityValidation, $"Идентификатор из URL: '{queryId}' не равен идентификатору в модели из тела запроса: '{bodyId}'.");
             }
         }
     }

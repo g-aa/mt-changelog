@@ -21,9 +21,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Версия приложения.", typeof(MtMessageResult))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> Version()
+        public MtMessageResult Version()
         {
-            return await Task.FromResult(this.Ok(new MtMessageResult(Program.AppName)));
+            return new MtMessageResult(Program.AppName);
         }
 
         /// <summary>
@@ -35,9 +35,9 @@ namespace Mt.ChangeLog.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Версия приложения.", typeof(MtAppDescription))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
         [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
-        public async Task<IActionResult> Description()
+        public MtAppDescription Description()
         {
-            return await Task.FromResult(this.Ok(new MtAppDescription()
+            return new MtAppDescription()
             {
                 Version = Program.AppName,
                 Repository = "https://github.com/g-aa/mt-changelog",
@@ -46,7 +46,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers
                     + "в программном обеспечении устройств автоматизации "
                     + "(БМРЗ-100/120/150/160/M4) "
                     + "электроэнергетической системы (ЭЭС).",
-            }));
+            };
         }
     }
 }

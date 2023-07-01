@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -19,7 +19,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
     public static class Delete
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<BaseModel, string>, IValidatedRequest
+        public sealed class Command : MtCommand<BaseModel, MessageModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -52,7 +52,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, string>
+        public sealed class Handler : IRequestHandler<Command, MessageModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -76,7 +76,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
             }
 
             /// <inheritdoc />
-            public Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 Check.NotNull(request, nameof(request));
                 this.logger.LogInformation(request.ToString());
@@ -104,11 +104,14 @@ namespace Mt.ChangeLog.Logic.Features.Author
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<string> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
+            private async Task<MessageModel> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
             {
                 this.context.Authors.Remove(entity);
                 await this.context.SaveChangesAsync(cancellationToken);
-                return $"'{entity}' был удален из системы.";
+                return new MessageModel()
+                {
+                    Message = $"'{entity}' был удален из системы.",
+                };
             }
         }
     }

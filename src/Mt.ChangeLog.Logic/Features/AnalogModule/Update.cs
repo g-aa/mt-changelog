@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -7,6 +7,7 @@ using Mt.ChangeLog.Entities.Extensions.Tables;
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
+using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
 using Mt.Utilities;
 using Mt.Utilities.Exceptions;
@@ -19,7 +20,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
     public static class Update
     {
         /// <inheritdoc />
-        public sealed class Command : MtCommand<AnalogModuleModel, string>, IValidatedRequest
+        public sealed class Command : MtCommand<AnalogModuleModel, MessageModel>, IValidatedRequest
         {
             /// <summary>
             /// Инициализация нового экземпляра класса <see cref="Command"/>.
@@ -52,7 +53,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, string>
+        public sealed class Handler : IRequestHandler<Command, MessageModel>
         {
             /// <summary>
             /// Журнал логирования.
@@ -76,7 +77,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             }
 
             /// <inheritdoc />
-            public Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
             {
                 var model = Check.NotNull(request, nameof(request)).Model;
                 this.logger.LogInformation(request.ToString());
@@ -107,11 +108,14 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <param name="entity">Сущность.</param>
             /// <param name="cancellationToken">Токен отмены.</param>
             /// <returns>Результат выполнения.</returns>
-            private async Task<string> SaveChangesAsync(AnalogModuleEntity entity, CancellationToken cancellationToken)
+            private async Task<MessageModel> SaveChangesAsync(AnalogModuleEntity entity, CancellationToken cancellationToken)
             {
                 this.context.AnalogModules.Update(entity);
                 await this.context.SaveChangesAsync(cancellationToken);
-                return $"'{entity}' обновлен в системе.";
+                return new MessageModel()
+                {
+                    Message = $"'{entity}' обновлен в системе.",
+                };
             }
         }
     }
