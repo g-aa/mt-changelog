@@ -1,36 +1,35 @@
-﻿using Mt.Utilities;
+using Mt.Utilities;
 
-namespace Mt.ChangeLog.TransferObjects.Protocol
+namespace Mt.ChangeLog.TransferObjects.Protocol;
+
+/// <summary>
+/// Краткая модель протокола информационнго обмена.
+/// </summary>
+public class ProtocolShortModel
 {
     /// <summary>
-    /// Краткая модель протокола информационнго обмена.
+    /// ИД.
     /// </summary>
-    public class ProtocolShortModel
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    /// <example>Modbus-MT</example>
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ProtocolShortModel"/>.
+    /// </summary>
+    public ProtocolShortModel()
     {
-        /// <summary>
-        /// ИД.
-        /// </summary>
-        public Guid Id { get; set; }
+        this.Id = Guid.NewGuid();
+        this.Title = DefaultString.Protocol;
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        /// <example>Modbus-MT</example>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProtocolShortModel"/>.
-        /// </summary>
-        public ProtocolShortModel()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Protocol;
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return this.Title;
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return this.Title;
     }
 }

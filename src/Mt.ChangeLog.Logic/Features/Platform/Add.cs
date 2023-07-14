@@ -44,7 +44,7 @@ namespace Mt.ChangeLog.Logic.Features.Platform
             /// <summary>
             /// Инициализация экземпляра <see cref="CommandValidator"/>.
             /// </summary>
-            public CommandValidator(PlatformModelValidator validator)
+            public CommandValidator(PlatformValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));

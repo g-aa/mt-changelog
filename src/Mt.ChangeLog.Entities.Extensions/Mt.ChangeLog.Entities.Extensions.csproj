@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Mt.Utilities" Version="6.3.1" />
+    <PackageReference Include="Mt.Utilities" Version="6.4.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mt.ChangeLog.Entities\Mt.ChangeLog.Entities.csproj" />

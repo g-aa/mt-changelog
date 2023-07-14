@@ -1,24 +1,23 @@
-﻿using Mt.Utilities;
+using Mt.Utilities;
 
-namespace Mt.ChangeLog.TransferObjects.Platform
+namespace Mt.ChangeLog.TransferObjects.Platform;
+
+/// <summary>
+/// Модель платформы БМРЗ для таблиц.
+/// </summary>
+public class PlatformTableModel : PlatformShortModel
 {
     /// <summary>
-    /// Модель платформы БМРЗ для таблиц.
+    /// Описание.
     /// </summary>
-    public class PlatformTableModel : PlatformShortModel
-    {
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        /// <example>Описание...</example>
-        public string Description { get; set; }
+    /// <example>Описание...</example>
+    public string Description { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="PlatformTableModel"/>.
-        /// </summary>
-        public PlatformTableModel() : base()
-        {
-            this.Description = DefaultString.Description;
-        }
+    /// <summary>
+    /// Инициализация экземпляра <see cref="PlatformTableModel"/>.
+    /// </summary>
+    public PlatformTableModel() : base()
+    {
+        this.Description = DefaultString.Description;
     }
 }

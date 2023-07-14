@@ -1,13 +1,12 @@
-﻿namespace Mt.ChangeLog.TransferObjects.Other
+namespace Mt.ChangeLog.TransferObjects.Other;
+
+/// <summary>
+/// Базовое представление модели данных.
+/// </summary>
+public class BaseModel
 {
     /// <summary>
-    /// Базовое представление модели данных.
+    /// Идентификатор модели данных.
     /// </summary>
-    public class BaseModel
-    {
-        /// <summary>
-        /// Идентификатор модели данных.
-        /// </summary>
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }

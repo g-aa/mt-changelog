@@ -1,36 +1,35 @@
-﻿using Mt.Utilities;
+using Mt.Utilities;
 
-namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm
+namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm;
+
+/// <summary>
+/// Краткая модель алгоритма РЗиА.
+/// </summary>
+public class RelayAlgorithmShortModel
 {
     /// <summary>
-    /// Краткая модель алгоритма РЗиА.
+    /// ИД.
     /// </summary>
-    public class RelayAlgorithmShortModel
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    /// <example>МТЗ</example>
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Инициализация экземпляра <see cref="RelayAlgorithmShortModel"/>.
+    /// </summary>
+    public RelayAlgorithmShortModel()
     {
-        /// <summary>
-        /// ИД.
-        /// </summary>
-        public Guid Id { get; set; }
+        this.Id = Guid.NewGuid();
+        this.Title = DefaultString.Algorithm;
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        /// <example>МТЗ</example>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Инициализация экземпляра <see cref="RelayAlgorithmShortModel"/>.
-        /// </summary>
-        public RelayAlgorithmShortModel()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Algorithm;
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return this.Title;
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return this.Title;
     }
 }

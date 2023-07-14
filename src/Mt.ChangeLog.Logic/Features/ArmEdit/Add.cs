@@ -44,7 +44,7 @@ namespace Mt.ChangeLog.Logic.Features.ArmEdit
             /// <summary>
             /// Инициализация экземпляра <see cref="CommandValidator"/>.
             /// </summary>
-            public CommandValidator(ArmEditModelValidator validator)
+            public CommandValidator(ArmEditValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));

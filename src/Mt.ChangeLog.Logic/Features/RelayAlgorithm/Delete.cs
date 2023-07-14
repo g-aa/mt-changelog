@@ -44,7 +44,7 @@ namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
             /// <summary>
             /// Инициализация экземпляра <see cref="CommandValidator"/>.
             /// </summary>
-            public CommandValidator(BaseModelValidator validator)
+            public CommandValidator(BaseValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));

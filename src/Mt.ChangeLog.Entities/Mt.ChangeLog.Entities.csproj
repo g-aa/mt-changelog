@@ -7,6 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Mt.Entities.Abstractions" Version="6.3.0" />
-    <PackageReference Include="Mt.Utilities" Version="6.3.1" />
+    <PackageReference Include="Mt.Utilities" Version="6.4.0" />
   </ItemGroup>
 </Project>

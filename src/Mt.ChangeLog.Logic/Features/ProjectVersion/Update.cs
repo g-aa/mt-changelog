@@ -43,7 +43,7 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion
             /// <summary>
             /// Инициализация экземпляра <see cref="CommandValidator"/>.
             /// </summary>
-            public CommandValidator(ProjectVersionModelValidator validator)
+            public CommandValidator(ProjectVersionValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));

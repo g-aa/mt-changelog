@@ -1,4 +1,5 @@
-﻿using MediatR;
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Mt.Utilities;
 using System.Reflection;
@@ -20,7 +21,10 @@ namespace Mt.ChangeLog.Logic
         {
             Check.NotNull(services, nameof(services));
             Check.NotEmpty(assemblies, nameof(assemblies));
+
+            services.AddValidatorsFromAssemblies(assemblies);
             services.AddMediatR(assemblies);
+
             return services;
         }
     }

@@ -1,6 +1,6 @@
 using Crm.Api.Service.Infrastracture;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
+using Mt.ChangeLog.TransferObjects;
 
 namespace Mt.ChangeLog.WebAPI.Infrastracture
 {
@@ -28,11 +28,11 @@ namespace Mt.ChangeLog.WebAPI.Infrastracture
                 options.EnableAnnotations();
                 options.OperationFilter<SwaggerResponseOperationFilter>();
 
-                var xmlWebAPI = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlWebAPI));
+                var xmlService = $"{typeof(ServiceLayer).Assembly.GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlService));
 
-                var xmlTransferObjects = $"{typeof(Mt.ChangeLog.TransferObjects.ServiceCollectionExtensions).Assembly.GetName().Name}.xml";
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlTransferObjects));
+                var xmlModel = $"{typeof(ModelLayer).Assembly.GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlModel));
 
                 /*
                  * var xmlResults = $"{typeof(Mt.Results.MtProblemDetails).Assembly.GetName().Name}.xml"

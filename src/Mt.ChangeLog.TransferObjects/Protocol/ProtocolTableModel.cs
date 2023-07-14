@@ -1,30 +1,29 @@
-﻿using Mt.Utilities;
+using Mt.Utilities;
 
-namespace Mt.ChangeLog.TransferObjects.Protocol
+namespace Mt.ChangeLog.TransferObjects.Protocol;
+
+/// <summary>
+/// Модель протокола информационнго обмена для таблиц.
+/// </summary>
+public class ProtocolTableModel : ProtocolShortModel
 {
     /// <summary>
-    /// Модель протокола информационнго обмена для таблиц.
+    /// Описание.
     /// </summary>
-    public class ProtocolTableModel : ProtocolShortModel
+    /// <example>Описание...</example>
+    public string Description { get; set; }
+
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ProtocolTableModel"/>.
+    /// </summary>
+    public ProtocolTableModel() : base()
     {
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        /// <example>Описание...</example>
-        public string Description { get; set; }
+        this.Description = DefaultString.Description;
+    }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProtocolTableModel"/>.
-        /// </summary>
-        public ProtocolTableModel() : base()
-        {
-            this.Description = DefaultString.Description;
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return this.Title;
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return this.Title;
     }
 }

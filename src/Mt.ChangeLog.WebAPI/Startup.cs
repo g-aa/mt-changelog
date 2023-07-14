@@ -1,4 +1,4 @@
-﻿using Mt.ChangeLog.Context;
+using Mt.ChangeLog.Context;
 using Mt.ChangeLog.DataAccess;
 using Mt.ChangeLog.Logic;
 using Mt.ChangeLog.TransferObjects;
@@ -34,11 +34,10 @@ namespace Mt.ChangeLog.WebAPI
 
             var assemblies = new Assembly[]
             {
-                typeof(Mt.ChangeLog.TransferObjects.ServiceCollectionExtensions).Assembly,
-                typeof(Mt.ChangeLog.Logic.ServiceCollectionExtensions).Assembly,
+                typeof(ModelLayer).Assembly,
+                typeof(LogicLayer).Assembly,
             };
 
-            services.AddTransferObjects(assemblies);
             services.AddApplicationContext();
             services.AddDataAccess();
             services.AddLogic(assemblies);

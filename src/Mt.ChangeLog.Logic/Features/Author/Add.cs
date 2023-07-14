@@ -44,7 +44,7 @@ namespace Mt.ChangeLog.Logic.Features.Author
             /// <summary>
             /// Инициализация экземпляра <see cref="CommandValidator"/>.
             /// </summary>
-            public CommandValidator(AuthorModelValidator validator)
+            public CommandValidator(AuthorValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));

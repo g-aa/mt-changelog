@@ -1,21 +1,20 @@
-﻿namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm
+namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm;
+
+/// <summary>
+/// Полная модель алгоритма РЗиА.
+/// </summary>
+public class RelayAlgorithmModel : RelayAlgorithmTableModel
 {
     /// <summary>
-    /// Полная модель алгоритма РЗиА.
+    /// Инициализация экземпляра <see cref="RelayAlgorithmModel"/>
     /// </summary>
-    public class RelayAlgorithmModel : RelayAlgorithmTableModel
+    public RelayAlgorithmModel() : base()
     {
-        /// <summary>
-        /// Инициализация экземпляра <see cref="RelayAlgorithmModel"/>
-        /// </summary>
-        public RelayAlgorithmModel() : base()
-        {
-        }
+    }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"ANSI: {this.ANSI}, {base.ToString()}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"ANSI: {this.ANSI}, {base.ToString()}";
     }
 }

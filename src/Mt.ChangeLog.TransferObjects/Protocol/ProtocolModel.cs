@@ -1,29 +1,28 @@
-﻿using Mt.ChangeLog.TransferObjects.Communication;
+using Mt.ChangeLog.TransferObjects.Communication;
 
-namespace Mt.ChangeLog.TransferObjects.Protocol
+namespace Mt.ChangeLog.TransferObjects.Protocol;
+
+/// <summary>
+/// Полная модель протокола информационнго обмена.
+/// </summary>
+public class ProtocolModel : ProtocolTableModel
 {
     /// <summary>
-    /// Полная модель протокола информационнго обмена.
+    /// Перечень коммуникационных модулей.
     /// </summary>
-    public class ProtocolModel : ProtocolTableModel
+    public IEnumerable<CommunicationShortModel> Communications { get; set; }
+
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ProtocolModel"/>.
+    /// </summary>
+    public ProtocolModel() : base()
     {
-        /// <summary>
-        /// Перечень коммуникационных модулей.
-        /// </summary>
-        public IEnumerable<CommunicationShortModel> Communications { get; set; }
+        this.Communications = new HashSet<CommunicationShortModel>();
+    }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProtocolModel"/>.
-        /// </summary>
-        public ProtocolModel() : base()
-        {
-            this.Communications = new HashSet<CommunicationShortModel>();
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }

@@ -1,21 +1,20 @@
-﻿namespace Mt.ChangeLog.TransferObjects.ProjectStatus
+namespace Mt.ChangeLog.TransferObjects.ProjectStatus;
+
+/// <summary>
+/// Полная модель статуса проекта.
+/// </summary>
+public class ProjectStatusModel : ProjectStatusTableModel
 {
     /// <summary>
-    /// Полная модель статуса проекта.
+    /// Инициализация экземпляра <see cref="ProjectStatusModel"/>.
     /// </summary>
-    public class ProjectStatusModel : ProjectStatusTableModel
+    public ProjectStatusModel() : base()
     {
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectStatusModel"/>.
-        /// </summary>
-        public ProjectStatusModel() : base()
-        {
-        }
+    }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }

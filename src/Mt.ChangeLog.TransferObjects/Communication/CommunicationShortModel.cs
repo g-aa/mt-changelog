@@ -1,36 +1,35 @@
-﻿using Mt.Utilities;
+using Mt.Utilities;
 
-namespace Mt.ChangeLog.TransferObjects.Communication
+namespace Mt.ChangeLog.TransferObjects.Communication;
+
+/// <summary>
+/// Краткая модель коммуникационного модуля.
+/// </summary>
+public class CommunicationShortModel
 {
     /// <summary>
-    /// Краткая модель коммуникационного модуля.
+    /// ИД.
     /// </summary>
-    public class CommunicationShortModel
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    /// <example>АК Virtual</example>
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Инициализация экземпляра <see cref="CommunicationShortModel"/>.
+    /// </summary>
+    public CommunicationShortModel()
     {
-        /// <summary>
-        /// ИД.
-        /// </summary>
-        public Guid Id { get; set; }
+        this.Id = Guid.NewGuid();
+        this.Title = DefaultString.Communication;
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        /// <example>АК Virtual</example>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Инициализация экземпляра <see cref="CommunicationShortModel"/>.
-        /// </summary>
-        public CommunicationShortModel()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Communication;
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return this.Title;
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return this.Title;
     }
 }

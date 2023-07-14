@@ -45,7 +45,7 @@ namespace Mt.ChangeLog.Logic.Features.Communication
             /// <summary>
             /// Инициализация экземпляра <see cref="CommandValidator"/>.
             /// </summary>
-            public CommandValidator(CommunicationModelValidator validator)
+            public CommandValidator(CommunicationValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));

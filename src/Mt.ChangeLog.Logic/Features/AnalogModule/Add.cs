@@ -44,7 +44,7 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule
             /// <summary>
             /// Инициализация экземпляра <see cref="CommandValidator"/>.
             /// </summary>
-            public CommandValidator(AnalogModuleModelValidator validator)
+            public CommandValidator(AnalogModuleValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));

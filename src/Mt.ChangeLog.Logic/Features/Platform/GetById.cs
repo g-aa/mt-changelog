@@ -43,7 +43,7 @@ namespace Mt.ChangeLog.Logic.Features.Platform
             /// <summary>
             /// Инициализация экземпляра <see cref="QueryValidator"/>.
             /// </summary>
-            public QueryValidator(BaseModelValidator validator)
+            public QueryValidator(BaseValidator validator)
             {
                 this.RuleFor(e => e.Model)
                     .SetValidator(Check.NotNull(validator, nameof(validator)));

@@ -1,29 +1,28 @@
-﻿using Mt.ChangeLog.TransferObjects.Platform;
+using Mt.ChangeLog.TransferObjects.Platform;
 
-namespace Mt.ChangeLog.TransferObjects.AnalogModule
+namespace Mt.ChangeLog.TransferObjects.AnalogModule;
+
+/// <summary>
+/// Полная модель аналогового модуля.
+/// </summary>
+public class AnalogModuleModel : AnalogModuleTableModel
 {
     /// <summary>
-    /// Полная модель аналогового модуля.
+    /// Перечень платформ.
     /// </summary>
-    public class AnalogModuleModel : AnalogModuleTableModel
+    public IEnumerable<PlatformShortModel> Platforms { get; set; }
+
+    /// <summary>
+    /// Инициализация экземпляра <see cref="AnalogModuleModel"/>.
+    /// </summary>
+    public AnalogModuleModel() : base()
     {
-        /// <summary>
-        /// Перечень платформ.
-        /// </summary>
-        public IEnumerable<PlatformShortModel> Platforms { get; set; }
+        this.Platforms = new HashSet<PlatformShortModel>();
+    }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="AnalogModuleModel"/>.
-        /// </summary>
-        public AnalogModuleModel() : base()
-        {
-            this.Platforms = new HashSet<PlatformShortModel>();
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"{base.ToString()}, номинальный ток: {this.Current}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"{base.ToString()}, номинальный ток: {this.Current}";
     }
 }
