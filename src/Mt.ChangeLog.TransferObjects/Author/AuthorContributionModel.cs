@@ -8,7 +8,15 @@ namespace Mt.ChangeLog.TransferObjects.Author;
 public class AuthorContributionModel
 {
     /// <summary>
-    /// Ф.И.О. автора (LastName FirstName). 
+    /// Инициализация экземпляра <see cref="AuthorContributionModel"/>.
+    /// </summary>
+    public AuthorContributionModel()
+    {
+        this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
+    }
+
+    /// <summary>
+    /// Ф.И.О. автора (LastName FirstName).
     /// </summary>
     /// <example>Иванов Иван</example>
     public string Author { get; set; }
@@ -17,12 +25,4 @@ public class AuthorContributionModel
     /// Общий вклад в проекты.
     /// </summary>
     public int Contribution { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="AuthorContributionModel"/>.
-    /// </summary>
-    public AuthorContributionModel()
-    {
-        this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
-    }
 }

@@ -8,6 +8,16 @@ namespace Mt.ChangeLog.TransferObjects.Author;
 public class AuthorProjectContributionModel : AuthorContributionModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="AuthorProjectContributionModel"/>.
+    /// </summary>
+    public AuthorProjectContributionModel()
+    {
+        this.ProjectPrefix = DefaultString.Prefix;
+        this.ProjectTitle = DefaultString.Project;
+        this.ProjectVersion = DefaultString.Revision;
+    }
+
+    /// <summary>
     /// Префикс наименования проекта.
     /// </summary>
     /// <example>БФПО-000</example>
@@ -24,14 +34,4 @@ public class AuthorProjectContributionModel : AuthorContributionModel
     /// </summary>
     /// <example>00</example>
     public string ProjectVersion { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="AuthorProjectContributionModel"/>.
-    /// </summary>
-    public AuthorProjectContributionModel()
-    {
-        this.ProjectPrefix = DefaultString.Prefix;
-        this.ProjectTitle = DefaultString.Project;
-        this.ProjectVersion = DefaultString.Revision;
-    }
 }

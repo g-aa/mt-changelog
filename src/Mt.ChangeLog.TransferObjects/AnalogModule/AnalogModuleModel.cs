@@ -8,17 +8,18 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule;
 public class AnalogModuleModel : AnalogModuleTableModel
 {
     /// <summary>
-    /// Перечень платформ.
-    /// </summary>
-    public IEnumerable<PlatformShortModel> Platforms { get; set; }
-
-    /// <summary>
     /// Инициализация экземпляра <see cref="AnalogModuleModel"/>.
     /// </summary>
-    public AnalogModuleModel() : base()
+    public AnalogModuleModel()
+        : base()
     {
         this.Platforms = new HashSet<PlatformShortModel>();
     }
+
+    /// <summary>
+    /// Перечень платформ.
+    /// </summary>
+    public IEnumerable<PlatformShortModel> Platforms { get; set; }
 
     /// <inheritdoc />
     public override string ToString()

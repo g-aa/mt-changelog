@@ -8,16 +8,17 @@ namespace Mt.ChangeLog.TransferObjects.Platform;
 public class PlatformTableModel : PlatformShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="PlatformTableModel"/>.
+    /// </summary>
+    public PlatformTableModel()
+        : base()
+    {
+        this.Description = DefaultString.Description;
+    }
+
+    /// <summary>
     /// Описание.
     /// </summary>
     /// <example>Описание...</example>
     public string Description { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="PlatformTableModel"/>.
-    /// </summary>
-    public PlatformTableModel() : base()
-    {
-        this.Description = DefaultString.Description;
-    }
 }

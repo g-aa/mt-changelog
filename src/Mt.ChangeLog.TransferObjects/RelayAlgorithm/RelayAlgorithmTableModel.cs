@@ -8,6 +8,18 @@ namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 public class RelayAlgorithmTableModel : RelayAlgorithmShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="RelayAlgorithmTableModel"/>.
+    /// </summary>
+    public RelayAlgorithmTableModel()
+        : base()
+    {
+        this.Group = DefaultString.AlgorithmGroup;
+        this.ANSI = DefaultString.AlgorithmANSI;
+        this.LogicalNode = DefaultString.LogicalNode;
+        this.Description = DefaultString.Description;
+    }
+
+    /// <summary>
     /// Наименование группы.
     /// </summary>
     /// <example>МТЗ</example>
@@ -30,15 +42,4 @@ public class RelayAlgorithmTableModel : RelayAlgorithmShortModel
     /// </summary>
     /// <example>Описание...</example>
     public string Description { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="RelayAlgorithmTableModel"/>.
-    /// </summary>
-    public RelayAlgorithmTableModel() : base()
-    {
-        this.Group = DefaultString.AlgorithmGroup;
-        this.ANSI = DefaultString.AlgorithmANSI;
-        this.LogicalNode = DefaultString.LogicalNode;
-        this.Description = DefaultString.Description;
-    }
 }

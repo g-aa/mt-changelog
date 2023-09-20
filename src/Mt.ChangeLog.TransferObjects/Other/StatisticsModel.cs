@@ -10,6 +10,19 @@ namespace Mt.ChangeLog.TransferObjects.Other;
 public struct StatisticsModel
 {
     /// <summary>
+    /// Инициализация нового экземпляра класса <see cref="StatisticsModel"/>.
+    /// </summary>
+    public StatisticsModel()
+    {
+        this.Date = DateTime.Now;
+        this.ArmEdit = DefaultString.Version;
+        this.ProjectCount = 0;
+        this.ProjectDistributions = new Dictionary<string, int>();
+        this.AuthorContributions = Array.Empty<AuthorContributionModel>();
+        this.LastModifiedProjects = Array.Empty<ProjectRevisionHistoryShortModel>();
+    }
+
+    /// <summary>
     /// Дата сбора статистики.
     /// </summary>
     public DateTime Date { get; set; }
@@ -39,17 +52,4 @@ public struct StatisticsModel
     /// Последние изменения по проектам.
     /// </summary>
     public IEnumerable<ProjectRevisionHistoryShortModel> LastModifiedProjects { get; set; }
-
-    /// <summary>
-    /// Инициализация нового экземпляра класса <see cref="StatisticsModel"/>
-    /// </summary>
-    public StatisticsModel()
-    {
-        this.Date = DateTime.Now;
-        this.ArmEdit = DefaultString.Version;
-        this.ProjectCount = 0;
-        this.ProjectDistributions = new Dictionary<string, int>();
-        this.AuthorContributions = Array.Empty<AuthorContributionModel>();
-        this.LastModifiedProjects = Array.Empty<ProjectRevisionHistoryShortModel>();
-    }
 }

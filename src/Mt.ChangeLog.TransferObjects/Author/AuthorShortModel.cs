@@ -8,6 +8,16 @@ namespace Mt.ChangeLog.TransferObjects.Author;
 public class AuthorShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="AuthorShortModel"/>.
+    /// </summary>
+    public AuthorShortModel()
+    {
+        this.Id = Guid.NewGuid();
+        this.FirstName = DefaultString.FirstName;
+        this.LastName = DefaultString.LastName;
+    }
+
+    /// <summary>
     /// ИД.
     /// </summary>
     public Guid Id { get; set; }
@@ -23,16 +33,6 @@ public class AuthorShortModel
     /// </summary>
     /// <example>Иванов</example>
     public string LastName { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="AuthorShortModel"/>.
-    /// </summary>
-    public AuthorShortModel()
-    {
-        this.Id = Guid.NewGuid();
-        this.FirstName = DefaultString.FirstName;
-        this.LastName = DefaultString.LastName;
-    }
 
     /// <inheritdoc />
     public override string ToString()

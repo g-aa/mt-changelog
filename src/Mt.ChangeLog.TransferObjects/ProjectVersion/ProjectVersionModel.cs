@@ -11,6 +11,19 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion;
 public class ProjectVersionModel : ProjectVersionShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectVersionModel"/>.
+    /// </summary>
+    public ProjectVersionModel()
+        : base()
+    {
+        this.DIVG = DefaultString.DIVG;
+        this.Description = DefaultString.Description;
+        this.ProjectStatus = new ProjectStatusShortModel();
+        this.AnalogModule = new AnalogModuleShortModel();
+        this.Platform = new PlatformShortModel();
+    }
+
+    /// <summary>
     /// ДИВГ.
     /// </summary>
     /// <example>ДИВГ.00000-00</example>
@@ -36,18 +49,6 @@ public class ProjectVersionModel : ProjectVersionShortModel
     /// Платформа.
     /// </summary>
     public PlatformShortModel Platform { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectVersionModel"/>.
-    /// </summary>
-    public ProjectVersionModel() : base()
-    {
-        this.DIVG = DefaultString.DIVG;
-        this.Description = DefaultString.Description;
-        this.ProjectStatus = new ProjectStatusShortModel();
-        this.AnalogModule = new AnalogModuleShortModel();
-        this.Platform = new PlatformShortModel();
-    }
 
     /// <inheritdoc />
     public override string ToString()

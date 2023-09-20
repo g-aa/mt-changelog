@@ -8,6 +8,16 @@ namespace Mt.ChangeLog.TransferObjects.Communication;
 public class CommunicationTableModel : CommunicationShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="CommunicationTableModel"/>.
+    /// </summary>
+    public CommunicationTableModel()
+        : base()
+    {
+        this.Protocols = DefaultString.Protocol;
+        this.Description = DefaultString.Description;
+    }
+
+    /// <summary>
     /// Перечень протоколов через ','.
     /// </summary>
     /// <example>ModBus-RTU, Modbus-MT, Modbus-TCP</example>
@@ -18,13 +28,4 @@ public class CommunicationTableModel : CommunicationShortModel
     /// </summary>
     /// <example>Описание...</example>
     public string Description { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="CommunicationTableModel"/>.
-    /// </summary>
-    public CommunicationTableModel() : base()
-    {
-        this.Protocols = DefaultString.Protocol;
-        this.Description = DefaultString.Description;
-    }
 }

@@ -8,6 +8,17 @@ namespace Mt.ChangeLog.TransferObjects.ProjectVersion;
 public class ProjectVersionShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectVersionShortModel"/>.
+    /// </summary>
+    public ProjectVersionShortModel()
+    {
+        this.Id = Guid.NewGuid();
+        this.Prefix = DefaultString.Prefix;
+        this.Title = DefaultString.Project;
+        this.Version = DefaultString.Revision;
+    }
+
+    /// <summary>
     /// ИД.
     /// </summary>
     public Guid Id { get; set; }
@@ -29,17 +40,6 @@ public class ProjectVersionShortModel
     /// </summary>
     /// <example>00</example>
     public string Version { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectVersionShortModel"/>.
-    /// </summary>
-    public ProjectVersionShortModel()
-    {
-        this.Id = Guid.NewGuid();
-        this.Prefix = DefaultString.Prefix;
-        this.Title = DefaultString.Project;
-        this.Version = DefaultString.Revision;
-    }
 
     /// <inheritdoc />
     public override string ToString()

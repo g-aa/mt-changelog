@@ -13,6 +13,24 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision;
 public class ProjectRevisionModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectRevisionModel"/>.
+    /// </summary>
+    public ProjectRevisionModel()
+    {
+        this.Id = Guid.NewGuid();
+        this.Date = DateTime.Now;
+        this.Revision = DefaultString.Revision;
+        this.Reason = DefaultString.Reason;
+        this.Description = DefaultString.Description;
+        this.ProjectVersion = new ProjectVersionShortModel();
+        this.ParentRevision = new ProjectRevisionShortModel();
+        this.Communication = new CommunicationShortModel();
+        this.ArmEdit = new ArmEditShortModel();
+        this.Authors = new HashSet<AuthorShortModel>();
+        this.RelayAlgorithms = new HashSet<RelayAlgorithmShortModel>();
+    }
+
+    /// <summary>
     /// ИД.
     /// </summary>
     public Guid Id { get; set; }
@@ -48,7 +66,7 @@ public class ProjectRevisionModel
     /// <summary>
     /// Родительская редакция.
     /// </summary>
-    public ProjectRevisionShortModel ParentRevision { get; set; }
+    public ProjectRevisionShortModel? ParentRevision { get; set; }
 
     /// <summary>
     /// Коммуникационный модуль.
@@ -69,22 +87,4 @@ public class ProjectRevisionModel
     /// Перечень алгоритмов.
     /// </summary>
     public IEnumerable<RelayAlgorithmShortModel> RelayAlgorithms { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectRevisionModel"/>.
-    /// </summary>
-    public ProjectRevisionModel()
-    {
-        this.Id = Guid.NewGuid();
-        this.Date = DateTime.Now;
-        this.Revision = DefaultString.Revision;
-        this.Reason = DefaultString.Reason;
-        this.Description = DefaultString.Description;
-        this.ProjectVersion = new ProjectVersionShortModel();
-        this.ParentRevision = new ProjectRevisionShortModel();
-        this.Communication = new CommunicationShortModel();
-        this.ArmEdit = new ArmEditShortModel();
-        this.Authors = new HashSet<AuthorShortModel>();
-        this.RelayAlgorithms = new HashSet<RelayAlgorithmShortModel>();
-    }
 }

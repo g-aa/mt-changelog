@@ -8,6 +8,20 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision;
 public class LastProjectRevisionModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="LastProjectRevisionModel"/>.
+    /// </summary>
+    public LastProjectRevisionModel()
+    {
+        this.Prefix = DefaultString.Prefix;
+        this.Title = DefaultString.Project;
+        this.Version = DefaultString.Revision;
+        this.Platform = DefaultString.Platform;
+        this.ArmEdit = DefaultString.Version;
+        this.Revision = DefaultString.Revision;
+        this.Date = DateTime.UtcNow;
+    }
+
+    /// <summary>
     /// Префикс.
     /// </summary>
     /// <example>БФПО-000</example>
@@ -47,18 +61,4 @@ public class LastProjectRevisionModel
     /// Дата компиляции.
     /// </summary>
     public DateTime Date { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="LastProjectRevisionModel"/>.
-    /// </summary>
-    public LastProjectRevisionModel()
-    {
-        this.Prefix = DefaultString.Prefix;
-        this.Title = DefaultString.Project;
-        this.Version = DefaultString.Revision;
-        this.Platform = DefaultString.Platform;
-        this.ArmEdit = DefaultString.Version;
-        this.Revision = DefaultString.Revision;
-        this.Date = DateTime.UtcNow;
-    }
 }

@@ -3,22 +3,23 @@ using Mt.ChangeLog.TransferObjects.Communication;
 namespace Mt.ChangeLog.TransferObjects.Protocol;
 
 /// <summary>
-/// Полная модель протокола информационнго обмена.
+/// Полная модель протокола информационного обмена.
 /// </summary>
 public class ProtocolModel : ProtocolTableModel
 {
     /// <summary>
-    /// Перечень коммуникационных модулей.
-    /// </summary>
-    public IEnumerable<CommunicationShortModel> Communications { get; set; }
-
-    /// <summary>
     /// Инициализация экземпляра <see cref="ProtocolModel"/>.
     /// </summary>
-    public ProtocolModel() : base()
+    public ProtocolModel()
+        : base()
     {
         this.Communications = new HashSet<CommunicationShortModel>();
     }
+
+    /// <summary>
+    /// Перечень коммуникационных модулей.
+    /// </summary>
+    public IEnumerable<CommunicationShortModel> Communications { get; set; }
 
     /// <inheritdoc />
     public override string ToString()

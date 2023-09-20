@@ -8,16 +8,6 @@ namespace Mt.ChangeLog.TransferObjects.Other;
 public abstract class FileModel
 {
     /// <summary>
-    /// Наименование файла.
-    /// </summary>
-    public string Title { get; protected set; }
-
-    /// <summary>
-    /// Данные файла в бинарном формате.
-    /// </summary>
-    public byte[] Bytes { get; protected set; }
-
-    /// <summary>
     /// Инициализация экземпляра класса <see cref="FileModel"/>.
     /// </summary>
     protected FileModel()
@@ -31,7 +21,8 @@ public abstract class FileModel
     /// </summary>
     /// <param name="title">Наименование файла.</param>
     /// <param name="bytes">Данные файла в бинарном формате.</param>
-    protected FileModel(string title, IEnumerable<byte> bytes) : this()
+    protected FileModel(string title, IEnumerable<byte> bytes)
+        : this()
     {
         if (!string.IsNullOrWhiteSpace(title) && bytes is not null)
         {
@@ -39,4 +30,14 @@ public abstract class FileModel
             this.Bytes = bytes.ToArray();
         }
     }
+
+    /// <summary>
+    /// Наименование файла.
+    /// </summary>
+    public string Title { get; protected set; }
+
+    /// <summary>
+    /// Данные файла в бинарном формате.
+    /// </summary>
+    public byte[] Bytes { get; protected set; }
 }

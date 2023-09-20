@@ -8,6 +8,15 @@ namespace Mt.ChangeLog.TransferObjects.Platform;
 public class PlatformShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="PlatformShortModel"/>.
+    /// </summary>
+    public PlatformShortModel()
+    {
+        this.Id = Guid.NewGuid();
+        this.Title = DefaultString.Platform;
+    }
+
+    /// <summary>
     /// ИД.
     /// </summary>
     public Guid Id { get; set; }
@@ -17,15 +26,6 @@ public class PlatformShortModel
     /// </summary>
     /// <example>БМРЗ-000</example>
     public string Title { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="PlatformShortModel"/>.
-    /// </summary>
-    public PlatformShortModel()
-    {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Platform;
-    }
 
     /// <inheritdoc />
     public override string ToString()

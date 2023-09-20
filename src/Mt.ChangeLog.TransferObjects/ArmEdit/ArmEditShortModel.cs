@@ -8,6 +8,15 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit;
 public class ArmEditShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="ArmEditModel"/>.
+    /// </summary>
+    public ArmEditShortModel()
+    {
+        this.Id = Guid.NewGuid();
+        this.Version = DefaultString.Version;
+    }
+
+    /// <summary>
     /// ИД.
     /// </summary>
     public Guid Id { get; set; }
@@ -17,15 +26,6 @@ public class ArmEditShortModel
     /// </summary>
     /// <example>v0.00.00.00</example>
     public string Version { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ArmEditModel"/>.
-    /// </summary>
-    public ArmEditShortModel()
-    {
-        this.Id = Guid.NewGuid();
-        this.Version = DefaultString.Version;
-    }
 
     /// <inheritdoc />
     public override string ToString()

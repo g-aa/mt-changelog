@@ -6,6 +6,15 @@ namespace Mt.ChangeLog.TransferObjects.Historical;
 public class ProjectVersionHistoryModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectVersionHistoryModel"/>.
+    /// </summary>
+    public ProjectVersionHistoryModel()
+    {
+        this.Title = "БМРЗ";
+        this.History = new List<ProjectRevisionHistoryModel>();
+    }
+
+    /// <summary>
     /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version".
     /// </summary>
     /// <example>БФПО-000-ПМК-00</example>
@@ -15,13 +24,4 @@ public class ProjectVersionHistoryModel
     /// Перечень моделей истории редакции проекта.
     /// </summary>
     public ICollection<ProjectRevisionHistoryModel> History { get; private set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectVersionHistoryModel"/>.
-    /// </summary>
-    public ProjectVersionHistoryModel()
-    {
-        this.Title = "БМРЗ";
-        this.History = new List<ProjectRevisionHistoryModel>();
-    }
 }

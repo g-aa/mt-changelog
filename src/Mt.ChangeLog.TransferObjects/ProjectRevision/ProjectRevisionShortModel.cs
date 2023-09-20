@@ -9,18 +9,19 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision;
 public class ProjectRevisionShortModel : ProjectVersionShortModel
 {
     /// <summary>
-    /// Редакция
-    /// </summary>
-    /// <example>00</example>
-    public string Revision { get; set; }
-
-    /// <summary>
     /// Инициализация экземпляра <see cref="ProjectRevisionShortModel"/>.
     /// </summary>
-    public ProjectRevisionShortModel() : base()
+    public ProjectRevisionShortModel()
+        : base()
     {
         this.Revision = DefaultString.Revision;
     }
+
+    /// <summary>
+    /// Редакция.
+    /// </summary>
+    /// <example>00</example>
+    public string Revision { get; set; }
 
     /// <inheritdoc />
     public override string ToString()

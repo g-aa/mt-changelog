@@ -8,6 +8,15 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule;
 public class AnalogModuleShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="AnalogModuleShortModel"/>.
+    /// </summary>
+    public AnalogModuleShortModel()
+    {
+        this.Id = Guid.NewGuid();
+        this.Title = DefaultString.AnalogModule;
+    }
+
+    /// <summary>
     /// ИД.
     /// </summary>
     public Guid Id { get; set; }
@@ -17,15 +26,6 @@ public class AnalogModuleShortModel
     /// </summary>
     /// <example>БМРЗ-000</example>
     public string Title { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="AnalogModuleShortModel"/>.
-    /// </summary>
-    public AnalogModuleShortModel()
-    {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.AnalogModule;
-    }
 
     /// <inheritdoc />
     public override string ToString()

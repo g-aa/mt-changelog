@@ -8,6 +8,17 @@ namespace Mt.ChangeLog.TransferObjects.ProjectRevision;
 public class ProjectRevisionTableModel : ProjectRevisionShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectRevisionTableModel"/>.
+    /// </summary>
+    public ProjectRevisionTableModel()
+        : base()
+    {
+        this.Date = DateTime.Now;
+        this.ArmEdit = DefaultString.Version;
+        this.Reason = DefaultString.Reason;
+    }
+
+    /// <summary>
     /// Дата компиляции.
     /// </summary>
     public DateTime Date { get; set; }
@@ -23,14 +34,4 @@ public class ProjectRevisionTableModel : ProjectRevisionShortModel
     /// </summary>
     /// <example>Причина изменения...</example>
     public string Reason { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectRevisionTableModel"/>
-    /// </summary>
-    public ProjectRevisionTableModel() : base()
-    {
-        this.Date = DateTime.Now;
-        this.ArmEdit = DefaultString.Version;
-        this.Reason = DefaultString.Reason;
-    }
 }

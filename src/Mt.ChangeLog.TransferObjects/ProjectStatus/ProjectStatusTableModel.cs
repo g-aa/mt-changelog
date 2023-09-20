@@ -8,16 +8,17 @@ namespace Mt.ChangeLog.TransferObjects.ProjectStatus;
 public class ProjectStatusTableModel : ProjectStatusShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectStatusTableModel"/>.
+    /// </summary>
+    public ProjectStatusTableModel()
+        : base()
+    {
+        this.Description = DefaultString.Description;
+    }
+
+    /// <summary>
     /// Описание.
     /// </summary>
     /// <example>Описание...</example>
     public string Description { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectStatusTableModel"/>.
-    /// </summary>
-    public ProjectStatusTableModel() : base()
-    {
-        this.Description = DefaultString.Description;
-    }
 }

@@ -27,7 +27,7 @@ public sealed class AnalogModuleValidator : AbstractValidator<AnalogModuleModel>
         this.RuleFor(e => e.Current)
             .NotEmpty()
             .Matches(StringFormat.Current)
-            .WithMessage("Значение параметра '{PropertyName}' должено принимать значения от [0-9]A.");
+            .WithMessage("Значение параметра '{PropertyName}' должно принимать значения от [0-9]A.");
 
         this.RuleFor(e => e.Description)
             .NotNull()

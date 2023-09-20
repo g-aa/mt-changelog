@@ -8,6 +8,17 @@ namespace Mt.ChangeLog.TransferObjects.ArmEdit;
 public class ArmEditTableModel : ArmEditShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="ArmEditTableModel"/>.
+    /// </summary>
+    public ArmEditTableModel()
+        : base()
+    {
+        this.DIVG = DefaultString.DIVG;
+        this.Date = DateTime.Now;
+        this.Description = DefaultString.Description;
+    }
+
+    /// <summary>
     /// ДИВГ.
     /// </summary>
     /// <example>ДИВГ.00000-00</example>
@@ -23,14 +34,4 @@ public class ArmEditTableModel : ArmEditShortModel
     /// </summary>
     /// <example>Описание...</example>
     public string Description { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ArmEditTableModel"/>.
-    /// </summary>
-    public ArmEditTableModel() : base()
-    {
-        this.DIVG = DefaultString.DIVG;
-        this.Date = DateTime.Now;
-        this.Description = DefaultString.Description;
-    }
 }

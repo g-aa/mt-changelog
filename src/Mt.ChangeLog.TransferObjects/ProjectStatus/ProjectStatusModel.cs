@@ -8,7 +8,8 @@ public class ProjectStatusModel : ProjectStatusTableModel
     /// <summary>
     /// Инициализация экземпляра <see cref="ProjectStatusModel"/>.
     /// </summary>
-    public ProjectStatusModel() : base()
+    public ProjectStatusModel()
+        : base()
     {
     }
 

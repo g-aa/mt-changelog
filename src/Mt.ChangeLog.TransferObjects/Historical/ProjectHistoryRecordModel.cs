@@ -1,5 +1,6 @@
-using Mt.Utilities;
 using System.Text;
+
+using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.Historical;
 
@@ -8,6 +9,22 @@ namespace Mt.ChangeLog.TransferObjects.Historical;
 /// </summary>
 public class ProjectHistoryRecordModel : ProjectHistoryRecordShortModel
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectHistoryRecordModel"/>.
+    /// </summary>
+    public ProjectHistoryRecordModel()
+        : base()
+    {
+        this.ProjectVersionId = Guid.Empty;
+        this.ParentRevisionId = Guid.Empty;
+        this.ArmEdit = DefaultString.Version;
+        this.Algorithms = DefaultString.Algorithm;
+        this.Authors = "Иванов Иван";
+        this.Protocols = DefaultString.Protocol;
+        this.Reason = DefaultString.Reason;
+        this.Description = DefaultString.Description;
+    }
+
     /// <summary>
     /// ИД версии проекта.
     /// </summary>
@@ -53,21 +70,6 @@ public class ProjectHistoryRecordModel : ProjectHistoryRecordShortModel
     /// </summary>
     /// <example>Описание...</example>
     public string Description { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectHistoryRecordModel"/>.
-    /// </summary>
-    public ProjectHistoryRecordModel() : base()
-    {
-        this.ProjectVersionId = Guid.Empty;
-        this.ParentRevisionId = Guid.Empty;
-        this.ArmEdit = DefaultString.Version;
-        this.Algorithms = DefaultString.Algorithm;
-        this.Authors = "Иванов Иван";
-        this.Protocols = DefaultString.Protocol;
-        this.Reason = DefaultString.Reason;
-        this.Description = DefaultString.Description;
-    }
 
     /// <summary>
     /// Преобразовать в текстовый формат.

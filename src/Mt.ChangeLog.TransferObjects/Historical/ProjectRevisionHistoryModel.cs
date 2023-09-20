@@ -1,5 +1,6 @@
-using Mt.Utilities;
 using System.Text;
+
+using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.Historical;
 
@@ -8,6 +9,19 @@ namespace Mt.ChangeLog.TransferObjects.Historical;
 /// </summary>
 public class ProjectRevisionHistoryModel : ProjectRevisionHistoryShortModel
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectRevisionHistoryModel"/>.
+    /// </summary>
+    public ProjectRevisionHistoryModel()
+    {
+        this.ArmEdit = DefaultString.Version;
+        this.Communication = DefaultString.Communication;
+        this.Authors = new HashSet<string>();
+        this.RelayAlgorithms = new HashSet<string>();
+        this.Reason = DefaultString.Reason;
+        this.Description = DefaultString.Description;
+    }
+
     /// <summary>
     /// Версия ArmEdit.
     /// </summary>
@@ -41,19 +55,6 @@ public class ProjectRevisionHistoryModel : ProjectRevisionHistoryShortModel
     /// </summary>
     /// <example>Описание...</example>
     public string Description { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectRevisionHistoryModel"/>.
-    /// </summary>
-    public ProjectRevisionHistoryModel()
-    {
-        this.ArmEdit = DefaultString.Version;
-        this.Communication = DefaultString.Communication;
-        this.Authors = new HashSet<string>();
-        this.RelayAlgorithms = new HashSet<string>();
-        this.Reason = DefaultString.Reason;
-        this.Description = DefaultString.Description;
-    }
 
     /// <summary>
     /// Преобразовать в текстовый формат.

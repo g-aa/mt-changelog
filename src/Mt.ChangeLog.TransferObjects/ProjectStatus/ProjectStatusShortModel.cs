@@ -6,6 +6,15 @@ namespace Mt.ChangeLog.TransferObjects.ProjectStatus;
 public class ProjectStatusShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectStatusShortModel"/>.
+    /// </summary>
+    public ProjectStatusShortModel()
+    {
+        this.Id = Guid.NewGuid();
+        this.Title = "Внутренний";
+    }
+
+    /// <summary>
     /// ИД.
     /// </summary>
     public Guid Id { get; set; }
@@ -15,15 +24,6 @@ public class ProjectStatusShortModel
     /// </summary>
     /// <example>Внутренний</example>
     public string Title { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectStatusShortModel"/>.
-    /// </summary>
-    public ProjectStatusShortModel()
-    {
-        this.Id = Guid.NewGuid();
-        this.Title = "Внутренний";
-    }
 
     /// <inheritdoc />
     public override string ToString()

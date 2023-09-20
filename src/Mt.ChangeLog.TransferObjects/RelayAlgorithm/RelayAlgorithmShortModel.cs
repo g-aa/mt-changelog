@@ -8,6 +8,15 @@ namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 public class RelayAlgorithmShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="RelayAlgorithmShortModel"/>.
+    /// </summary>
+    public RelayAlgorithmShortModel()
+    {
+        this.Id = Guid.NewGuid();
+        this.Title = DefaultString.Algorithm;
+    }
+
+    /// <summary>
     /// ИД.
     /// </summary>
     public Guid Id { get; set; }
@@ -17,15 +26,6 @@ public class RelayAlgorithmShortModel
     /// </summary>
     /// <example>МТЗ</example>
     public string Title { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="RelayAlgorithmShortModel"/>.
-    /// </summary>
-    public RelayAlgorithmShortModel()
-    {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Algorithm;
-    }
 
     /// <inheritdoc />
     public override string ToString()

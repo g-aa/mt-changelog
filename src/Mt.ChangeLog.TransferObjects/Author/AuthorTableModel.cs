@@ -8,16 +8,17 @@ namespace Mt.ChangeLog.TransferObjects.Author;
 public class AuthorTableModel : AuthorShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="AuthorTableModel"/>.
+    /// </summary>
+    public AuthorTableModel()
+        : base()
+    {
+        this.Position = DefaultString.Position;
+    }
+
+    /// <summary>
     /// Должность.
     /// </summary>
     /// <example>Инженер-системотехник</example>
     public string Position { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="AuthorTableModel"/>.
-    /// </summary>
-    public AuthorTableModel() : base()
-    {
-        this.Position = DefaultString.Position;
-    }
 }

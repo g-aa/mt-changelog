@@ -44,9 +44,11 @@ public sealed class ProjectRevisionValidator : AbstractValidator<ProjectRevision
             .WithMessage("Версия проекта параметр обязательный для заполнения.")
             .SetValidator(projectVersionValidator);
 
+#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
         this.RuleFor(e => e.ParentRevision)
             .SetValidator(projectRevisionValidator)
             .When(e => e.ParentRevision != null);
+#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
 
         this.RuleFor(e => e.Communication)
             .NotNull()

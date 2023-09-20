@@ -8,6 +8,17 @@ namespace Mt.ChangeLog.TransferObjects.AnalogModule;
 public class AnalogModuleTableModel : AnalogModuleShortModel
 {
     /// <summary>
+    /// Инициализация экземпляра <see cref="AnalogModuleTableModel"/>.
+    /// </summary>
+    public AnalogModuleTableModel()
+        : base()
+    {
+        this.DIVG = DefaultString.DIVG;
+        this.Current = DefaultString.Current;
+        this.Description = DefaultString.Description;
+    }
+
+    /// <summary>
     /// ДИВГ.
     /// </summary>
     /// <example>ДИВГ.00000-00</example>
@@ -24,14 +35,4 @@ public class AnalogModuleTableModel : AnalogModuleShortModel
     /// </summary>
     /// <example>Описание...</example>
     public string Description { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="AnalogModuleTableModel"/>.
-    /// </summary>
-    public AnalogModuleTableModel() : base()
-    {
-        this.DIVG = DefaultString.DIVG;
-        this.Current = DefaultString.Current;
-        this.Description = DefaultString.Description;
-    }
 }

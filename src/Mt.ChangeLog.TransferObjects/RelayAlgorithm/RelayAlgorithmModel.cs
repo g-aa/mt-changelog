@@ -6,9 +6,10 @@ namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 public class RelayAlgorithmModel : RelayAlgorithmTableModel
 {
     /// <summary>
-    /// Инициализация экземпляра <see cref="RelayAlgorithmModel"/>
+    /// Инициализация экземпляра <see cref="RelayAlgorithmModel"/>.
     /// </summary>
-    public RelayAlgorithmModel() : base()
+    public RelayAlgorithmModel()
+        : base()
     {
     }
 

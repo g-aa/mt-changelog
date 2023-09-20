@@ -8,7 +8,8 @@ public class ArmEditModel : ArmEditTableModel
     /// <summary>
     /// Инициализация экземпляра <see cref="ArmEditModel"/>.
     /// </summary>
-    public ArmEditModel() : base()
+    public ArmEditModel()
+        : base()
     {
     }
 

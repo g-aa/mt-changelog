@@ -8,7 +8,8 @@ public class AuthorModel : AuthorTableModel
     /// <summary>
     /// Инициализация экземпляра <see cref="AuthorModel"/>.
     /// </summary>
-    public AuthorModel() : base()
+    public AuthorModel()
+        : base()
     {
     }
 

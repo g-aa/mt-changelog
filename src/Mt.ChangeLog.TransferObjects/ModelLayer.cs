@@ -11,7 +11,7 @@ public sealed class ModelLayer
     /// <summary>
     /// Инициализация экземпляра <see cref="ModelLayer"/>.
     /// </summary>
-	private ModelLayer()
+    private ModelLayer()
     {
     }
 }
