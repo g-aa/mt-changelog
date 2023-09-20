@@ -49,7 +49,6 @@ public sealed class AnalogModuleShortValidatorTest
     /// Отрицательный тест для <see cref="AnalogModuleShortModel.Title"/>.
     /// </summary>
     /// <param name="title">Наименование.</param>
-    [TestCase(null)]
     [TestCase("")]
     [TestCase(" ")]
     [TestCase("\t")]

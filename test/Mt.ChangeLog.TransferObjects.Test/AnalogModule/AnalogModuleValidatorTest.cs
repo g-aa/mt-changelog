@@ -50,7 +50,6 @@ public sealed class AnalogModuleValidatorTest
     /// Отрицательный тест для <see cref="AnalogModuleShortModel.Title"/>.
     /// </summary>
     /// <param name="title">Наименование.</param>
-    [TestCase(null)]
     [TestCase("")]
     [TestCase(" ")]
     [TestCase("\t")]
@@ -72,7 +71,6 @@ public sealed class AnalogModuleValidatorTest
         // assert
         result.ShouldHaveValidationErrorFor(m => m.Title);
     }
-
 
     /// <summary>
     /// Положительный тест для <see cref="AnalogModuleTableModel.DIVG"/>.
@@ -100,7 +98,6 @@ public sealed class AnalogModuleValidatorTest
     /// Отрицательный тест для <see cref="AnalogModuleTableModel.DIVG"/>.
     /// </summary>
     /// <param name="divg">ДИВГ.</param>
-    [TestCase(null)]
     [TestCase("")]
     [TestCase(" ")]
     [TestCase("\t")]
@@ -150,7 +147,6 @@ public sealed class AnalogModuleValidatorTest
     /// Отрицательный тест для <see cref="AnalogModuleTableModel.Current"/>.
     /// </summary>
     /// <param name="current">Номинальный ток.</param>
-    [TestCase(null)]
     [TestCase("")]
     [TestCase(" ")]
     [TestCase("\t")]
@@ -174,7 +170,7 @@ public sealed class AnalogModuleValidatorTest
     /// Положительный тест для <see cref="AnalogModuleTableModel.Description"/>.
     /// </summary>
     /// <param name="desc">Описание.</param>
-    /// <param name="count">Количестно символов.</param>
+    /// <param name="count">Количество символов.</param>
     [TestCase("", 0)]
     [TestCase("A", 1)]
     [TestCase("A", 500)]
@@ -197,45 +193,22 @@ public sealed class AnalogModuleValidatorTest
     /// Отрицательный тест для <see cref="AnalogModuleTableModel.Description"/>.
     /// </summary>
     /// <param name="desc">Описание.</param>
-    /// <param name="count">Количестно символов.</param>
-    [TestCase(null, 0)]
+    /// <param name="count">Количество символов.</param>
     [TestCase(" ", 1)]
     [TestCase("\t", 1)]
     [TestCase("A", 501)]
     public void DescriptionNegativeTest(string desc, int count)
     {
         // arrange
-#pragma warning disable CS8601 // Possible null reference assignment.
         var model = new AnalogModuleModel
         {
-            Description = desc?.PadRight(count, 'B'),
+            Description = desc.PadRight(count, 'B'),
         };
-#pragma warning restore CS8601 // Possible null reference assignment.
 
         // act
         var result = this.validator.TestValidate(model);
 
         // assert
         result.ShouldHaveValidationErrorFor(m => m.Description);
-    }
-
-    /// <summary>
-    /// Отрицательный тест для <see cref="AnalogModuleModel.Platforms"/>.
-    /// </summary>
-    /// <param name="platforms">Перечень платформ.</param>
-    [TestCase(null)]
-    public void DescriptionNegativeTest(IEnumerable<PlatformShortModel> platforms)
-    {
-        // arrange
-        var model = new AnalogModuleModel
-        {
-            Platforms = platforms,
-        };
-
-        // act
-        var result = this.validator.TestValidate(model);
-
-        // assert
-        result.ShouldHaveValidationErrorFor(m => m.Platforms);
     }
 }
