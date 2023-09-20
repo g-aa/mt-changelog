@@ -1,6 +1,7 @@
+using System.Linq.Expressions;
+
 using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables;
 
@@ -9,6 +10,20 @@ namespace Mt.ChangeLog.Entities.Tables;
 /// </summary>
 public class ProjectVersionEntity : IEntity, IEqualityPredicate<ProjectVersionEntity>
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectVersionEntity"/>.
+    /// </summary>
+    public ProjectVersionEntity()
+    {
+        this.Id = Guid.NewGuid();
+        this.DIVG = DefaultString.DIVG;
+        this.Prefix = DefaultString.Prefix;
+        this.Title = DefaultString.Project;
+        this.Version = DefaultString.Revision;
+        this.Description = DefaultString.Description;
+        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+    }
+
     /// <inheritdoc />
     public Guid Id { get; set; }
 
@@ -75,26 +90,12 @@ public class ProjectVersionEntity : IEntity, IEqualityPredicate<ProjectVersionEn
     public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
     #endregion
 
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectVersionEntity"/>.
-    /// </summary>
-    public ProjectVersionEntity()
-    {
-        this.Id = Guid.NewGuid();
-        this.DIVG = DefaultString.DIVG;
-        this.Prefix = DefaultString.Prefix;
-        this.Title = DefaultString.Project;
-        this.Version = DefaultString.Revision;
-        this.Description = DefaultString.Description;
-        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
-    }
-
     /// <inheritdoc />
     public Expression<Func<ProjectVersionEntity, bool>> GetEqualityPredicate()
     {
         return (ProjectVersionEntity e) => e.Id == this.Id
         || e.DIVG == this.DIVG
-        || e.Prefix == this.Prefix && e.Title == this.Title && e.Version == this.Version;
+        || (e.Prefix == this.Prefix && e.Title == this.Title && e.Version == this.Version);
     }
 
     /// <inheritdoc />
@@ -102,7 +103,7 @@ public class ProjectVersionEntity : IEntity, IEqualityPredicate<ProjectVersionEn
     {
         return obj is ProjectVersionEntity e && (this.Id.Equals(e.Id)
             || this.DIVG == e.DIVG
-            || this.Prefix == e.Prefix && this.Title == e.Title && this.Version == e.Version);
+            || (this.Prefix == e.Prefix && this.Title == e.Title && this.Version == e.Version));
     }
 
     /// <inheritdoc />

@@ -11,7 +11,7 @@ public sealed class EntityLayer
     /// <summary>
     /// Инициализация экземпляра <see cref="EntityLayer"/>.
     /// </summary>
-	private EntityLayer()
+    private EntityLayer()
     {
     }
 }

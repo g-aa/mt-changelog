@@ -1,6 +1,7 @@
+using System.Linq.Expressions;
+
 using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables;
 
@@ -9,6 +10,20 @@ namespace Mt.ChangeLog.Entities.Tables;
 /// </summary>
 public class PlatformEntity : IDefaultable, IEntity, IEqualityPredicate<PlatformEntity>, IRemovable
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="PlatformEntity"/>.
+    /// </summary>
+    public PlatformEntity()
+    {
+        this.Id = Guid.NewGuid();
+        this.Title = DefaultString.Platform;
+        this.Description = DefaultString.Description;
+        this.Default = false;
+        this.Removable = true;
+        this.AnalogModules = new HashSet<AnalogModuleEntity>();
+        this.Projects = new HashSet<ProjectVersionEntity>();
+    }
+
     /// <inheritdoc />
     public Guid Id { get; set; }
 
@@ -40,20 +55,6 @@ public class PlatformEntity : IDefaultable, IEntity, IEqualityPredicate<Platform
     /// </summary>
     public ICollection<ProjectVersionEntity> Projects { get; set; }
     #endregion
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="PlatformEntity"/>.
-    /// </summary>
-    public PlatformEntity()
-    {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Platform;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.AnalogModules = new HashSet<AnalogModuleEntity>();
-        this.Projects = new HashSet<ProjectVersionEntity>();
-    }
 
     /// <inheritdoc />
     public Expression<Func<PlatformEntity, bool>> GetEqualityPredicate()

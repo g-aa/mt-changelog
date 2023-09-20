@@ -1,6 +1,7 @@
+using System.Linq.Expressions;
+
 using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables;
 
@@ -9,6 +10,19 @@ namespace Mt.ChangeLog.Entities.Tables;
 /// </summary>
 public class ProjectStatusEntity : IDefaultable, IEntity, IEqualityPredicate<ProjectStatusEntity>, IRemovable
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectStatusEntity"/>.
+    /// </summary>
+    public ProjectStatusEntity()
+    {
+        this.Id = Guid.NewGuid();
+        this.Title = "Внутренний";
+        this.Description = DefaultString.Description;
+        this.Default = false;
+        this.Removable = true;
+        this.ProjectVersions = new HashSet<ProjectVersionEntity>();
+    }
+
     /// <inheritdoc />
     public Guid Id { get; set; }
 
@@ -35,19 +49,6 @@ public class ProjectStatusEntity : IDefaultable, IEntity, IEqualityPredicate<Pro
     /// </summary>
     public ICollection<ProjectVersionEntity> ProjectVersions { get; set; }
     #endregion
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectStatusEntity"/>.
-    /// </summary>
-    public ProjectStatusEntity()
-    {
-        this.Id = Guid.NewGuid();
-        this.Title = "Внутренний";
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.ProjectVersions = new HashSet<ProjectVersionEntity>();
-    }
 
     /// <inheritdoc />
     public Expression<Func<ProjectStatusEntity, bool>> GetEqualityPredicate()

@@ -8,7 +8,19 @@ namespace Mt.ChangeLog.Entities.Views;
 public class AuthorProjectContributionView
 {
     /// <summary>
-    /// Ф.И.О. автора (LastName FirstName). 
+    /// Инициализация экземпляра класса <see cref="AuthorProjectContributionView"/>.
+    /// </summary>
+    public AuthorProjectContributionView()
+    {
+        this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
+        this.Contribution = 0;
+        this.ProjectPrefix = DefaultString.Prefix;
+        this.ProjectTitle = DefaultString.Project;
+        this.ProjectVersion = DefaultString.Revision;
+    }
+
+    /// <summary>
+    /// Ф.И.О. автора (LastName FirstName).
     /// </summary>
     public string Author { get; set; }
 
@@ -31,18 +43,6 @@ public class AuthorProjectContributionView
     /// Версия проекта.
     /// </summary>
     public string ProjectVersion { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра класса <see cref="AuthorProjectContributionView"/>.
-    /// </summary>
-    public AuthorProjectContributionView()
-    {
-        this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
-        this.Contribution = 0;
-        this.ProjectPrefix = DefaultString.Prefix;
-        this.ProjectTitle = DefaultString.Project;
-        this.ProjectVersion = DefaultString.Revision;
-    }
 
     /// <inheritdoc />
     public override string ToString()

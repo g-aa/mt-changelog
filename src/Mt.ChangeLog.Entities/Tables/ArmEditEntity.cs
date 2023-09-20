@@ -1,6 +1,7 @@
+using System.Linq.Expressions;
+
 using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables;
 
@@ -9,6 +10,21 @@ namespace Mt.ChangeLog.Entities.Tables;
 /// </summary>
 public class ArmEditEntity : IDefaultable, IEntity, IEqualityPredicate<ArmEditEntity>, IRemovable
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ArmEditEntity"/>.
+    /// </summary>
+    public ArmEditEntity()
+    {
+        this.Id = Guid.NewGuid();
+        this.DIVG = DefaultString.DIVG;
+        this.Version = DefaultString.Version;
+        this.Date = DateTime.Now;
+        this.Description = DefaultString.Description;
+        this.Default = false;
+        this.Removable = true;
+        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+    }
+
     /// <inheritdoc />
     public Guid Id { get; set; }
 
@@ -45,21 +61,6 @@ public class ArmEditEntity : IDefaultable, IEntity, IEqualityPredicate<ArmEditEn
     /// </summary>
     public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
     #endregion
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ArmEditEntity"/>.
-    /// </summary>
-    public ArmEditEntity()
-    {
-        this.Id = Guid.NewGuid();
-        this.DIVG = DefaultString.DIVG;
-        this.Version = DefaultString.Version;
-        this.Date = DateTime.Now;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
-    }
 
     /// <inheritdoc />
     public Expression<Func<ArmEditEntity, bool>> GetEqualityPredicate()

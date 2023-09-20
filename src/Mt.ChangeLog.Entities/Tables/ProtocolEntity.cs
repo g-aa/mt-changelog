@@ -1,14 +1,28 @@
+using System.Linq.Expressions;
+
 using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables;
 
 /// <summary>
-/// Сущность протокола информационнго обмена.
+/// Сущность протокола информационного обмена.
 /// </summary>
 public class ProtocolEntity : IDefaultable, IEntity, IEqualityPredicate<ProtocolEntity>, IRemovable
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ProtocolEntity"/>.
+    /// </summary>
+    public ProtocolEntity()
+    {
+        this.Id = Guid.NewGuid();
+        this.Title = DefaultString.Protocol;
+        this.Description = DefaultString.Description;
+        this.Default = false;
+        this.Removable = true;
+        this.Communications = new HashSet<CommunicationEntity>();
+    }
+
     /// <inheritdoc />
     public Guid Id { get; set; }
 
@@ -35,19 +49,6 @@ public class ProtocolEntity : IDefaultable, IEntity, IEqualityPredicate<Protocol
     /// </summary>
     public ICollection<CommunicationEntity> Communications { get; set; }
     #endregion
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProtocolEntity"/>.
-    /// </summary>
-    public ProtocolEntity()
-    {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Protocol;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.Communications = new HashSet<CommunicationEntity>();
-    }
 
     /// <inheritdoc />
     public Expression<Func<ProtocolEntity, bool>> GetEqualityPredicate()

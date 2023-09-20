@@ -1,6 +1,7 @@
+using System.Linq.Expressions;
+
 using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables;
 
@@ -9,6 +10,20 @@ namespace Mt.ChangeLog.Entities.Tables;
 /// </summary>
 public class CommunicationEntity : IDefaultable, IEntity, IEqualityPredicate<CommunicationEntity>, IRemovable
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="CommunicationEntity"/>.
+    /// </summary>
+    public CommunicationEntity()
+    {
+        this.Id = Guid.NewGuid();
+        this.Title = DefaultString.Communication;
+        this.Description = DefaultString.Description;
+        this.Default = false;
+        this.Removable = true;
+        this.Protocols = new HashSet<ProtocolEntity>();
+        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+    }
+
     /// <inheritdoc />
     public Guid Id { get; set; }
 
@@ -40,20 +55,6 @@ public class CommunicationEntity : IDefaultable, IEntity, IEqualityPredicate<Com
     /// </summary>
     public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
     #endregion
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="CommunicationEntity"/>.
-    /// </summary>
-    public CommunicationEntity()
-    {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Communication;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.Protocols = new HashSet<ProtocolEntity>();
-        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
-    }
 
     /// <inheritdoc />
     public Expression<Func<CommunicationEntity, bool>> GetEqualityPredicate()

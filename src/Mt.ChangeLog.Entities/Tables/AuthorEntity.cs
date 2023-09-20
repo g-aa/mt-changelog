@@ -1,6 +1,7 @@
+using System.Linq.Expressions;
+
 using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables;
 
@@ -9,6 +10,20 @@ namespace Mt.ChangeLog.Entities.Tables;
 /// </summary>
 public class AuthorEntity : IEntity, IDefaultable, IEqualityPredicate<AuthorEntity>, IRemovable
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="AuthorEntity"/>.
+    /// </summary>
+    public AuthorEntity()
+    {
+        this.Id = Guid.NewGuid();
+        this.FirstName = DefaultString.FirstName;
+        this.LastName = DefaultString.LastName;
+        this.Position = DefaultString.Position;
+        this.Default = false;
+        this.Removable = true;
+        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+    }
+
     /// <inheritdoc />
     public Guid Id { get; set; }
 
@@ -41,30 +56,16 @@ public class AuthorEntity : IEntity, IDefaultable, IEqualityPredicate<AuthorEnti
     public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
     #endregion
 
-    /// <summary>
-    /// Инициализация экземпляра <see cref="AuthorEntity"/>.
-    /// </summary>
-    public AuthorEntity()
-    {
-        this.Id = Guid.NewGuid();
-        this.FirstName = DefaultString.FirstName;
-        this.LastName = DefaultString.LastName;
-        this.Position = DefaultString.Position;
-        this.Default = false;
-        this.Removable = true;
-        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
-    }
-
     /// <inheritdoc />
     public Expression<Func<AuthorEntity, bool>> GetEqualityPredicate()
     {
-        return (AuthorEntity e) => e.Id == this.Id || e.FirstName == this.FirstName && e.LastName == this.LastName;
+        return (AuthorEntity e) => e.Id == this.Id || (e.FirstName == this.FirstName && e.LastName == this.LastName);
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is AuthorEntity e && (this.Id.Equals(e.Id) || this.FirstName == e.FirstName && this.LastName == e.LastName);
+        return obj is AuthorEntity e && (this.Id.Equals(e.Id) || (this.FirstName == e.FirstName && this.LastName == e.LastName));
     }
 
     /// <inheritdoc />

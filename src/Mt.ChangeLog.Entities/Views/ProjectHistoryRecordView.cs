@@ -8,6 +8,25 @@ namespace Mt.ChangeLog.Entities.Views;
 public class ProjectHistoryRecordView
 {
     /// <summary>
+    /// Инициализация экземпляра класса <see cref="ProjectHistoryRecordView"/>.
+    /// </summary>
+    public ProjectHistoryRecordView()
+    {
+        this.ProjectVersionId = Guid.Empty;
+        this.ParentRevisionId = Guid.Empty;
+        this.ProjectRevisionId = Guid.Empty;
+        this.Platform = DefaultString.Platform;
+        this.Title = DefaultString.Project;
+        this.Date = DateTime.Now;
+        this.ArmEdit = DefaultString.Version;
+        this.Algorithms = DefaultString.Algorithm;
+        this.Authors = $"{DefaultString.LastName} {DefaultString.FirstName}";
+        this.Protocols = DefaultString.Protocol;
+        this.Reason = string.Empty;
+        this.Description = string.Empty;
+    }
+
+    /// <summary>
     /// ИД версии проекта.
     /// </summary>
     public Guid ProjectVersionId { get; set; }
@@ -66,25 +85,6 @@ public class ProjectHistoryRecordView
     /// Описание.
     /// </summary>
     public string Description { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра класса <see cref="ProjectHistoryRecordView"/>.
-    /// </summary>
-    public ProjectHistoryRecordView()
-    {
-        this.ProjectVersionId = Guid.Empty;
-        this.ParentRevisionId = Guid.Empty;
-        this.ProjectRevisionId = Guid.Empty;
-        this.Platform = DefaultString.Platform;
-        this.Title = DefaultString.Project;
-        this.Date = DateTime.Now;
-        this.ArmEdit = DefaultString.Version;
-        this.Algorithms = DefaultString.Algorithm;
-        this.Authors = $"{DefaultString.LastName} {DefaultString.FirstName}";
-        this.Protocols = DefaultString.Protocol;
-        this.Reason = string.Empty;
-        this.Description = string.Empty;
-    }
 
     /// <inheritdoc />
     public override string ToString()

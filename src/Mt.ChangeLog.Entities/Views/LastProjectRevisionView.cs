@@ -8,6 +8,22 @@ namespace Mt.ChangeLog.Entities.Views;
 public class LastProjectRevisionView
 {
     /// <summary>
+    /// Инициализация экземпляра класса <see cref="LastProjectRevisionView"/>.
+    /// </summary>
+    public LastProjectRevisionView()
+    {
+        this.ProjectVersionId = Guid.Empty;
+        this.ProjectRevisionId = Guid.Empty;
+        this.Prefix = DefaultString.Prefix;
+        this.Title = DefaultString.Project;
+        this.Version = DefaultString.Revision;
+        this.Revision = DefaultString.Revision;
+        this.Platform = DefaultString.Platform;
+        this.ArmEdit = DefaultString.Version;
+        this.Date = DateTime.Now;
+    }
+
+    /// <summary>
     /// ИД версии проекта.
     /// </summary>
     public Guid ProjectVersionId { get; set; }
@@ -51,22 +67,6 @@ public class LastProjectRevisionView
     /// Дата компиляции.
     /// </summary>
     public DateTime Date { get; set; }
-
-    /// <summary>
-    /// Инициализация экземпляра класса <see cref="LastProjectRevisionView"/>.
-    /// </summary>
-    public LastProjectRevisionView()
-    {
-        this.ProjectVersionId = Guid.Empty;
-        this.ProjectRevisionId = Guid.Empty;
-        this.Prefix = DefaultString.Prefix;
-        this.Title = DefaultString.Project;
-        this.Version = DefaultString.Revision;
-        this.Revision = DefaultString.Revision;
-        this.Platform = DefaultString.Platform;
-        this.ArmEdit = DefaultString.Version;
-        this.Date = DateTime.Now;
-    }
 
     /// <inheritdoc />
     public override string ToString()

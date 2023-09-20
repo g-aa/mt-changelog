@@ -1,6 +1,7 @@
+using System.Linq.Expressions;
+
 using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables;
 
@@ -9,6 +10,22 @@ namespace Mt.ChangeLog.Entities.Tables;
 /// </summary>
 public class AnalogModuleEntity : IDefaultable, IEntity, IEqualityPredicate<AnalogModuleEntity>, IRemovable
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="AnalogModuleEntity"/>.
+    /// </summary>
+    public AnalogModuleEntity()
+    {
+        this.Id = Guid.NewGuid();
+        this.DIVG = DefaultString.DIVG;
+        this.Title = DefaultString.AnalogModule;
+        this.Current = DefaultString.Current;
+        this.Description = DefaultString.Description;
+        this.Default = false;
+        this.Removable = true;
+        this.Projects = new HashSet<ProjectVersionEntity>();
+        this.Platforms = new HashSet<PlatformEntity>();
+    }
+
     /// <inheritdoc />
     public Guid Id { get; set; }
 
@@ -50,22 +67,6 @@ public class AnalogModuleEntity : IDefaultable, IEntity, IEqualityPredicate<Anal
     /// </summary>
     public ICollection<PlatformEntity> Platforms { get; set; }
     #endregion
-
-    /// <summary>
-    /// Инициализация экземпляра <see cref="AnalogModuleEntity"/>.
-    /// </summary>
-    public AnalogModuleEntity()
-    {
-        this.Id = Guid.NewGuid();
-        this.DIVG = DefaultString.DIVG;
-        this.Title = DefaultString.AnalogModule;
-        this.Current = DefaultString.Current;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.Projects = new HashSet<ProjectVersionEntity>();
-        this.Platforms = new HashSet<PlatformEntity>();
-    }
 
     /// <inheritdoc />
     public Expression<Func<AnalogModuleEntity, bool>> GetEqualityPredicate()

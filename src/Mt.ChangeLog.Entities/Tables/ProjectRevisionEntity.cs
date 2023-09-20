@@ -1,6 +1,7 @@
+using System.Linq.Expressions;
+
 using Mt.Entities.Abstractions.Interfaces;
 using Mt.Utilities;
-using System.Linq.Expressions;
 
 namespace Mt.ChangeLog.Entities.Tables;
 
@@ -9,6 +10,20 @@ namespace Mt.ChangeLog.Entities.Tables;
 /// </summary>
 public class ProjectRevisionEntity : IEntity, IEqualityPredicate<ProjectRevisionEntity>
 {
+    /// <summary>
+    /// Инициализация экземпляра <see cref="ProjectRevisionEntity"/>.
+    /// </summary>
+    public ProjectRevisionEntity()
+    {
+        this.Id = Guid.NewGuid();
+        this.Date = DateTime.Now;
+        this.Revision = DefaultString.Revision;
+        this.Reason = DefaultString.Reason;
+        this.Description = DefaultString.Description;
+        this.Authors = new HashSet<AuthorEntity>();
+        this.RelayAlgorithms = new HashSet<RelayAlgorithmEntity>();
+    }
+
     /// <inheritdoc />
     public Guid Id { get; set; }
 
@@ -85,31 +100,17 @@ public class ProjectRevisionEntity : IEntity, IEqualityPredicate<ProjectRevision
     public ICollection<RelayAlgorithmEntity> RelayAlgorithms { get; set; }
     #endregion
 
-    /// <summary>
-    /// Инициализация экземпляра <see cref="ProjectRevisionEntity"/>.
-    /// </summary>
-    public ProjectRevisionEntity()
-    {
-        this.Id = Guid.NewGuid();
-        this.Date = DateTime.Now;
-        this.Revision = DefaultString.Revision;
-        this.Reason = DefaultString.Reason;
-        this.Description = DefaultString.Description;
-        this.Authors = new HashSet<AuthorEntity>();
-        this.RelayAlgorithms = new HashSet<RelayAlgorithmEntity>();
-    }
-
     /// <inheritdoc />
     public Expression<Func<ProjectRevisionEntity, bool>> GetEqualityPredicate()
     {
         return (ProjectRevisionEntity e) => e.Id == this.Id
-        || (e.ProjectVersionId == this.ProjectVersionId) && e.Revision == this.Revision;
+        || ((e.ProjectVersionId == this.ProjectVersionId) && e.Revision == this.Revision);
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is ProjectRevisionEntity e && (this.Id.Equals(e.Id) || this.ProjectVersionId.Equals(e.ProjectVersionId) && this.Revision == e.Revision);
+        return obj is ProjectRevisionEntity e && (this.Id.Equals(e.Id) || (this.ProjectVersionId.Equals(e.ProjectVersionId) && this.Revision == e.Revision));
     }
 
     /// <inheritdoc />
@@ -117,7 +118,7 @@ public class ProjectRevisionEntity : IEntity, IEqualityPredicate<ProjectRevision
     {
         /*
          * при определении уникальности картежа нужно учитывать и версию проекта к которой он привязан !!!
-         * ПС чисто теоретически даты и время компиляции должны отличасться, но так происходит не всегда
+         * ПС чисто теоретически даты и время компиляции должны отличаться, но так происходит не всегда
          */
         return HashCode.Combine(this.ProjectVersionId, this.Date, this.Revision);
     }

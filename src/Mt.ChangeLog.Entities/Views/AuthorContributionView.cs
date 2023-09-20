@@ -8,16 +8,6 @@ namespace Mt.ChangeLog.Entities.Views;
 public class AuthorContributionView
 {
     /// <summary>
-    /// Ф.И.О. автора (LastName FirstName). 
-    /// </summary>
-    public string Author { get; set; }
-
-    /// <summary>
-    /// Общий вклад в проекты.
-    /// </summary>
-    public int Contribution { get; set; }
-
-    /// <summary>
     /// Инициализация экземпляра класса <see cref="AuthorContributionView"/>.
     /// </summary>
     public AuthorContributionView()
@@ -25,6 +15,16 @@ public class AuthorContributionView
         this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
         this.Contribution = 0;
     }
+
+    /// <summary>
+    /// Ф.И.О. автора (LastName FirstName).
+    /// </summary>
+    public string Author { get; set; }
+
+    /// <summary>
+    /// Общий вклад в проекты.
+    /// </summary>
+    public int Contribution { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
