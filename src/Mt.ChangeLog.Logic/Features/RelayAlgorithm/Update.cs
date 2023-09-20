@@ -1,111 +1,93 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
+using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
+namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm;
+
+/// <summary>
+/// Запрос на обновление модели <see cref="RelayAlgorithmModel"/>.
+/// </summary>
+public static class Update
 {
-    /// <summary>
-    /// Запрос на обновление сущности <see cref="RelayAlgorithmModel"/>.
-    /// </summary>
-    public static class Update
+    /// <inheritdoc />
+    public sealed record Command(Guid RelayAlgorithmId, RelayAlgorithmModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<RelayAlgorithmModel, MessageModel>, IValidatedRequest
+    }
+
+    /// <inheritdoc />
+    public sealed class Validator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Relay algorithm model validator.</param>
+        public Validator(IValidator<RelayAlgorithmModel> validator)
         {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Модель данных.</param>
-            public Command(RelayAlgorithmModel model) : base(model)
+            this.RuleFor(e => e.RelayAlgorithmId)
+                .Must((command, id) => id == command.Model.Id)
+                .WithMessage("Значение параметра '{PropertyName}' не равен значению идентификатора в модели из тела запроса.");
+
+            this.RuleFor(e => e.Model).SetValidator(validator);
+        }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> logger;
+
+        private readonly MtContext context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            this.logger = logger;
+            this.context = context;
+        }
+
+        /// <inheritdoc />
+        public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var model = request.Model;
+            this.logger.LogDebug("Получен запрос на обновление данных алгоритмов РЗиА '{Model}' в системе.", model);
+
+            var dbAlgorithm = this.context.RelayAlgorithms.Search(model.Id);
+            if (dbAlgorithm.Default)
             {
+                throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbAlgorithm}' не может быть обновлена.");
             }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - обновление сущности вида {nameof(RelayAlgorithmModel)}.";
-            }
+            dbAlgorithm.GetBuilder().SetAttributes(model).Build();
+            return this.SaveChangesAsync(dbAlgorithm, cancellationToken);
         }
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Сохранить изменения сущности.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="entity">Сущность.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Результат выполнения.</returns>
+        private async Task<MessageModel> SaveChangesAsync(RelayAlgorithmEntity entity, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(RelayAlgorithmValidator validator)
+            this.context.RelayAlgorithms.Update(entity);
+            await this.context.SaveChangesAsync(cancellationToken);
+
+            this.logger.LogInformation("Алгоритм РЗиА '{Entity}' успешно обновлен в системе.", entity);
+            return new MessageModel
             {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
-        }
-
-        /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
-        {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
-
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
-
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var model = Check.NotNull(request, nameof(request)).Model;
-                this.logger.LogInformation(request.ToString());
-
-                var dbAlgorithm = this.context.RelayAlgorithms.Search(model.Id);
-                if (dbAlgorithm.Default)
-                {
-                    throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbAlgorithm}' не может быть обновлена.");
-                }
-
-                dbAlgorithm.GetBuilder().SetAttributes(model).Build();
-                return this.SaveChangesAsync(dbAlgorithm, cancellationToken);
-            }
-
-            /// <summary>
-            /// Сохранить изменения сущности.
-            /// </summary>
-            /// <param name="entity">Сущность.</param>
-            /// <param name="cancellationToken">Токен отмены.</param>
-            /// <returns>Результат выполнения.</returns>
-            private async Task<MessageModel> SaveChangesAsync(RelayAlgorithmEntity entity, CancellationToken cancellationToken)
-            {
-                this.context.RelayAlgorithms.Update(entity);
-                await this.context.SaveChangesAsync(cancellationToken);
-                return new MessageModel()
-                {
-                    Message = $"'{entity}' обновлен в системе.",
-                };
-            }
+                Message = $"'{entity}' обновлен в системе.",
+            };
         }
     }
 }

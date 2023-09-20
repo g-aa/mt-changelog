@@ -2,128 +2,106 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
+using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Features.Platform
+namespace Mt.ChangeLog.Logic.Features.Platform;
+
+/// <summary>
+/// Запрос на удаления модели аналогового модуля из системы <see cref="PlatformModel"/>.
+/// </summary>
+public static class Delete
 {
-    /// <summary>
-    /// Запрос на удаления модели аналогового модуля из системы <see cref="PlatformModel"/>.
-    /// </summary>
-    public static class Delete
+    /// <inheritdoc />
+    public sealed record Command(BaseModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<BaseModel, MessageModel>, IValidatedRequest
+    }
+
+    /// <inheritdoc />
+    public sealed class Validator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Base model validator.</param>
+        public Validator(IValidator<BaseModel> validator)
         {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Command(BaseModel model) : base(model)
+            this.RuleFor(e => e.Model).SetValidator(validator);
+        }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> logger;
+
+        private readonly MtContext context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            this.logger = logger;
+            this.context = context;
+        }
+
+        /// <inheritdoc />
+        public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var model = request.Model;
+            this.logger.LogDebug("Получен запрос на удаление платформы '{Id}' из системы.", model.Id);
+
+            var dbRemovable = this.context.Platforms
+                .Include(e => e.Projects)
+                .Include(e => e.AnalogModules).ThenInclude(e => e.Platforms)
+                .AsSingleQuery()
+                .Search(request.Model.Id);
+
+            if (dbRemovable.Default)
             {
+                throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность по умолчанию '{dbRemovable}' не может быть удалена из системы.");
             }
 
-            /// <inheritdoc />
-            public override string ToString()
+            if (dbRemovable.Projects.Any())
             {
-                return $"{base.ToString()} - удаление сущности вида {nameof(PlatformModel)}.";
+                throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используемая в проектах не может быть удалена из системы.");
             }
+
+            if (dbRemovable.AnalogModules.Any())
+            {
+                var defPlatform = this.context.Platforms.First(e => e.Default);
+                foreach (var dbModule in dbRemovable.AnalogModules.Where(am => am.Platforms.Remove(dbRemovable) && !am.Platforms.Any()))
+                {
+                    dbModule.Platforms.Add(defPlatform);
+                }
+            }
+
+            return this.SaveChangesAsync(dbRemovable, cancellationToken);
         }
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Сохранить изменения сущности.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="entity">Сущность.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Результат выполнения.</returns>
+        private async Task<MessageModel> SaveChangesAsync(PlatformEntity entity, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(BaseValidator validator)
+            this.context.Platforms.Remove(entity);
+            await this.context.SaveChangesAsync(cancellationToken);
+
+            this.logger.LogInformation("Платформа '{Title}' успешно удален из системы.", entity.Title);
+            return new MessageModel
             {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
-        }
-
-        /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
-        {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
-
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
-
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var dbRemovable = this.context.Platforms
-                    .Include(e => e.Projects)
-                    .Include(e => e.AnalogModules).ThenInclude(e => e.Platforms)
-                    .AsSingleQuery()
-                    .Search(request.Model.Id);
-
-                if (dbRemovable.Default)
-                {
-                    throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность по умолчанию '{dbRemovable}' не может быть удалена из системы.");
-                }
-
-                if (dbRemovable.Projects.Any())
-                {
-                    throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используемая в проектах не может быть удалена из системы.");
-                }
-
-                if (dbRemovable.AnalogModules.Any())
-                {
-                    var defPlatform = this.context.Platforms.First(e => e.Default);
-                    foreach (var dbModule in dbRemovable.AnalogModules.Where(am => am.Platforms.Remove(dbRemovable) && !am.Platforms.Any()))
-                    {
-                        dbModule.Platforms.Add(defPlatform);
-                    }
-                }
-
-                return this.SaveChangesAsync(dbRemovable, cancellationToken);
-            }
-
-            /// <summary>
-            /// Сохранить изменения сущности.
-            /// </summary>
-            /// <param name="entity">Сущность.</param>
-            /// <param name="cancellationToken">Токен отмены.</param>
-            /// <returns>Результат выполнения.</returns>
-            private async Task<MessageModel> SaveChangesAsync(PlatformEntity entity, CancellationToken cancellationToken)
-            {
-                this.context.Platforms.Remove(entity);
-                await this.context.SaveChangesAsync(cancellationToken);
-                return new MessageModel()
-                {
-                    Message = $"'{entity}' была удалена из системы.",
-                };
-            }
+                Message = $"'{entity}' была удалена из системы.",
+            };
         }
     }
 }

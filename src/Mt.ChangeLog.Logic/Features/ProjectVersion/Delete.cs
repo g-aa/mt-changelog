@@ -1,92 +1,69 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.ProjectVersion
+namespace Mt.ChangeLog.Logic.Features.ProjectVersion;
+
+/// <summary>
+/// Запрос на удаления модели аналогового модуля из системы <see cref="ProjectVersionModel"/>.
+/// </summary>
+public static class Delete
 {
-    /// <summary>
-    /// Запрос на удаления модели аналогового модуля из системы <see cref="ProjectVersionModel"/>.
-    /// </summary>
-    public static class Delete
+    /// <inheritdoc />
+    public sealed record Command(BaseModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<BaseModel, MessageModel>, IValidatedRequest
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Command(BaseModel model) : base(model)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - удаление сущности вида {nameof(ProjectVersionModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class CommandValidator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="CommandValidator"/>.
+        /// </summary>
+        /// <param name="validator">Base model validator.</param>
+        public CommandValidator(IValidator<BaseModel> validator)
+        {
+            this.RuleFor(e => e.Model).SetValidator(validator);
         }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> logger;
+
+        private readonly MtContext context;
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(BaseValidator validator)
-            {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
+            this.logger = logger;
+            this.context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
+        public async Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            var model = request.Model;
+            this.logger.LogDebug("Получен запрос на удаление версии проекта '{Id}' из системы.", model.Id);
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var dbRemovable = this.context.ProjectVersions.Search(request.Model.Id);
+            this.context.ProjectVersions.Remove(dbRemovable);
+            await this.context.SaveChangesAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
+            this.logger.LogInformation("Статус проекта '{DbRemovable}' успешно удален из системы.", dbRemovable);
+            return new MessageModel
             {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public async Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var dbRemovable = this.context.ProjectVersions.Search(request.Model.Id);
-                this.context.ProjectVersions.Remove(dbRemovable);
-                await this.context.SaveChangesAsync();
-
-                return new MessageModel()
-                {
-                    Message = $"'{dbRemovable}' был удалена из системы.",
-                };
-            }
+                Message = $"'{dbRemovable}' был удалена из системы.",
+            };
         }
     }
 }

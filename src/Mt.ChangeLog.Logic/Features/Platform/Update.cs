@@ -2,121 +2,103 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
+using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Features.Platform
+namespace Mt.ChangeLog.Logic.Features.Platform;
+
+/// <summary>
+/// Запрос на обновление сущности <see cref="PlatformModel"/>.
+/// </summary>
+public static class Update
 {
-    /// <summary>
-    /// Запрос на обновление сущности <see cref="PlatformModel"/>.
-    /// </summary>
-    public static class Update
+    /// <inheritdoc />
+    public sealed record Command(Guid PlatformId, PlatformModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<PlatformModel, MessageModel>, IValidatedRequest
+    }
+
+    /// <inheritdoc />
+    public sealed class Validator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Platform model validator.</param>
+        public Validator(IValidator<PlatformModel> validator)
         {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Command(PlatformModel model) : base(model)
+            this.RuleFor(e => e.PlatformId)
+                .Must((command, id) => id == command.Model.Id)
+                .WithMessage("Значение параметра '{PropertyName}' не равен значению идентификатора в модели из тела запроса.");
+
+            this.RuleFor(e => e.Model).SetValidator(validator);
+        }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> logger;
+
+        private readonly MtContext context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            this.logger = logger;
+            this.context = context;
+        }
+
+        /// <inheritdoc />
+        public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var model = request.Model;
+            this.logger.LogDebug("Получен запрос на обновление данных платформы '{Title}' в системе.", model.Title);
+
+            var dbPlatform = this.context.Platforms
+                .Include(e => e.Projects)
+                .Include(e => e.AnalogModules)
+                .Search(model.Id);
+
+            if (dbPlatform.Default)
             {
+                throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbPlatform}' не может быть обновлена.");
             }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - обновление сущности вида {nameof(PlatformModel)}.";
-            }
+            var dbAnalogModules = this.context.AnalogModules
+                .SearchManyOrDefault(model.AnalogModules.Select(e => e.Id));
+            dbPlatform.GetBuilder()
+                .SetAttributes(model)
+                .SetAnalogModules(dbAnalogModules)
+                .Build();
+
+            return this.SaveChangesAsync(dbPlatform, cancellationToken);
         }
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Сохранить изменения сущности.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="entity">Сущность.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Результат выполнения.</returns>
+        private async Task<MessageModel> SaveChangesAsync(PlatformEntity entity, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(PlatformValidator validator)
+            this.context.Platforms.Update(entity);
+            await this.context.SaveChangesAsync(cancellationToken);
+
+            this.logger.LogInformation("Платформа '{Title}' успешно обновлен в системе.", entity.Title);
+            return new MessageModel
             {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
-        }
-
-        /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
-        {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
-
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
-
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var model = Check.NotNull(request, nameof(request)).Model;
-                this.logger.LogInformation(request.ToString());
-
-                var dbPlatform = this.context.Platforms
-                    .Include(e => e.Projects)
-                    .Include(e => e.AnalogModules)
-                    .Search(model.Id);
-
-                if (dbPlatform.Default)
-                {
-                    throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbPlatform}' не может быть обновлена.");
-                }
-
-                var dbAnalogModules = this.context.AnalogModules
-                    .SearchManyOrDefault(model.AnalogModules.Select(e => e.Id));
-                dbPlatform.GetBuilder()
-                    .SetAttributes(model)
-                    .SetAnalogModules(dbAnalogModules)
-                    .Build();
-
-                return this.SaveChangesAsync(dbPlatform, cancellationToken);
-            }
-
-            /// <summary>
-            /// Сохранить изменения сущности.
-            /// </summary>
-            /// <param name="entity">Сущность.</param>
-            /// <param name="cancellationToken">Токен отмены.</param>
-            /// <returns>Результат выполнения.</returns>
-            private async Task<MessageModel> SaveChangesAsync(PlatformEntity entity, CancellationToken cancellationToken)
-            {
-                this.context.Platforms.Update(entity);
-                await this.context.SaveChangesAsync(cancellationToken);
-                return new MessageModel()
-                {
-                    Message = $"'{entity}' обновлена в системе.",
-                };
-            }
+                Message = $"'{entity}' обновлена в системе.",
+            };
         }
     }
 }

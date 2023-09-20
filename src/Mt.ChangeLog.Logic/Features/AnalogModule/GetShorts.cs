@@ -1,67 +1,47 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstractions;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataAccess.Abstraction;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.AnalogModule
+namespace Mt.ChangeLog.Logic.Features.AnalogModule;
+
+/// <summary>
+/// Запрос на получение перечня кратких моделей данных <see cref="AnalogModuleShortModel"/>.
+/// </summary>
+public static class GetShorts
 {
-    /// <summary>
-    /// Запрос на получение перечня кратких моделий данных <see cref="AnalogModuleShortModel"/>.
-    /// </summary>
-    public static class GetShorts
+    /// <inheritdoc />
+    public sealed class Query : IRequest<IEnumerable<AnalogModuleShortModel>>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, IEnumerable<AnalogModuleShortModel>>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение перечня сущностей вида {nameof(AnalogModuleShortModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, IEnumerable<AnalogModuleShortModel>>
+    {
+        private readonly ILogger<Handler> logger;
+
+        private readonly IAnalogModuleRepository repository;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="repository">Репозиторий с данными.</param>
+        public Handler(ILogger<Handler> logger, IAnalogModuleRepository repository)
+        {
+            this.logger = logger;
+            this.repository = repository;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, IEnumerable<AnalogModuleShortModel>>
+        public async Task<IEnumerable<AnalogModuleShortModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            this.logger.LogDebug("Получен запрос на получение полного перечня краткого описания аналоговых модулей.");
 
-            /// <summary>
-            /// Репозиторий с данными.
-            /// </summary>
-            private readonly IAnalogModuleRepository repository;
+            var result = await this.repository.GetShortEntitiesAsync();
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="repository">Репозиторий с данными.</param>
-            public Handler(ILogger<Handler> logger, IAnalogModuleRepository repository)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.repository = Check.NotNull(repository, nameof(repository));
-            }
-
-            /// <inheritdoc />
-            public async Task<IEnumerable<AnalogModuleShortModel>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = await this.repository.GetShortEntitiesAsync();
-                return result.OrderBy(e => e.Title);
-            }
+            this.logger.LogDebug("Запрос на получение полного перечня краткого описания аналоговых модулей успешно выполнен, '{Count}' записей.", result.Count());
+            return result.OrderBy(e => e.Title);
         }
     }
 }

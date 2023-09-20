@@ -1,117 +1,94 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
+using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Features.AnalogModule
+namespace Mt.ChangeLog.Logic.Features.AnalogModule;
+
+/// <summary>
+/// Запрос на добавления сущности <see cref="AnalogModuleModel"/>.
+/// </summary>
+public static class Add
 {
-    /// <summary>
-    /// Запрос на добавления сущности <see cref="AnalogModuleModel"/>.
-    /// </summary>
-    public static class Add
+    /// <inheritdoc />
+    public sealed record Command(AnalogModuleModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<AnalogModuleModel, MessageModel>, IValidatedRequest
+    }
+
+    /// <inheritdoc />
+    public sealed class Validator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Analog module model validator.</param>
+        public Validator(IValidator<AnalogModuleModel> validator)
         {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Модель данных.</param>
-            public Command(AnalogModuleModel model) : base(model)
+            this.RuleFor(e => e.Model).SetValidator(validator);
+        }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> logger;
+
+        private readonly MtContext context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            this.logger = logger;
+            this.context = context;
+        }
+
+        /// <inheritdoc />
+        public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var model = request.Model;
+            this.logger.LogDebug("Получен запрос на добавление аналогового модуля '{DIVG}' '{Title}' в систему.", model.DIVG, model.Title);
+
+            var dbPlatforms = this.context.Platforms.SearchManyOrDefault(model.Platforms.Select(e => e.Id));
+
+            var dbAnalogModule = new AnalogModuleEntity().GetBuilder()
+                .SetAttributes(model)
+                .SetPlatforms(dbPlatforms)
+                .Build();
+
+            if (this.context.AnalogModules.IsContained(dbAnalogModule))
             {
+                throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbAnalogModule}' уже содержится в системе.");
             }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - добавление сущности вида {nameof(AnalogModuleModel)}.";
-            }
+            return this.SaveChangesAsync(dbAnalogModule, cancellationToken);
         }
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Сохранить изменения сущности.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="entity">Сущность.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Результат выполнения.</returns>
+        private async Task<MessageModel> SaveChangesAsync(AnalogModuleEntity entity, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(AnalogModuleValidator validator)
+            await this.context.AnalogModules.AddAsync(entity, cancellationToken);
+            await this.context.SaveChangesAsync(cancellationToken);
+
+            this.logger.LogInformation("Аналоговый модуль '{DIVG}' '{Title}' успешно добавлен в систему.", entity.DIVG, entity.Title);
+            return new MessageModel
             {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
-        }
-
-        /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
-        {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
-
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
-
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var model = Check.NotNull(request, nameof(request)).Model;
-                this.logger.LogInformation(request.ToString());
-
-                var dbPlatforms = this.context.Platforms
-                    .SearchManyOrDefault(model.Platforms.Select(e => e.Id));
-
-                var dbAnalogModule = AnalogModuleBuilder.GetBuilder()
-                    .SetAttributes(model)
-                    .SetPlatforms(dbPlatforms)
-                    .Build();
-
-                if (this.context.AnalogModules.IsContained(dbAnalogModule))
-                {
-                    throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbAnalogModule}' уже содержится в системе.");
-                }
-
-                return this.SaveChangesAsync(dbAnalogModule, cancellationToken);
-            }
-
-            /// <summary>
-            /// Сохранить изменения сущности.
-            /// </summary>
-            /// <param name="entity">Сущность.</param>
-            /// <param name="cancellationToken">Токен отмены.</param>
-            /// <returns>Результат выполнения.</returns>
-            private async Task<MessageModel> SaveChangesAsync(AnalogModuleEntity entity, CancellationToken cancellationToken)
-            {
-                await this.context.AnalogModules.AddAsync(entity, cancellationToken);
-                await this.context.SaveChangesAsync(cancellationToken);
-                return new MessageModel()
-                {
-                    Message = $"'{entity}' был добавлен в систему.",
-                };
-            }
+                Message = $"'{entity}' был добавлен в систему.",
+            };
         }
     }
 }

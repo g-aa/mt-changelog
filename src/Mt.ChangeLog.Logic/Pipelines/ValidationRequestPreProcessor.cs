@@ -1,65 +1,70 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Logic.Models;
-using Mt.Utilities;
+using Mt.ChangeLog.Logic.Extensions;
 using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Pipelines
+namespace Mt.ChangeLog.Logic.Pipelines;
+
+/// <summary>
+/// Препроцессор валидации.
+/// </summary>
+/// <typeparam name="TRequest">Тип запроса.</typeparam>
+public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcessor<TRequest>
+    where TRequest : notnull
 {
+    private readonly ILogger<ValidationRequestPreProcessor<TRequest>> logger;
+
+    private readonly IMtUser user;
+
+    private readonly IValidator<TRequest>? validator;
+
     /// <summary>
-	/// Препроцессор валидации.
-	/// </summary>
-	/// <typeparam name="TRequest">Тип запроса.</typeparam>
-    public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcessor<TRequest> where TRequest : IMtRequest, IValidatedRequest
+    /// Инициализация экземпляра класса <see cref="ValidationRequestPreProcessor{TRequest}"/>.
+    /// </summary>
+    /// <param name="logger">Журнал логирования.</param>
+    /// <param name="user">Пользователь системы МТ.</param>
+    /// <param name="validator">Валидатор данных запроса.</param>
+    public ValidationRequestPreProcessor(
+        ILogger<ValidationRequestPreProcessor<TRequest>> logger,
+        IMtUser user,
+        IValidator<TRequest>? validator = null)
     {
-        /// <summary>
-		/// Журнал логирования.
-		/// </summary>
-		private readonly ILogger<ValidationRequestPreProcessor<TRequest>> logger;
+        this.logger = logger;
+        this.user = user;
+        this.validator = validator;
+    }
 
-        /// <summary>
-        /// Валидатор данных запроса.
-        /// </summary>
-        private readonly IValidator<TRequest> validator;
-
-        /// <summary>
-		/// Инициализация экземпляра класса <see cref="ValidationRequestPreProcessor{TRequest}"/>.
-		/// </summary>
-		/// <param name="logger">Журнал логирования.</param>
-		/// <param name="validator">Валидатор данных запроса.</param>
-		/// <exception cref="ArgumentNullException">Срабатывает если входные параметры равны null.</exception>
-		public ValidationRequestPreProcessor(ILogger<ValidationRequestPreProcessor<TRequest>> logger, IValidator<TRequest> validator)
+    /// <inheritdoc />
+    public async Task Process(TRequest request, CancellationToken cancellationToken)
+    {
+        using var scope = this.logger.BeginWithMtUserScope(this.user);
+        if (this.validator == null)
         {
-            this.logger = Check.NotNull(logger, nameof(logger));
-            this.validator = Check.NotNull(validator, nameof(validator));
+            this.logger.LogWarning("Запросу '{Name}' не предусмотрен набор правил валидации.", request.GetType().Name);
+            return;
         }
 
-        /// <inheritdoc />
-		public async Task Process(TRequest request, CancellationToken cancellationToken)
+        this.logger.LogDebug("Начат процесс валидации параметров запроса.");
+        try
         {
-            Check.NotNull(request, nameof(request));
-            logger.LogInformation($"Mt request: '{request.Guid}', username: '{request.UserName}' - валидация параметров.");
-            try
-            {
-                await validator.ValidateAsync(
-                    request,
-                    options =>
-                    {
-                        options.IncludeRuleSets("default", "command");
-                        options.ThrowOnFailures();
-                    },
-                    cancellationToken);
-            }
-            catch (ValidationException exception)
-            {
-                var properties = string.Join(", ", exception.Errors.Select(prop =>
+            await this.validator.ValidateAsync(
+                request,
+                options =>
                 {
-                    return prop.PropertyName.Substring(prop.PropertyName.LastIndexOf('.') + 1);
-                }).Distinct());
+                    options.IncludeRuleSets("default", "command");
+                    options.ThrowOnFailures();
+                },
+                cancellationToken);
+        }
+        catch (ValidationException exception)
+        {
+            var properties = string.Join(", ", exception.Errors.Select(p =>
+            {
+                return p.PropertyName.Substring(p.PropertyName.LastIndexOf('.') + 1);
+            }).Distinct());
 
-                throw new MtException(exception, ErrorCode.EntityValidation, $"Ошибка валидации параметров: {properties}.");
-            }
+            throw new MtException(exception, ErrorCode.EntityValidation, $"Ошибка валидации параметров: {properties}.");
         }
     }
 }

@@ -11,7 +11,7 @@ public sealed class LogicLayer
     /// <summary>
     /// Инициализация экземпляра <see cref="LogicLayer"/>.
     /// </summary>
-	private LogicLayer()
+    private LogicLayer()
     {
     }
 }
