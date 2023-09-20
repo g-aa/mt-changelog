@@ -1,9 +1,11 @@
-using Mt.ChangeLog.Context;
+using System.Reflection;
+
 using Mt.ChangeLog.DataAccess;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Entities;
 using Mt.ChangeLog.Logic;
 using Mt.ChangeLog.TransferObjects;
-using Mt.ChangeLog.WebAPI.Infrastracture;
-using System.Reflection;
+using Mt.ChangeLog.WebAPI.Infrastructure;
 
 namespace Mt.ChangeLog.WebAPI
 {
@@ -12,9 +14,6 @@ namespace Mt.ChangeLog.WebAPI
     /// </summary>
     public sealed class Startup
     {
-        /// <inheritdoc cref="IConfiguration"/>
-        public IConfiguration Configuration { get; private set; }
-
         /// <summary>
         /// Инициализация экземпляра класса <see cref="Startup"/>.
         /// </summary>
@@ -22,7 +21,24 @@ namespace Mt.ChangeLog.WebAPI
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
+            this.Assemblies = new Assembly[]
+            {
+                typeof(DataAccessLayer).Assembly,
+                typeof(DataContextLayer).Assembly,
+                typeof(EntityLayer).Assembly,
+                typeof(LogicLayer).Assembly,
+                typeof(ModelLayer).Assembly,
+                typeof(ServiceLayer).Assembly,
+            };
         }
+
+        /// <inheritdoc cref="IConfiguration"/>
+        public IConfiguration Configuration { get; init; }
+
+        /// <summary>
+        /// Перечень сборок проекта.
+        /// </summary>
+        public IReadOnlyCollection<Assembly> Assemblies { get; init; }
 
         /// <summary>
         /// Метод конфигурации сервисов приложения.
@@ -32,21 +48,17 @@ namespace Mt.ChangeLog.WebAPI
         {
             #region [ MtChangeLog services configuration ]
 
-            var assemblies = new Assembly[]
-            {
-                typeof(ModelLayer).Assembly,
-                typeof(LogicLayer).Assembly,
-            };
-
             services.AddApplicationContext();
             services.AddDataAccess();
-            services.AddLogic(assemblies);
+            services.AddLogic(this.Assemblies);
 
             #endregion
 
             #region [ Infrastracture services configuration ]
 
-            services.AddSwaggerDocumentation();
+            services.AddScoped<IMtUser, MtUser>();
+            services.AddHttpContextAccessor();
+            services.AddSwaggerDocumentation(this.Assemblies);
 
             #endregion
 
@@ -61,24 +73,22 @@ namespace Mt.ChangeLog.WebAPI
         /// Метод настройки конвейера HTTP-запросов.
         /// </summary>
         /// <param name="builder">Строитель приложения.</param>
-        /// <param name="environment">Окружение приложения.</param>
-        public void Configure(IApplicationBuilder builder, IWebHostEnvironment environment)
+        public void Configure(IApplicationBuilder builder)
         {
-            if (environment.IsDevelopment())
-            {
-                builder.UseDeveloperExceptionPage();
-            }
-
             builder.UseRouting();
             builder.UseAuthorization();
 
             builder.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGet("/", context =>
+                {
+                    context.Response.Redirect("/swagger");
+                    return Task.CompletedTask;
+                });
             });
 
             builder.UseSwaggerDocumentation();
-
             builder.UseDefaultDatabaseInitialization();
         }
     }

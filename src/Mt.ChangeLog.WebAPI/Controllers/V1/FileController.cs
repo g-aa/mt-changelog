@@ -6,49 +6,50 @@ using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.Other;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Mt.ChangeLog.WebAPI.Controllers.V1
+namespace Mt.ChangeLog.WebAPI.Controllers.V1;
+
+/// <summary>
+/// Контроллер для работы с файлами.
+/// </summary>
+[ApiController]
+[Route("api/file")]
+public sealed class FileController : ControllerBase
 {
+    private readonly IMediator mediator;
+
     /// <summary>
-    /// Контроллер для работы с файлами.
+    /// Инициализация экземпляра класса <see cref="FileController"/>.
     /// </summary>
-    [Route("api/file")]
-    public sealed class FileController : ApiControllerBase
+    /// <param name="mediator">Медиатор.</param>
+    public FileController(IMediator mediator)
     {
-        /// <summary>
-        /// Инициализация экземпляра класса <see cref="FileController"/>.
-        /// </summary>
-        /// <param name="mediator">Медиатор.</param>
-        public FileController(IMediator mediator) : base(mediator)
-        {
-        }
+        this.mediator = mediator;
+    }
 
-        /// <summary>
-        /// Получить полную историю изменения версии проекта.
-        /// </summary>
-        /// <param name="id">Идентификатор версии проекта.</param>
-        /// <param name="token">Токен отмены.</param>
-        /// <returns>Результат действия.</returns>
-        [HttpGet]
-        [Route("changelog/{id:guid}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Полная история изменения версии проекта.", typeof(ProjectVersionHistoryModel))]
-        public Task<ProjectVersionHistoryModel> GetProjectVersionChangeLog([FromRoute] Guid id, CancellationToken token)
-        {
-            var query = new GetProjectVersionHistory.Query(new BaseModel() { Id = id });
-            return this.mediator.Send(query, token);
-        }
+    /// <summary>
+    /// Получить полную историю изменения версии проекта.
+    /// </summary>
+    /// <param name="id">Идентификатор версии проекта.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Результат действия.</returns>
+    [HttpGet("changelog/{id:guid}")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Полная история изменения версии проекта.", typeof(ProjectVersionHistoryModel))]
+    public Task<ProjectVersionHistoryModel> GetProjectVersionChangeLog([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var query = new GetProjectVersionHistory.Query(new BaseModel { Id = id });
+        return this.mediator.Send(query, cancellationToken);
+    }
 
-        /// <summary>
-        /// Получить полный архив с перечнем логов изменений из системы.
-        /// </summary>
-        /// <param name="token">Токен отмены.</param>
-        /// <returns>Результат действия.</returns>
-        [HttpGet]
-        [Route("changelog/archive/full")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Полный архив логов изменения проектов.", typeof(FileModel))]
-        public Task<FileModel> GetChangeLogArchive(CancellationToken token)
-        {
-            var query = new GetFullArchive.Query();
-            return this.mediator.Send(query, token);
-        }
+    /// <summary>
+    /// Получить полный архив с перечнем логов изменений из системы.
+    /// </summary>
+    /// <param name="token">Токен отмены.</param>
+    /// <returns>Результат действия.</returns>
+    [HttpGet("changelog/archive/full")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный архив логов изменения проектов.", typeof(FileModel))]
+    public Task<FileModel> GetChangeLogArchive(CancellationToken token)
+    {
+        var query = new GetFullArchive.Query();
+        return this.mediator.Send(query, token);
     }
 }
