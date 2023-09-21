@@ -19,7 +19,7 @@ public class ProjectRevisionTreeModel
         this.Version = DefaultString.Revision;
         this.Revision = DefaultString.Revision;
         this.ArmEdit = DefaultString.Version;
-        this.Date = DateTime.UtcNow.ToString("YYYY-MM-dd");
+        this.Date = DateTime.UtcNow.ToString("yyyy-MM-dd");
         this.Platform = DefaultString.Platform;
     }
 

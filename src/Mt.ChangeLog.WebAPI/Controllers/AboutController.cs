@@ -22,7 +22,7 @@ public sealed class AboutController : ControllerBase
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
     public MtMessageResult Version()
     {
-        return new MtMessageResult(Program.ServiceName);
+        return new MtMessageResult(Program.CurrentVersion);
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public sealed class AboutController : ControllerBase
     {
         return new MtAppDescription()
         {
-            Version = Program.ServiceName,
+            Version = Program.CurrentVersion,
             Repository = "https://github.com/g-aa/mt-changelog",
             Description = "Приложение предназначено для "
                 + "отслеживания и регистрации изменений, "

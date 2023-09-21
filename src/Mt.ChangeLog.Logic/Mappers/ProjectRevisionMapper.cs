@@ -76,7 +76,7 @@ public static class ProjectRevisionMapper
             Title = projectVersion.Title,
             Version = projectVersion.Version,
             Revision = entity.Revision,
-            Date = entity.Date.ToString("YYYY-MM-dd", CultureInfo.InvariantCulture),
+            Date = entity.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
             ArmEdit = armEdit.Version,
             Platform = platform.Title,
         };
