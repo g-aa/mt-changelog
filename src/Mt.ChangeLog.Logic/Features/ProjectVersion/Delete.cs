@@ -53,9 +53,9 @@ public static class Delete
         public async Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление версии проекта '{Id}' из системы.", model.Id);
+            this.logger.LogDebug("Получен запрос на удаление версии проекта '{Model}' из системы.", model);
 
-            var dbRemovable = this.context.ProjectVersions.Search(request.Model.Id);
+            var dbRemovable = this.context.ProjectVersions.Search(model.Id);
             this.context.ProjectVersions.Remove(dbRemovable);
             await this.context.SaveChangesAsync(cancellationToken);
 

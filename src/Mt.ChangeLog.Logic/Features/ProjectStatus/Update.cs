@@ -60,7 +60,7 @@ public static class Update
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных статуса проекта '{Title}' в системе.", model.Title);
+            this.logger.LogDebug("Получен запрос на обновление данных статуса проекта '{Model}' в системе.", model);
 
             var dbProjectStatus = this.context.ProjectStatuses.Search(model.Id);
             if (dbProjectStatus.Default)
@@ -83,7 +83,7 @@ public static class Update
             this.context.ProjectStatuses.Update(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Статус проекта '{Title}' успешно обновлен в системе.", entity.Title);
+            this.logger.LogInformation("Статус проекта '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлен в системе.",

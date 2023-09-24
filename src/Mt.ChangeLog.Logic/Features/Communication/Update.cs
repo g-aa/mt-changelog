@@ -61,7 +61,7 @@ public static class Update
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных коммуникационного модуля '{Title}' в системе.", model.Title);
+            this.logger.LogDebug("Получен запрос на обновление данных коммуникационного модуля '{Model}' в системе.", model);
 
             var dbCommunication = this.context.Communications
                 .Include(e => e.Protocols)
@@ -93,7 +93,7 @@ public static class Update
             this.context.Communications.Update(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Коммуникационный модуль '{Title}' успешно обновлен в системе.", entity.Title);
+            this.logger.LogInformation("Коммуникационный модуль '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлен в системе.",

@@ -56,7 +56,7 @@ public static class Add
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на добавление аналогового модуля '{DIVG}' '{Title}' в систему.", model.DIVG, model.Title);
+            this.logger.LogDebug("Получен запрос на добавление аналогового модуля '{Model}' в систему.", model);
 
             var dbPlatforms = this.context.Platforms.SearchManyOrDefault(model.Platforms.Select(e => e.Id));
 
@@ -84,7 +84,7 @@ public static class Add
             await this.context.AnalogModules.AddAsync(entity, cancellationToken);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Аналоговый модуль '{DIVG}' '{Title}' успешно добавлен в систему.", entity.DIVG, entity.Title);
+            this.logger.LogInformation("Аналоговый модуль '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был добавлен в систему.",

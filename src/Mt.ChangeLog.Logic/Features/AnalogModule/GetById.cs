@@ -52,11 +52,11 @@ public static class GetById
         public async Task<AnalogModuleModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных об аналоговом модуле '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных об аналоговом модуле '{Model}'.", model);
 
-            var result = await this.repository.GetEntityAsync(request.Model.Id);
+            var result = await this.repository.GetEntityAsync(model.Id);
 
-            this.logger.LogDebug("Запрос на получение данных об аналоговом модуле '{DIVG}' '{Title}' выполнен успешно.", result.DIVG, result.Title);
+            this.logger.LogDebug("Запрос на получение данных об аналоговом модуле '{Result}' выполнен успешно.", result);
             return result;
         }
     }

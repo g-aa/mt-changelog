@@ -30,7 +30,7 @@ public sealed class PlatformController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("short")]
+    [HttpGet("list/short")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей платформ.", typeof(IEnumerable<PlatformShortModel>))]
     public Task<IEnumerable<PlatformShortModel>> GetShortModels(CancellationToken cancellationToken)
     {
@@ -43,7 +43,7 @@ public sealed class PlatformController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("table")]
+    [HttpGet("list/table")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей платформ для табличного представления.", typeof(IEnumerable<PlatformTableModel>))]
     public Task<IEnumerable<PlatformTableModel>> GetTableModels(CancellationToken cancellationToken)
     {

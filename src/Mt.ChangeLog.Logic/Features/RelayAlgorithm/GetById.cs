@@ -55,10 +55,10 @@ public static class GetById
         public Task<RelayAlgorithmModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных об алгоритме РЗиА '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных об алгоритме РЗиА '{Model}'.", model);
 
             var result = this.context.RelayAlgorithms.AsNoTracking()
-                .Search(request.Model.Id)
+                .Search(model.Id)
                 .ToModel();
 
             this.logger.LogDebug("Запрос на получение данных об алгоритме РЗиА '{Result}' выполнен успешно.", result);

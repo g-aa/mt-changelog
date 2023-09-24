@@ -57,14 +57,14 @@ public static class GetById
         public Task<CommunicationModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных об коммуникационном модуле '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных об коммуникационном модуле '{Model}'.", model);
 
             var result = this.context.Communications.AsNoTracking()
                 .Include(e => e.Protocols)
-                .Search(request.Model.Id)
+                .Search(model.Id)
                 .ToModel();
 
-            this.logger.LogDebug("Запрос на получение данных об коммуникационном модуле '{Title}' выполнен успешно.", result.Title);
+            this.logger.LogDebug("Запрос на получение данных об коммуникационном модуле '{Result}' выполнен успешно.", result);
             return Task.FromResult(result);
         }
     }

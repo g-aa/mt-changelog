@@ -54,11 +54,11 @@ public static class GetById
         public async Task<AuthorModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных об авторе '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных об авторе '{Model}'.", model);
 
-            var result = await this.repository.GetEntityAsync(request.Model.Id);
+            var result = await this.repository.GetEntityAsync(model.Id);
 
-            this.logger.LogDebug("Запрос на получение данных об авторе '{LastName}' '{FirstName}' выполнен успешно.", result.LastName, result.FirstName);
+            this.logger.LogDebug("Запрос на получение данных об авторе '{Result}' выполнен успешно.", result);
             return result;
         }
     }

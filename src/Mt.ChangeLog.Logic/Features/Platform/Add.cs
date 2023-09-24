@@ -56,7 +56,7 @@ public static class Add
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на добавление платформы '{Title}' в систему.", model.Title);
+            this.logger.LogDebug("Получен запрос на добавление платформы '{Model}' в систему.", model);
 
             var dbAnalogModules = this.context.AnalogModules
                 .SearchManyOrDefault(model.AnalogModules.Select(e => e.Id));
@@ -85,7 +85,7 @@ public static class Add
             await this.context.Platforms.AddAsync(entity, cancellationToken);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Платформа '{Title}' успешно добавлен в систему.", entity.Title);
+            this.logger.LogInformation("Платформа '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' была добавлена в систему.",

@@ -56,11 +56,11 @@ public static class Delete
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление ArmEdit '{Id}' из системы.", model.Id);
+            this.logger.LogDebug("Получен запрос на удаление ArmEdit '{Model}' из системы.", model);
 
             var dbRemovable = this.context.ArmEdits
                 .Include(e => e.ProjectRevisions)
-                .Search(request.Model.Id);
+                .Search(model.Id);
 
             if (dbRemovable.Default)
             {
@@ -86,7 +86,7 @@ public static class Delete
             this.context.ArmEdits.Remove(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("ArmEdit '{DIVG}' '{Version}' успешно удален из системы.", entity.DIVG, entity.Version);
+            this.logger.LogInformation("ArmEdit '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был удален из системы.",

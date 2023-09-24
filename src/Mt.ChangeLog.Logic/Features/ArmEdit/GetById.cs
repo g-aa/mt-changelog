@@ -52,11 +52,11 @@ public static class GetById
         public async Task<ArmEditModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных об ArmEdit '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных об ArmEdit '{Model}'.", model);
 
-            var result = await this.repository.GetEntityAsync(request.Model.Id);
+            var result = await this.repository.GetEntityAsync(model.Id);
 
-            this.logger.LogDebug("Запрос на получение данных об ArmEdit '{DIVG}' '{Version}' выполнен успешно.", result.DIVG, result.Version);
+            this.logger.LogDebug("Запрос на получение данных об ArmEdit '{Result}' выполнен успешно.", result);
             return result;
         }
     }

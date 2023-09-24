@@ -30,7 +30,7 @@ public sealed class AuthorController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("short")]
+    [HttpGet("list/short")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей авторов.", typeof(IEnumerable<AuthorShortModel>))]
     public Task<IEnumerable<AuthorShortModel>> GetShortModels(CancellationToken cancellationToken)
     {
@@ -43,7 +43,7 @@ public sealed class AuthorController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("table")]
+    [HttpGet("list/table")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorTableModel>))]
     public Task<IEnumerable<AuthorTableModel>> GetTableModels(CancellationToken cancellationToken)
     {
@@ -56,7 +56,7 @@ public sealed class AuthorController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("contribution")]
+    [HttpGet("list/contribution")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorContributionModel>))]
     public Task<IEnumerable<AuthorContributionModel>> GetContributionModels(CancellationToken cancellationToken)
     {
@@ -69,7 +69,7 @@ public sealed class AuthorController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("contribution/project")]
+    [HttpGet("list/contribution/project")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorProjectContributionModel>))]
     public Task<IEnumerable<AuthorProjectContributionModel>> GetProjectContributionModels(CancellationToken cancellationToken)
     {

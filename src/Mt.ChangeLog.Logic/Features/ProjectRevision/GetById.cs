@@ -52,10 +52,10 @@ public static class GetById
         }
 
         /// <inheritdoc />
-        public async Task<ProjectRevisionModel> Handle(Query request, CancellationToken cancellationToken)
+        public Task<ProjectRevisionModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных о редакции проекта '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных о редакции проекта '{Model}'.", model);
 
             var result = this.context.ProjectRevisions.AsNoTracking()
                 .Include(e => e.Communication)
@@ -64,7 +64,7 @@ public static class GetById
                 .Include(e => e.RelayAlgorithms)
                 .Include(e => e.ProjectVersion!.AnalogModule)
                 .Include(e => e.ProjectVersion!.Platform)
-                .Search(request.Model.Id);
+                .Search(model.Id);
 
             if (result.ParentRevisionId != Guid.Empty)
             {
@@ -74,7 +74,7 @@ public static class GetById
             }
 
             this.logger.LogDebug("Запрос на получение данных о редакции проекта '{Result}' выполнен успешно.", result);
-            return await Task.FromResult(result.ToModel());
+            return Task.FromResult(result.ToModel());
         }
     }
 }

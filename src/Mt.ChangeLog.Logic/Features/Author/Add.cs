@@ -56,7 +56,7 @@ public static class Add
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на добавление  автора '{LastName}' '{FirstName}' в систему.", model.LastName, model.FirstName);
+            this.logger.LogDebug("Получен запрос на добавление  автора '{Model}' в систему.", model);
 
             var dbAuthor = new AuthorEntity().GetBuilder()
                 .SetAttributes(model)
@@ -81,7 +81,7 @@ public static class Add
             await this.context.Authors.AddAsync(entity, cancellationToken);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Автор '{LastName}' '{FirstName}' успешно добавлен в систему.", entity.LastName, entity.FirstName);
+            this.logger.LogInformation("Автор '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был добавлен в систему.",

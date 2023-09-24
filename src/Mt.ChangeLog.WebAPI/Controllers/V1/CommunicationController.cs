@@ -30,7 +30,7 @@ public sealed class CommunicationController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("short")]
+    [HttpGet("list/short")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей коммуникационного модуля.", typeof(IEnumerable<CommunicationShortModel>))]
     public Task<IEnumerable<CommunicationShortModel>> GetShortModels(CancellationToken cancellationToken)
     {
@@ -43,7 +43,7 @@ public sealed class CommunicationController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("table")]
+    [HttpGet("list/table")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей коммуникационного модуля для табличного представления.", typeof(IEnumerable<CommunicationTableModel>))]
     public Task<IEnumerable<CommunicationTableModel>> GetTableModels(CancellationToken cancellationToken)
     {

@@ -56,13 +56,14 @@ public static class GetProjectTree
         /// <inheritdoc />
         public async Task<IEnumerable<ProjectRevisionTreeModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на предоставление перечня моделей для дерева изменений '{Title}'.", request.Title);
+            var title = request.Title;
+            this.logger.LogDebug("Получен запрос на предоставление перечня моделей для дерева изменений '{Title}'.", title);
 
             var result = await this.context.ProjectRevisions.AsNoTracking()
                 .Include(pr => pr.ArmEdit)
                 .Include(pr => pr.ProjectVersion!.AnalogModule)
                 .Include(pr => pr.ProjectVersion!.Platform)
-                .Where(pr => pr.ProjectVersion!.Title == request.Title)
+                .Where(pr => pr.ProjectVersion!.Title == title)
                 .Select(pr => pr.ToTreeModel())
                 .ToListAsync(cancellationToken);
 

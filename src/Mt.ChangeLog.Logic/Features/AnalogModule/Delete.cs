@@ -56,13 +56,13 @@ public static class Delete
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление аналогового модуля '{Id}' из системы.", model.Id);
+            this.logger.LogDebug("Получен запрос на удаление аналогового модуля '{Model}' из системы.", model);
 
             var dbRemovable = this.context.AnalogModules
                 .Include(e => e.Projects)
                 .Include(e => e.Platforms).ThenInclude(e => e.AnalogModules)
                 .AsSingleQuery()
-                .Search(request.Model.Id);
+                .Search(model.Id);
 
             if (dbRemovable.Default)
             {
@@ -97,7 +97,7 @@ public static class Delete
             this.context.AnalogModules.Remove(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Аналоговый модуль '{DIVG}' '{Title}' успешно удален из системы.", entity.DIVG, entity.Title);
+            this.logger.LogInformation("Аналоговый модуль '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был удален из системы.",

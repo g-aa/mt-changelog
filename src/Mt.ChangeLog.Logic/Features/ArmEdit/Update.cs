@@ -60,7 +60,7 @@ public static class Update
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных ArmEdit'{DIVG}' '{Version}' в системе.", model.DIVG, model.Version);
+            this.logger.LogDebug("Получен запрос на обновление данных ArmEdit'{Model}' в системе.", model);
 
             var dbArmEdit = this.context.ArmEdits.Search(model.Id);
             if (dbArmEdit.Default)
@@ -83,7 +83,7 @@ public static class Update
             this.context.ArmEdits.Update(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("ArmEdit '{DIVG}' '{Version}' успешно обновлен в системе.", entity.DIVG, entity.Version);
+            this.logger.LogInformation("ArmEdit '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлен в системе.",

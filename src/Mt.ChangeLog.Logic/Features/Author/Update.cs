@@ -60,7 +60,7 @@ public static class Update
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных автора '{LastName}' '{FirstName}' в системе.", model.LastName, model.FirstName);
+            this.logger.LogDebug("Получен запрос на обновление данных автора '{Model}' в системе.", model);
 
             var dbAuthor = this.context.Authors.Search(model.Id);
             if (dbAuthor.Default)
@@ -83,7 +83,7 @@ public static class Update
             this.context.Authors.Update(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Автор '{LastName}' '{FirstName}' успешно обновлен в системе.", entity.LastName, entity.FirstName);
+            this.logger.LogInformation("Автор '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлен в системе.",

@@ -35,7 +35,7 @@ public static class GetTemplate
 
             var model = new AuthorModel();
 
-            this.logger.LogDebug("Запрос на создание шаблона автор '{LastName}' '{FirstName}' выполнен успешно.", model.LastName, model.FirstName);
+            this.logger.LogDebug("Запрос на создание шаблона автор '{Model}' выполнен успешно.", model);
             return Task.FromResult(model);
         }
     }

@@ -35,7 +35,7 @@ public static class GetTemplate
 
             var model = new ProjectStatusModel();
 
-            this.logger.LogDebug("Запрос на создание шаблона статуса проекта '{Title}' выполнен успешно.", model.Title);
+            this.logger.LogDebug("Запрос на создание шаблона статуса проекта '{Model}' выполнен успешно.", model);
             return Task.FromResult(model);
         }
     }

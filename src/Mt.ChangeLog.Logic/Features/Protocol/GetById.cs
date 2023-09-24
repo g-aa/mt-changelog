@@ -55,11 +55,11 @@ public static class GetById
         public Task<ProtocolModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных об протоколе '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных об протоколе '{Model}'.", model);
 
             var result = this.context.Protocols.AsNoTracking()
                 .Include(e => e.Communications)
-                .Search(request.Model.Id)
+                .Search(model.Id)
                 .ToModel();
 
             this.logger.LogDebug("Запрос на получение данных об протоколе '{Result}' выполнен успешно.", result);

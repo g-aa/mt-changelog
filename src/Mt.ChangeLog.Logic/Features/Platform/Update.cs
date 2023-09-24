@@ -61,7 +61,7 @@ public static class Update
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных платформы '{Title}' в системе.", model.Title);
+            this.logger.LogDebug("Получен запрос на обновление данных платформы '{Model}' в системе.", model);
 
             var dbPlatform = this.context.Platforms
                 .Include(e => e.Projects)
@@ -94,7 +94,7 @@ public static class Update
             this.context.Platforms.Update(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Платформа '{Title}' успешно обновлен в системе.", entity.Title);
+            this.logger.LogInformation("Платформа '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлена в системе.",

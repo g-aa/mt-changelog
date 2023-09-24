@@ -55,14 +55,14 @@ public static class GetById
         public Task<PlatformModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных о платформе '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных о платформе '{Model}'.", model);
 
             var result = this.context.Platforms.AsNoTracking()
                 .Include(e => e.AnalogModules)
-                .Search(request.Model.Id)
+                .Search(model.Id)
                 .ToModel();
 
-            this.logger.LogDebug("Запрос на получение данных о платформе '{Title}' выполнен успешно.", result.Title);
+            this.logger.LogDebug("Запрос на получение данных о платформе '{Result}' выполнен успешно.", result);
             return Task.FromResult(result);
         }
     }

@@ -56,13 +56,13 @@ public static class Delete
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление платформы '{Id}' из системы.", model.Id);
+            this.logger.LogDebug("Получен запрос на удаление платформы '{Model}' из системы.", model);
 
             var dbRemovable = this.context.Platforms
                 .Include(e => e.Projects)
                 .Include(e => e.AnalogModules).ThenInclude(e => e.Platforms)
                 .AsSingleQuery()
-                .Search(request.Model.Id);
+                .Search(model.Id);
 
             if (dbRemovable.Default)
             {
@@ -97,7 +97,7 @@ public static class Delete
             this.context.Platforms.Remove(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Платформа '{Title}' успешно удален из системы.", entity.Title);
+            this.logger.LogInformation("Платформа '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' была удалена из системы.",

@@ -56,7 +56,7 @@ public static class Delete
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление алгоритма РЗиА '{Id}' из системы.", model.Id);
+            this.logger.LogDebug("Получен запрос на удаление алгоритма РЗиА '{Model}' из системы.", model);
 
             var dbRemovable = this.context.RelayAlgorithms
                 .Include(e => e.ProjectRevisions)

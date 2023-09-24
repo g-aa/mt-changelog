@@ -30,7 +30,7 @@ public sealed class AnalogModuleController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("short")]
+    [HttpGet("list/short")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей аналогового модуля.", typeof(IEnumerable<AnalogModuleShortModel>))]
     public Task<IEnumerable<AnalogModuleShortModel>> GetShortModels(CancellationToken cancellationToken)
     {
@@ -43,7 +43,7 @@ public sealed class AnalogModuleController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("table")]
+    [HttpGet("list/table")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей аналогового модуля для табличного представления.", typeof(IEnumerable<AnalogModuleTableModel>))]
     public Task<IEnumerable<AnalogModuleTableModel>> GetTableModels(CancellationToken cancellationToken)
     {

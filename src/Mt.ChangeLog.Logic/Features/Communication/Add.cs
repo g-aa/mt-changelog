@@ -56,7 +56,7 @@ public static class Add
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на добавление коммуникационного модуля '{Title}' в систему.", model.Title);
+            this.logger.LogDebug("Получен запрос на добавление коммуникационного модуля '{Model}' в систему.", model);
 
             var dbProtocols = this.context.Protocols
                 .SearchManyOrDefault(model.Protocols.Select(e => e.Id));
@@ -85,7 +85,7 @@ public static class Add
             await this.context.Communications.AddAsync(entity, cancellationToken);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Коммуникационный модуль '{Title}' успешно добавлен в систему.", entity.Title);
+            this.logger.LogInformation("Коммуникационный модуль '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был добавлен в систему.",

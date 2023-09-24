@@ -58,11 +58,11 @@ public static class Delete
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление автора '{Id}' из системы.", model.Id);
+            this.logger.LogDebug("Получен запрос на удаление автора '{Model}' из системы.", model);
 
             var dbRemovable = this.context.Authors
                 .Include(e => e.ProjectRevisions)
-                .Search(request.Model.Id);
+                .Search(model.Id);
 
             if (dbRemovable.Default)
             {
@@ -88,7 +88,7 @@ public static class Delete
             this.context.Authors.Remove(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Автор '{LastName}' '{FirstName}' успешно удален из системы.", entity.LastName, entity.FirstName);
+            this.logger.LogInformation("Автор '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был удален из системы.",

@@ -43,7 +43,7 @@ public static class GetFullArchive
         {
             this.logger.LogDebug("Получен запрос на предоставление полного архива логов изменения проектов.");
 
-            // получить полный перечень ID-s всех проектов.
+            // получить полный перечень ID-s всех проектов
             var projectIds = await this.context.ProjectVersions.AsNoTracking()
                 .Select(e => e.Id).ToListAsync(cancellationToken);
 

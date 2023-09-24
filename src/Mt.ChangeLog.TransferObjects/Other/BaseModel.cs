@@ -9,4 +9,10 @@ public class BaseModel
     /// Идентификатор модели данных.
     /// </summary>
     public Guid Id { get; set; }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"ID: {this.Id}";
+    }
 }

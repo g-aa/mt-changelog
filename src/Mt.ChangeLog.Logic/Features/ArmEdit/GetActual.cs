@@ -40,7 +40,7 @@ public static class GetActual
 
             var result = await this.repository.GetActualAsync();
 
-            this.logger.LogDebug("Запрос на получение данных об актуальном ArmEdit '{DIVG}' '{Version}' выполнен успешно.", result.DIVG, result.Version);
+            this.logger.LogDebug("Запрос на получение данных об актуальном ArmEdit '{Result}' выполнен успешно.", result);
             return result;
         }
     }

@@ -56,7 +56,7 @@ public static class Add
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на добавление ArmEdit '{DIVG}' '{Version}' в систему.", model.DIVG, model.Version);
+            this.logger.LogDebug("Получен запрос на добавление ArmEdit '{Model}' в систему.", model);
 
             var dbArmEdit = new ArmEditEntity().GetBuilder()
                 .SetAttributes(model)
@@ -81,7 +81,7 @@ public static class Add
             await this.context.ArmEdits.AddAsync(entity, cancellationToken);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("ArmEdit '{DIVG}' '{Version}' успешно добавлен в систему.", entity.DIVG, entity.Version);
+            this.logger.LogInformation("ArmEdit '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был добавлен в систему.",

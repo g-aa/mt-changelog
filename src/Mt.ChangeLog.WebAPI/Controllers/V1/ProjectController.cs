@@ -33,7 +33,7 @@ public sealed class ProjectController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("status/short")]
+    [HttpGet("status/list/short")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей статусов проекта.", typeof(IEnumerable<ProjectStatusShortModel>))]
     public Task<IEnumerable<ProjectStatusShortModel>> GetStatusShortModels(CancellationToken cancellationToken)
     {
@@ -46,7 +46,7 @@ public sealed class ProjectController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("status/table")]
+    [HttpGet("status/list/table")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей статусов проекта для табличного представления.", typeof(IEnumerable<ProjectStatusTableModel>))]
     public Task<IEnumerable<ProjectStatusTableModel>> GetStatusTableModels(CancellationToken cancellationToken)
     {
@@ -133,7 +133,7 @@ public sealed class ProjectController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("version/short")]
+    [HttpGet("version/list/short")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей версий проекта.", typeof(IEnumerable<ProjectVersionShortModel>))]
     public Task<IEnumerable<ProjectVersionShortModel>> GetVersionShortModels(CancellationToken cancellationToken)
     {
@@ -146,7 +146,7 @@ public sealed class ProjectController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("version/table")]
+    [HttpGet("version/list/table")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей версий проекта для табличного представления.", typeof(IEnumerable<ProjectVersionTableModel>))]
     public Task<IEnumerable<ProjectVersionTableModel>> GetVersionTableModels(CancellationToken cancellationToken)
     {
@@ -159,7 +159,7 @@ public sealed class ProjectController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("version/title")]
+    [HttpGet("version/list/title")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень наименование версий проектов.", typeof(IEnumerable<string>))]
     public Task<IEnumerable<string>> GetProjectTitles(CancellationToken cancellationToken)
     {
@@ -246,7 +246,7 @@ public sealed class ProjectController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("revision/short")]
+    [HttpGet("revision/list/short")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей редакций проекта.", typeof(IEnumerable<ProjectRevisionShortModel>))]
     public Task<IEnumerable<ProjectRevisionShortModel>> GetRevisionShortModels(CancellationToken cancellationToken)
     {
@@ -259,7 +259,7 @@ public sealed class ProjectController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("revision/table")]
+    [HttpGet("revision/list/table")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей ревизий проекта для табличного представления.", typeof(IEnumerable<ProjectRevisionTableModel>))]
     public Task<IEnumerable<ProjectRevisionTableModel>> GetRevisionTableModels(CancellationToken cancellationToken)
     {
@@ -272,7 +272,7 @@ public sealed class ProjectController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("revision/last")]
+    [HttpGet("revision/list/last")]
     [SwaggerResponse(StatusCodes.Status200OK, "Перечень модель последних редакции проектов.", typeof(IEnumerable<LastProjectRevisionModel>))]
     public Task<IEnumerable<LastProjectRevisionModel>> GetLatestRevisionModel(CancellationToken cancellationToken)
     {

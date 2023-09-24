@@ -35,7 +35,7 @@ public static class GetTemplate
 
             var model = new ArmEditModel();
 
-            this.logger.LogDebug("Запрос на создание шаблона ArmEdit '{DIVG}' '{Version}' выполнен успешно.", model.DIVG, model.Version);
+            this.logger.LogDebug("Запрос на создание шаблона ArmEdit '{Model}' выполнен успешно.", model);
             return Task.FromResult(model);
         }
     }

@@ -50,7 +50,7 @@ public static class GetTemplate
                 Protocols = protocols,
             };
 
-            this.logger.LogDebug("Запрос на создание шаблона коммуникационного модуля '{Title}' выполнен успешно.", model.Title);
+            this.logger.LogDebug("Запрос на создание шаблона коммуникационного модуля '{Model}' выполнен успешно.", model);
             return model;
         }
     }

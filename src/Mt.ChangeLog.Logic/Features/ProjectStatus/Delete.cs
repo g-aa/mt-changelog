@@ -56,7 +56,7 @@ public static class Delete
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление статуса проектов '{Id}' из системы.", model.Id);
+            this.logger.LogDebug("Получен запрос на удаление статуса проектов '{Model}' из системы.", model);
 
             var dbRemovable = this.context.ProjectStatuses
                 .Include(e => e.ProjectVersions)
@@ -86,7 +86,7 @@ public static class Delete
             this.context.ProjectStatuses.Remove(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Статус проекта '{Title}' успешно удален из системы.", entity.Title);
+            this.logger.LogInformation("Статус проекта '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был удален из системы.",

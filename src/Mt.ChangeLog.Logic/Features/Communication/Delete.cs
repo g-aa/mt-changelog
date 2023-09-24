@@ -58,13 +58,13 @@ public static class Delete
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление коммуникационного модуля '{Id}' из системы.", model.Id);
+            this.logger.LogDebug("Получен запрос на удаление коммуникационного модуля '{Model}' из системы.", model);
 
             var dbRemovable = this.context.Communications
                 .Include(e => e.ProjectRevisions)
                 .Include(e => e.Protocols).ThenInclude(e => e.Communications)
                 .AsSingleQuery()
-                .Search(request.Model.Id);
+                .Search(model.Id);
 
             if (dbRemovable.Default)
             {
@@ -99,7 +99,7 @@ public static class Delete
             this.context.Communications.Remove(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Коммуникационный модуль '{Title}' успешно удален из системы.", entity.Title);
+            this.logger.LogInformation("Коммуникационный модуль '{Entity}' успешно удален из системы.", entity);
 
             return new MessageModel
             {

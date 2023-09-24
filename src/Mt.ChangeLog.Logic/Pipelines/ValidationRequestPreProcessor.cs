@@ -41,7 +41,7 @@ public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcess
         using var scope = this.logger.BeginWithMtUserScope(this.user);
         if (this.validator == null)
         {
-            this.logger.LogWarning("Запросу '{Name}' не предусмотрен набор правил валидации.", request.GetType().Name);
+            this.logger.LogWarning("Для запроса '{Name}' не предусмотрен набор правил валидации.", request.GetType().FullName);
             return;
         }
 

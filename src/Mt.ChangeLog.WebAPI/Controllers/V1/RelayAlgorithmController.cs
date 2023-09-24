@@ -30,7 +30,7 @@ public sealed class RelayAlgorithmController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("short")]
+    [HttpGet("list/short")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей алгоритмов.", typeof(IEnumerable<RelayAlgorithmShortModel>))]
     public Task<IEnumerable<RelayAlgorithmShortModel>> GetShortModels(CancellationToken cancellationToken)
     {
@@ -43,7 +43,7 @@ public sealed class RelayAlgorithmController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
-    [HttpGet("table")]
+    [HttpGet("list/table")]
     [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей алгоритмов для табличного представления.", typeof(IEnumerable<RelayAlgorithmTableModel>))]
     public Task<IEnumerable<RelayAlgorithmTableModel>> GetTableModels(CancellationToken cancellationToken)
     {

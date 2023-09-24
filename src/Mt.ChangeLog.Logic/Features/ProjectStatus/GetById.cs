@@ -55,13 +55,13 @@ public static class GetById
         public Task<ProjectStatusModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных о статусе проекта '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных о статусе проекта '{Model}'.", model);
 
             var result = this.context.ProjectStatuses.AsNoTracking()
-                .Search(request.Model.Id)
+                .Search(model.Id)
                 .ToModel();
 
-            this.logger.LogDebug("Запрос на получение данных о статусе проекта '{Title}' выполнен успешно.", result.Title);
+            this.logger.LogDebug("Запрос на получение данных о статусе проекта '{Result}' выполнен успешно.", result);
             return Task.FromResult(result);
         }
     }

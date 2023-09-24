@@ -56,7 +56,8 @@ public static class GetProjectRevisionHistory
         /// <inheritdoc />
         public Task<ProjectRevisionHistoryModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на предоставление истории изменения для редакции проекта '{Id}'.", request.Model.Id);
+            var model = request.Model;
+            this.logger.LogDebug("Получен запрос на предоставление истории изменения для редакции проекта '{Model}'.", model);
 
             var result = this.context.ProjectRevisions.AsNoTracking()
                 .Include(e => e.ArmEdit)
@@ -66,7 +67,7 @@ public static class GetProjectRevisionHistory
                 .Include(e => e.Communication!.Protocols)
                 .Include(e => e.RelayAlgorithms)
                 .AsSingleQuery()
-                .Search(request.Model.Id)
+                .Search(model.Id)
                 .ToHistoryModel();
 
             return Task.FromResult(result);

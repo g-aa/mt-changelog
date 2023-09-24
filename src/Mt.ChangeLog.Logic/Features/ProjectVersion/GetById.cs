@@ -55,13 +55,13 @@ public static class GetById
         public Task<ProjectVersionModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных о версии проекта '{Id}'.", model.Id);
+            this.logger.LogDebug("Получен запрос на предоставление данных о версии проекта '{Model}'.", model);
 
             var result = this.context.ProjectVersions.AsNoTracking()
                 .Include(e => e.AnalogModule)
                 .Include(e => e.Platform)
                 .Include(e => e.ProjectStatus)
-                .Search(request.Model.Id)
+                .Search(model.Id)
                 .ToModel();
 
             this.logger.LogDebug("Запрос на получение данных о версии проекта '{Result}' выполнен успешно.", result);

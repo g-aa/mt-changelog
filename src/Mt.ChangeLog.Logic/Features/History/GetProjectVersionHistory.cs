@@ -55,7 +55,8 @@ public static class GetProjectVersionHistory
         /// <inheritdoc />
         public Task<ProjectVersionHistoryModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на предоставление истории изменения для версии проекта '{Id}'.", request.Model.Id);
+            var model = request.Model;
+            this.logger.LogDebug("Получен запрос на предоставление истории изменения для версии проекта '{Model}'.", model);
 
             var result = new ProjectVersionHistoryModel();
 
@@ -68,7 +69,7 @@ public static class GetProjectVersionHistory
                 .Include(e => e.RelayAlgorithms)
                 .AsSingleQuery();
 
-            var entity = query.Where(pr => pr.ProjectVersion!.Id == request.Model.Id)
+            var entity = query.Where(pr => pr.ProjectVersion!.Id == model.Id)
                 .OrderByDescending(pr => pr.Revision)
                 .FirstOrDefault();
 

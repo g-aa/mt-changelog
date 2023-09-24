@@ -50,7 +50,7 @@ public static class GetTemplate
                 Platforms = platforms,
             };
 
-            this.logger.LogDebug("Запрос на создание шаблона аналогового модуля '{DIVG}' '{Title}' выполнен успешно.", model.DIVG, model.Title);
+            this.logger.LogDebug("Запрос на создание шаблона аналогового модуля '{Model}' выполнен успешно.", model);
             return model;
         }
     }

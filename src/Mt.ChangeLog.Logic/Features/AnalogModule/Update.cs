@@ -61,7 +61,7 @@ public static class Update
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных аналогового модуля '{DIVG}' '{Title}' в системе.", model.DIVG, model.Title);
+            this.logger.LogDebug("Получен запрос на обновление данных аналогового модуля '{Model}' в системе.", model);
 
             var dbAnalogModule = this.context.AnalogModules
                 .Include(e => e.Projects)
@@ -94,7 +94,7 @@ public static class Update
             this.context.AnalogModules.Update(entity);
             await this.context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Аналоговый модуль '{DIVG}' '{Title}' успешно обновлен в системе.", entity.DIVG, entity.Title);
+            this.logger.LogInformation("Аналоговый модуль '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлен в системе.",

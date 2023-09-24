@@ -50,7 +50,7 @@ public static class GetTemplate
                 AnalogModules = modules,
             };
 
-            this.logger.LogDebug("Запрос на создание шаблона платформы '{Title}' выполнен успешно.", model.Title);
+            this.logger.LogDebug("Запрос на создание шаблона платформы '{Model}' выполнен успешно.", model);
             return model;
         }
     }
