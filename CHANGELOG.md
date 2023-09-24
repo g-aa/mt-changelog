@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Изменено
+
+- MT-0003: Глубокий рефакторинг решения;
+
 ## [2.1.0] - 2023-07-01
 
 ### Изменено
