@@ -1,9 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Mt.ChangeLog.WebAPI.Controllers;
-using Mt.Results;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Mt.ChangeLog.WebAPI.Infrastructure;
@@ -33,7 +33,7 @@ public sealed class SwaggerResponseOperationFilter : IOperationFilter
 
         var mediaType = new OpenApiMediaType
         {
-            Schema = context.SchemaGenerator.GenerateSchema(typeof(MtProblemDetails), context.SchemaRepository),
+            Schema = context.SchemaGenerator.GenerateSchema(typeof(ProblemDetails), context.SchemaRepository),
         };
 
         var content = new Dictionary<string, OpenApiMediaType>

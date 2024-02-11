@@ -10,25 +10,10 @@ namespace Mt.ChangeLog.DataContext;
 public static class MtContextExtensions
 {
     /// <summary>
-    /// Инициализировать состояние контекста данных по умолчанию.
-    /// </summary>
-    /// <param name="context">Контекст данных.</param>
-    public static void InitializeDefaultState(this MtContext context)
-    {
-        if (context.Database.EnsureCreated())
-        {
-            AddDefaultEntities(context);
-            CreateViews(context);
-            CreateSqlFuncs(context);
-            context.SaveChanges();
-        }
-    }
-
-    /// <summary>
     /// Добавить сущности по умолчанию в базу данных <see cref="MtContext"/>.
     /// </summary>
     /// <param name="context">Контекст данных.</param>
-    private static void AddDefaultEntities(MtContext context)
+    public static void CreateDefaultEntities(this MtContext context)
     {
         var armEdit = new ArmEditEntity
         {
@@ -221,7 +206,7 @@ public static class MtContextExtensions
     /// Создать представления в базе данных <see cref="MtContext"/>.
     /// </summary>
     /// <param name="context">Контекст данных.</param>
-    private static void CreateViews(MtContext context)
+    public static void CreateViews(this MtContext context)
     {
         context.Database.ExecuteSqlRaw(
             @$"CREATE OR REPLACE VIEW ""{MtContext.Schema}"".""LastProjectsRevision"" AS
@@ -347,7 +332,7 @@ public static class MtContextExtensions
     /// Создать представления в базе данных <see cref="MtContext"/>.
     /// </summary>
     /// <param name="context">Контекст данных.</param>
-    private static void CreateSqlFuncs(MtContext context)
+    public static void CreateSqlFuncs(this MtContext context)
     {
         context.Database.ExecuteSqlRaw(
             $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_ActualArmEdit""()
@@ -430,7 +415,7 @@ public static class MtContextExtensions
                     ROWS 1000
                 AS $BODY$
                     SELECT  am.""Id"",
-           	                am.""Title""
+                            am.""Title""
                     FROM ""{MtContext.Schema}"".""AnalogModule"" am;
                 $BODY$;");
 
@@ -455,8 +440,8 @@ public static class MtContextExtensions
                     VOLATILE PARALLEL UNSAFE
                     ROWS 1000
                 AS $BODY$
-                    SELECT 	am.""Id"",
-           	                am.""Title"",
+                    SELECT  am.""Id"",
+                            am.""Title"",
                             am.""DIVG"",
                             am.""Current"",
                             am.""Description""

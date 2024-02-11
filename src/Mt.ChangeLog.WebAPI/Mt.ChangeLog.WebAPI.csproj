@@ -6,6 +6,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Mt.Results" Version="6.2.1" />
     <PackageReference Include="Mt.Utilities" Version="8.0.0" />
     <PackageReference Include="NLog" Version="5.2.8" />

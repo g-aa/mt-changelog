@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
+using Mt.ChangeLog.DataContext;
 using NLog;
 using NLog.Web;
 
@@ -39,11 +40,23 @@ public static class Program
     public static void Main(string[] args)
     {
         var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-
         try
         {
             logger.Debug($"'{ServiceName}' - запущено на выполнение...");
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<MtContext>();
+                if (context.Database.EnsureCreated())
+                {
+                    context.CreateDefaultEntities();
+                    context.CreateViews();
+                    context.CreateSqlFuncs();
+                    context.SaveChangesAsync();
+                }
+            }
+
+            host.Run();
         }
         catch (Exception exception)
         {
@@ -63,17 +76,18 @@ public static class Program
     /// <returns>Строитель приложения.</returns>
     public static IHostBuilder CreateHostBuilder(string[] args)
     {
-        return Host.CreateDefaultBuilder(args)
+        return Host
+            .CreateDefaultBuilder(args)
             .ConfigureLogging((context, logging) =>
             {
-                /*
-                * var nLogSection = context.Configuration.GetSection("NLog"); // пока уберем
-                * LogManager.Configuration = new NLogLoggingConfiguration(nLogSection); // пока уберем
-                */
+                /***
+                 * var nLogSection = context.Configuration.GetSection("NLog");
+                 * LogManager.Configuration = new NLogLoggingConfiguration(nLogSection);
+                 */
                 logging.ClearProviders();
                 logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                /*
-                 * logging.AddNLogWeb(); // пока уберем
+                /***
+                 * logging.AddNLogWeb();
                  */
             })
             .ConfigureWebHostDefaults(webBuilder =>

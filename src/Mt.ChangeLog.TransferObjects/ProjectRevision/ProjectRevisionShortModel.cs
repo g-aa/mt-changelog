@@ -24,6 +24,7 @@ public class ProjectRevisionShortModel : ProjectVersionShortModel
     /// </summary>
     /// <example>00</example>
     [Required]
+    [StringLength(2, MinimumLength = 2)]
     [RegularExpression("^[0-9]{2}$")]
     public string Revision { get; set; }
 

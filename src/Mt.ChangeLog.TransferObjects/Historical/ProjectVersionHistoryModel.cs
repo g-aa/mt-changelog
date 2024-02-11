@@ -23,6 +23,7 @@ public class ProjectVersionHistoryModel
     /// </summary>
     /// <example>БФПО-000-ПМК-00</example>
     [Required]
+    [StringLength(20, MinimumLength = 13)]
     [RegularExpression(StringFormat.BFPO)]
     public string Title { get; set; }
 

@@ -35,6 +35,7 @@ public class ProjectRevisionModel
     /// <summary>
     /// ИД.
     /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
     [Required]
     public Guid Id { get; set; }
 
@@ -49,6 +50,7 @@ public class ProjectRevisionModel
     /// </summary>
     /// <example>00</example>
     [Required]
+    [StringLength(2, MinimumLength = 2)]
     [RegularExpression("^[0-9][2]$")]
     public string Revision { get; set; }
 

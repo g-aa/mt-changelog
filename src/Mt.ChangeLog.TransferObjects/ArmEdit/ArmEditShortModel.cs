@@ -21,6 +21,7 @@ public class ArmEditShortModel
     /// <summary>
     /// ИД.
     /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
     [Required]
     public Guid Id { get; set; }
 
@@ -29,6 +30,7 @@ public class ArmEditShortModel
     /// </summary>
     /// <example>v0.00.00.00</example>
     [Required]
+    [StringLength(11, MinimumLength = 11)]
     [RegularExpression(StringFormat.Version)]
     public string Version { get; set; }
 

@@ -21,6 +21,7 @@ public class PlatformShortModel
     /// <summary>
     /// ИД.
     /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
     [Required]
     public Guid Id { get; set; }
 
@@ -29,6 +30,7 @@ public class PlatformShortModel
     /// </summary>
     /// <example>БМРЗ-000</example>
     [Required]
+    [StringLength(10, MinimumLength = 7)]
     [RegularExpression(StringFormat.Platform)]
     public string Title { get; set; }
 

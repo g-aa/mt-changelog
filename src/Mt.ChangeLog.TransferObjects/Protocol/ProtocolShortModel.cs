@@ -21,6 +21,7 @@ public class ProtocolShortModel
     /// <summary>
     /// ИД.
     /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
     [Required]
     public Guid Id { get; set; }
 

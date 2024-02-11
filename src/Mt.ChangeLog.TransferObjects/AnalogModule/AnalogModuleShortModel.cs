@@ -21,6 +21,7 @@ public class AnalogModuleShortModel
     /// <summary>
     /// ИД.
     /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
     [Required]
     public Guid Id { get; set; }
 
@@ -29,6 +30,7 @@ public class AnalogModuleShortModel
     /// </summary>
     /// <example>БМРЗ-000</example>
     [Required]
+    [StringLength(9, MinimumLength = 7)]
     [RegularExpression(StringFormat.AnalogModule)]
     public string Title { get; set; }
 

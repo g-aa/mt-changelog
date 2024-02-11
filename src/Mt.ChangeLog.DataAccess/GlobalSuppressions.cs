@@ -5,5 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SX1101:Do not prefix local calls with 'this.'", Justification = "this", Scope = "namespaceanddescendants", Target = "~N:Mt.ChangeLog.DataAccess")]
 [assembly: SuppressMessage("Performance", "CA1848:Use the LoggerMessage delegates", Justification = "Logger", Scope = "namespaceanddescendants", Target = "~N:Mt.ChangeLog.DataAccess")]

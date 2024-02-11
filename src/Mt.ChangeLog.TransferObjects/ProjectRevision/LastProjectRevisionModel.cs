@@ -28,6 +28,7 @@ public class LastProjectRevisionModel
     /// </summary>
     /// <example>БФПО-000</example>
     [Required]
+    [StringLength(8, MinimumLength = 4)]
     [RegularExpression(StringFormat.Prefix)]
     public string Prefix { get; set; }
 
@@ -44,6 +45,7 @@ public class LastProjectRevisionModel
     /// </summary>
     /// <example>00</example>
     [Required]
+    [StringLength(2, MinimumLength = 2)]
     [RegularExpression("^[0-9]{2}$")]
     public string Version { get; set; }
 
@@ -52,6 +54,7 @@ public class LastProjectRevisionModel
     /// </summary>
     /// <example>00</example>
     [Required]
+    [StringLength(2, MinimumLength = 2)]
     [RegularExpression("^[0-9]{2}$")]
     public string Revision { get; set; }
 
@@ -60,6 +63,7 @@ public class LastProjectRevisionModel
     /// </summary>
     /// <example>БМРЗ-000</example>
     [Required]
+    [StringLength(10, MinimumLength = 7)]
     [RegularExpression(StringFormat.Platform)]
     public string Platform { get; set; }
 
@@ -68,6 +72,7 @@ public class LastProjectRevisionModel
     /// </summary>
     /// <example>v0.00.00.00</example>
     [Required]
+    [StringLength(11, MinimumLength = 11)]
     [RegularExpression(StringFormat.Version)]
     public string ArmEdit { get; set; }
 

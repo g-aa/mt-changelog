@@ -30,6 +30,7 @@ public class ProjectVersionModel : ProjectVersionShortModel
     /// </summary>
     /// <example>ДИВГ.00000-00</example>
     [Required]
+    [StringLength(13, MinimumLength = 13)]
     [RegularExpression(StringFormat.DIVG)]
     public string DIVG { get; set; }
 

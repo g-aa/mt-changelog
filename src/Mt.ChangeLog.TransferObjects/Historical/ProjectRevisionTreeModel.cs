@@ -29,12 +29,14 @@ public class ProjectRevisionTreeModel
     /// <summary>
     /// ИД родительской ревизии.
     /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
     [Required]
     public Guid ParentId { get; set; }
 
     /// <summary>
     /// ИД.
     /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
     [Required]
     public Guid Id { get; set; }
 
@@ -43,6 +45,7 @@ public class ProjectRevisionTreeModel
     /// </summary>
     /// <example>БФПО-000</example>
     [Required]
+    [StringLength(8, MinimumLength = 4)]
     [RegularExpression(StringFormat.Prefix)]
     public string Prefix { get; set; }
 
@@ -59,6 +62,7 @@ public class ProjectRevisionTreeModel
     /// </summary>
     /// <example>00</example>
     [Required]
+    [StringLength(2, MinimumLength = 2)]
     [RegularExpression("^[0-9]{2}$")]
     public string Version { get; set; }
 
@@ -67,6 +71,7 @@ public class ProjectRevisionTreeModel
     /// </summary>
     /// <example>00</example>
     [Required]
+    [StringLength(2, MinimumLength = 2)]
     [RegularExpression("^[0-9]{2}$")]
     public string Revision { get; set; }
 
@@ -75,6 +80,7 @@ public class ProjectRevisionTreeModel
     /// </summary>
     /// <example>v0.00.00.00</example>
     [Required]
+    [StringLength(11, MinimumLength = 11)]
     [RegularExpression(StringFormat.Version)]
     public string ArmEdit { get; set; }
 
@@ -83,6 +89,7 @@ public class ProjectRevisionTreeModel
     /// </summary>
     /// <example>2000-01-01</example>
     [Required]
+    [StringLength(10, MinimumLength = 10)]
     [RegularExpression("^[0-9]{4}-[0-9]{2}-[0-9]{2}$")]
     public string Date { get; set; }
 
@@ -91,6 +98,7 @@ public class ProjectRevisionTreeModel
     /// </summary>
     /// <example>БМРЗ-000</example>
     [Required]
+    [StringLength(10, MinimumLength = 7)]
     [RegularExpression(StringFormat.Platform)]
     public string Platform { get; set; }
 }

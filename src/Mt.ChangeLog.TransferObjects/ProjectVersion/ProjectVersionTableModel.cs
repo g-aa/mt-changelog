@@ -27,6 +27,7 @@ public class ProjectVersionTableModel : ProjectVersionShortModel
     /// </summary>
     /// <example>ДИВГ.00000-00</example>
     [Required]
+    [StringLength(13, MinimumLength = 13)]
     [RegularExpression(StringFormat.DIVG)]
     public string DIVG { get; set; }
 
@@ -51,6 +52,7 @@ public class ProjectVersionTableModel : ProjectVersionShortModel
     /// </summary>
     /// <example>БМРЗ-000</example>
     [Required]
+    [StringLength(10, MinimumLength = 7)]
     [RegularExpression(StringFormat.Platform)]
     public string Platform { get; set; }
 
@@ -59,6 +61,7 @@ public class ProjectVersionTableModel : ProjectVersionShortModel
     /// </summary>
     /// <example>БМРЗ-000</example>
     [Required]
+    [StringLength(9, MinimumLength = 7)]
     [RegularExpression(StringFormat.AnalogModule)]
     public string Module { get; set; }
 }

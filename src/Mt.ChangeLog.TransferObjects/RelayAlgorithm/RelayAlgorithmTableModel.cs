@@ -34,6 +34,7 @@ public class RelayAlgorithmTableModel : RelayAlgorithmShortModel
     /// </summary>
     /// <example>51</example>
     [Required]
+    [StringLength(32, MinimumLength = 1)]
     [RegularExpression("^[0-9 A-Z -/]{1,32}$")]
     public string ANSI { get; set; }
 
@@ -42,6 +43,7 @@ public class RelayAlgorithmTableModel : RelayAlgorithmShortModel
     /// </summary>
     /// <example>PTOC</example>
     [Required]
+    [StringLength(32, MinimumLength = 1)]
     [RegularExpression("^[0-9 A-Z -/]{1,32}$")]
     public string LogicalNode { get; set; }
 

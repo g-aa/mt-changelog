@@ -46,27 +46,18 @@ namespace Mt.ChangeLog.WebAPI
         /// <param name="services">Коллекция сервисов.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            #region [ MtChangeLog services configuration ]
-
-            services.AddApplicationContext();
-            services.AddDataAccess();
-            services.AddLogic(Assemblies);
-
-            #endregion
-
-            #region [ Infrastracture services configuration ]
-
-            services.AddScoped<IMtUser, MtUser>();
-            services.AddHttpContextAccessor();
-            services.AddSwaggerDocumentation(Assemblies);
-
-            #endregion
-
-            services.AddControllers(configure =>
-            {
-                configure.Filters.Add<ApiExceptionFilter>();
-            });
-            services.AddEndpointsApiExplorer();
+            services
+                .AddApplicationContext()
+                .AddDataAccess()
+                .AddLogic(Assemblies)
+                .AddScoped<IMtUser, MtUser>()
+                .AddHttpContextAccessor()
+                .AddSwaggerDocumentation(Assemblies)
+                .AddEndpointsApiExplorer()
+                .AddControllers(configure =>
+                {
+                    configure.Filters.Add<ApiExceptionFilter>();
+                });
         }
 
         /// <summary>
@@ -75,21 +66,19 @@ namespace Mt.ChangeLog.WebAPI
         /// <param name="builder">Строитель приложения.</param>
         public void Configure(IApplicationBuilder builder)
         {
-            builder.UseRouting();
-            builder.UseAuthorization();
-
-            builder.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapGet("/", context =>
+            builder
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
                 {
-                    context.Response.Redirect("/swagger");
-                    return Task.CompletedTask;
-                });
-            });
-
-            builder.UseSwaggerDocumentation();
-            builder.UseDefaultDatabaseInitialization();
+                    endpoints.MapControllers();
+                    endpoints.MapGet("/", context =>
+                    {
+                        context.Response.Redirect("/swagger");
+                        return Task.CompletedTask;
+                    });
+                })
+                .UseSwaggerDocumentation();
         }
     }
 }

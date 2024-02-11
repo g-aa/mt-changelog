@@ -25,6 +25,7 @@ public class AnalogModuleTableModel : AnalogModuleShortModel
     /// </summary>
     /// <example>ДИВГ.00000-00</example>
     [Required]
+    [StringLength(13, MinimumLength = 13)]
     [RegularExpression(StringFormat.DIVG)]
     public string DIVG { get; set; }
 
@@ -33,6 +34,7 @@ public class AnalogModuleTableModel : AnalogModuleShortModel
     /// </summary>
     /// <example>0A</example>
     [Required]
+    [StringLength(2, MinimumLength = 2)]
     [RegularExpression(StringFormat.Current)]
     public string Current { get; set; }
 

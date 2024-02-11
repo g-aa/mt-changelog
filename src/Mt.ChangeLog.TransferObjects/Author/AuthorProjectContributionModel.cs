@@ -24,6 +24,7 @@ public class AuthorProjectContributionModel : AuthorContributionModel
     /// </summary>
     /// <example>БФПО-000</example>
     [Required]
+    [StringLength(8, MinimumLength = 4)]
     [RegularExpression(StringFormat.Prefix)]
     public string ProjectPrefix { get; set; }
 
@@ -40,6 +41,7 @@ public class AuthorProjectContributionModel : AuthorContributionModel
     /// </summary>
     /// <example>00</example>
     [Required]
+    [StringLength(2, MinimumLength = 2)]
     [RegularExpression("^[0-9]{2}$")]
     public string ProjectVersion { get; set; }
 }

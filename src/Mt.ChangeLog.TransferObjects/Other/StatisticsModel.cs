@@ -35,6 +35,7 @@ public class StatisticsModel
     /// </summary>
     /// <example>v0.00.00.00</example>
     [Required]
+    [StringLength(11, MinimumLength = 11)]
     [RegularExpression(StringFormat.Version)]
     public string ArmEdit { get; set; }
 
