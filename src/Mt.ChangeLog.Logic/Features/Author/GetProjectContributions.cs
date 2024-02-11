@@ -11,16 +11,16 @@ namespace Mt.ChangeLog.Logic.Features.Author;
 public static class GetProjectContributions
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<AuthorProjectContributionModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<AuthorProjectContributionModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<AuthorProjectContributionModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<AuthorProjectContributionModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly IAuthorRepository repository;
+        private readonly IAuthorRepository _repository;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -29,19 +29,19 @@ public static class GetProjectContributions
         /// <param name="repository">Репозиторий с данными.</param>
         public Handler(ILogger<Handler> logger, IAuthorRepository repository)
         {
-            this.logger = logger;
-            this.repository = repository;
+            _logger = logger;
+            _repository = repository;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<AuthorProjectContributionModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<AuthorProjectContributionModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение перечня вкладов всех авторов по отдельным проектам.");
+            _logger.LogDebug("Получен запрос на получение перечня вкладов всех авторов по отдельным проектам.");
 
-            var result = await this.repository.GetAuthorProjectContributionsAsync();
+            var result = await _repository.GetAuthorProjectContributionsAsync();
 
-            this.logger.LogDebug("Запрос на получение перечня общего вклада всех авторов успешно выполнен, '{Count}' записей.", result.Count());
-            return result;
+            _logger.LogDebug("Запрос на получение перечня общего вклада всех авторов успешно выполнен, '{Count}' записей.", result.Count());
+            return result.ToList();
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.ProjectRevision;
@@ -13,25 +15,30 @@ public class ProjectRevisionTableModel : ProjectRevisionShortModel
     public ProjectRevisionTableModel()
         : base()
     {
-        this.Date = DateTime.Now;
-        this.ArmEdit = DefaultString.Version;
-        this.Reason = DefaultString.Reason;
+        Date = DateTime.Now;
+        ArmEdit = DefaultString.Version;
+        Reason = DefaultString.Reason;
     }
 
     /// <summary>
     /// Дата компиляции.
     /// </summary>
+    [Required]
     public DateTime Date { get; set; }
 
     /// <summary>
     /// Версия ArmEdit.
     /// </summary>
     /// <example>v0.00.00.00</example>
+    [Required]
+    [RegularExpression(StringFormat.Version)]
     public string ArmEdit { get; set; }
 
     /// <summary>
     /// Причина изменений.
     /// </summary>
     /// <example>Причина изменения...</example>
+    [Required]
+    [StringLength(500, MinimumLength = 0)]
     public string Reason { get; set; }
 }

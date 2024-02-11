@@ -13,16 +13,16 @@ namespace Mt.ChangeLog.Logic.Features.Protocol;
 public static class GetShorts
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<ProtocolShortModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<ProtocolShortModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<ProtocolShortModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ProtocolShortModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,21 +31,21 @@ public static class GetShorts
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ProtocolShortModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<ProtocolShortModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня краткого описания протоколов.");
+            _logger.LogDebug("Получен запрос на получение полного перечня краткого описания протоколов.");
 
-            var result = await this.context.Protocols.AsNoTracking()
+            var result = await _context.Protocols.AsNoTracking()
                 .OrderBy(p => p.Title)
                 .Select(p => p.ToShortModel())
                 .ToListAsync(cancellationToken);
 
-            this.logger.LogDebug("Запрос на получение полного перечня краткого описания протоколов успешно выполнен, '{Count}' записей.", result.Count);
+            _logger.LogDebug("Запрос на получение полного перечня краткого описания протоколов успешно выполнен, '{Count}' записей.", result.Count);
             return result;
         }
     }

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Text;
 
 using Mt.Utilities;
@@ -14,46 +16,56 @@ public class ProjectRevisionHistoryModel : ProjectRevisionHistoryShortModel
     /// </summary>
     public ProjectRevisionHistoryModel()
     {
-        this.ArmEdit = DefaultString.Version;
-        this.Communication = DefaultString.Communication;
-        this.Authors = new HashSet<string>();
-        this.RelayAlgorithms = new HashSet<string>();
-        this.Reason = DefaultString.Reason;
-        this.Description = DefaultString.Description;
+        ArmEdit = DefaultString.Version;
+        Communication = DefaultString.Communication;
+        Authors = new HashSet<string>();
+        RelayAlgorithms = new HashSet<string>();
+        Reason = DefaultString.Reason;
+        Description = DefaultString.Description;
     }
 
     /// <summary>
     /// Версия ArmEdit.
     /// </summary>
     /// <example>v0.00.00.00</example>
+    [Required]
+    [RegularExpression(StringFormat.Version)]
     public string ArmEdit { get; set; }
 
     /// <summary>
     /// Коммуникационный модуль.
     /// </summary>
     /// <example>АК Virtual</example>
+    [Required]
+    [MinLength(1)]
     public string Communication { get; set; }
 
     /// <summary>
     /// Перечень авторов.
     /// </summary>
-    public IEnumerable<string> Authors { get; set; }
+    [Required]
+    public IReadOnlyCollection<string> Authors { get; set; }
 
     /// <summary>
     /// Перечень алгоритмов.
     /// </summary>
-    public IEnumerable<string> RelayAlgorithms { get; set; }
+    [Required]
+    public IReadOnlyCollection<string> RelayAlgorithms { get; set; }
 
     /// <summary>
     /// Причина изменений.
     /// </summary>
     /// <example>Причина изменения...</example>
+    [Required]
+    [StringLength(500, MinimumLength = 0)]
     public string Reason { get; set; }
 
     /// <summary>
     /// Описание.
     /// </summary>
     /// <example>Описание...</example>
+    [Required]
+    [StringLength(5000, MinimumLength = 0)]
     public string Description { get; set; }
 
     /// <summary>
@@ -62,17 +74,17 @@ public class ProjectRevisionHistoryModel : ProjectRevisionHistoryShortModel
     /// <returns>Строка с текстом.</returns>
     public string ToText()
     {
-        var sb = new StringBuilder();
-        sb.AppendLine(new string('=', 100))
-            .Append("Разработка ПрО:\t\t").Append(this.Title)
-            .Append(" от ").Append(this.Date.ToString("yyyy-MM-dd"))
-            .Append(" (").Append(this.Platform).Append(')')
-            .Append(", авторы: ").Append(string.Join(", ", this.Authors)).AppendLine()
-            .Append("Версия ArmEdit/CFG-Mt:\t").AppendLine(this.ArmEdit).AppendLine()
-            .Append("Протоколы инф. обмена:\t").AppendLine(this.Communication)
-            .Append("Алгоритмы:\t\t").AppendLine(string.Join(", ", this.RelayAlgorithms)).AppendLine()
-            .Append("Причина изменения:\t").AppendLine(this.Reason).AppendLine()
-            .AppendLine(this.Description);
-        return sb.ToString();
+        return new StringBuilder()
+            .AppendLine(new string('=', 100))
+            .Append("Разработка ПрО:\t\t").Append(Title)
+            .Append(" от ").Append(Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))
+            .Append(" (").Append(Platform).Append(')')
+            .Append(", авторы: ").Append(string.Join(", ", Authors)).AppendLine()
+            .Append("Версия ArmEdit/CFG-Mt:\t").AppendLine(ArmEdit).AppendLine()
+            .Append("Протоколы инф. обмена:\t").AppendLine(Communication)
+            .Append("Алгоритмы:\t\t").AppendLine(string.Join(", ", RelayAlgorithms)).AppendLine()
+            .Append("Причина изменения:\t").AppendLine(Reason).AppendLine()
+            .AppendLine(Description)
+            .ToString();
     }
 }

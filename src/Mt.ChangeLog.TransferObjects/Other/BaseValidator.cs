@@ -12,7 +12,7 @@ public sealed class BaseValidator : AbstractValidator<BaseModel>
     /// </summary>
     public BaseValidator()
     {
-        this.RuleFor(x => x.Id)
+        RuleFor(x => x.Id)
             .Must(id => id != Guid.Empty);
     }
 }

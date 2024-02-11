@@ -12,9 +12,9 @@ namespace Mt.ChangeLog.Logic.Pipelines;
 public sealed class LoggingScopePipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
-    private readonly ILogger<LoggingScopePipelineBehavior<TRequest, TResponse>> logger;
+    private readonly ILogger<LoggingScopePipelineBehavior<TRequest, TResponse>> _logger;
 
-    private readonly IMtUser user;
+    private readonly IMtUser _user;
 
     /// <summary>
     /// Инициализация нового экземпляра класса <see cref="LoggingScopePipelineBehavior{TRequest, TResponse}"/>.
@@ -25,14 +25,14 @@ public sealed class LoggingScopePipelineBehavior<TRequest, TResponse> : IPipelin
         ILogger<LoggingScopePipelineBehavior<TRequest, TResponse>> logger,
         IMtUser user)
     {
-        this.logger = logger;
-        this.user = user;
+        _logger = logger;
+        _user = user;
     }
 
     /// <inheritdoc/>
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        using var scope = this.logger.BeginWithMtUserScope(this.user);
+        using var scope = _logger.BeginWithMtUserScope(_user);
         var result = await next.Invoke();
         return result;
     }

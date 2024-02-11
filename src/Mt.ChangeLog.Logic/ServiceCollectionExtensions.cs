@@ -19,14 +19,13 @@ public static class ServiceCollectionExtensions
     /// <returns>Модифицированная коллекция сервисов.</returns>
     public static IServiceCollection AddLogic(this IServiceCollection services, IReadOnlyCollection<Assembly> assemblies)
     {
-        services.AddValidatorsFromAssemblies(assemblies);
-        services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssemblies((Assembly[])assemblies);
-            cfg.AddOpenRequestPreProcessor(typeof(ValidationRequestPreProcessor<>));
-            cfg.AddOpenBehavior(typeof(LoggingScopePipelineBehavior<,>));
-        });
-
-        return services;
+        return services
+            .AddValidatorsFromAssemblies(assemblies)
+            .AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblies((Assembly[])assemblies);
+                cfg.AddOpenRequestPreProcessor(typeof(ValidationRequestPreProcessor<>));
+                cfg.AddOpenBehavior(typeof(LoggingScopePipelineBehavior<,>));
+            });
     }
 }

@@ -13,7 +13,7 @@ public sealed class RelayAlgorithmShortValidator : AbstractValidator<RelayAlgori
     /// </summary>
     public RelayAlgorithmShortValidator()
     {
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .NotEmpty()
             .IsTrim()
             .MaximumLength(32);

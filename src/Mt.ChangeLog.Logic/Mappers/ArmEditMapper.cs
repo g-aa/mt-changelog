@@ -1,7 +1,6 @@
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -17,13 +16,11 @@ public static class ArmEditMapper
     /// <returns>Модель.</returns>
     public static ArmEditShortModel ToShortModel(this ArmEditEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ArmEditShortModel
+        return new ArmEditShortModel
         {
             Id = entity.Id,
             Version = entity.Version,
         };
-        return result;
     }
 
     /// <summary>
@@ -33,8 +30,7 @@ public static class ArmEditMapper
     /// <returns>Модель.</returns>
     public static ArmEditModel ToModel(this ArmEditEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ArmEditModel
+        return new ArmEditModel
         {
             Id = entity.Id,
             Date = entity.Date,
@@ -42,7 +38,6 @@ public static class ArmEditMapper
             Version = entity.Version,
             Description = entity.Description,
         };
-        return result;
     }
 
     /// <summary>

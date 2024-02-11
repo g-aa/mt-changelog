@@ -13,16 +13,16 @@ namespace Mt.ChangeLog.Logic.Features.Communication;
 public static class GetTables
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<CommunicationTableModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<CommunicationTableModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<CommunicationTableModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<CommunicationTableModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,22 +31,22 @@ public static class GetTables
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<CommunicationTableModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<CommunicationTableModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня табличного описания коммуникационных модулей.");
+            _logger.LogDebug("Получен запрос на получение полного перечня табличного описания коммуникационных модулей.");
 
-            var result = await this.context.Communications.AsNoTracking()
+            var result = await _context.Communications.AsNoTracking()
                 .Include(e => e.Protocols)
                 .OrderBy(e => e.Title)
                 .Select(e => e.ToTableModel())
                 .ToListAsync(cancellationToken);
 
-            this.logger.LogDebug("Запрос на получение полного перечня табличного описания коммуникационных модулей успешно выполнен, '{Count}' записей.", result.Count);
+            _logger.LogDebug("Запрос на получение полного перечня табличного описания коммуникационных модулей успешно выполнен, '{Count}' записей.", result.Count);
             return result;
         }
     }

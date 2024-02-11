@@ -14,12 +14,12 @@ public sealed class NpgsqlConnectionFactory
     /// <summary>
     /// Журнал логирования.
     /// </summary>
-    private readonly ILogger<NpgsqlConnectionFactory> logger;
+    private readonly ILogger<NpgsqlConnectionFactory> _logger;
 
     /// <summary>
     /// Строка подключения к БД.
     /// </summary>
-    private readonly string connectionString;
+    private readonly string _connectionString;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="NpgsqlConnectionFactory"/>.
@@ -28,8 +28,8 @@ public sealed class NpgsqlConnectionFactory
     /// <param name="configuration">Конфигурация приложения.</param>
     public NpgsqlConnectionFactory(ILogger<NpgsqlConnectionFactory> logger, IConfiguration configuration)
     {
-        this.logger = logger;
-        this.connectionString = configuration.GetConnectionString("NpgSqlDb")!;
+        _logger = logger;
+        _connectionString = configuration.GetConnectionString("NpgSqlDb")!;
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public sealed class NpgsqlConnectionFactory
     /// <returns>Экземпляр объекта.</returns>
     public IDbConnection CreateConnection()
     {
-        this.logger.LogDebug("Создание нового подключения к базе данных PostgreSQL.");
-        return new NpgsqlConnection(this.connectionString);
+        _logger.LogDebug("Создание нового подключения к базе данных PostgreSQL.");
+        return new NpgsqlConnection(_connectionString);
     }
 }

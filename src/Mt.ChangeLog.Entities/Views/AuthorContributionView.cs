@@ -12,8 +12,8 @@ public class AuthorContributionView
     /// </summary>
     public AuthorContributionView()
     {
-        this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
-        this.Contribution = 0;
+        Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
+        Contribution = 0;
     }
 
     /// <summary>
@@ -29,6 +29,6 @@ public class AuthorContributionView
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"{this.Author}, вклад: {this.Contribution}";
+        return $"{Author}, вклад: {Contribution}";
     }
 }

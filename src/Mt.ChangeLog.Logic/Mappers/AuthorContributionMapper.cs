@@ -1,6 +1,5 @@
 using Mt.ChangeLog.Entities.Views;
 using Mt.ChangeLog.TransferObjects.Author;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -16,13 +15,11 @@ public static class AuthorContributionMapper
     /// <returns>Модель.</returns>
     public static AuthorContributionModel ToModel(this AuthorContributionView entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new AuthorContributionModel
+        return new AuthorContributionModel
         {
             Author = entity.Author,
             Contribution = entity.Contribution,
         };
-        return result;
     }
 
     /// <summary>
@@ -32,8 +29,7 @@ public static class AuthorContributionMapper
     /// <returns>Модель.</returns>
     public static AuthorProjectContributionModel ToModel(this AuthorProjectContributionView entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new AuthorProjectContributionModel
+        return new AuthorProjectContributionModel
         {
             Author = entity.Author,
             Contribution = entity.Contribution,
@@ -41,6 +37,5 @@ public static class AuthorContributionMapper
             ProjectTitle = entity.ProjectTitle,
             ProjectVersion = entity.ProjectVersion,
         };
-        return result;
     }
 }

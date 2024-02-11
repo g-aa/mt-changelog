@@ -15,13 +15,13 @@ public class ProjectRevisionEntity : IEntity, IEqualityPredicate<ProjectRevision
     /// </summary>
     public ProjectRevisionEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.Date = DateTime.Now;
-        this.Revision = DefaultString.Revision;
-        this.Reason = DefaultString.Reason;
-        this.Description = DefaultString.Description;
-        this.Authors = new HashSet<AuthorEntity>();
-        this.RelayAlgorithms = new HashSet<RelayAlgorithmEntity>();
+        Id = Guid.NewGuid();
+        Date = DateTime.Now;
+        Revision = DefaultString.Revision;
+        Reason = DefaultString.Reason;
+        Description = DefaultString.Description;
+        Authors = new HashSet<AuthorEntity>();
+        RelayAlgorithms = new HashSet<RelayAlgorithmEntity>();
     }
 
     /// <inheritdoc />
@@ -103,14 +103,13 @@ public class ProjectRevisionEntity : IEntity, IEqualityPredicate<ProjectRevision
     /// <inheritdoc />
     public Expression<Func<ProjectRevisionEntity, bool>> GetEqualityPredicate()
     {
-        return (ProjectRevisionEntity e) => e.Id == this.Id
-        || ((e.ProjectVersionId == this.ProjectVersionId) && e.Revision == this.Revision);
+        return (ProjectRevisionEntity e) => e.Id == Id || ((e.ProjectVersionId == ProjectVersionId) && e.Revision == Revision);
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is ProjectRevisionEntity e && (this.Id.Equals(e.Id) || (this.ProjectVersionId.Equals(e.ProjectVersionId) && this.Revision == e.Revision));
+        return obj is ProjectRevisionEntity e && (Id.Equals(e.Id) || (ProjectVersionId.Equals(e.ProjectVersionId) && Revision == e.Revision));
     }
 
     /// <inheritdoc />
@@ -120,12 +119,12 @@ public class ProjectRevisionEntity : IEntity, IEqualityPredicate<ProjectRevision
          * при определении уникальности картежа нужно учитывать и версию проекта к которой он привязан !!!
          * ПС чисто теоретически даты и время компиляции должны отличаться, но так происходит не всегда
          */
-        return HashCode.Combine(this.ProjectVersionId, this.Date, this.Revision);
+        return HashCode.Combine(ProjectVersionId, Date, Revision);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, {this.ProjectVersion?.Prefix}-{this.ProjectVersion?.Title}-{this.ProjectVersion?.Version}_{this.Revision}, дата изменения: {this.Date}";
+        return $"ID: {Id}, {ProjectVersion?.Prefix}-{ProjectVersion?.Title}-{ProjectVersion?.Version}_{Revision}, дата изменения: {Date}";
     }
 }

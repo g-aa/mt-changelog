@@ -15,13 +15,13 @@ public class ProjectVersionEntity : IEntity, IEqualityPredicate<ProjectVersionEn
     /// </summary>
     public ProjectVersionEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.DIVG = DefaultString.DIVG;
-        this.Prefix = DefaultString.Prefix;
-        this.Title = DefaultString.Project;
-        this.Version = DefaultString.Revision;
-        this.Description = DefaultString.Description;
-        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+        Id = Guid.NewGuid();
+        DIVG = DefaultString.DIVG;
+        Prefix = DefaultString.Prefix;
+        Title = DefaultString.Project;
+        Version = DefaultString.Revision;
+        Description = DefaultString.Description;
+        ProjectRevisions = new HashSet<ProjectRevisionEntity>();
     }
 
     /// <inheritdoc />
@@ -93,28 +93,27 @@ public class ProjectVersionEntity : IEntity, IEqualityPredicate<ProjectVersionEn
     /// <inheritdoc />
     public Expression<Func<ProjectVersionEntity, bool>> GetEqualityPredicate()
     {
-        return (ProjectVersionEntity e) => e.Id == this.Id
-        || e.DIVG == this.DIVG
-        || (e.Prefix == this.Prefix && e.Title == this.Title && e.Version == this.Version);
+        return (ProjectVersionEntity e) =>
+            e.Id == Id || e.DIVG == DIVG || (e.Prefix == Prefix && e.Title == Title && e.Version == Version);
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is ProjectVersionEntity e && (this.Id.Equals(e.Id)
-            || this.DIVG == e.DIVG
-            || (this.Prefix == e.Prefix && this.Title == e.Title && this.Version == e.Version));
+        return obj is ProjectVersionEntity e && (Id.Equals(e.Id)
+            || DIVG == e.DIVG
+            || (Prefix == e.Prefix && Title == e.Title && Version == e.Version));
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.DIVG, this.Prefix, this.Title, this.Version);
+        return HashCode.Combine(DIVG, Prefix, Title, Version);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, {this.DIVG}, {this.Prefix}-{this.Title}-{this.Version}";
+        return $"ID: {Id}, {DIVG}, {Prefix}-{Title}-{Version}";
     }
 }

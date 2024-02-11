@@ -15,15 +15,15 @@ public class RelayAlgorithmEntity : IEntity, IDefaultable, IEqualityPredicate<Re
     /// </summary>
     public RelayAlgorithmEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.Group = DefaultString.AlgorithmGroup;
-        this.Title = DefaultString.Algorithm;
-        this.ANSI = DefaultString.AlgorithmANSI;
-        this.LogicalNode = DefaultString.LogicalNode;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+        Id = Guid.NewGuid();
+        Group = DefaultString.AlgorithmGroup;
+        Title = DefaultString.Algorithm;
+        ANSI = DefaultString.AlgorithmANSI;
+        LogicalNode = DefaultString.LogicalNode;
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        ProjectRevisions = new HashSet<ProjectRevisionEntity>();
     }
 
     /// <inheritdoc />
@@ -71,24 +71,24 @@ public class RelayAlgorithmEntity : IEntity, IDefaultable, IEqualityPredicate<Re
     /// <inheritdoc />
     public Expression<Func<RelayAlgorithmEntity, bool>> GetEqualityPredicate()
     {
-        return (RelayAlgorithmEntity e) => e.Id == this.Id || (e.Group == this.Group && e.Title == this.Title);
+        return (RelayAlgorithmEntity e) => e.Id == Id || (e.Group == Group && e.Title == Title);
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is RelayAlgorithmEntity algorithm && (this.Id.Equals(algorithm.Id) || (this.Group == algorithm.Group && this.Title == algorithm.Title));
+        return obj is RelayAlgorithmEntity algorithm && (Id.Equals(algorithm.Id) || (Group == algorithm.Group && Title == algorithm.Title));
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Group, this.Title, this.ANSI, this.LogicalNode);
+        return HashCode.Combine(Group, Title, ANSI, LogicalNode);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, ANSI: {this.ANSI}, {this.Title}";
+        return $"ID: {Id}, ANSI: {ANSI}, {Title}";
     }
 }

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
 using Mt.Utilities;
 
@@ -14,18 +16,20 @@ public class ProjectRevisionShortModel : ProjectVersionShortModel
     public ProjectRevisionShortModel()
         : base()
     {
-        this.Revision = DefaultString.Revision;
+        Revision = DefaultString.Revision;
     }
 
     /// <summary>
     /// Редакция.
     /// </summary>
     /// <example>00</example>
+    [Required]
+    [RegularExpression("^[0-9]{2}$")]
     public string Revision { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"{base.ToString()}_{this.Revision}";
+        return $"{base.ToString()}_{Revision}";
     }
 }

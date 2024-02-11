@@ -31,20 +31,20 @@ public static class Update
         /// <param name="validator">Communication model validator.</param>
         public Validator(IValidator<CommunicationModel> validator)
         {
-            this.RuleFor(e => e.CommunicationId)
+            RuleFor(e => e.CommunicationId)
                 .Must((command, id) => id == command.Model.Id)
                 .WithMessage("Значение параметра '{PropertyName}' не равен значению идентификатора в модели из тела запроса.");
 
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -53,17 +53,17 @@ public static class Update
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных коммуникационного модуля '{Model}' в системе.", model);
+            _logger.LogDebug("Получен запрос на обновление данных коммуникационного модуля '{Model}' в системе.", model);
 
-            var dbCommunication = this.context.Communications
+            var dbCommunication = _context.Communications
                 .Include(e => e.Protocols)
                 .Search(model.Id);
 
@@ -72,14 +72,14 @@ public static class Update
                 throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbCommunication}' не может быть обновлена.");
             }
 
-            var dbProtocols = this.context.Protocols
+            var dbProtocols = _context.Protocols
                 .SearchManyOrDefault(model.Protocols.Select(e => e.Id));
             dbCommunication.GetBuilder()
                 .SetAttributes(model)
                 .SetProtocols(dbProtocols)
                 .Build();
 
-            return this.SaveChangesAsync(dbCommunication, cancellationToken);
+            return SaveChangesAsync(dbCommunication, cancellationToken);
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ public static class Update
         /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(CommunicationEntity entity, CancellationToken cancellationToken)
         {
-            this.context.Communications.Update(entity);
-            await this.context.SaveChangesAsync(cancellationToken);
+            _context.Communications.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Коммуникационный модуль '{Entity}' успешно обновлен в системе.", entity);
+            _logger.LogInformation("Коммуникационный модуль '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлен в системе.",

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.AnalogModule;
@@ -12,24 +14,27 @@ public class AnalogModuleShortModel
     /// </summary>
     public AnalogModuleShortModel()
     {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.AnalogModule;
+        Id = Guid.NewGuid();
+        Title = DefaultString.AnalogModule;
     }
 
     /// <summary>
     /// ИД.
     /// </summary>
+    [Required]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Наименование.
     /// </summary>
     /// <example>БМРЗ-000</example>
+    [Required]
+    [RegularExpression(StringFormat.AnalogModule)]
     public string Title { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return this.Title;
+        return Title;
     }
 }

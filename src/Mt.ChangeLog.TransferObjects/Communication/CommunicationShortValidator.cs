@@ -13,7 +13,7 @@ public sealed class CommunicationShortValidator : AbstractValidator<Communicatio
     /// </summary>
     public CommunicationShortValidator()
     {
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .NotEmpty()
             .IsTrim()
             .MaximumLength(64);

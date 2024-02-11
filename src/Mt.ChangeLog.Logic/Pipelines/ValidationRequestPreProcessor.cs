@@ -13,11 +13,11 @@ namespace Mt.ChangeLog.Logic.Pipelines;
 public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcessor<TRequest>
     where TRequest : notnull
 {
-    private readonly ILogger<ValidationRequestPreProcessor<TRequest>> logger;
+    private readonly ILogger<ValidationRequestPreProcessor<TRequest>> _logger;
 
-    private readonly IMtUser user;
+    private readonly IMtUser _user;
 
-    private readonly IValidator<TRequest>? validator;
+    private readonly IValidator<TRequest>? _validator;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="ValidationRequestPreProcessor{TRequest}"/>.
@@ -30,25 +30,25 @@ public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcess
         IMtUser user,
         IValidator<TRequest>? validator = null)
     {
-        this.logger = logger;
-        this.user = user;
-        this.validator = validator;
+        _logger = logger;
+        _user = user;
+        _validator = validator;
     }
 
     /// <inheritdoc />
     public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
-        using var scope = this.logger.BeginWithMtUserScope(this.user);
-        if (this.validator == null)
+        using var scope = _logger.BeginWithMtUserScope(_user);
+        if (_validator == null)
         {
-            this.logger.LogWarning("Для запроса '{Name}' не предусмотрен набор правил валидации.", request.GetType().FullName);
+            _logger.LogWarning("Для запроса '{Name}' не предусмотрен набор правил валидации.", request.GetType().FullName);
             return;
         }
 
-        this.logger.LogDebug("Начат процесс валидации параметров запроса.");
+        _logger.LogDebug("Начат процесс валидации параметров запроса.");
         try
         {
-            await this.validator.ValidateAsync(
+            await _validator.ValidateAsync(
                 request,
                 options =>
                 {

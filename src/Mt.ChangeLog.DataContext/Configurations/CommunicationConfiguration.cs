@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.DataContext.Configurations;
 
@@ -13,8 +12,6 @@ internal sealed class CommunicationConfiguration : IEntityTypeConfiguration<Comm
     /// <inheritdoc />
     public void Configure(EntityTypeBuilder<CommunicationEntity> builder)
     {
-        Check.NotNull(builder, nameof(builder));
-
         builder.ToTable(
             "Communication",
             t => t.HasComment("Таблица с перечнем коммуникационных модулей поддерживаемых в блоках БМРЗ-100/120/150/160"));

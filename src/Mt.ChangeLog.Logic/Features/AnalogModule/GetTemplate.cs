@@ -20,9 +20,9 @@ public static class GetTemplate
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, AnalogModuleModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,16 +31,16 @@ public static class GetTemplate
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public async Task<AnalogModuleModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на создание шаблона аналогового модуля.");
+            _logger.LogDebug("Получен запрос на создание шаблона аналогового модуля.");
 
-            var platforms = await this.context.Platforms.AsNoTracking()
+            var platforms = await _context.Platforms.AsNoTracking()
                 .Where(p => p.Default)
                 .Select(p => p.ToShortModel())
                 .ToListAsync(cancellationToken);
@@ -50,7 +50,7 @@ public static class GetTemplate
                 Platforms = platforms,
             };
 
-            this.logger.LogDebug("Запрос на создание шаблона аналогового модуля '{Model}' выполнен успешно.", model);
+            _logger.LogDebug("Запрос на создание шаблона аналогового модуля '{Model}' выполнен успешно.", model);
             return model;
         }
     }

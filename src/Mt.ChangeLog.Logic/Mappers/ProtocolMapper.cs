@@ -1,7 +1,6 @@
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.Protocol;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -17,13 +16,11 @@ public static class ProtocolMapper
     /// <returns>Модель.</returns>
     public static ProtocolShortModel ToShortModel(this ProtocolEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ProtocolShortModel
+        return new ProtocolShortModel
         {
             Id = entity.Id,
             Title = entity.Title,
         };
-        return result;
     }
 
     /// <summary>
@@ -33,14 +30,12 @@ public static class ProtocolMapper
     /// <returns>Модель.</returns>
     public static ProtocolTableModel ToTableModel(this ProtocolEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ProtocolTableModel
+        return new ProtocolTableModel
         {
             Id = entity.Id,
             Title = entity.Title,
             Description = entity.Description,
         };
-        return result;
     }
 
     /// <summary>
@@ -50,15 +45,13 @@ public static class ProtocolMapper
     /// <returns>Модель.</returns>
     public static ProtocolModel ToModel(this ProtocolEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ProtocolModel
+        return new ProtocolModel
         {
             Id = entity.Id,
             Title = entity.Title,
             Description = entity.Description,
-            Communications = entity.Communications.OrderBy(e => e.Title).Select(e => e.ToShortModel()),
+            Communications = entity.Communications.OrderBy(e => e.Title).Select(e => e.ToShortModel()).ToList(),
         };
-        return result;
     }
 
     /// <summary>

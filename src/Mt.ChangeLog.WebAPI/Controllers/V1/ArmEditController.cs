@@ -10,11 +10,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с ArmEdit.
 /// </summary>
-[ApiController]
 [Route("api/arm-edit")]
 public sealed class ArmEditController : ControllerBase
 {
-    private readonly IMediator mediator;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="ArmEditController"/>.
@@ -22,7 +21,7 @@ public sealed class ArmEditController : ControllerBase
     /// <param name="mediator">Медиатор.</param>
     public ArmEditController(IMediator mediator)
     {
-        this.mediator = mediator;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -31,11 +30,11 @@ public sealed class ArmEditController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("list/short")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей ArmEdit.", typeof(IEnumerable<ArmEditShortModel>))]
-    public Task<IEnumerable<ArmEditShortModel>> GetShortModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей ArmEdit.", typeof(IReadOnlyCollection<ArmEditShortModel>))]
+    public Task<IReadOnlyCollection<ArmEditShortModel>> GetShortModels(CancellationToken cancellationToken)
     {
         var query = new GetShorts.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -44,11 +43,11 @@ public sealed class ArmEditController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("list/table")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей ArmEdit для табличного представления.", typeof(IEnumerable<ArmEditTableModel>))]
-    public Task<IEnumerable<ArmEditTableModel>> GetTableModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей ArmEdit для табличного представления.", typeof(IReadOnlyCollection<ArmEditTableModel>))]
+    public Task<IReadOnlyCollection<ArmEditTableModel>> GetTableModels(CancellationToken cancellationToken)
     {
         var query = new GetTables.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -61,7 +60,7 @@ public sealed class ArmEditController : ControllerBase
     public Task<ArmEditModel> GetTemplateModel(CancellationToken cancellationToken)
     {
         var query = new GetTemplate.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -74,7 +73,7 @@ public sealed class ArmEditController : ControllerBase
     public Task<ArmEditModel> GetActualModel(CancellationToken cancellationToken)
     {
         var query = new GetActual.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -88,7 +87,7 @@ public sealed class ArmEditController : ControllerBase
     public Task<ArmEditModel> GetModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new GetById.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -102,7 +101,7 @@ public sealed class ArmEditController : ControllerBase
     public Task<MessageModel> PostModel([FromBody] ArmEditModel model, CancellationToken cancellationToken)
     {
         var command = new Add.Command(model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -117,7 +116,7 @@ public sealed class ArmEditController : ControllerBase
     public Task<MessageModel> PutModel([FromRoute] Guid id, [FromBody] ArmEditModel model, CancellationToken cancellationToken)
     {
         var command = new Update.Command(id, model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -131,6 +130,6 @@ public sealed class ArmEditController : ControllerBase
     public Task<MessageModel> DeleteModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new Delete.Command(new BaseModel { Id = id });
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 }

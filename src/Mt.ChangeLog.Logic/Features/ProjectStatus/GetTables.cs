@@ -13,16 +13,16 @@ namespace Mt.ChangeLog.Logic.Features.ProjectStatus;
 public static class GetTables
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<ProjectStatusTableModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<ProjectStatusTableModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<ProjectStatusTableModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ProjectStatusTableModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,21 +31,21 @@ public static class GetTables
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ProjectStatusTableModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<ProjectStatusTableModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня табличного описания статусов проекта.");
+            _logger.LogDebug("Получен запрос на получение полного перечня табличного описания статусов проекта.");
 
-            var result = await this.context.ProjectStatuses.AsNoTracking()
+            var result = await _context.ProjectStatuses.AsNoTracking()
                 .OrderBy(e => e.Title)
                 .Select(e => e.ToModel())
                 .ToListAsync(cancellationToken);
 
-            this.logger.LogDebug("Запрос на получение полного перечня табличного описания статусов проекта успешно выполнен, '{Count}' записей.", result.Count);
+            _logger.LogDebug("Запрос на получение полного перечня табличного описания статусов проекта успешно выполнен, '{Count}' записей.", result.Count);
             return result;
         }
     }

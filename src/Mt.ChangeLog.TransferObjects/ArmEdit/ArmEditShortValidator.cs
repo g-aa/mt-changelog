@@ -13,7 +13,7 @@ public sealed class ArmEditShortValidator : AbstractValidator<ArmEditShortModel>
     /// </summary>
     public ArmEditShortValidator()
     {
-        this.RuleFor(e => e.Version)
+        RuleFor(e => e.Version)
             .NotEmpty()
             .IsCfgVersion();
     }

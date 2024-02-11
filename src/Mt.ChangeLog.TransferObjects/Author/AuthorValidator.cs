@@ -13,17 +13,17 @@ public sealed class AuthorValidator : AbstractValidator<AuthorModel>
     /// </summary>
     public AuthorValidator()
     {
-        this.RuleFor(e => e.FirstName)
+        RuleFor(e => e.FirstName)
             .NotEmpty()
             .IsTrim()
             .MaximumLength(32);
 
-        this.RuleFor(e => e.LastName)
+        RuleFor(e => e.LastName)
             .NotEmpty()
             .IsTrim()
             .MaximumLength(32);
 
-        this.RuleFor(e => e.Position)
+        RuleFor(e => e.Position)
             .NotNull()
             .IsTrim()
             .MaximumLength(250);

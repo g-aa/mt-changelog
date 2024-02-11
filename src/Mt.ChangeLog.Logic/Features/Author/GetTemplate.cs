@@ -17,7 +17,7 @@ public static class GetTemplate
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, AuthorModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -25,17 +25,17 @@ public static class GetTemplate
         /// <param name="logger">Журнал логирования.</param>
         public Handler(ILogger<Handler> logger)
         {
-            this.logger = logger;
+            _logger = logger;
         }
 
         /// <inheritdoc />
         public Task<AuthorModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на создание шаблона автора.");
+            _logger.LogDebug("Получен запрос на создание шаблона автора.");
 
             var model = new AuthorModel();
 
-            this.logger.LogDebug("Запрос на создание шаблона автор '{Model}' выполнен успешно.", model);
+            _logger.LogDebug("Запрос на создание шаблона автор '{Model}' выполнен успешно.", model);
             return Task.FromResult(model);
         }
     }

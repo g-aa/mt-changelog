@@ -22,8 +22,8 @@ public abstract class AbstractRepository
     /// <exception cref="ArgumentNullException">Срабатывает если подключение к базе данных равно null.</exception>
     protected AbstractRepository(ILogger logger, IDbConnection connection)
     {
-        this.Logger = logger;
-        this.Connection = connection;
+        Logger = logger;
+        Connection = connection;
     }
 
     /// <summary>

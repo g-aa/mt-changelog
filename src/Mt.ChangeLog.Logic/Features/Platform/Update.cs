@@ -31,20 +31,20 @@ public static class Update
         /// <param name="validator">Platform model validator.</param>
         public Validator(IValidator<PlatformModel> validator)
         {
-            this.RuleFor(e => e.PlatformId)
+            RuleFor(e => e.PlatformId)
                 .Must((command, id) => id == command.Model.Id)
                 .WithMessage("Значение параметра '{PropertyName}' не равен значению идентификатора в модели из тела запроса.");
 
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -53,17 +53,17 @@ public static class Update
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных платформы '{Model}' в системе.", model);
+            _logger.LogDebug("Получен запрос на обновление данных платформы '{Model}' в системе.", model);
 
-            var dbPlatform = this.context.Platforms
+            var dbPlatform = _context.Platforms
                 .Include(e => e.Projects)
                 .Include(e => e.AnalogModules)
                 .Search(model.Id);
@@ -73,14 +73,14 @@ public static class Update
                 throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbPlatform}' не может быть обновлена.");
             }
 
-            var dbAnalogModules = this.context.AnalogModules
+            var dbAnalogModules = _context.AnalogModules
                 .SearchManyOrDefault(model.AnalogModules.Select(e => e.Id));
             dbPlatform.GetBuilder()
                 .SetAttributes(model)
                 .SetAnalogModules(dbAnalogModules)
                 .Build();
 
-            return this.SaveChangesAsync(dbPlatform, cancellationToken);
+            return SaveChangesAsync(dbPlatform, cancellationToken);
         }
 
         /// <summary>
@@ -91,10 +91,10 @@ public static class Update
         /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(PlatformEntity entity, CancellationToken cancellationToken)
         {
-            this.context.Platforms.Update(entity);
-            await this.context.SaveChangesAsync(cancellationToken);
+            _context.Platforms.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Платформа '{Entity}' успешно обновлен в системе.", entity);
+            _logger.LogInformation("Платформа '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлена в системе.",

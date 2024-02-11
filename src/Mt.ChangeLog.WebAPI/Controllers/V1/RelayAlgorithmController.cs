@@ -10,11 +10,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с алгоритмами.
 /// </summary>
-[ApiController]
 [Route("api/relay-algorithm")]
 public sealed class RelayAlgorithmController : ControllerBase
 {
-    private readonly IMediator mediator;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="RelayAlgorithmController"/>.
@@ -22,7 +21,7 @@ public sealed class RelayAlgorithmController : ControllerBase
     /// <param name="mediator">Медиатор.</param>
     public RelayAlgorithmController(IMediator mediator)
     {
-        this.mediator = mediator;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -31,11 +30,11 @@ public sealed class RelayAlgorithmController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("list/short")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей алгоритмов.", typeof(IEnumerable<RelayAlgorithmShortModel>))]
-    public Task<IEnumerable<RelayAlgorithmShortModel>> GetShortModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей алгоритмов.", typeof(IReadOnlyCollection<RelayAlgorithmShortModel>))]
+    public Task<IReadOnlyCollection<RelayAlgorithmShortModel>> GetShortModels(CancellationToken cancellationToken)
     {
         var query = new GetShorts.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -44,11 +43,11 @@ public sealed class RelayAlgorithmController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("list/table")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей алгоритмов для табличного представления.", typeof(IEnumerable<RelayAlgorithmTableModel>))]
-    public Task<IEnumerable<RelayAlgorithmTableModel>> GetTableModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей алгоритмов для табличного представления.", typeof(IReadOnlyCollection<RelayAlgorithmTableModel>))]
+    public Task<IReadOnlyCollection<RelayAlgorithmTableModel>> GetTableModels(CancellationToken cancellationToken)
     {
         var query = new GetTables.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -61,7 +60,7 @@ public sealed class RelayAlgorithmController : ControllerBase
     public Task<RelayAlgorithmModel> GetTemplateModel(CancellationToken cancellationToken)
     {
         var query = new GetTemplate.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -75,7 +74,7 @@ public sealed class RelayAlgorithmController : ControllerBase
     public Task<RelayAlgorithmModel> GetModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new GetById.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -89,7 +88,7 @@ public sealed class RelayAlgorithmController : ControllerBase
     public Task<MessageModel> PostModel([FromBody] RelayAlgorithmModel model, CancellationToken cancellationToken)
     {
         var command = new Add.Command(model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -104,7 +103,7 @@ public sealed class RelayAlgorithmController : ControllerBase
     public Task<MessageModel> PutModel([FromRoute] Guid id, [FromBody] RelayAlgorithmModel model, CancellationToken cancellationToken)
     {
         var command = new Update.Command(id, model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -118,6 +117,6 @@ public sealed class RelayAlgorithmController : ControllerBase
     public Task<MessageModel> DeleteModel([FromQuery] Guid id, CancellationToken cancellationToken)
     {
         var command = new Delete.Command(new BaseModel { Id = id });
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 }

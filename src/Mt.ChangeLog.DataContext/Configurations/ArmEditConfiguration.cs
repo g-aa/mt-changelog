@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.DataContext.Configurations;
 
@@ -13,8 +12,6 @@ internal sealed class ArmEditConfiguration : IEntityTypeConfiguration<ArmEditEnt
     /// <inheritdoc />
     public void Configure(EntityTypeBuilder<ArmEditEntity> builder)
     {
-        Check.NotNull(builder, nameof(builder));
-
         builder.ToTable(
             "ArmEdit",
             t => t.HasComment("Таблица с перечнем ArmEdit используемых при компиляции проектов блоков БМРЗ-100/120/150/160"));

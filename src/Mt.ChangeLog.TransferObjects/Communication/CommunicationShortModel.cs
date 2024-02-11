@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.Communication;
@@ -12,24 +14,27 @@ public class CommunicationShortModel
     /// </summary>
     public CommunicationShortModel()
     {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Communication;
+        Id = Guid.NewGuid();
+        Title = DefaultString.Communication;
     }
 
     /// <summary>
     /// ИД.
     /// </summary>
+    [Required]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Наименование.
     /// </summary>
     /// <example>АК Virtual</example>
+    [Required]
+    [StringLength(64, MinimumLength = 1)]
     public string Title { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return this.Title;
+        return Title;
     }
 }

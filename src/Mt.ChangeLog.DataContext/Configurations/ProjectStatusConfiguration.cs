@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.DataContext.Configurations;
 
@@ -13,8 +12,6 @@ internal sealed class ProjectStatusConfiguration : IEntityTypeConfiguration<Proj
     /// <inheritdoc />
     public void Configure(EntityTypeBuilder<ProjectStatusEntity> builder)
     {
-        Check.NotNull(builder, nameof(builder));
-
         builder.ToTable(
             "ProjectStatus",
             t => t.HasComment("Таблица со статусами проектов (БФПО)"));

@@ -11,16 +11,16 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion;
 public static class GetTitles
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<string>>
+    public sealed class Query : IRequest<IReadOnlyCollection<string>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<string>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<string>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -29,23 +29,22 @@ public static class GetTitles
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<string>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<string>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение перечня наименование версий проектов.");
+            _logger.LogDebug("Получен запрос на получение перечня наименование версий проектов.");
 
-            var result = await this.context.ProjectVersions.AsNoTracking()
+            var result = await _context.ProjectVersions.AsNoTracking()
                 .Select(e => e.Title)
                 .Distinct()
                 .OrderBy(e => e)
                 .ToListAsync(cancellationToken);
 
-            this.logger.LogDebug("Запрос нна получение перечня наименование версий проектов выполнен успешно, '{Count}' записей.", result.Count);
-
+            _logger.LogDebug("Запрос нна получение перечня наименование версий проектов выполнен успешно, '{Count}' записей.", result.Count);
             return result;
         }
     }

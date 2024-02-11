@@ -20,9 +20,9 @@ public sealed class GetStatistics
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, StatisticsModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,31 +31,31 @@ public sealed class GetStatistics
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public async Task<StatisticsModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на предоставление статистики по данным в системе.");
+            _logger.LogDebug("Получен запрос на предоставление статистики по данным в системе.");
 
-            var distributions = await this.context.ProjectStatuses.AsNoTracking()
+            var distributions = await _context.ProjectStatuses.AsNoTracking()
                 .Include(e => e.ProjectVersions)
                 .OrderByDescending(e => e.ProjectVersions.Count)
                 .ToDictionaryAsync(k => k.Title, v => v.ProjectVersions.Count, cancellationToken);
 
-            var sArmEdit = await this.context.ArmEdits.AsNoTracking()
+            var sArmEdit = await _context.ArmEdits.AsNoTracking()
                 .OrderByDescending(e => e.Version)
                 .FirstAsync(cancellationToken);
 
-            var lastModifiedProjects = await this.context.LastProjectRevisions
+            var lastModifiedProjects = await _context.LastProjectRevisions
                 .OrderByDescending(e => e.Date)
                 .Take(10)
                 .Select(e => e.ToHistoryShortModel())
                 .ToArrayAsync(cancellationToken);
 
-            var contributions = await this.context.AuthorContributions
+            var contributions = await _context.AuthorContributions
                 .Select(e => e.ToModel())
                 .ToArrayAsync(cancellationToken);
 

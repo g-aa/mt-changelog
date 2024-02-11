@@ -8,13 +8,13 @@ namespace Mt.ChangeLog.Logic.Builders;
 /// </summary>
 public sealed class PlatformBuilder
 {
-    private readonly PlatformEntity entity;
+    private readonly PlatformEntity _entity;
 
-    private string title;
+    private string _title;
 
-    private string description;
+    private string _description;
 
-    private IQueryable<AnalogModuleEntity> modules;
+    private IQueryable<AnalogModuleEntity> _modules;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="PlatformBuilder"/>.
@@ -22,10 +22,10 @@ public sealed class PlatformBuilder
     /// <param name="entity">Сущность.</param>
     public PlatformBuilder(PlatformEntity entity)
     {
-        this.entity = entity;
-        this.title = entity.Title;
-        this.description = entity.Description;
-        this.modules = entity.AnalogModules.AsQueryable();
+        _entity = entity;
+        _title = entity.Title;
+        _description = entity.Description;
+        _modules = entity.AnalogModules.AsQueryable();
     }
 
     /// <summary>
@@ -35,8 +35,8 @@ public sealed class PlatformBuilder
     /// <returns>Строитель.</returns>
     public PlatformBuilder SetAttributes(PlatformModel model)
     {
-        this.title = model.Title;
-        this.description = model.Description;
+        _title = model.Title;
+        _description = model.Description;
         return this;
     }
 
@@ -47,7 +47,7 @@ public sealed class PlatformBuilder
     /// <returns>Строитель.</returns>
     public PlatformBuilder SetAnalogModules(IQueryable<AnalogModuleEntity> modules)
     {
-        this.modules = modules;
+        _modules = modules;
         return this;
     }
 
@@ -58,21 +58,21 @@ public sealed class PlatformBuilder
     /// <exception cref="ArgumentException">Ошибка в логике обработки связей.</exception>
     public PlatformEntity Build()
     {
-        var prohibModules = this.entity.AnalogModules.Except(this.modules).Where(e => e.Projects.Intersect(this.entity.Projects).Any()).Select(e => e.Title);
+        var prohibModules = _entity.AnalogModules.Except(_modules).Where(e => e.Projects.Intersect(_entity.Projects).Any()).Select(e => e.Title);
         if (prohibModules.Any())
         {
-            throw new ArgumentException($"Следующие аналоговые модули: \"{string.Join(",", prohibModules)}\" используются в проектах (БФПО) и не могут быть исключены из состава программных платформ \"{this.entity}\"");
+            throw new ArgumentException($"Следующие аналоговые модули: \"{string.Join(",", prohibModules)}\" используются в проектах (БФПО) и не могут быть исключены из состава программных платформ \"{_entity}\"");
         }
 
         // атрибуты:
-        // this.entity.Id - не обновляется!
-        this.entity.Title = this.title;
-        this.entity.Description = this.description;
+        // _entity.Id - не обновляется!
+        _entity.Title = _title;
+        _entity.Description = _description;
 
         // реляционные связи:
-        this.entity.AnalogModules = this.modules.ToHashSet();
+        _entity.AnalogModules = _modules.ToHashSet();
 
         // this.entity.Projects - не обновляется!
-        return this.entity;
+        return _entity;
     }
 }

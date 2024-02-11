@@ -15,13 +15,13 @@ public class AuthorEntity : IEntity, IDefaultable, IEqualityPredicate<AuthorEnti
     /// </summary>
     public AuthorEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.FirstName = DefaultString.FirstName;
-        this.LastName = DefaultString.LastName;
-        this.Position = DefaultString.Position;
-        this.Default = false;
-        this.Removable = true;
-        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+        Id = Guid.NewGuid();
+        FirstName = DefaultString.FirstName;
+        LastName = DefaultString.LastName;
+        Position = DefaultString.Position;
+        Default = false;
+        Removable = true;
+        ProjectRevisions = new HashSet<ProjectRevisionEntity>();
     }
 
     /// <inheritdoc />
@@ -59,24 +59,24 @@ public class AuthorEntity : IEntity, IDefaultable, IEqualityPredicate<AuthorEnti
     /// <inheritdoc />
     public Expression<Func<AuthorEntity, bool>> GetEqualityPredicate()
     {
-        return (AuthorEntity e) => e.Id == this.Id || (e.FirstName == this.FirstName && e.LastName == this.LastName);
+        return (AuthorEntity e) => e.Id == Id || (e.FirstName == FirstName && e.LastName == LastName);
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is AuthorEntity e && (this.Id.Equals(e.Id) || (this.FirstName == e.FirstName && this.LastName == e.LastName));
+        return obj is AuthorEntity e && (Id.Equals(e.Id) || (FirstName == e.FirstName && LastName == e.LastName));
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.FirstName, this.LastName);
+        return HashCode.Combine(FirstName, LastName);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, {this.LastName} {this.FirstName}";
+        return $"ID: {Id}, {LastName} {FirstName}";
     }
 }

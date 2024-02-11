@@ -15,21 +15,21 @@ public sealed class ProtocolValidator : AbstractValidator<ProtocolModel>
     /// <param name="validator">Communication short model validator.</param>
     public ProtocolValidator(IValidator<CommunicationShortModel> validator)
     {
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .NotEmpty()
             .IsTrim()
             .MaximumLength(32);
 
-        this.RuleFor(e => e.Description)
+        RuleFor(e => e.Description)
             .NotNull()
             .IsTrim()
             .MaximumLength(500);
 
-        this.RuleFor(e => e.Communications)
+        RuleFor(e => e.Communications)
             .NotNull()
             .IsTrim();
 
-        this.RuleForEach(e => e.Communications)
+        RuleForEach(e => e.Communications)
             .SetValidator(validator);
     }
 }

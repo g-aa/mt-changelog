@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <PackageId>Mt.ChangeLog.TransferObjects</PackageId>
     <PackageTags>Mt;Net;ChangeLog;TransferObjects;</PackageTags>
-    <Description>Модели объектов DTO в MtChangeLog.</Description>
+    <Description>Модели объектов DTO в Mt ChangeLog.</Description>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)mt-changelog-transfer-objects.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -18,9 +18,9 @@
     <None Include="..\..\iconLog.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.7.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
     <PackageReference Include="Mt.FluentValidation" Version="6.0.0" />
-    <PackageReference Include="Mt.Utilities" Version="6.4.0" />
+    <PackageReference Include="Mt.Utilities" Version="8.0.0" />
   </ItemGroup>
 </Project>

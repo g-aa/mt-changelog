@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.ProjectStatus;
@@ -13,12 +15,14 @@ public class ProjectStatusTableModel : ProjectStatusShortModel
     public ProjectStatusTableModel()
         : base()
     {
-        this.Description = DefaultString.Description;
+        Description = DefaultString.Description;
     }
 
     /// <summary>
     /// Описание.
     /// </summary>
     /// <example>Описание...</example>
+    [Required]
+    [StringLength(500, MinimumLength = 0)]
     public string Description { get; set; }
 }

@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.DataContext.Configurations;
 
@@ -13,8 +12,6 @@ internal sealed class ProjectVersionConfiguration : IEntityTypeConfiguration<Pro
     /// <inheritdoc />
     public void Configure(EntityTypeBuilder<ProjectVersionEntity> builder)
     {
-        Check.NotNull(builder, nameof(builder));
-
         builder.ToTable(
             "ProjectVersion",
             t => t.HasComment("Таблица с перечнем проектов блоков БМРЗ-100/120/150/160"));

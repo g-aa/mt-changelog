@@ -24,40 +24,32 @@ public sealed class ProjectRevisionValidator : AbstractValidator<ProjectRevision
         IValidator<CommunicationShortModel> communicationValidator,
         IValidator<ArmEditShortModel> armEditValidator)
     {
-        this.RuleFor(e => e.Revision)
+        RuleFor(e => e.Revision)
             .NotEmpty()
             .IsDigits()
             .Length(2);
 
-        this.RuleFor(e => e.Reason)
+        RuleFor(e => e.Reason)
             .NotNull()
             .IsTrim()
             .MaximumLength(500);
 
-        this.RuleFor(e => e.Description)
+        RuleFor(e => e.Description)
             .NotNull()
             .IsTrim()
             .MaximumLength(5000);
 
-        this.RuleFor(e => e.ProjectVersion)
-            .NotNull()
-            .WithMessage("Версия проекта параметр обязательный для заполнения.")
+        RuleFor(e => e.ProjectVersion)
             .SetValidator(projectVersionValidator);
 
-#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
-        this.RuleFor(e => e.ParentRevision)
-            .SetValidator(projectRevisionValidator)
+        RuleFor(e => e.ParentRevision)
+            .SetValidator(projectRevisionValidator!)
             .When(e => e.ParentRevision != null);
-#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
 
-        this.RuleFor(e => e.Communication)
-            .NotNull()
-            .WithMessage("Перечень поддерживаемых протоколов информационного обмена параметр обязательный для заполнения")
+        RuleFor(e => e.Communication)
             .SetValidator(communicationValidator);
 
-        this.RuleFor(e => e.ArmEdit)
-            .NotNull()
-            .WithMessage("Версия ArmEdit параметр обязательный для заполнения.")
+        RuleFor(e => e.ArmEdit)
             .SetValidator(armEditValidator);
     }
 }

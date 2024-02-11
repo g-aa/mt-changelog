@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.Author;
@@ -12,26 +14,32 @@ public class AuthorProjectContributionModel : AuthorContributionModel
     /// </summary>
     public AuthorProjectContributionModel()
     {
-        this.ProjectPrefix = DefaultString.Prefix;
-        this.ProjectTitle = DefaultString.Project;
-        this.ProjectVersion = DefaultString.Revision;
+        ProjectPrefix = DefaultString.Prefix;
+        ProjectTitle = DefaultString.Project;
+        ProjectVersion = DefaultString.Revision;
     }
 
     /// <summary>
     /// Префикс наименования проекта.
     /// </summary>
     /// <example>БФПО-000</example>
+    [Required]
+    [RegularExpression(StringFormat.Prefix)]
     public string ProjectPrefix { get; set; }
 
     /// <summary>
     /// Заголовок проекта.
     /// </summary>
     /// <example>ПМК</example>
+    [Required]
+    [StringLength(16, MinimumLength = 2)]
     public string ProjectTitle { get; set; }
 
     /// <summary>
     /// Версия проекта.
     /// </summary>
     /// <example>00</example>
+    [Required]
+    [RegularExpression("^[0-9]{2}$")]
     public string ProjectVersion { get; set; }
 }

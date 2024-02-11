@@ -11,11 +11,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с файлами.
 /// </summary>
-[ApiController]
 [Route("api/file")]
 public sealed class FileController : ControllerBase
 {
-    private readonly IMediator mediator;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="FileController"/>.
@@ -23,7 +22,7 @@ public sealed class FileController : ControllerBase
     /// <param name="mediator">Медиатор.</param>
     public FileController(IMediator mediator)
     {
-        this.mediator = mediator;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -37,7 +36,7 @@ public sealed class FileController : ControllerBase
     public Task<ProjectVersionHistoryModel> GetProjectVersionChangeLog([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new GetProjectVersionHistory.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -50,6 +49,6 @@ public sealed class FileController : ControllerBase
     public Task<FileModel> GetChangeLogArchive(CancellationToken token)
     {
         var query = new GetFullArchive.Query();
-        return this.mediator.Send(query, token);
+        return _mediator.Send(query, token);
     }
 }

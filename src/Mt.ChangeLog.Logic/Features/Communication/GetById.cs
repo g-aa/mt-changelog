@@ -31,16 +31,16 @@ public static class GetById
         /// <param name="validator">Base model validator.</param>
         public Validator(IValidator<BaseModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, CommunicationModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -49,22 +49,22 @@ public static class GetById
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<CommunicationModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных об коммуникационном модуле '{Model}'.", model);
+            _logger.LogDebug("Получен запрос на предоставление данных об коммуникационном модуле '{Model}'.", model);
 
-            var result = this.context.Communications.AsNoTracking()
+            var result = _context.Communications.AsNoTracking()
                 .Include(e => e.Protocols)
                 .Search(model.Id)
                 .ToModel();
 
-            this.logger.LogDebug("Запрос на получение данных об коммуникационном модуле '{Result}' выполнен успешно.", result);
+            _logger.LogDebug("Запрос на получение данных об коммуникационном модуле '{Result}' выполнен успешно.", result);
             return Task.FromResult(result);
         }
     }

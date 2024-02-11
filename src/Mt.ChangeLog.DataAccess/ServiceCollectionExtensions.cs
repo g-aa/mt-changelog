@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Mt.ChangeLog.DataAccess.Abstraction;
 using Mt.ChangeLog.DataAccess.Implementation;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.DataAccess;
 
@@ -17,15 +16,11 @@ public static class ServiceCollectionExtensions
     /// <returns>Модифицированная коллекция сервисов.</returns>
     public static IServiceCollection AddDataAccess(this IServiceCollection services)
     {
-        Check.NotNull(services, nameof(services));
-
-        services.AddSingleton<NpgsqlConnectionFactory>();
-        services.AddScoped(provider => provider.GetRequiredService<NpgsqlConnectionFactory>().CreateConnection());
-
-        services.AddTransient<IAnalogModuleRepository, AnalogModuleRepository>();
-        services.AddTransient<IArmEditRepository, ArmEditRepository>();
-        services.AddTransient<IAuthorRepository, AuthorRepository>();
-
-        return services;
+        return services
+            .AddTransient<IAnalogModuleRepository, AnalogModuleRepository>()
+            .AddTransient<IArmEditRepository, ArmEditRepository>()
+            .AddTransient<IAuthorRepository, AuthorRepository>()
+            .AddScoped(provider => provider.GetRequiredService<NpgsqlConnectionFactory>().CreateConnection())
+            .AddSingleton<NpgsqlConnectionFactory>();
     }
 }

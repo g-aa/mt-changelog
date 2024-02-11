@@ -26,7 +26,7 @@ public sealed class AuthorRepository : AbstractRepository, IAuthorRepository
     public async Task<IEnumerable<AuthorContributionModel>> GetAuthorContributionsAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""AuthorContribution"";";
-        var result = await this.Connection.QueryAsync<AuthorContributionModel>(qSql);
+        var result = await Connection.QueryAsync<AuthorContributionModel>(qSql);
         return result;
     }
 
@@ -34,7 +34,7 @@ public sealed class AuthorRepository : AbstractRepository, IAuthorRepository
     public async Task<IEnumerable<AuthorProjectContributionModel>> GetAuthorProjectContributionsAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""AuthorProjectContribution"";";
-        var result = await this.Connection.QueryAsync<AuthorProjectContributionModel>(qSql);
+        var result = await Connection.QueryAsync<AuthorProjectContributionModel>(qSql);
         return result;
     }
 
@@ -42,7 +42,7 @@ public sealed class AuthorRepository : AbstractRepository, IAuthorRepository
     public async Task<AuthorModel> GetEntityAsync(Guid guid)
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_Author""(@guid);";
-        var result = await this.Connection.QuerySingleAsync<AuthorModel>(qSql, new { guid });
+        var result = await Connection.QuerySingleAsync<AuthorModel>(qSql, new { guid });
         return result;
     }
 
@@ -50,7 +50,7 @@ public sealed class AuthorRepository : AbstractRepository, IAuthorRepository
     public async Task<IEnumerable<AuthorShortModel>> GetShortEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_ShortAuthors""();";
-        var result = await this.Connection.QueryAsync<AuthorShortModel>(qSql);
+        var result = await Connection.QueryAsync<AuthorShortModel>(qSql);
         return result;
     }
 
@@ -58,7 +58,7 @@ public sealed class AuthorRepository : AbstractRepository, IAuthorRepository
     public async Task<IEnumerable<AuthorTableModel>> GetTableEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_TableAuthors""();";
-        var result = await this.Connection.QueryAsync<AuthorTableModel>(qSql);
+        var result = await Connection.QueryAsync<AuthorTableModel>(qSql);
         return result;
     }
 }

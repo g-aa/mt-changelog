@@ -1,7 +1,6 @@
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.Platform;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -17,13 +16,11 @@ public static class PlatformMapper
     /// <returns>Модель.</returns>
     public static PlatformShortModel ToShortModel(this PlatformEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new PlatformShortModel
+        return new PlatformShortModel
         {
             Id = entity.Id,
             Title = entity.Title,
         };
-        return result;
     }
 
     /// <summary>
@@ -33,14 +30,12 @@ public static class PlatformMapper
     /// <returns>Модель.</returns>
     public static PlatformTableModel ToTableModel(this PlatformEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new PlatformTableModel
+        return new PlatformTableModel
         {
             Id = entity.Id,
             Title = entity.Title,
             Description = entity.Description,
         };
-        return result;
     }
 
     /// <summary>
@@ -50,15 +45,13 @@ public static class PlatformMapper
     /// <returns>Модель.</returns>
     public static PlatformModel ToModel(this PlatformEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new PlatformModel
+        return new PlatformModel
         {
             Id = entity.Id,
             Title = entity.Title,
             Description = entity.Description,
-            AnalogModules = Check.NotNull(entity.AnalogModules, nameof(entity.AnalogModules)).Select(module => module.ToShortModel()),
+            AnalogModules = entity.AnalogModules.Select(module => module.ToShortModel()).ToList(),
         };
-        return result;
     }
 
     /// <summary>

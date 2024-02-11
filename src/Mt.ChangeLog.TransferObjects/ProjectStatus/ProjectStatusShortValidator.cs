@@ -13,7 +13,7 @@ public sealed class ProjectStatusShortValidator : AbstractValidator<ProjectStatu
     /// </summary>
     public ProjectStatusShortValidator()
     {
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .NotEmpty()
             .IsTrim()
             .MaximumLength(32);

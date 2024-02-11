@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm;
@@ -12,24 +14,27 @@ public class RelayAlgorithmShortModel
     /// </summary>
     public RelayAlgorithmShortModel()
     {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Algorithm;
+        Id = Guid.NewGuid();
+        Title = DefaultString.Algorithm;
     }
 
     /// <summary>
     /// ИД.
     /// </summary>
+    [Required]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Наименование.
     /// </summary>
     /// <example>МТЗ</example>
+    [Required]
+    [StringLength(32, MinimumLength = 1)]
     public string Title { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return this.Title;
+        return Title;
     }
 }

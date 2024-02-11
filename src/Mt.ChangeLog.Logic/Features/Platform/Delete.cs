@@ -30,16 +30,16 @@ public static class Delete
         /// <param name="validator">Base model validator.</param>
         public Validator(IValidator<BaseModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -48,17 +48,17 @@ public static class Delete
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление платформы '{Model}' из системы.", model);
+            _logger.LogDebug("Получен запрос на удаление платформы '{Model}' из системы.", model);
 
-            var dbRemovable = this.context.Platforms
+            var dbRemovable = _context.Platforms
                 .Include(e => e.Projects)
                 .Include(e => e.AnalogModules).ThenInclude(e => e.Platforms)
                 .AsSingleQuery()
@@ -69,21 +69,21 @@ public static class Delete
                 throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность по умолчанию '{dbRemovable}' не может быть удалена из системы.");
             }
 
-            if (dbRemovable.Projects.Any())
+            if (dbRemovable.Projects.Count != 0)
             {
                 throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используемая в проектах не может быть удалена из системы.");
             }
 
-            if (dbRemovable.AnalogModules.Any())
+            if (dbRemovable.AnalogModules.Count != 0)
             {
-                var defPlatform = this.context.Platforms.First(e => e.Default);
-                foreach (var dbModule in dbRemovable.AnalogModules.Where(am => am.Platforms.Remove(dbRemovable) && !am.Platforms.Any()))
+                var defPlatform = _context.Platforms.First(e => e.Default);
+                foreach (var dbModule in dbRemovable.AnalogModules.Where(am => am.Platforms.Remove(dbRemovable) && am.Platforms.Count == 0))
                 {
                     dbModule.Platforms.Add(defPlatform);
                 }
             }
 
-            return this.SaveChangesAsync(dbRemovable, cancellationToken);
+            return SaveChangesAsync(dbRemovable, cancellationToken);
         }
 
         /// <summary>
@@ -94,10 +94,10 @@ public static class Delete
         /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(PlatformEntity entity, CancellationToken cancellationToken)
         {
-            this.context.Platforms.Remove(entity);
-            await this.context.SaveChangesAsync(cancellationToken);
+            _context.Platforms.Remove(entity);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Платформа '{Entity}' успешно удален из системы.", entity);
+            _logger.LogInformation("Платформа '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' была удалена из системы.",

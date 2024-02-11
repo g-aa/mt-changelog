@@ -20,7 +20,7 @@ public sealed record MtUser : IMtUser
     public MtUser(IHttpContextAccessor httpContextAccessor)
     {
         var principal = httpContextAccessor.HttpContext?.User;
-        this.Name = principal?.Identity?.Name ?? DefaultName;
+        Name = principal?.Identity?.Name ?? DefaultName;
     }
 
     /// <inheritdoc />

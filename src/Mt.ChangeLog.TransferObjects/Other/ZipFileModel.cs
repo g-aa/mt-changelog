@@ -10,7 +10,7 @@ public sealed class ZipFileModel : FileModel
     /// </summary>
     /// <param name="title">Наименование файла.</param>
     /// <param name="bytes">Данные файла в бинарном формате.</param>
-    public ZipFileModel(string title, IEnumerable<byte> bytes)
+    public ZipFileModel(string title, IReadOnlyCollection<byte> bytes)
         : base($"{title}.zip", bytes)
     {
     }

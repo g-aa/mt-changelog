@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Mt.ChangeLog.TransferObjects.Other;
 
 /// <summary>
@@ -10,12 +12,14 @@ public sealed class MessageModel
     /// </summary>
     public MessageModel()
     {
-        this.Message = "Текст сообщения.";
+        Message = "Текст сообщения.";
     }
 
     /// <summary>
     /// Сообщение.
     /// </summary>
     /// <example>Текстовое сообщение...</example>
+    [Required]
+    [MinLength(1)]
     public string Message { get; set; }
 }

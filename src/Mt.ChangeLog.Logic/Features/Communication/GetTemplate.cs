@@ -20,9 +20,9 @@ public static class GetTemplate
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, CommunicationModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,16 +31,16 @@ public static class GetTemplate
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public async Task<CommunicationModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на создание шаблона коммуникационного модуля.");
+            _logger.LogDebug("Получен запрос на создание шаблона коммуникационного модуля.");
 
-            var protocols = await this.context.Protocols.AsNoTracking()
+            var protocols = await _context.Protocols.AsNoTracking()
                 .Where(e => e.Default)
                 .Select(e => e.ToShortModel())
                 .ToListAsync(cancellationToken);
@@ -50,7 +50,7 @@ public static class GetTemplate
                 Protocols = protocols,
             };
 
-            this.logger.LogDebug("Запрос на создание шаблона коммуникационного модуля '{Model}' выполнен успешно.", model);
+            _logger.LogDebug("Запрос на создание шаблона коммуникационного модуля '{Model}' выполнен успешно.", model);
             return model;
         }
     }

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.ChangeLog.TransferObjects.Communication;
@@ -17,50 +19,59 @@ public class ProjectRevisionModel
     /// </summary>
     public ProjectRevisionModel()
     {
-        this.Id = Guid.NewGuid();
-        this.Date = DateTime.Now;
-        this.Revision = DefaultString.Revision;
-        this.Reason = DefaultString.Reason;
-        this.Description = DefaultString.Description;
-        this.ProjectVersion = new ProjectVersionShortModel();
-        this.ParentRevision = new ProjectRevisionShortModel();
-        this.Communication = new CommunicationShortModel();
-        this.ArmEdit = new ArmEditShortModel();
-        this.Authors = new HashSet<AuthorShortModel>();
-        this.RelayAlgorithms = new HashSet<RelayAlgorithmShortModel>();
+        Id = Guid.NewGuid();
+        Date = DateTime.Now;
+        Revision = DefaultString.Revision;
+        Reason = DefaultString.Reason;
+        Description = DefaultString.Description;
+        ProjectVersion = new ProjectVersionShortModel();
+        ParentRevision = new ProjectRevisionShortModel();
+        Communication = new CommunicationShortModel();
+        ArmEdit = new ArmEditShortModel();
+        Authors = new HashSet<AuthorShortModel>();
+        RelayAlgorithms = new HashSet<RelayAlgorithmShortModel>();
     }
 
     /// <summary>
     /// ИД.
     /// </summary>
+    [Required]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Дата компиляции.
     /// </summary>
+    [Required]
     public DateTime Date { get; set; }
 
     /// <summary>
     /// Редакция.
     /// </summary>
     /// <example>00</example>
+    [Required]
+    [RegularExpression("^[0-9][2]$")]
     public string Revision { get; set; }
 
     /// <summary>
     /// Причина изменений.
     /// </summary>
     /// <example>Причина изменения...</example>
+    [Required]
+    [StringLength(500, MinimumLength = 0)]
     public string Reason { get; set; }
 
     /// <summary>
     /// Описание.
     /// </summary>
     /// <example>Описание...</example>
+    [Required]
+    [StringLength(5000, MinimumLength = 0)]
     public string Description { get; set; }
 
     /// <summary>
     /// Версия проекта.
     /// </summary>
+    [Required]
     public ProjectVersionShortModel ProjectVersion { get; set; }
 
     /// <summary>
@@ -71,20 +82,24 @@ public class ProjectRevisionModel
     /// <summary>
     /// Коммуникационный модуль.
     /// </summary>
+    [Required]
     public CommunicationShortModel Communication { get; set; }
 
     /// <summary>
     /// Версия ArmEdit.
     /// </summary>
+    [Required]
     public ArmEditShortModel ArmEdit { get; set; }
 
     /// <summary>
     /// Перечень авторов.
     /// </summary>
-    public IEnumerable<AuthorShortModel> Authors { get; set; }
+    [Required]
+    public IReadOnlyCollection<AuthorShortModel> Authors { get; set; }
 
     /// <summary>
     /// Перечень алгоритмов.
     /// </summary>
-    public IEnumerable<RelayAlgorithmShortModel> RelayAlgorithms { get; set; }
+    [Required]
+    public IReadOnlyCollection<RelayAlgorithmShortModel> RelayAlgorithms { get; set; }
 }

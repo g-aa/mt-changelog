@@ -30,16 +30,16 @@ public static class Add
         /// <param name="validator">Protocol model validator.</param>
         public Validator(IValidator<ProtocolModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -48,17 +48,17 @@ public static class Add
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на добавление протокола '{Model}' в систему.", model);
+            _logger.LogDebug("Получен запрос на добавление протокола '{Model}' в систему.", model);
 
-            var dbModules = this.context.Communications
+            var dbModules = _context.Communications
                 .SearchManyOrDefault(model.Communications.Select(e => e.Id));
 
             var dbProtocol = new ProtocolEntity().GetBuilder()
@@ -66,12 +66,12 @@ public static class Add
                 .SetModules(dbModules)
                 .Build();
 
-            if (this.context.Protocols.IsContained(dbProtocol))
+            if (_context.Protocols.IsContained(dbProtocol))
             {
                 throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbProtocol}' уже содержится в системе.");
             }
 
-            return this.SaveChangesAsync(dbProtocol, cancellationToken);
+            return SaveChangesAsync(dbProtocol, cancellationToken);
         }
 
         /// <summary>
@@ -82,10 +82,10 @@ public static class Add
         /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(ProtocolEntity entity, CancellationToken cancellationToken)
         {
-            await this.context.Protocols.AddAsync(entity, cancellationToken);
-            await this.context.SaveChangesAsync(cancellationToken);
+            await _context.Protocols.AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Протокол '{Entity}' успешно добавлен в систему.", entity);
+            _logger.LogInformation("Протокол '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был добавлен в систему.",

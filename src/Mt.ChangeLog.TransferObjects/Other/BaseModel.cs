@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Mt.ChangeLog.TransferObjects.Other;
 
 /// <summary>
@@ -8,11 +10,12 @@ public class BaseModel
     /// <summary>
     /// Идентификатор модели данных.
     /// </summary>
+    [Required]
     public Guid Id { get; set; }
 
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"ID: {this.Id}";
+        return $"ID: {Id}";
     }
 }

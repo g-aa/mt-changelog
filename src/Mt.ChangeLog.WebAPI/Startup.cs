@@ -20,8 +20,8 @@ namespace Mt.ChangeLog.WebAPI
         /// <param name="configuration">Набор свойств конфигурации приложения.</param>
         public Startup(IConfiguration configuration)
         {
-            this.Configuration = configuration;
-            this.Assemblies = new Assembly[]
+            Configuration = configuration;
+            Assemblies = new Assembly[]
             {
                 typeof(DataAccessLayer).Assembly,
                 typeof(DataContextLayer).Assembly,
@@ -50,7 +50,7 @@ namespace Mt.ChangeLog.WebAPI
 
             services.AddApplicationContext();
             services.AddDataAccess();
-            services.AddLogic(this.Assemblies);
+            services.AddLogic(Assemblies);
 
             #endregion
 
@@ -58,7 +58,7 @@ namespace Mt.ChangeLog.WebAPI
 
             services.AddScoped<IMtUser, MtUser>();
             services.AddHttpContextAccessor();
-            services.AddSwaggerDocumentation(this.Assemblies);
+            services.AddSwaggerDocumentation(Assemblies);
 
             #endregion
 

@@ -15,7 +15,7 @@ namespace Mt.ChangeLog.Logic.Features.History;
 public static class GetProjectTree
 {
     /// <inheritdoc />
-    public sealed record Query(string Title) : IRequest<IEnumerable<ProjectRevisionTreeModel>>
+    public sealed record Query(string Title) : IRequest<IReadOnlyCollection<ProjectRevisionTreeModel>>
     {
     }
 
@@ -29,18 +29,18 @@ public static class GetProjectTree
         /// </summary>
         public Validator()
         {
-            this.RuleFor(e => e.Title)
+            RuleFor(e => e.Title)
                 .Length(2, 16)
                 .IsTrim();
         }
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<ProjectRevisionTreeModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ProjectRevisionTreeModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -49,17 +49,17 @@ public static class GetProjectTree
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ProjectRevisionTreeModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<ProjectRevisionTreeModel>> Handle(Query request, CancellationToken cancellationToken)
         {
             var title = request.Title;
-            this.logger.LogDebug("Получен запрос на предоставление перечня моделей для дерева изменений '{Title}'.", title);
+            _logger.LogDebug("Получен запрос на предоставление перечня моделей для дерева изменений '{Title}'.", title);
 
-            var result = await this.context.ProjectRevisions.AsNoTracking()
+            var result = await _context.ProjectRevisions.AsNoTracking()
                 .Include(pr => pr.ArmEdit)
                 .Include(pr => pr.ProjectVersion!.AnalogModule)
                 .Include(pr => pr.ProjectVersion!.Platform)

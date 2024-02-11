@@ -10,7 +10,7 @@ namespace Mt.ChangeLog.TransferObjects.Test.AnalogModule;
 [TestFixture]
 public sealed class AnalogModuleValidatorTest
 {
-    private AnalogModuleValidator validator;
+    private AnalogModuleValidator _validator;
 
     /// <summary>
     /// Настройка.
@@ -18,7 +18,7 @@ public sealed class AnalogModuleValidatorTest
     [OneTimeSetUp]
     public void Setup()
     {
-        this.validator = new AnalogModuleValidator(new PlatformShortValidator());
+        _validator = new AnalogModuleValidator(new PlatformShortValidator());
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public sealed class AnalogModuleValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldNotHaveValidationErrorFor(m => m.Title);
@@ -66,7 +66,7 @@ public sealed class AnalogModuleValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldHaveValidationErrorFor(m => m.Title);
@@ -88,7 +88,7 @@ public sealed class AnalogModuleValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldNotHaveValidationErrorFor(m => m.DIVG);
@@ -115,7 +115,7 @@ public sealed class AnalogModuleValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldHaveValidationErrorFor(m => m.DIVG);
@@ -137,7 +137,7 @@ public sealed class AnalogModuleValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldNotHaveValidationErrorFor(m => m.Current);
@@ -160,7 +160,7 @@ public sealed class AnalogModuleValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldHaveValidationErrorFor(m => m.Current);
@@ -183,7 +183,7 @@ public sealed class AnalogModuleValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldNotHaveValidationErrorFor(m => m.Description);
@@ -206,7 +206,7 @@ public sealed class AnalogModuleValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldHaveValidationErrorFor(m => m.Description);

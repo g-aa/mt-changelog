@@ -20,9 +20,9 @@ public static class GetTemplate
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, ProjectVersionModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,22 +31,22 @@ public static class GetTemplate
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public async Task<ProjectVersionModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на создание шаблона версии проекта.");
+            _logger.LogDebug("Получен запрос на создание шаблона версии проекта.");
 
-            var status = await this.context.ProjectStatuses.AsNoTracking()
+            var status = await _context.ProjectStatuses.AsNoTracking()
                 .FirstAsync(e => e.Default, cancellationToken);
 
-            var platform = await this.context.Platforms.AsNoTracking()
+            var platform = await _context.Platforms.AsNoTracking()
                 .FirstAsync(e => e.Default, cancellationToken);
 
-            var module = await this.context.AnalogModules.AsNoTracking()
+            var module = await _context.AnalogModules.AsNoTracking()
                 .FirstAsync(e => e.Default, cancellationToken);
 
             var result = new ProjectVersionModel
@@ -56,7 +56,7 @@ public static class GetTemplate
                 AnalogModule = module.ToShortModel(),
             };
 
-            this.logger.LogDebug("Запрос на создание шаблона версии проекта '{Result}' выполнен успешно.", result);
+            _logger.LogDebug("Запрос на создание шаблона версии проекта '{Result}' выполнен успешно.", result);
             return result;
         }
     }

@@ -30,16 +30,16 @@ public static class Delete
         /// <param name="validator">Base model validator.</param>
         public Validator(IValidator<BaseModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -48,17 +48,17 @@ public static class Delete
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление ArmEdit '{Model}' из системы.", model);
+            _logger.LogDebug("Получен запрос на удаление ArmEdit '{Model}' из системы.", model);
 
-            var dbRemovable = this.context.ArmEdits
+            var dbRemovable = _context.ArmEdits
                 .Include(e => e.ProjectRevisions)
                 .Search(model.Id);
 
@@ -67,12 +67,12 @@ public static class Delete
                 throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность по умолчанию '{dbRemovable}' нельзя удалить из системы.");
             }
 
-            if (dbRemovable.ProjectRevisions.Any())
+            if (dbRemovable.ProjectRevisions.Count != 0)
             {
                 throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используется в редакциях БФПО и не может быть удалена из системы.");
             }
 
-            return this.SaveChangesAsync(dbRemovable, cancellationToken);
+            return SaveChangesAsync(dbRemovable, cancellationToken);
         }
 
         /// <summary>
@@ -83,10 +83,10 @@ public static class Delete
         /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(ArmEditEntity entity, CancellationToken cancellationToken)
         {
-            this.context.ArmEdits.Remove(entity);
-            await this.context.SaveChangesAsync(cancellationToken);
+            _context.ArmEdits.Remove(entity);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("ArmEdit '{Entity}' успешно удален из системы.", entity);
+            _logger.LogInformation("ArmEdit '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был удален из системы.",

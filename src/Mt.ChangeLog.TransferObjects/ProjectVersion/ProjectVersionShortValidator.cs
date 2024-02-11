@@ -14,16 +14,16 @@ public sealed class ProjectVersionShortValidator : AbstractValidator<ProjectVers
     /// </summary>
     public ProjectVersionShortValidator()
     {
-        this.RuleFor(e => e.Prefix)
+        RuleFor(e => e.Prefix)
             .NotNull()
             .Matches(StringFormat.Prefix)
             .WithMessage("Значение параметра '{PropertyName}' должно иметь следующий вид БФПО-xxx, где x - [0-9].");
 
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .IsTrim()
             .Length(2, 16);
 
-        this.RuleFor(e => e.Version)
+        RuleFor(e => e.Version)
             .NotEmpty()
             .IsDigits()
             .Length(2);

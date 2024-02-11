@@ -13,12 +13,12 @@ public sealed class ProjectStatusValidator : AbstractValidator<ProjectStatusMode
     /// </summary>
     public ProjectStatusValidator()
     {
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .NotEmpty()
             .IsTrim()
             .MaximumLength(32);
 
-        this.RuleFor(e => e.Description)
+        RuleFor(e => e.Description)
             .NotNull()
             .IsTrim()
             .MaximumLength(500);

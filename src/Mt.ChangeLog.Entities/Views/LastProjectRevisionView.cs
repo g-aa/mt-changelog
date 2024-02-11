@@ -12,15 +12,15 @@ public class LastProjectRevisionView
     /// </summary>
     public LastProjectRevisionView()
     {
-        this.ProjectVersionId = Guid.Empty;
-        this.ProjectRevisionId = Guid.Empty;
-        this.Prefix = DefaultString.Prefix;
-        this.Title = DefaultString.Project;
-        this.Version = DefaultString.Revision;
-        this.Revision = DefaultString.Revision;
-        this.Platform = DefaultString.Platform;
-        this.ArmEdit = DefaultString.Version;
-        this.Date = DateTime.Now;
+        ProjectVersionId = Guid.Empty;
+        ProjectRevisionId = Guid.Empty;
+        Prefix = DefaultString.Prefix;
+        Title = DefaultString.Project;
+        Version = DefaultString.Revision;
+        Revision = DefaultString.Revision;
+        Platform = DefaultString.Platform;
+        ArmEdit = DefaultString.Version;
+        Date = DateTime.Now;
     }
 
     /// <summary>
@@ -71,6 +71,6 @@ public class LastProjectRevisionView
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"{this.Prefix}-{this.Title}-{this.Version}_{this.Revision}";
+        return $"{Prefix}-{Title}-{Version}_{Revision}";
     }
 }

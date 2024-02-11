@@ -13,7 +13,7 @@ public sealed class AnalogModuleShortValidator : AbstractValidator<AnalogModuleS
     /// </summary>
     public AnalogModuleShortValidator()
     {
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .NotEmpty()
             .IsAnalogModule();
     }

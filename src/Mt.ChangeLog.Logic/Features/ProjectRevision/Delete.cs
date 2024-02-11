@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.DataContext;
-using Mt.ChangeLog.Logic.Extensions;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Entities.Abstractions.Extensions;
@@ -30,16 +29,16 @@ public static class Delete
         /// <param name="validator">Base model validator.</param>
         public Validator(IValidator<BaseModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -48,17 +47,17 @@ public static class Delete
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление редакции платформы '{Model}' из системы.", model);
+            _logger.LogDebug("Получен запрос на удаление редакции платформы '{Model}' из системы.", model);
 
-            var dbRemovable = this.context.ProjectRevisions
+            var dbRemovable = _context.ProjectRevisions
                 .Include(e => e.ProjectVersion)
                 .Search(request.Model.Id);
 

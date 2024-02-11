@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.Author;
@@ -13,12 +15,14 @@ public class AuthorTableModel : AuthorShortModel
     public AuthorTableModel()
         : base()
     {
-        this.Position = DefaultString.Position;
+        Position = DefaultString.Position;
     }
 
     /// <summary>
     /// Должность.
     /// </summary>
     /// <example>Инженер-системотехник</example>
+    [Required]
+    [StringLength(250, MinimumLength = 0)]
     public string Position { get; set; }
 }

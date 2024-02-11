@@ -15,12 +15,12 @@ public class ProjectStatusEntity : IDefaultable, IEntity, IEqualityPredicate<Pro
     /// </summary>
     public ProjectStatusEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.Title = "Внутренний";
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.ProjectVersions = new HashSet<ProjectVersionEntity>();
+        Id = Guid.NewGuid();
+        Title = "Внутренний";
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        ProjectVersions = new HashSet<ProjectVersionEntity>();
     }
 
     /// <inheritdoc />
@@ -53,24 +53,24 @@ public class ProjectStatusEntity : IDefaultable, IEntity, IEqualityPredicate<Pro
     /// <inheritdoc />
     public Expression<Func<ProjectStatusEntity, bool>> GetEqualityPredicate()
     {
-        return (ProjectStatusEntity e) => e.Id == this.Id || e.Title == this.Title;
+        return (ProjectStatusEntity e) => e.Id == Id || e.Title == Title;
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is ProjectStatusEntity e && (this.Id.Equals(e.Id) || this.Title == e.Title);
+        return obj is ProjectStatusEntity e && (Id.Equals(e.Id) || Title == e.Title);
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Title);
+        return HashCode.Combine(Title);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, статус: {this.Title}";
+        return $"ID: {Id}, статус: {Title}";
     }
 }

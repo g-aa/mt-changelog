@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.Protocol;
@@ -12,24 +14,27 @@ public class ProtocolShortModel
     /// </summary>
     public ProtocolShortModel()
     {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Protocol;
+        Id = Guid.NewGuid();
+        Title = DefaultString.Protocol;
     }
 
     /// <summary>
     /// ИД.
     /// </summary>
+    [Required]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Наименование.
     /// </summary>
     /// <example>Modbus-MT</example>
+    [Required]
+    [StringLength(32, MinimumLength = 1)]
     public string Title { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return this.Title;
+        return Title;
     }
 }

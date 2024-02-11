@@ -13,16 +13,16 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision;
 public static class GetShorts
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<ProjectRevisionShortModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<ProjectRevisionShortModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<ProjectRevisionShortModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ProjectRevisionShortModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,16 +31,16 @@ public static class GetShorts
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ProjectRevisionShortModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<ProjectRevisionShortModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня краткого описания редакций проектов.");
+            _logger.LogDebug("Получен запрос на получение полного перечня краткого описания редакций проектов.");
 
-            var result = await this.context.ProjectRevisions.AsNoTracking()
+            var result = await _context.ProjectRevisions.AsNoTracking()
                 .Include(pr => pr.ProjectVersion!.AnalogModule)
                 .OrderBy(pr => pr.ProjectVersion!.AnalogModule!.Title)
                 .ThenBy(pr => pr.ProjectVersion!.Title)
@@ -49,7 +49,7 @@ public static class GetShorts
                 .Select(pr => pr.ToShortModel())
                 .ToArrayAsync(cancellationToken);
 
-            this.logger.LogDebug("Запрос на получение полного перечня краткого описания редакций проектов успешно выполнен, '{Count}' записей.", result.Length);
+            _logger.LogDebug("Запрос на получение полного перечня краткого описания редакций проектов успешно выполнен, '{Count}' записей.", result.Length);
             return result;
         }
     }

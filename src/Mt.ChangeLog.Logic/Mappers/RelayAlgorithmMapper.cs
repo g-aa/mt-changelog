@@ -1,7 +1,6 @@
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -17,13 +16,11 @@ public static class RelayAlgorithmMapper
     /// <returns>Модель.</returns>
     public static RelayAlgorithmShortModel ToShortModel(this RelayAlgorithmEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new RelayAlgorithmShortModel
+        return new RelayAlgorithmShortModel
         {
             Id = entity.Id,
             Title = entity.Title,
         };
-        return result;
     }
 
     /// <summary>
@@ -33,8 +30,7 @@ public static class RelayAlgorithmMapper
     /// <returns>Модель.</returns>
     public static RelayAlgorithmModel ToModel(this RelayAlgorithmEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new RelayAlgorithmModel
+        return new RelayAlgorithmModel
         {
             Id = entity.Id,
             Group = entity.Group,
@@ -43,7 +39,6 @@ public static class RelayAlgorithmMapper
             LogicalNode = entity.LogicalNode,
             Description = entity.Description,
         };
-        return result;
     }
 
     /// <summary>

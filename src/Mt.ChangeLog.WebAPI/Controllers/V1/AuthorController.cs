@@ -10,11 +10,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с авторами.
 /// </summary>
-[ApiController]
 [Route("api/author")]
 public sealed class AuthorController : ControllerBase
 {
-    private readonly IMediator mediator;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="AuthorController"/>.
@@ -22,7 +21,7 @@ public sealed class AuthorController : ControllerBase
     /// <param name="mediator">Медиатор.</param>
     public AuthorController(IMediator mediator)
     {
-        this.mediator = mediator;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -31,11 +30,11 @@ public sealed class AuthorController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("list/short")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей авторов.", typeof(IEnumerable<AuthorShortModel>))]
-    public Task<IEnumerable<AuthorShortModel>> GetShortModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей авторов.", typeof(IReadOnlyCollection<AuthorShortModel>))]
+    public Task<IReadOnlyCollection<AuthorShortModel>> GetShortModels(CancellationToken cancellationToken)
     {
         var query = new GetShorts.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -44,11 +43,11 @@ public sealed class AuthorController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("list/table")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorTableModel>))]
-    public Task<IEnumerable<AuthorTableModel>> GetTableModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IReadOnlyCollection<AuthorTableModel>))]
+    public Task<IReadOnlyCollection<AuthorTableModel>> GetTableModels(CancellationToken cancellationToken)
     {
         var query = new GetTables.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -57,11 +56,11 @@ public sealed class AuthorController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("list/contribution")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorContributionModel>))]
-    public Task<IEnumerable<AuthorContributionModel>> GetContributionModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IReadOnlyCollection<AuthorContributionModel>))]
+    public Task<IReadOnlyCollection<AuthorContributionModel>> GetContributionModels(CancellationToken cancellationToken)
     {
         var query = new GetContributions.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -70,11 +69,11 @@ public sealed class AuthorController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("list/contribution/project")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IEnumerable<AuthorProjectContributionModel>))]
-    public Task<IEnumerable<AuthorProjectContributionModel>> GetProjectContributionModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей авторов для табличного представления.", typeof(IReadOnlyCollection<AuthorProjectContributionModel>))]
+    public Task<IReadOnlyCollection<AuthorProjectContributionModel>> GetProjectContributionModels(CancellationToken cancellationToken)
     {
         var query = new GetProjectContributions.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -87,7 +86,7 @@ public sealed class AuthorController : ControllerBase
     public Task<AuthorModel> GetTemplateModel(CancellationToken cancellationToken)
     {
         var query = new GetTemplate.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -101,7 +100,7 @@ public sealed class AuthorController : ControllerBase
     public Task<AuthorModel> GetModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new GetById.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -115,7 +114,7 @@ public sealed class AuthorController : ControllerBase
     public Task<MessageModel> PostModel([FromBody] AuthorModel model, CancellationToken cancellationToken)
     {
         var command = new Add.Command(model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -130,7 +129,7 @@ public sealed class AuthorController : ControllerBase
     public Task<MessageModel> PutModel([FromRoute] Guid id, [FromBody] AuthorModel model, CancellationToken cancellationToken)
     {
         var command = new Update.Command(id, model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -144,6 +143,6 @@ public sealed class AuthorController : ControllerBase
     public Task<MessageModel> DeleteModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new Delete.Command(new BaseModel { Id = id });
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 }

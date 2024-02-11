@@ -29,20 +29,20 @@ public static class Update
         /// <param name="validator">Project version model validator.</param>
         public CommandValidator(IValidator<ProjectVersionModel> validator)
         {
-            this.RuleFor(e => e.ProjectVersionId)
+            RuleFor(e => e.ProjectVersionId)
                 .Must((command, id) => id == command.Model.Id)
                 .WithMessage("Значение параметра '{PropertyName}' не равен значению идентификатора в модели из тела запроса.");
 
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -51,27 +51,27 @@ public static class Update
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public async Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных версии проекта '{Model}' в системе.", model);
+            _logger.LogDebug("Получен запрос на обновление данных версии проекта '{Model}' в системе.", model);
 
-            var dbStatus = this.context.ProjectStatuses
+            var dbStatus = _context.ProjectStatuses
                 .SearchOrDefault(model.ProjectStatus.Id);
 
-            var dbPlatform = this.context.Platforms
+            var dbPlatform = _context.Platforms
                 .Include(e => e.AnalogModules)
                 .SearchOrDefault(model.Platform.Id);
 
             var dbAnalogModule = dbPlatform.AnalogModules
                 .Search(model.AnalogModule.Id);
 
-            var dbProjectVersion = this.context.ProjectVersions.Search(model.Id)
+            var dbProjectVersion = _context.ProjectVersions.Search(model.Id)
                 .GetBuilder()
                 .SetAttributes(model)
                 .SetProjectStatus(dbStatus)
@@ -79,10 +79,10 @@ public static class Update
                 .SetAnalogModule(dbAnalogModule)
                 .Build();
 
-            this.context.ProjectVersions.Update(dbProjectVersion);
-            await this.context.SaveChangesAsync(cancellationToken);
+            _context.ProjectVersions.Update(dbProjectVersion);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Версия проекта '{DbProjectVersion}' успешно обновлен в системе.", dbProjectVersion);
+            _logger.LogInformation("Версия проекта '{DbProjectVersion}' успешно обновлен в системе.", dbProjectVersion);
             return new MessageModel
             {
                 Message = $"'{dbProjectVersion}' обновлен в системе.",

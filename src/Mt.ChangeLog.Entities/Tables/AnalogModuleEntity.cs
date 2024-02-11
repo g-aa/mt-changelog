@@ -15,15 +15,15 @@ public class AnalogModuleEntity : IDefaultable, IEntity, IEqualityPredicate<Anal
     /// </summary>
     public AnalogModuleEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.DIVG = DefaultString.DIVG;
-        this.Title = DefaultString.AnalogModule;
-        this.Current = DefaultString.Current;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.Projects = new HashSet<ProjectVersionEntity>();
-        this.Platforms = new HashSet<PlatformEntity>();
+        Id = Guid.NewGuid();
+        DIVG = DefaultString.DIVG;
+        Title = DefaultString.AnalogModule;
+        Current = DefaultString.Current;
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        Projects = new HashSet<ProjectVersionEntity>();
+        Platforms = new HashSet<PlatformEntity>();
     }
 
     /// <inheritdoc />
@@ -73,26 +73,26 @@ public class AnalogModuleEntity : IDefaultable, IEntity, IEqualityPredicate<Anal
     {
         /*
          * пока нет данных по ДИВГ-ам
-         * return (AnalogModule e) => e.Id == this.Id || e.DIVG == this.DIVG || e.Title == this.Title
+         * return (AnalogModule e) => e.Id == Id || e.DIVG == DIVG || e.Title == Title
          */
-        return (AnalogModuleEntity e) => e.Id == this.Id || e.Title == this.Title;
+        return (AnalogModuleEntity e) => e.Id == Id || e.Title == Title;
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is AnalogModuleEntity module && (this.Id.Equals(module.Id) || this.Title == module.Title);
+        return obj is AnalogModuleEntity module && (Id.Equals(module.Id) || Title == module.Title);
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.DIVG, this.Title, this.Current);
+        return HashCode.Combine(DIVG, Title, Current);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, модуль: {this.Title}";
+        return $"ID: {Id}, модуль: {Title}";
     }
 }

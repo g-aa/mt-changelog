@@ -11,16 +11,16 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule;
 public static class GetShorts
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<AnalogModuleShortModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<AnalogModuleShortModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<AnalogModuleShortModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<AnalogModuleShortModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly IAnalogModuleRepository repository;
+        private readonly IAnalogModuleRepository _repository;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -29,19 +29,19 @@ public static class GetShorts
         /// <param name="repository">Репозиторий с данными.</param>
         public Handler(ILogger<Handler> logger, IAnalogModuleRepository repository)
         {
-            this.logger = logger;
-            this.repository = repository;
+            _logger = logger;
+            _repository = repository;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<AnalogModuleShortModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<AnalogModuleShortModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня краткого описания аналоговых модулей.");
+            _logger.LogDebug("Получен запрос на получение полного перечня краткого описания аналоговых модулей.");
 
-            var result = await this.repository.GetShortEntitiesAsync();
+            var result = await _repository.GetShortEntitiesAsync();
 
-            this.logger.LogDebug("Запрос на получение полного перечня краткого описания аналоговых модулей успешно выполнен, '{Count}' записей.", result.Count());
-            return result.OrderBy(e => e.Title);
+            _logger.LogDebug("Запрос на получение полного перечня краткого описания аналоговых модулей успешно выполнен, '{Count}' записей.", result.Count());
+            return result.OrderBy(e => e.Title).ToList();
         }
     }
 }

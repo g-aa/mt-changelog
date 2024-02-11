@@ -30,16 +30,16 @@ public static class Add
         /// <param name="validator">Communication model validator.</param>
         public Validator(IValidator<CommunicationModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -48,17 +48,17 @@ public static class Add
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на добавление коммуникационного модуля '{Model}' в систему.", model);
+            _logger.LogDebug("Получен запрос на добавление коммуникационного модуля '{Model}' в систему.", model);
 
-            var dbProtocols = this.context.Protocols
+            var dbProtocols = _context.Protocols
                 .SearchManyOrDefault(model.Protocols.Select(e => e.Id));
 
             var dbCommunication = new CommunicationEntity().GetBuilder()
@@ -66,12 +66,12 @@ public static class Add
                 .SetProtocols(dbProtocols)
                 .Build();
 
-            if (this.context.Communications.IsContained(dbCommunication))
+            if (_context.Communications.IsContained(dbCommunication))
             {
                 throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbCommunication}' уже содержится в системе.");
             }
 
-            return this.SaveChangesAsync(dbCommunication, cancellationToken);
+            return SaveChangesAsync(dbCommunication, cancellationToken);
         }
 
         /// <summary>
@@ -82,10 +82,10 @@ public static class Add
         /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(CommunicationEntity entity, CancellationToken cancellationToken)
         {
-            await this.context.Communications.AddAsync(entity, cancellationToken);
-            await this.context.SaveChangesAsync(cancellationToken);
+            await _context.Communications.AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Коммуникационный модуль '{Entity}' успешно добавлен в систему.", entity);
+            _logger.LogInformation("Коммуникационный модуль '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' был добавлен в систему.",

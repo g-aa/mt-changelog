@@ -16,6 +16,6 @@ public class RelayAlgorithmModel : RelayAlgorithmTableModel
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ANSI: {this.ANSI}, {base.ToString()}";
+        return $"ANSI: {ANSI}, {base.ToString()}";
     }
 }

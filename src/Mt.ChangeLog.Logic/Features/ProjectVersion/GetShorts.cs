@@ -13,16 +13,16 @@ namespace Mt.ChangeLog.Logic.Features.ProjectVersion;
 public static class GetShorts
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<ProjectVersionShortModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<ProjectVersionShortModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<ProjectVersionShortModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ProjectVersionShortModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,22 +31,22 @@ public static class GetShorts
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ProjectVersionShortModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<ProjectVersionShortModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня краткого описания версий проектов.");
+            _logger.LogDebug("Получен запрос на получение полного перечня краткого описания версий проектов.");
 
-            var result = await this.context.ProjectVersions.AsNoTracking()
+            var result = await _context.ProjectVersions.AsNoTracking()
                 .Include(e => e.AnalogModule)
                 .OrderBy(e => e.AnalogModule!.Title).ThenBy(e => e.Title).ThenBy(e => e.Version)
                 .Select(e => e.ToShortModel())
                 .ToListAsync(cancellationToken);
 
-            this.logger.LogDebug("Запрос на получение полного перечня краткого описания версий проектов успешно выполнен, '{Count}' записей.", result.Count);
+            _logger.LogDebug("Запрос на получение полного перечня краткого описания версий проектов успешно выполнен, '{Count}' записей.", result.Count);
             return result;
         }
     }

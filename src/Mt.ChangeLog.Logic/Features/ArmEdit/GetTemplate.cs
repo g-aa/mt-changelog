@@ -17,7 +17,7 @@ public static class GetTemplate
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, ArmEditModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -25,17 +25,17 @@ public static class GetTemplate
         /// <param name="logger">Журнал логирования.</param>
         public Handler(ILogger<Handler> logger)
         {
-            this.logger = logger;
+            _logger = logger;
         }
 
         /// <inheritdoc />
         public Task<ArmEditModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на создание шаблона ArmEdit.");
+            _logger.LogDebug("Получен запрос на создание шаблона ArmEdit.");
 
             var model = new ArmEditModel();
 
-            this.logger.LogDebug("Запрос на создание шаблона ArmEdit '{Model}' выполнен успешно.", model);
+            _logger.LogDebug("Запрос на создание шаблона ArmEdit '{Model}' выполнен успешно.", model);
             return Task.FromResult(model);
         }
     }

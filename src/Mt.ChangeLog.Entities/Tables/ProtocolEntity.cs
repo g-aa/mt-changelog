@@ -15,12 +15,12 @@ public class ProtocolEntity : IDefaultable, IEntity, IEqualityPredicate<Protocol
     /// </summary>
     public ProtocolEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Protocol;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.Communications = new HashSet<CommunicationEntity>();
+        Id = Guid.NewGuid();
+        Title = DefaultString.Protocol;
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        Communications = new HashSet<CommunicationEntity>();
     }
 
     /// <inheritdoc />
@@ -53,24 +53,24 @@ public class ProtocolEntity : IDefaultable, IEntity, IEqualityPredicate<Protocol
     /// <inheritdoc />
     public Expression<Func<ProtocolEntity, bool>> GetEqualityPredicate()
     {
-        return (ProtocolEntity e) => e.Id == this.Id || e.Title == this.Title;
+        return (ProtocolEntity e) => e.Id == Id || e.Title == Title;
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is ProtocolEntity protocol && (this.Id.Equals(protocol.Id) || this.Title == protocol.Title);
+        return obj is ProtocolEntity protocol && (Id.Equals(protocol.Id) || Title == protocol.Title);
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Title);
+        return HashCode.Combine(Title);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, протокол: {this.Title}";
+        return $"ID: {Id}, протокол: {Title}";
     }
 }

@@ -7,7 +7,6 @@ namespace Mt.ChangeLog.WebAPI.Controllers;
 /// <summary>
 /// Методы работы с квитанциями.
 /// </summary>
-[ApiController]
 [Route("api/about")]
 public sealed class AboutController : ControllerBase
 {
@@ -15,11 +14,8 @@ public sealed class AboutController : ControllerBase
     /// Получить версию приложения.
     /// </summary>
     /// <returns>Версия приложения.</returns>
-    [HttpGet]
-    [Route("version")]
+    [HttpGet("version")]
     [SwaggerResponse(StatusCodes.Status200OK, "Версия приложения.", typeof(MtMessageResult))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
     public MtMessageResult Version()
     {
         return new MtMessageResult(Program.CurrentVersion);
@@ -29,14 +25,11 @@ public sealed class AboutController : ControllerBase
     /// Получить описание приложения.
     /// </summary>
     /// <returns>Описание приложения.</returns>
-    [HttpGet]
-    [Route("description")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Версия приложения.", typeof(MtAppDescription))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации.", typeof(MtProblemDetails))]
-    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера.", typeof(MtProblemDetails))]
+    [HttpGet("description")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Описание приложения.", typeof(MtAppDescription))]
     public MtAppDescription Description()
     {
-        return new MtAppDescription()
+        return new MtAppDescription
         {
             Version = Program.CurrentVersion,
             Repository = "https://github.com/g-aa/mt-changelog",

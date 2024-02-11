@@ -20,7 +20,7 @@ public sealed class MtContext : DbContext, IMtContext
     /// <summary>
     /// Журнал логирования.
     /// </summary>
-    private readonly ILogger<MtContext> logger;
+    private readonly ILogger<MtContext> _logger;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="MtContext"/>.
@@ -30,7 +30,7 @@ public sealed class MtContext : DbContext, IMtContext
     public MtContext(DbContextOptions<MtContext> options, ILogger<MtContext> logger)
         : base(options)
     {
-        this.logger = logger;
+        _logger = logger;
     }
 
     #region [ ProjectVersionEntities ]
@@ -94,7 +94,7 @@ public sealed class MtContext : DbContext, IMtContext
 
 #pragma warning disable CA2254 // Template should be a static expression
         optionsBuilder.LogTo(
-            message => this.logger.LogInformation(message),
+            message => _logger.LogInformation(message),
             LogLevel.Trace,
             DbContextLoggerOptions.DefaultWithUtcTime);
 #pragma warning restore CA2254 // Template should be a static expression
@@ -105,9 +105,9 @@ public sealed class MtContext : DbContext, IMtContext
     {
         base.OnModelCreating(modelBuilder);
 
-        if (this.Database.IsNpgsql())
+        if (Database.IsNpgsql())
         {
-            modelBuilder.HasDefaultSchema(MtContext.Schema);
+            modelBuilder.HasDefaultSchema(Schema);
         }
 
         new AnalogModuleConfiguration().Configure(modelBuilder.Entity<AnalogModuleEntity>());
@@ -120,7 +120,6 @@ public sealed class MtContext : DbContext, IMtContext
         new ProjectVersionConfiguration().Configure(modelBuilder.Entity<ProjectVersionEntity>());
         new ProjectStatusConfiguration().Configure(modelBuilder.Entity<ProjectStatusEntity>());
         new ProjectRevisionConfiguration().Configure(modelBuilder.Entity<ProjectRevisionEntity>());
-
         new LastProjectRevisionConfiguration().Configure(modelBuilder.Entity<LastProjectRevisionView>());
         new AuthorContributionConfiguration().Configure(modelBuilder.Entity<AuthorContributionView>());
         new AuthorProjectContributionConfiguration().Configure(modelBuilder.Entity<AuthorProjectContributionView>());

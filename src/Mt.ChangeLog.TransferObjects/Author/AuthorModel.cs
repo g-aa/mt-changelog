@@ -16,6 +16,6 @@ public class AuthorModel : AuthorTableModel
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"{base.ToString()}, {this.Position}";
+        return $"{base.ToString()}, {Position}";
     }
 }

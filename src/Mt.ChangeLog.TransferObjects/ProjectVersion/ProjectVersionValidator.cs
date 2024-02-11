@@ -23,39 +23,36 @@ public sealed class ProjectVersionValidator : AbstractValidator<ProjectVersionMo
         IValidator<PlatformShortModel> platformValidator,
         IValidator<ProjectStatusShortModel> projectStatusValidator)
     {
-        this.RuleFor(e => e.Prefix)
+        RuleFor(e => e.Prefix)
             .NotNull()
             .Matches(StringFormat.Prefix)
             .WithMessage("Значение параметра '{PropertyName}' должно иметь следующий вид БФПО-xxx, где x - [0-9].");
 
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .IsTrim()
             .Length(2, 16);
 
-        this.RuleFor(e => e.Version)
+        RuleFor(e => e.Version)
             .NotEmpty()
             .IsDigits()
             .Length(2);
 
-        this.RuleFor(e => e.DIVG)
+        RuleFor(e => e.DIVG)
             .NotEmpty()
             .IsDIVG();
 
-        this.RuleFor(e => e.Description)
+        RuleFor(e => e.Description)
             .NotNull()
             .IsTrim()
             .MaximumLength(500);
 
-        this.RuleFor(e => e.ProjectStatus)
-            .NotNull()
+        RuleFor(e => e.ProjectStatus)
             .SetValidator(projectStatusValidator);
 
-        this.RuleFor(e => e.AnalogModule)
-            .NotNull()
+        RuleFor(e => e.AnalogModule)
             .SetValidator(analogModuleValidator);
 
-        this.RuleFor(e => e.Platform)
-            .NotNull()
+        RuleFor(e => e.Platform)
             .SetValidator(platformValidator);
     }
 }

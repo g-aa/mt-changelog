@@ -9,7 +9,7 @@ namespace Mt.ChangeLog.TransferObjects.Test.AnalogModule;
 [TestFixture]
 public sealed class AnalogModuleShortValidatorTest
 {
-    private AnalogModuleShortValidator validator;
+    private AnalogModuleShortValidator _validator;
 
     /// <summary>
     /// Настройка.
@@ -17,7 +17,7 @@ public sealed class AnalogModuleShortValidatorTest
     [OneTimeSetUp]
     public void Setup()
     {
-        this.validator = new AnalogModuleShortValidator();
+        _validator = new AnalogModuleShortValidator();
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public sealed class AnalogModuleShortValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldNotHaveValidationErrorFor(m => m.Title);
@@ -65,7 +65,7 @@ public sealed class AnalogModuleShortValidatorTest
         };
 
         // act
-        var result = this.validator.TestValidate(model);
+        var result = _validator.TestValidate(model);
 
         // assert
         result.ShouldHaveValidationErrorFor(m => m.Title);

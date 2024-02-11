@@ -8,23 +8,23 @@ namespace Mt.ChangeLog.Logic.Builders;
 /// </summary>
 public class ProjectVersionBuilder
 {
-    private readonly ProjectVersionEntity entity;
+    private readonly ProjectVersionEntity _entity;
 
-    private string divg;
+    private string _divg;
 
-    private string prefix;
+    private string _prefix;
 
-    private string title;
+    private string _title;
 
-    private string version;
+    private string _version;
 
-    private string description;
+    private string _description;
 
-    private PlatformEntity? platform;
+    private PlatformEntity? _platform;
 
-    private AnalogModuleEntity? module;
+    private AnalogModuleEntity? _module;
 
-    private ProjectStatusEntity? status;
+    private ProjectStatusEntity? _status;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="ProjectVersionBuilder"/>.
@@ -32,15 +32,15 @@ public class ProjectVersionBuilder
     /// <param name="entity">Сущность.</param>
     public ProjectVersionBuilder(ProjectVersionEntity entity)
     {
-        this.entity = entity;
-        this.divg = entity.DIVG;
-        this.prefix = entity.Prefix;
-        this.title = entity.Title;
-        this.version = entity.Version;
-        this.description = entity.Description;
-        this.platform = entity.Platform;
-        this.module = entity.AnalogModule;
-        this.status = entity.ProjectStatus;
+        _entity = entity;
+        _divg = entity.DIVG;
+        _prefix = entity.Prefix;
+        _title = entity.Title;
+        _version = entity.Version;
+        _description = entity.Description;
+        _platform = entity.Platform;
+        _module = entity.AnalogModule;
+        _status = entity.ProjectStatus;
     }
 
     /// <summary>
@@ -50,11 +50,11 @@ public class ProjectVersionBuilder
     /// <returns>Строитель.</returns>
     public ProjectVersionBuilder SetAttributes(ProjectVersionModel model)
     {
-        this.divg = model.DIVG;
-        this.prefix = model.Prefix;
-        this.title = model.Title;
-        this.version = model.Version;
-        this.description = model.Description;
+        _divg = model.DIVG;
+        _prefix = model.Prefix;
+        _title = model.Title;
+        _version = model.Version;
+        _description = model.Description;
         return this;
     }
 
@@ -65,7 +65,7 @@ public class ProjectVersionBuilder
     /// <returns>Строитель.</returns>
     public ProjectVersionBuilder SetPlatform(PlatformEntity platform)
     {
-        this.platform = platform;
+        _platform = platform;
         return this;
     }
 
@@ -76,7 +76,7 @@ public class ProjectVersionBuilder
     /// <returns>Строитель.</returns>
     public ProjectVersionBuilder SetAnalogModule(AnalogModuleEntity module)
     {
-        this.module = module;
+        _module = module;
         return this;
     }
 
@@ -87,7 +87,7 @@ public class ProjectVersionBuilder
     /// <returns>Строитель.</returns>
     public ProjectVersionBuilder SetProjectStatus(ProjectStatusEntity status)
     {
-        this.status = status;
+        _status = status;
         return this;
     }
 
@@ -98,31 +98,31 @@ public class ProjectVersionBuilder
     public ProjectVersionEntity Build()
     {
         // атрибуты:
-        // this.entity.Id - не обновляется!
-        this.entity.DIVG = this.divg;
-        if (!string.IsNullOrEmpty(this.prefix))
+        // _entity.Id - не обновляется!
+        _entity.DIVG = _divg;
+        if (!string.IsNullOrEmpty(_prefix))
         {
-            this.entity.Prefix = this.prefix;
+            _entity.Prefix = _prefix;
         }
-        else if (this.module != null)
+        else if (_module != null)
         {
-            this.entity.Prefix = this.module.Title.Replace("БМРЗ", "БФПО", StringComparison.OrdinalIgnoreCase);
+            _entity.Prefix = _module.Title.Replace("БМРЗ", "БФПО", StringComparison.OrdinalIgnoreCase);
         }
         else
         {
-            this.entity.Prefix = "БФПО";
+            _entity.Prefix = "БФПО";
         }
 
-        this.entity.Title = this.title;
-        this.entity.Version = this.version;
-        this.entity.Description = this.description;
+        _entity.Title = _title;
+        _entity.Version = _version;
+        _entity.Description = _description;
 
         // реляционные связи:
-        this.entity.AnalogModule = this.module;
-        this.entity.Platform = this.platform;
-        this.entity.ProjectStatus = this.status;
+        _entity.AnalogModule = _module;
+        _entity.Platform = _platform;
+        _entity.ProjectStatus = _status;
 
-        // this.entity.ProjectRevisions - не обновляется!
-        return this.entity;
+        // _entity.ProjectRevisions - не обновляется!
+        return _entity;
     }
 }

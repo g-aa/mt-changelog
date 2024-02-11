@@ -2,10 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 using Microsoft.OpenApi.Models;
-
 using Mt.ChangeLog.WebAPI.Controllers;
 using Mt.Results;
-
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Mt.ChangeLog.WebAPI.Infrastructure;
@@ -20,7 +18,9 @@ public sealed class SwaggerResponseOperationFilter : IOperationFilter
     {
         { StatusCodes.Status400BadRequest, "Ошибка в логике приложения, ошибка валидации." },
         { StatusCodes.Status401Unauthorized, "Пользователь не авторизован." },
-        { StatusCodes.Status422UnprocessableEntity, "Внутренняя ошибка сервера." },
+        { StatusCodes.Status403Forbidden, "Доступ к ресурсу запрещен." },
+        { StatusCodes.Status422UnprocessableEntity, "Ошибка в логике приложения." },
+        { StatusCodes.Status500InternalServerError, "Внутренняя ошибка сервера." },
     };
 
     /// <inheritdoc />

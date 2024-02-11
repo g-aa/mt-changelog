@@ -13,16 +13,16 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision;
 public static class GetTables
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<ProjectRevisionTableModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<ProjectRevisionTableModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<ProjectRevisionTableModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ProjectRevisionTableModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,23 +31,23 @@ public static class GetTables
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ProjectRevisionTableModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<ProjectRevisionTableModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня табличного описания редакций проектов.");
+            _logger.LogDebug("Получен запрос на получение полного перечня табличного описания редакций проектов.");
 
-            var result = await this.context.ProjectRevisions.AsNoTracking()
+            var result = await _context.ProjectRevisions.AsNoTracking()
                 .Include(pr => pr.ArmEdit)
                 .Include(pr => pr.ProjectVersion!.AnalogModule)
                 .OrderByDescending(pr => pr.Date).ThenByDescending(pr => pr.ArmEdit!.Version)
                 .Select(pr => pr.ToTableModel())
                 .ToListAsync(cancellationToken);
 
-            this.logger.LogDebug("Запрос на получение полного перечня табличного описания редакций проекта успешно выполнен, '{Count}' записей.", result.Count);
+            _logger.LogDebug("Запрос на получение полного перечня табличного описания редакций проекта успешно выполнен, '{Count}' записей.", result.Count);
             return result;
         }
     }

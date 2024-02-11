@@ -30,16 +30,16 @@ public static class GetProjectVersionHistory
         /// <param name="validator">Base model validator.</param>
         public Validator(IValidator<BaseModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, ProjectVersionHistoryModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -48,19 +48,19 @@ public static class GetProjectVersionHistory
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<ProjectVersionHistoryModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление истории изменения для версии проекта '{Model}'.", model);
+            _logger.LogDebug("Получен запрос на предоставление истории изменения для версии проекта '{Model}'.", model);
 
             var result = new ProjectVersionHistoryModel();
 
-            var query = this.context.ProjectRevisions.AsNoTracking()
+            var query = _context.ProjectRevisions.AsNoTracking()
                 .Include(e => e.ArmEdit)
                 .Include(e => e.Authors)
                 .Include(e => e.ProjectVersion!.AnalogModule)

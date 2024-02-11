@@ -28,9 +28,9 @@ public sealed class AnalogModuleRepository : AbstractRepository, IAnalogModuleRe
     {
         var qSql = $@"SELECT * FROM ""{Schema}"".""get_AnalogModule""(@guid);
                           SELECT * FROM ""{Schema}"".""get_PlatformsForAnalogModule""(@guid);";
-        var qMultiple = await this.Connection.QueryMultipleAsync(qSql, new { guid });
+        var qMultiple = await Connection.QueryMultipleAsync(qSql, new { guid });
         var module = await qMultiple.ReadSingleAsync<AnalogModuleModel>();
-        module.Platforms = await qMultiple.ReadAsync<PlatformShortModel>();
+        module.Platforms = (await qMultiple.ReadAsync<PlatformShortModel>()).ToList();
         return module;
     }
 
@@ -38,7 +38,7 @@ public sealed class AnalogModuleRepository : AbstractRepository, IAnalogModuleRe
     public async Task<IEnumerable<AnalogModuleShortModel>> GetShortEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_ShortAnalogModules""();";
-        var result = await this.Connection.QueryAsync<AnalogModuleShortModel>(qSql);
+        var result = await Connection.QueryAsync<AnalogModuleShortModel>(qSql);
         return result;
     }
 
@@ -46,7 +46,7 @@ public sealed class AnalogModuleRepository : AbstractRepository, IAnalogModuleRe
     public async Task<IEnumerable<AnalogModuleTableModel>> GetTableEntitiesAsync()
     {
         var qSql = $@"SELECT * FROM ""{Schema}"".""get_TableAnalogModules""();";
-        var result = await this.Connection.QueryAsync<AnalogModuleTableModel>(qSql);
+        var result = await Connection.QueryAsync<AnalogModuleTableModel>(qSql);
         return result;
     }
 }

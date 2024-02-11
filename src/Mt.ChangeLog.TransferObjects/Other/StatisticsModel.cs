@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.Utilities;
@@ -7,49 +9,57 @@ namespace Mt.ChangeLog.TransferObjects.Other;
 /// <summary>
 /// Статистика ChangeLog.
 /// </summary>
-public struct StatisticsModel
+public class StatisticsModel
 {
     /// <summary>
     /// Инициализация нового экземпляра класса <see cref="StatisticsModel"/>.
     /// </summary>
     public StatisticsModel()
     {
-        this.Date = DateTime.Now;
-        this.ArmEdit = DefaultString.Version;
-        this.ProjectCount = 0;
-        this.ProjectDistributions = new Dictionary<string, int>();
-        this.AuthorContributions = Array.Empty<AuthorContributionModel>();
-        this.LastModifiedProjects = Array.Empty<ProjectRevisionHistoryShortModel>();
+        Date = DateTime.Now;
+        ArmEdit = DefaultString.Version;
+        ProjectCount = 0;
+        ProjectDistributions = new Dictionary<string, int>();
+        AuthorContributions = Array.Empty<AuthorContributionModel>();
+        LastModifiedProjects = Array.Empty<ProjectRevisionHistoryShortModel>();
     }
 
     /// <summary>
     /// Дата сбора статистики.
     /// </summary>
+    [Required]
     public DateTime Date { get; set; }
 
     /// <summary>
     /// Актуальная версия ArmEdit.
     /// </summary>
     /// <example>v0.00.00.00</example>
+    [Required]
+    [RegularExpression(StringFormat.Version)]
     public string ArmEdit { get; set; }
 
     /// <summary>
     /// Количество проектов.
     /// </summary>
+    [Required]
+    [Range(0, int.MaxValue)]
     public int ProjectCount { get; set; }
 
     /// <summary>
     /// Распространение проектов.
     /// </summary>
-    public Dictionary<string, int> ProjectDistributions { get; set; }
+    [Required]
+    public IReadOnlyDictionary<string, int> ProjectDistributions { get; set; }
 
     /// <summary>
     /// Модель автор общий вклад в проекты.
     /// </summary>
-    public IEnumerable<AuthorContributionModel> AuthorContributions { get; set; }
+    [Required]
+    public IReadOnlyCollection<AuthorContributionModel> AuthorContributions { get; set; }
 
     /// <summary>
     /// Последние изменения по проектам.
     /// </summary>
-    public IEnumerable<ProjectRevisionHistoryShortModel> LastModifiedProjects { get; set; }
+    [Required]
+    public IReadOnlyCollection<ProjectRevisionHistoryShortModel> LastModifiedProjects { get; set; }
 }

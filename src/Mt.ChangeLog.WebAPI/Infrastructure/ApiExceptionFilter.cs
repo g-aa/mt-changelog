@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Mt.Results;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 using Mt.Utilities.Extensions;
 
@@ -15,22 +14,20 @@ public sealed class ApiExceptionFilter : IExceptionFilter
     /// <summary>
     /// Передавать детализацию об исключениях.
     /// </summary>
-    private readonly bool passDetails;
+    private readonly bool _passDetails;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="ApiExceptionFilter"/>.
     /// </summary>
     public ApiExceptionFilter()
     {
-        this.passDetails = false;
+        _passDetails = false;
     }
 
     /// <inheritdoc />
     public void OnException(ExceptionContext context)
     {
-        Check.NotNull(context, nameof(context));
         var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<ApiExceptionFilter>>();
-
         switch (context.Exception)
         {
             case MtException exception:
@@ -52,7 +49,7 @@ public sealed class ApiExceptionFilter : IExceptionFilter
             default:
                 logger.LogError(context.Exception, context.Exception.Message);
                 var code = ErrorCode.InternalServerError;
-                var details = new MtProblemDetails(code.Title(), this.passDetails ? context.Exception.Message : code.Desc());
+                var details = new MtProblemDetails(code.Title(), _passDetails ? context.Exception.Message : code.Desc());
                 context.Result = new ObjectResult(details)
                 {
                     StatusCode = code.HttpStatusCode(),

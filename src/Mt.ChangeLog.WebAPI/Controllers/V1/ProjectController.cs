@@ -11,11 +11,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с проектами.
 /// </summary>
-[ApiController]
 [Route("api/project")]
 public sealed class ProjectController : ControllerBase
 {
-    private readonly IMediator mediator;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="ProjectController"/>.
@@ -23,7 +22,7 @@ public sealed class ProjectController : ControllerBase
     /// <param name="mediator">Медиатор.</param>
     public ProjectController(IMediator mediator)
     {
-        this.mediator = mediator;
+        _mediator = mediator;
     }
 
     #region [ Project status ]
@@ -34,11 +33,11 @@ public sealed class ProjectController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("status/list/short")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей статусов проекта.", typeof(IEnumerable<ProjectStatusShortModel>))]
-    public Task<IEnumerable<ProjectStatusShortModel>> GetStatusShortModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей статусов проекта.", typeof(IReadOnlyCollection<ProjectStatusShortModel>))]
+    public Task<IReadOnlyCollection<ProjectStatusShortModel>> GetStatusShortModels(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectStatus.GetShorts.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -47,11 +46,11 @@ public sealed class ProjectController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("status/list/table")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей статусов проекта для табличного представления.", typeof(IEnumerable<ProjectStatusTableModel>))]
-    public Task<IEnumerable<ProjectStatusTableModel>> GetStatusTableModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей статусов проекта для табличного представления.", typeof(IReadOnlyCollection<ProjectStatusTableModel>))]
+    public Task<IReadOnlyCollection<ProjectStatusTableModel>> GetStatusTableModels(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectStatus.GetTables.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -64,7 +63,7 @@ public sealed class ProjectController : ControllerBase
     public Task<ProjectStatusModel> GetStatusTemplateModel(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectStatus.GetTemplate.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -78,7 +77,7 @@ public sealed class ProjectController : ControllerBase
     public Task<ProjectStatusModel> GetStatusModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectStatus.GetById.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -92,7 +91,7 @@ public sealed class ProjectController : ControllerBase
     public Task<MessageModel> PostStatusModel([FromBody] ProjectStatusModel model, CancellationToken cancellationToken)
     {
         var command = new Mt.ChangeLog.Logic.Features.ProjectStatus.Add.Command(model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -107,7 +106,7 @@ public sealed class ProjectController : ControllerBase
     public Task<MessageModel> PutStatusModel([FromRoute] Guid id, [FromBody] ProjectStatusModel model, CancellationToken cancellationToken)
     {
         var command = new Mt.ChangeLog.Logic.Features.ProjectStatus.Update.Command(id, model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -121,7 +120,7 @@ public sealed class ProjectController : ControllerBase
     public Task<MessageModel> DeleteStatusModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new Mt.ChangeLog.Logic.Features.ProjectStatus.Delete.Command(new BaseModel { Id = id });
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     #endregion
@@ -134,11 +133,11 @@ public sealed class ProjectController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("version/list/short")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей версий проекта.", typeof(IEnumerable<ProjectVersionShortModel>))]
-    public Task<IEnumerable<ProjectVersionShortModel>> GetVersionShortModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей версий проекта.", typeof(IReadOnlyCollection<ProjectVersionShortModel>))]
+    public Task<IReadOnlyCollection<ProjectVersionShortModel>> GetVersionShortModels(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectVersion.GetShorts.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -147,11 +146,11 @@ public sealed class ProjectController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("version/list/table")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей версий проекта для табличного представления.", typeof(IEnumerable<ProjectVersionTableModel>))]
-    public Task<IEnumerable<ProjectVersionTableModel>> GetVersionTableModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей версий проекта для табличного представления.", typeof(IReadOnlyCollection<ProjectVersionTableModel>))]
+    public Task<IReadOnlyCollection<ProjectVersionTableModel>> GetVersionTableModels(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectVersion.GetTables.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -160,11 +159,11 @@ public sealed class ProjectController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("version/list/title")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень наименование версий проектов.", typeof(IEnumerable<string>))]
-    public Task<IEnumerable<string>> GetProjectTitles(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень наименование версий проектов.", typeof(IReadOnlyCollection<string>))]
+    public Task<IReadOnlyCollection<string>> GetProjectTitles(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectVersion.GetTitles.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -177,7 +176,7 @@ public sealed class ProjectController : ControllerBase
     public Task<ProjectVersionModel> GetVersionTemplateModel(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectVersion.GetTemplate.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -191,7 +190,7 @@ public sealed class ProjectController : ControllerBase
     public Task<ProjectVersionModel> GetVersionModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectVersion.GetById.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -205,7 +204,7 @@ public sealed class ProjectController : ControllerBase
     public Task<MessageModel> PostVersionModel([FromBody] ProjectVersionModel model, CancellationToken cancellationToken)
     {
         var command = new Mt.ChangeLog.Logic.Features.ProjectVersion.Add.Command(model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -220,7 +219,7 @@ public sealed class ProjectController : ControllerBase
     public Task<MessageModel> PutVersionModel([FromRoute] Guid id, [FromBody] ProjectVersionModel model, CancellationToken cancellationToken)
     {
         var command = new Mt.ChangeLog.Logic.Features.ProjectVersion.Update.Command(id, model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -234,7 +233,7 @@ public sealed class ProjectController : ControllerBase
     public Task<MessageModel> DeleteVersionModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new Mt.ChangeLog.Logic.Features.ProjectVersion.Delete.Command(new BaseModel { Id = id });
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     #endregion
@@ -247,11 +246,11 @@ public sealed class ProjectController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("revision/list/short")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей редакций проекта.", typeof(IEnumerable<ProjectRevisionShortModel>))]
-    public Task<IEnumerable<ProjectRevisionShortModel>> GetRevisionShortModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень кратких моделей редакций проекта.", typeof(IReadOnlyCollection<ProjectRevisionShortModel>))]
+    public Task<IReadOnlyCollection<ProjectRevisionShortModel>> GetRevisionShortModels(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectRevision.GetShorts.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -260,11 +259,11 @@ public sealed class ProjectController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("revision/list/table")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей ревизий проекта для табличного представления.", typeof(IEnumerable<ProjectRevisionTableModel>))]
-    public Task<IEnumerable<ProjectRevisionTableModel>> GetRevisionTableModels(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Полный перечень моделей ревизий проекта для табличного представления.", typeof(IReadOnlyCollection<ProjectRevisionTableModel>))]
+    public Task<IReadOnlyCollection<ProjectRevisionTableModel>> GetRevisionTableModels(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectRevision.GetTables.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -273,11 +272,11 @@ public sealed class ProjectController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("revision/list/last")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Перечень модель последних редакции проектов.", typeof(IEnumerable<LastProjectRevisionModel>))]
-    public Task<IEnumerable<LastProjectRevisionModel>> GetLatestRevisionModel(CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Перечень модель последних редакции проектов.", typeof(IReadOnlyCollection<LastProjectRevisionModel>))]
+    public Task<IReadOnlyCollection<LastProjectRevisionModel>> GetLatestRevisionModel(CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectRevision.GetLatest.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -291,7 +290,7 @@ public sealed class ProjectController : ControllerBase
     public Task<ProjectRevisionModel> GetRevisionTemplateModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectRevision.GetTemplate.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -305,7 +304,7 @@ public sealed class ProjectController : ControllerBase
     public Task<ProjectRevisionModel> GetRevisionModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new Mt.ChangeLog.Logic.Features.ProjectRevision.GetById.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -319,7 +318,7 @@ public sealed class ProjectController : ControllerBase
     public Task<MessageModel> PostRevisionModel([FromBody] ProjectRevisionModel model, CancellationToken cancellationToken)
     {
         var command = new Mt.ChangeLog.Logic.Features.ProjectRevision.Add.Command(model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -334,7 +333,7 @@ public sealed class ProjectController : ControllerBase
     public Task<MessageModel> PutRevisionModel([FromRoute] Guid id, [FromBody] ProjectRevisionModel model, CancellationToken cancellationToken)
     {
         var command = new Mt.ChangeLog.Logic.Features.ProjectRevision.Update.Command(id, model);
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     /// <summary>
@@ -348,7 +347,7 @@ public sealed class ProjectController : ControllerBase
     public Task<MessageModel> DeleteRevisionModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new Mt.ChangeLog.Logic.Features.ProjectRevision.Delete.Command(new BaseModel { Id = id });
-        return this.mediator.Send(command, cancellationToken);
+        return _mediator.Send(command, cancellationToken);
     }
 
     #endregion

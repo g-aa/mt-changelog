@@ -26,9 +26,9 @@ public static class GetTemplate
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, ProjectRevisionModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -37,23 +37,23 @@ public static class GetTemplate
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<ProjectRevisionModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на создание шаблона редакции проекта.");
+            _logger.LogDebug("Получен запрос на создание шаблона редакции проекта.");
 
             var model = request.Model;
 
-            var project = this.context.ProjectVersions
+            var project = _context.ProjectVersions
                 .Include(e => e.AnalogModule)
                 .Search(model.Id)
                 .ToShortModel();
 
-            var lastRevision = this.context.ProjectRevisions
+            var lastRevision = _context.ProjectRevisions
                 .Include(e => e.Communication)
                 .Include(e => e.Authors)
                 .Include(e => e.RelayAlgorithms)
@@ -61,7 +61,7 @@ public static class GetTemplate
                 .OrderByDescending(e => e.Revision)
                 .FirstOrDefault();
 
-            var armEdit = this.context.ArmEdits
+            var armEdit = _context.ArmEdits
                 .OrderByDescending(e => e.Version)
                 .First()
                 .ToShortModel();
@@ -69,7 +69,7 @@ public static class GetTemplate
             var communication = lastRevision?.Communication?.ToShortModel();
             if (communication is null)
             {
-                communication = this.context.Communications
+                communication = _context.Communications
                     .OrderByDescending(e => e.Title)
                     .First()
                     .ToShortModel();
@@ -80,10 +80,10 @@ public static class GetTemplate
                 : (int.Parse(lastRevision.Revision, CultureInfo.InvariantCulture) + 1).ToString("D2", CultureInfo.InvariantCulture);
 
             var algorithms = lastRevision?.RelayAlgorithms
-                .Select(e => e.ToShortModel()) ?? Array.Empty<RelayAlgorithmShortModel>();
+                .Select(e => e.ToShortModel()).ToList() ?? new List<RelayAlgorithmShortModel>();
 
             var authors = lastRevision?.Authors
-                .Select(e => e.ToShortModel()) ?? Array.Empty<AuthorShortModel>();
+                .Select(e => e.ToShortModel()).ToList() ?? new List<AuthorShortModel>();
 
             var result = new ProjectRevisionModel
             {
@@ -96,7 +96,7 @@ public static class GetTemplate
                 Authors = authors,
             };
 
-            this.logger.LogDebug("Запрос на создание шаблона редакции проекта выполнен успешно.");
+            _logger.LogDebug("Запрос на создание шаблона редакции проекта выполнен успешно.");
             return Task.FromResult(result);
         }
     }

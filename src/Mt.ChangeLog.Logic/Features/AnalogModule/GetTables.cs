@@ -11,16 +11,16 @@ namespace Mt.ChangeLog.Logic.Features.AnalogModule;
 public static class GetTables
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<AnalogModuleTableModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<AnalogModuleTableModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<AnalogModuleTableModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<AnalogModuleTableModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly IAnalogModuleRepository repository;
+        private readonly IAnalogModuleRepository _repository;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -29,19 +29,19 @@ public static class GetTables
         /// <param name="repository">Репозиторий с данными.</param>
         public Handler(ILogger<Handler> logger, IAnalogModuleRepository repository)
         {
-            this.logger = logger;
-            this.repository = repository;
+            _logger = logger;
+            _repository = repository;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<AnalogModuleTableModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<AnalogModuleTableModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня табличного описания аналоговых модулей.");
+            _logger.LogDebug("Получен запрос на получение полного перечня табличного описания аналоговых модулей.");
 
-            var result = await this.repository.GetTableEntitiesAsync();
+            var result = await _repository.GetTableEntitiesAsync();
 
-            this.logger.LogDebug("Запрос на получение полного перечня табличного описания аналоговых модулей успешно выполнен, '{Count}' записей.", result.Count());
-            return result.OrderBy(e => e.Title);
+            _logger.LogDebug("Запрос на получение полного перечня табличного описания аналоговых модулей успешно выполнен, '{Count}' записей.", result.Count());
+            return result.OrderBy(e => e.Title).ToList();
         }
     }
 }

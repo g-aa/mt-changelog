@@ -15,11 +15,11 @@ public static class MtContextExtensions
     /// <param name="context">Контекст данных.</param>
     public static void InitializeDefaultState(this MtContext context)
     {
-        if (Check.NotNull(context, nameof(context)).Database.EnsureCreated())
+        if (context.Database.EnsureCreated())
         {
-            MtContextExtensions.AddDefaultEntities(context);
-            MtContextExtensions.CreateViews(context);
-            MtContextExtensions.CreateSqlFuncs(context);
+            AddDefaultEntities(context);
+            CreateViews(context);
+            CreateSqlFuncs(context);
             context.SaveChanges();
         }
     }

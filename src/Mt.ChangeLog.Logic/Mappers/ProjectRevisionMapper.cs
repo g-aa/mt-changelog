@@ -4,7 +4,6 @@ using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -20,17 +19,14 @@ public static class ProjectRevisionMapper
     /// <returns>Модель.</returns>
     public static ProjectRevisionShortModel ToShortModel(this ProjectRevisionEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var projectVersion = Check.NotNull(entity.ProjectVersion, nameof(entity.ProjectVersion));
-        var result = new ProjectRevisionShortModel
+        return new ProjectRevisionShortModel
         {
             Id = entity.Id,
-            Prefix = projectVersion.Prefix,
-            Title = projectVersion.Title,
-            Version = projectVersion.Version,
+            Prefix = entity.ProjectVersion!.Prefix,
+            Title = entity.ProjectVersion!.Title,
+            Version = entity.ProjectVersion!.Version,
             Revision = entity.Revision,
         };
-        return result;
     }
 
     /// <summary>
@@ -40,21 +36,17 @@ public static class ProjectRevisionMapper
     /// <returns>Модель.</returns>
     public static ProjectRevisionTableModel ToTableModel(this ProjectRevisionEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var projectVersion = Check.NotNull(entity.ProjectVersion, nameof(entity.ProjectVersion));
-        var armEdit = Check.NotNull(entity.ArmEdit, nameof(entity.ArmEdit));
-        var result = new ProjectRevisionTableModel
+        return new ProjectRevisionTableModel
         {
             Id = entity.Id,
-            Prefix = projectVersion.Prefix,
-            Title = projectVersion.Title,
-            Version = projectVersion.Version,
+            Prefix = entity.ProjectVersion!.Prefix,
+            Title = entity.ProjectVersion!.Title,
+            Version = entity.ProjectVersion!.Version,
             Revision = entity.Revision,
             Date = entity.Date,
-            ArmEdit = armEdit.Version,
+            ArmEdit = entity.ArmEdit!.Version,
             Reason = entity.Reason,
         };
-        return result;
     }
 
     /// <summary>
@@ -64,23 +56,18 @@ public static class ProjectRevisionMapper
     /// <returns>Модель.</returns>
     public static ProjectRevisionTreeModel ToTreeModel(this ProjectRevisionEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var projectVersion = Check.NotNull(entity.ProjectVersion, nameof(entity.ProjectVersion));
-        var armEdit = Check.NotNull(entity.ArmEdit, nameof(entity.ArmEdit));
-        var platform = Check.NotNull(projectVersion.Platform, nameof(projectVersion.Platform));
-        var result = new ProjectRevisionTreeModel
+        return new ProjectRevisionTreeModel
         {
             Id = entity.Id,
             ParentId = entity.ParentRevisionId,
-            Prefix = projectVersion.Prefix,
-            Title = projectVersion.Title,
-            Version = projectVersion.Version,
+            Prefix = entity.ProjectVersion!.Prefix,
+            Title = entity.ProjectVersion!.Title,
+            Version = entity.ProjectVersion!.Version,
             Revision = entity.Revision,
             Date = entity.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
-            ArmEdit = armEdit.Version,
-            Platform = platform.Title,
+            ArmEdit = entity.ArmEdit!.Version,
+            Platform = entity.ProjectVersion!.Platform!.Title,
         };
-        return result;
     }
 
     /// <summary>
@@ -90,17 +77,13 @@ public static class ProjectRevisionMapper
     /// <returns>Модель.</returns>
     public static ProjectRevisionHistoryShortModel ToHistoryShortModel(this ProjectRevisionEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var projectVersion = Check.NotNull(entity.ProjectVersion, nameof(entity.ProjectVersion));
-        var platform = Check.NotNull(projectVersion.Platform, nameof(projectVersion.Platform));
-        var result = new ProjectRevisionHistoryShortModel
+        return new ProjectRevisionHistoryShortModel
         {
             Id = entity.Id,
             Date = entity.Date,
-            Title = $"{projectVersion.Prefix}-{projectVersion.Title}-{projectVersion.Version}_{entity.Revision}",
-            Platform = platform.Title,
+            Title = $"{entity.ProjectVersion!.Prefix}-{entity.ProjectVersion!.Title}-{entity.ProjectVersion!.Version}_{entity.Revision}",
+            Platform = entity.ProjectVersion!.Platform!.Title,
         };
-        return result;
     }
 
     /// <summary>
@@ -110,25 +93,19 @@ public static class ProjectRevisionMapper
     /// <returns>Модель.</returns>
     public static ProjectRevisionHistoryModel ToHistoryModel(this ProjectRevisionEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var projectVersion = Check.NotNull(entity.ProjectVersion, nameof(entity.ProjectVersion));
-        var armEdit = Check.NotNull(entity.ArmEdit, nameof(entity.ArmEdit));
-        var platform = Check.NotNull(projectVersion.Platform, nameof(projectVersion.Platform));
-        var communication = Check.NotNull(entity.Communication, nameof(entity.Communication));
-        var result = new ProjectRevisionHistoryModel
+        return new ProjectRevisionHistoryModel
         {
             Id = entity.Id,
-            ArmEdit = armEdit.Version,
-            Authors = entity.Authors.Select(a => $"{a.FirstName} {a.LastName}"),
-            RelayAlgorithms = entity.RelayAlgorithms.Select(ra => ra.Title),
-            Communication = string.Join(", ", communication.Protocols.OrderBy(e => e.Title).Select(e => e.Title)),
+            ArmEdit = entity.ArmEdit!.Version,
+            Authors = entity.Authors.Select(a => $"{a.FirstName} {a.LastName}").ToList(),
+            RelayAlgorithms = entity.RelayAlgorithms.Select(ra => ra.Title).ToList(),
+            Communication = string.Join(", ", entity.Communication!.Protocols.OrderBy(e => e.Title).Select(e => e.Title)),
             Date = entity.Date,
             Description = entity.Description,
-            Platform = platform.Title,
+            Platform = entity.ProjectVersion!.Platform!.Title,
             Reason = entity.Reason,
-            Title = $"{projectVersion.Prefix}-{projectVersion.Title}-{projectVersion.Version}_{entity.Revision}",
+            Title = $"{entity.ProjectVersion!.Prefix}-{entity.ProjectVersion!.Title}-{entity.ProjectVersion!.Version}_{entity.Revision}",
         };
-        return result;
     }
 
     /// <summary>
@@ -138,8 +115,7 @@ public static class ProjectRevisionMapper
     /// <returns>Модель.</returns>
     public static ProjectRevisionModel ToModel(this ProjectRevisionEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ProjectRevisionModel
+        return new ProjectRevisionModel
         {
             Id = entity.Id,
             Date = entity.Date,
@@ -150,10 +126,9 @@ public static class ProjectRevisionMapper
             ProjectVersion = entity.ProjectVersion!.ToShortModel(),
             ArmEdit = entity.ArmEdit!.ToShortModel(),
             Communication = entity.Communication!.ToShortModel(),
-            Authors = entity.Authors.Select(author => author.ToShortModel()),
-            RelayAlgorithms = entity.RelayAlgorithms.Select(alg => alg.ToShortModel()),
+            Authors = entity.Authors.Select(author => author.ToShortModel()).ToList(),
+            RelayAlgorithms = entity.RelayAlgorithms.Select(alg => alg.ToShortModel()).ToList(),
         };
-        return result;
     }
 
     /// <summary>

@@ -15,14 +15,14 @@ public class ArmEditEntity : IDefaultable, IEntity, IEqualityPredicate<ArmEditEn
     /// </summary>
     public ArmEditEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.DIVG = DefaultString.DIVG;
-        this.Version = DefaultString.Version;
-        this.Date = DateTime.Now;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+        Id = Guid.NewGuid();
+        DIVG = DefaultString.DIVG;
+        Version = DefaultString.Version;
+        Date = DateTime.Now;
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        ProjectRevisions = new HashSet<ProjectRevisionEntity>();
     }
 
     /// <inheritdoc />
@@ -67,26 +67,26 @@ public class ArmEditEntity : IDefaultable, IEntity, IEqualityPredicate<ArmEditEn
     {
         /*
          * пока нет полных данных по ДИВГ-ам
-         * return (ArmEdit e) => e.Id == this.Id || e.DIVG == this.DIVG || e.Version == this.Version
+         * return (ArmEdit e) => e.Id == Id || e.DIVG == DIVG || e.Version == Version
          */
-        return (ArmEditEntity e) => e.Id == this.Id || e.Version == this.Version;
+        return (ArmEditEntity e) => e.Id == Id || e.Version == Version;
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is ArmEditEntity arm && (this.Id.Equals(arm.Id) || this.Version == arm.Version);
+        return obj is ArmEditEntity arm && (Id.Equals(arm.Id) || Version == arm.Version);
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.DIVG, this.Version);
+        return HashCode.Combine(DIVG, Version);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, ArmEdit: {this.DIVG}, {this.Version}";
+        return $"ID: {Id}, ArmEdit: {DIVG}, {Version}";
     }
 }

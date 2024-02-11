@@ -11,16 +11,16 @@ namespace Mt.ChangeLog.Logic.Features.Author;
 public static class GetShorts
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<AuthorShortModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<AuthorShortModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<AuthorShortModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<AuthorShortModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly IAuthorRepository repository;
+        private readonly IAuthorRepository _repository;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -29,19 +29,19 @@ public static class GetShorts
         /// <param name="repository">Репозиторий с данными.</param>
         public Handler(ILogger<Handler> logger, IAuthorRepository repository)
         {
-            this.logger = logger;
-            this.repository = repository;
+            _logger = logger;
+            _repository = repository;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<AuthorShortModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<AuthorShortModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня краткого описания авторов.");
+            _logger.LogDebug("Получен запрос на получение полного перечня краткого описания авторов.");
 
-            var result = await this.repository.GetShortEntitiesAsync();
+            var result = await _repository.GetShortEntitiesAsync();
 
-            this.logger.LogDebug("Запрос на получение полного перечня краткого описания авторов успешно выполнен, '{Count}' записей.", result.Count());
-            return result.OrderBy(e => e.LastName).ThenBy(e => e.FirstName);
+            _logger.LogDebug("Запрос на получение полного перечня краткого описания авторов успешно выполнен, '{Count}' записей.", result.Count());
+            return result.OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ToList();
         }
     }
 }

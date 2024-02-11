@@ -1,7 +1,6 @@
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -17,15 +16,13 @@ public static class ProjectVersionMapper
     /// <returns>Модель.</returns>
     public static ProjectVersionShortModel ToShortModel(this ProjectVersionEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ProjectVersionShortModel
+        return new ProjectVersionShortModel
         {
             Id = entity.Id,
             Prefix = entity.Prefix,
             Title = entity.Title,
             Version = entity.Version,
         };
-        return result;
     }
 
     /// <summary>
@@ -35,23 +32,18 @@ public static class ProjectVersionMapper
     /// <returns>Модель.</returns>
     public static ProjectVersionTableModel ToTableModel(this ProjectVersionEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var projectStatus = Check.NotNull(entity.ProjectStatus, nameof(entity.ProjectStatus));
-        var analogModule = Check.NotNull(entity.AnalogModule, nameof(entity.AnalogModule));
-        var platform = Check.NotNull(entity.Platform, nameof(entity.Platform));
-        var result = new ProjectVersionTableModel
+        return new ProjectVersionTableModel
         {
             Id = entity.Id,
             DIVG = entity.DIVG,
             Prefix = entity.Prefix,
             Title = entity.Title,
-            Status = projectStatus.Title,
+            Status = entity.ProjectStatus!.Title,
             Version = entity.Version,
             Description = entity.Description,
-            Module = analogModule.Title,
-            Platform = platform.Title,
+            Module = entity.AnalogModule!.Title,
+            Platform = entity.Platform!.Title,
         };
-        return result;
     }
 
     /// <summary>
@@ -61,8 +53,7 @@ public static class ProjectVersionMapper
     /// <returns>Модель.</returns>
     public static ProjectVersionModel ToModel(this ProjectVersionEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ProjectVersionModel
+        return new ProjectVersionModel
         {
             Id = entity.Id,
             DIVG = entity.DIVG,
@@ -74,7 +65,6 @@ public static class ProjectVersionMapper
             AnalogModule = entity.AnalogModule!.ToShortModel(),
             Platform = entity.Platform!.ToShortModel(),
         };
-        return result;
     }
 
     /// <summary>

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.ChangeLog.TransferObjects.ProjectStatus;
@@ -16,38 +18,45 @@ public class ProjectVersionModel : ProjectVersionShortModel
     public ProjectVersionModel()
         : base()
     {
-        this.DIVG = DefaultString.DIVG;
-        this.Description = DefaultString.Description;
-        this.ProjectStatus = new ProjectStatusShortModel();
-        this.AnalogModule = new AnalogModuleShortModel();
-        this.Platform = new PlatformShortModel();
+        DIVG = DefaultString.DIVG;
+        Description = DefaultString.Description;
+        ProjectStatus = new ProjectStatusShortModel();
+        AnalogModule = new AnalogModuleShortModel();
+        Platform = new PlatformShortModel();
     }
 
     /// <summary>
     /// ДИВГ.
     /// </summary>
     /// <example>ДИВГ.00000-00</example>
+    [Required]
+    [RegularExpression(StringFormat.DIVG)]
     public string DIVG { get; set; }
 
     /// <summary>
     /// Описание.
     /// </summary>
     /// <example>Описание...</example>
+    [Required]
+    [StringLength(500, MinimumLength = 0)]
     public string Description { get; set; }
 
     /// <summary>
     /// Статус.
     /// </summary>
+    [Required]
     public ProjectStatusShortModel ProjectStatus { get; set; }
 
     /// <summary>
     /// Аналоговый модуль.
     /// </summary>
+    [Required]
     public AnalogModuleShortModel AnalogModule { get; set; }
 
     /// <summary>
     /// Платформа.
     /// </summary>
+    [Required]
     public PlatformShortModel Platform { get; set; }
 
     /// <inheritdoc />

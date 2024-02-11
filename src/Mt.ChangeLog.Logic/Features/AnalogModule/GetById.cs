@@ -26,16 +26,16 @@ public static class GetById
         /// <param name="validator">Base model validator.</param>
         public Validator(IValidator<BaseModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, AnalogModuleModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly IAnalogModuleRepository repository;
+        private readonly IAnalogModuleRepository _repository;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -44,19 +44,19 @@ public static class GetById
         /// <param name="repository">Репозиторий с данными.</param>
         public Handler(ILogger<Handler> logger, IAnalogModuleRepository repository)
         {
-            this.logger = logger;
-            this.repository = repository;
+            _logger = logger;
+            _repository = repository;
         }
 
         /// <inheritdoc />
         public async Task<AnalogModuleModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление данных об аналоговом модуле '{Model}'.", model);
+            _logger.LogDebug("Получен запрос на предоставление данных об аналоговом модуле '{Model}'.", model);
 
-            var result = await this.repository.GetEntityAsync(model.Id);
+            var result = await _repository.GetEntityAsync(model.Id);
 
-            this.logger.LogDebug("Запрос на получение данных об аналоговом модуле '{Result}' выполнен успешно.", result);
+            _logger.LogDebug("Запрос на получение данных об аналоговом модуле '{Result}' выполнен успешно.", result);
             return result;
         }
     }

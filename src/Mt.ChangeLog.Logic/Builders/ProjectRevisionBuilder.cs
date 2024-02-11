@@ -8,27 +8,27 @@ namespace Mt.ChangeLog.Logic.Builders;
 /// </summary>
 public class ProjectRevisionBuilder
 {
-    private readonly ProjectRevisionEntity entity;
+    private readonly ProjectRevisionEntity _entity;
 
-    private DateTime? date;
+    private DateTime? _date;
 
-    private string revision;
+    private string _revision;
 
-    private string reason;
+    private string _reason;
 
-    private string description;
+    private string _description;
 
-    private ProjectVersionEntity? project;
+    private ProjectVersionEntity? _project;
 
-    private ProjectRevisionEntity? parent;
+    private ProjectRevisionEntity? _parent;
 
-    private ArmEditEntity? armEdit;
+    private ArmEditEntity? _armEdit;
 
-    private CommunicationEntity? communication;
+    private CommunicationEntity? _communication;
 
-    private IQueryable<AuthorEntity> authors;
+    private IQueryable<AuthorEntity> _authors;
 
-    private IQueryable<RelayAlgorithmEntity> algorithms;
+    private IQueryable<RelayAlgorithmEntity> _algorithms;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="ProjectRevisionBuilder"/>.
@@ -36,17 +36,17 @@ public class ProjectRevisionBuilder
     /// <param name="entity">Сущность.</param>
     public ProjectRevisionBuilder(ProjectRevisionEntity entity)
     {
-        this.entity = entity;
-        this.date = entity.Date;
-        this.revision = entity.Revision;
-        this.reason = entity.Reason;
-        this.description = entity.Description;
-        this.project = entity.ProjectVersion;
-        this.parent = entity.ParentRevision;
-        this.armEdit = entity.ArmEdit;
-        this.communication = entity.Communication;
-        this.authors = entity.Authors.AsQueryable();
-        this.algorithms = entity.RelayAlgorithms.AsQueryable();
+        _entity = entity;
+        _date = entity.Date;
+        _revision = entity.Revision;
+        _reason = entity.Reason;
+        _description = entity.Description;
+        _project = entity.ProjectVersion;
+        _parent = entity.ParentRevision;
+        _armEdit = entity.ArmEdit;
+        _communication = entity.Communication;
+        _authors = entity.Authors.AsQueryable();
+        _algorithms = entity.RelayAlgorithms.AsQueryable();
     }
 
     /// <summary>
@@ -56,10 +56,10 @@ public class ProjectRevisionBuilder
     /// <returns>Строитель.</returns>
     public ProjectRevisionBuilder SetAttributes(ProjectRevisionModel model)
     {
-        this.date = model.Date;
-        this.revision = model.Revision;
-        this.reason = model.Reason;
-        this.description = model.Description;
+        _date = model.Date;
+        _revision = model.Revision;
+        _reason = model.Reason;
+        _description = model.Description;
         return this;
     }
 
@@ -70,7 +70,7 @@ public class ProjectRevisionBuilder
     /// <returns>Строитель.</returns>
     public ProjectRevisionBuilder SetProjectVersion(ProjectVersionEntity project)
     {
-        this.project = project;
+        _project = project;
         return this;
     }
 
@@ -81,7 +81,7 @@ public class ProjectRevisionBuilder
     /// <returns>Строитель.</returns>
     public ProjectRevisionBuilder SetParentRevision(ProjectRevisionEntity parent)
     {
-        this.parent = parent;
+        _parent = parent;
         return this;
     }
 
@@ -92,7 +92,7 @@ public class ProjectRevisionBuilder
     /// <returns>Строитель.</returns>
     public ProjectRevisionBuilder SetArmEdit(ArmEditEntity armEdit)
     {
-        this.armEdit = armEdit;
+        _armEdit = armEdit;
         return this;
     }
 
@@ -103,7 +103,7 @@ public class ProjectRevisionBuilder
     /// <returns>Строитель.</returns>
     public ProjectRevisionBuilder SetCommunication(CommunicationEntity communication)
     {
-        this.communication = communication;
+        _communication = communication;
         return this;
     }
 
@@ -114,7 +114,7 @@ public class ProjectRevisionBuilder
     /// <returns>Строитель.</returns>
     public ProjectRevisionBuilder SetAuthors(IQueryable<AuthorEntity> authors)
     {
-        this.authors = authors;
+        _authors = authors;
         return this;
     }
 
@@ -125,7 +125,7 @@ public class ProjectRevisionBuilder
     /// <returns>Строитель.</returns>
     public ProjectRevisionBuilder SetAlgorithms(IQueryable<RelayAlgorithmEntity> algorithms)
     {
-        this.algorithms = algorithms;
+        _algorithms = algorithms;
         return this;
     }
 
@@ -136,30 +136,30 @@ public class ProjectRevisionBuilder
     public ProjectRevisionEntity Build()
     {
         // атрибуты:
-        // this.entity.Id - не обновляется!
-        this.entity.Date = this.date != null ? this.date.Value : DateTime.Now;
+        // _entity.Id - не обновляется!
+        _entity.Date = _date != null ? _date.Value : DateTime.UtcNow;
 
         // - не обновляется!
-        if (string.IsNullOrEmpty(this.entity.Revision))
+        if (string.IsNullOrEmpty(_entity.Revision))
         {
-            this.entity.Revision = this.revision;
+            _entity.Revision = _revision;
         }
 
-        this.entity.Reason = this.reason;
-        this.entity.Description = this.description;
+        _entity.Reason = _reason;
+        _entity.Description = _description;
 
         // реляционные связи:
         // - не обновляется!
-        if (this.entity.ProjectVersion is null)
+        if (_entity.ProjectVersion is null)
         {
-            this.entity.ProjectVersion = this.project;
+            _entity.ProjectVersion = _project;
         }
 
-        this.entity.ParentRevision = this.parent;
-        this.entity.ArmEdit = this.armEdit;
-        this.entity.Communication = this.communication;
-        this.entity.Authors = this.authors.ToHashSet();
-        this.entity.RelayAlgorithms = this.algorithms.ToHashSet();
-        return this.entity;
+        _entity.ParentRevision = _parent;
+        _entity.ArmEdit = _armEdit;
+        _entity.Communication = _communication;
+        _entity.Authors = _authors.ToHashSet();
+        _entity.RelayAlgorithms = _algorithms.ToHashSet();
+        return _entity;
     }
 }

@@ -1,7 +1,6 @@
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.ProjectStatus;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -17,13 +16,11 @@ public static class ProjectStatusMapper
     /// <returns>Модель.</returns>
     public static ProjectStatusShortModel ToShortModel(this ProjectStatusEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ProjectStatusShortModel
+        return new ProjectStatusShortModel
         {
             Id = entity.Id,
             Title = entity.Title,
         };
-        return result;
     }
 
     /// <summary>
@@ -33,14 +30,12 @@ public static class ProjectStatusMapper
     /// <returns>Модель.</returns>
     public static ProjectStatusModel ToModel(this ProjectStatusEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new ProjectStatusModel
+        return new ProjectStatusModel
         {
             Id = entity.Id,
             Title = entity.Title,
             Description = entity.Description,
         };
-        return result;
     }
 
     /// <summary>

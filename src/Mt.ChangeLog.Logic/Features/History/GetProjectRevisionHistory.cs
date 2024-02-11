@@ -31,16 +31,16 @@ public static class GetProjectRevisionHistory
         /// <param name="validator">Base model validator.</param>
         public Validator(IValidator<BaseModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, ProjectRevisionHistoryModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -49,17 +49,17 @@ public static class GetProjectRevisionHistory
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<ProjectRevisionHistoryModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на предоставление истории изменения для редакции проекта '{Model}'.", model);
+            _logger.LogDebug("Получен запрос на предоставление истории изменения для редакции проекта '{Model}'.", model);
 
-            var result = this.context.ProjectRevisions.AsNoTracking()
+            var result = _context.ProjectRevisions.AsNoTracking()
                 .Include(e => e.ArmEdit)
                 .Include(e => e.Authors)
                 .Include(e => e.ProjectVersion!.AnalogModule)

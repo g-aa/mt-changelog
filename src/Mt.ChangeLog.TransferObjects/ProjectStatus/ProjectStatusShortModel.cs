@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Mt.ChangeLog.TransferObjects.ProjectStatus;
 
 /// <summary>
@@ -10,24 +12,27 @@ public class ProjectStatusShortModel
     /// </summary>
     public ProjectStatusShortModel()
     {
-        this.Id = Guid.NewGuid();
-        this.Title = "Внутренний";
+        Id = Guid.NewGuid();
+        Title = "Внутренний";
     }
 
     /// <summary>
     /// ИД.
     /// </summary>
+    [Required]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Наименование.
     /// </summary>
     /// <example>Внутренний</example>
+    [Required]
+    [StringLength(32, MinimumLength = 1)]
     public string Title { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return this.Title;
+        return Title;
     }
 }

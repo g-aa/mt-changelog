@@ -12,11 +12,11 @@ public class AuthorProjectContributionView
     /// </summary>
     public AuthorProjectContributionView()
     {
-        this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
-        this.Contribution = 0;
-        this.ProjectPrefix = DefaultString.Prefix;
-        this.ProjectTitle = DefaultString.Project;
-        this.ProjectVersion = DefaultString.Revision;
+        Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
+        Contribution = 0;
+        ProjectPrefix = DefaultString.Prefix;
+        ProjectTitle = DefaultString.Project;
+        ProjectVersion = DefaultString.Revision;
     }
 
     /// <summary>
@@ -47,6 +47,6 @@ public class AuthorProjectContributionView
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"{this.Author}, {this.ProjectPrefix}-{this.ProjectTitle}-{this.ProjectVersion}, вклад: {this.Contribution}";
+        return $"{Author}, {ProjectPrefix}-{ProjectTitle}-{ProjectVersion}, вклад: {Contribution}";
     }
 }

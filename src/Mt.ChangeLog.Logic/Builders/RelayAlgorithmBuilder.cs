@@ -8,17 +8,17 @@ namespace Mt.ChangeLog.Logic.Builders;
 /// </summary>
 public class RelayAlgorithmBuilder
 {
-    private readonly RelayAlgorithmEntity entity;
+    private readonly RelayAlgorithmEntity _entity;
 
-    private string group;
+    private string _group;
 
-    private string title;
+    private string _title;
 
-    private string ansi;
+    private string _ansi;
 
-    private string logicalnode;
+    private string _logicalnode;
 
-    private string description;
+    private string _description;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="RelayAlgorithmBuilder"/>.
@@ -26,12 +26,12 @@ public class RelayAlgorithmBuilder
     /// <param name="entity">Сущность.</param>
     public RelayAlgorithmBuilder(RelayAlgorithmEntity entity)
     {
-        this.entity = entity;
-        this.group = entity.Group;
-        this.title = entity.Title;
-        this.ansi = entity.ANSI;
-        this.logicalnode = entity.LogicalNode;
-        this.description = entity.Description;
+        _entity = entity;
+        _group = entity.Group;
+        _title = entity.Title;
+        _ansi = entity.ANSI;
+        _logicalnode = entity.LogicalNode;
+        _description = entity.Description;
     }
 
     /// <summary>
@@ -41,11 +41,11 @@ public class RelayAlgorithmBuilder
     /// <returns>Строитель.</returns>
     public RelayAlgorithmBuilder SetAttributes(RelayAlgorithmModel model)
     {
-        this.group = model.Group;
-        this.title = model.Title;
-        this.ansi = model.ANSI;
-        this.logicalnode = model.LogicalNode;
-        this.description = model.Description;
+        _group = model.Group;
+        _title = model.Title;
+        _ansi = model.ANSI;
+        _logicalnode = model.LogicalNode;
+        _description = model.Description;
         return this;
     }
 
@@ -56,14 +56,14 @@ public class RelayAlgorithmBuilder
     public RelayAlgorithmEntity Build()
     {
         // атрибуты:
-        // this.entity.Id - не обновляется!
-        this.entity.Group = this.group;
-        this.entity.Title = this.title;
-        this.entity.ANSI = this.ansi;
-        this.entity.LogicalNode = this.logicalnode;
-        this.entity.Description = this.description;
+        // _entity.Id - не обновляется!
+        _entity.Group = _group;
+        _entity.Title = _title;
+        _entity.ANSI = _ansi;
+        _entity.LogicalNode = _logicalnode;
+        _entity.Description = _description;
 
-        // this.entity.ProjectRevisions - не обновляется!
-        return this.entity;
+        // _entity.ProjectRevisions - не обновляется!
+        return _entity;
     }
 }

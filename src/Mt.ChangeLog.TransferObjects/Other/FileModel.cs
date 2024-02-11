@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.Other;
@@ -12,8 +14,8 @@ public abstract class FileModel
     /// </summary>
     protected FileModel()
     {
-        this.Title = DefaultString.TextFileName;
-        this.Bytes = Array.Empty<byte>();
+        Title = DefaultString.TextFileName;
+        Bytes = Array.Empty<byte>();
     }
 
     /// <summary>
@@ -21,23 +23,26 @@ public abstract class FileModel
     /// </summary>
     /// <param name="title">Наименование файла.</param>
     /// <param name="bytes">Данные файла в бинарном формате.</param>
-    protected FileModel(string title, IEnumerable<byte> bytes)
+    protected FileModel(string title, IReadOnlyCollection<byte> bytes)
         : this()
     {
         if (!string.IsNullOrWhiteSpace(title) && bytes is not null)
         {
-            this.Title = title;
-            this.Bytes = bytes.ToArray();
+            Title = title;
+            Bytes = bytes.ToArray();
         }
     }
 
     /// <summary>
     /// Наименование файла.
     /// </summary>
+    [Required]
+    [MinLength(1)]
     public string Title { get; protected set; }
 
     /// <summary>
     /// Данные файла в бинарном формате.
     /// </summary>
-    public byte[] Bytes { get; protected set; }
+    [Required]
+    public IReadOnlyCollection<byte> Bytes { get; protected set; }
 }

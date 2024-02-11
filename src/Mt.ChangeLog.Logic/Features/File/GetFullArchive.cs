@@ -23,9 +23,9 @@ public static class GetFullArchive
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, FileModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -34,17 +34,17 @@ public static class GetFullArchive
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public async Task<FileModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на предоставление полного архива логов изменения проектов.");
+            _logger.LogDebug("Получен запрос на предоставление полного архива логов изменения проектов.");
 
             // получить полный перечень ID-s всех проектов
-            var projectIds = await this.context.ProjectVersions.AsNoTracking()
+            var projectIds = await _context.ProjectVersions.AsNoTracking()
                 .Select(e => e.Id).ToListAsync(cancellationToken);
 
             FileModel result;
@@ -54,13 +54,13 @@ public static class GetFullArchive
                 {
                     foreach (var id in projectIds)
                     {
-                        var projectFile = new ProjectHistoryFileModel(await this.GetProjectVersionHistory(id, cancellationToken));
+                        var projectFile = new ProjectHistoryFileModel(await GetProjectVersionHistory(id, cancellationToken));
                         var entry = archive.CreateEntry(projectFile.Title);
                         using (var entryStream = entry.Open())
                         {
                             using (var writer = new MemoryStream(projectFile.Bytes.ToArray()))
                             {
-                                writer.CopyTo(entryStream);
+                                await writer.CopyToAsync(entryStream, cancellationToken);
                             }
                         }
                     }
@@ -69,7 +69,7 @@ public static class GetFullArchive
                 result = new ZipFileModel("ChangeLog", outStream.ToArray());
             }
 
-            this.logger.LogDebug("Запрос на предоставление полного архива логов изменения проектов выполнен успешно, количество проектов '{Count}'.", projectIds.Count);
+            _logger.LogDebug("Запрос на предоставление полного архива логов изменения проектов выполнен успешно, количество проектов '{Count}'.", projectIds.Count);
             return result;
         }
 
@@ -81,7 +81,7 @@ public static class GetFullArchive
         /// <returns>Результат.</returns>
         private async Task<ProjectVersionHistoryModel> GetProjectVersionHistory(Guid guid, CancellationToken cancellationToken)
         {
-            var query = this.context.ProjectRevisions.AsNoTracking()
+            var query = _context.ProjectRevisions.AsNoTracking()
                 .Include(e => e.ArmEdit)
                 .Include(e => e.Authors)
                 .Include(e => e.ProjectVersion!.AnalogModule)

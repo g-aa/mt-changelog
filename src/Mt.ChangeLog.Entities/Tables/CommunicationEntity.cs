@@ -15,13 +15,13 @@ public class CommunicationEntity : IDefaultable, IEntity, IEqualityPredicate<Com
     /// </summary>
     public CommunicationEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Communication;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.Protocols = new HashSet<ProtocolEntity>();
-        this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+        Id = Guid.NewGuid();
+        Title = DefaultString.Communication;
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        Protocols = new HashSet<ProtocolEntity>();
+        ProjectRevisions = new HashSet<ProjectRevisionEntity>();
     }
 
     /// <inheritdoc />
@@ -59,24 +59,24 @@ public class CommunicationEntity : IDefaultable, IEntity, IEqualityPredicate<Com
     /// <inheritdoc />
     public Expression<Func<CommunicationEntity, bool>> GetEqualityPredicate()
     {
-        return (CommunicationEntity e) => e.Id == this.Id || e.Title == this.Title;
+        return (CommunicationEntity e) => e.Id == Id || e.Title == Title;
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is CommunicationEntity e && (this.Id.Equals(e.Id) || this.Title == e.Title);
+        return obj is CommunicationEntity e && (Id.Equals(e.Id) || Title == e.Title);
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Title);
+        return HashCode.Combine(Title);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, адаптер: {this.Title}";
+        return $"ID: {Id}, адаптер: {Title}";
     }
 }

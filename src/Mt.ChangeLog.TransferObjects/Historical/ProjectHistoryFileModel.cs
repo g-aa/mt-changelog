@@ -14,7 +14,7 @@ public sealed class ProjectHistoryFileModel : FileModel
     /// </summary>
     /// <param name="model">Модель истории версии проекта.</param>
     public ProjectHistoryFileModel(ProjectVersionHistoryModel model)
-        : base($"ChangeLog-{model?.Title}.txt", Encoding.UTF8.GetBytes(string.Join(Environment.NewLine, model?.History.Select(e => e.ToText()))))
+        : base($"ChangeLog-{model.Title}.txt", Encoding.UTF8.GetBytes(string.Join(Environment.NewLine, model.History.Select(e => e.ToText()))))
     {
     }
 }

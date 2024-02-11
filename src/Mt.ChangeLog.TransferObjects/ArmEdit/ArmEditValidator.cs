@@ -13,14 +13,14 @@ public sealed class ArmEditValidator : AbstractValidator<ArmEditModel>
     /// </summary>
     public ArmEditValidator()
     {
-        this.RuleFor(e => e.Version)
+        RuleFor(e => e.Version)
             .NotEmpty()
             .IsCfgVersion();
 
-        this.RuleFor(e => e.DIVG)
+        RuleFor(e => e.DIVG)
             .IsDIVG();
 
-        this.RuleFor(e => e.Description)
+        RuleFor(e => e.Description)
             .NotNull()
             .IsTrim()
             .MaximumLength(500);

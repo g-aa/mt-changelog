@@ -17,7 +17,7 @@ public static class GetTemplate
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, RelayAlgorithmModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -25,17 +25,17 @@ public static class GetTemplate
         /// <param name="logger">Журнал логирования.</param>
         public Handler(ILogger<Handler> logger)
         {
-            this.logger = logger;
+            _logger = logger;
         }
 
         /// <inheritdoc />
         public Task<RelayAlgorithmModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на создание шаблона протокола.");
+            _logger.LogDebug("Получен запрос на создание шаблона протокола.");
 
             var result = new RelayAlgorithmModel();
 
-            this.logger.LogDebug("Запрос на создание шаблона протокола '{Result}' выполнен успешно.", result);
+            _logger.LogDebug("Запрос на создание шаблона протокола '{Result}' выполнен успешно.", result);
             return Task.FromResult(result);
         }
     }

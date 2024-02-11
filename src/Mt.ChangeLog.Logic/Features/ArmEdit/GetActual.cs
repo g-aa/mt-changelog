@@ -18,9 +18,9 @@ public static class GetActual
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Query, ArmEditModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly IArmEditRepository repository;
+        private readonly IArmEditRepository _repository;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -29,18 +29,18 @@ public static class GetActual
         /// <param name="repository">Репозиторий с данными.</param>
         public Handler(ILogger<Handler> logger, IArmEditRepository repository)
         {
-            this.logger = logger;
-            this.repository = repository;
+            _logger = logger;
+            _repository = repository;
         }
 
         /// <inheritdoc />
         public async Task<ArmEditModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на предоставление данных об актуальном ArmEdit.");
+            _logger.LogDebug("Получен запрос на предоставление данных об актуальном ArmEdit.");
 
-            var result = await this.repository.GetActualAsync();
+            var result = await _repository.GetActualAsync();
 
-            this.logger.LogDebug("Запрос на получение данных об актуальном ArmEdit '{Result}' выполнен успешно.", result);
+            _logger.LogDebug("Запрос на получение данных об актуальном ArmEdit '{Result}' выполнен успешно.", result);
             return result;
         }
     }

@@ -2,8 +2,8 @@
 <Project>
   <PropertyGroup>
     <Authors>Andrey G.</Authors>
-    <Company>Mt-Rele</Company>
-    <Copyright>Copyright Mt-Rele 1993 - 2023.</Copyright>
+    <Company>Mt-Relay</Company>
+    <Copyright>Copyright Mt-Relay 1993-2024.</Copyright>
     <NeutralLanguage>ru-RU</NeutralLanguage>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/g-aa/mt-changelog</RepositoryUrl>
@@ -14,11 +14,11 @@
     <AssemblyVersion>$(Build_Number)</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Gaa.DotNet.CodeAnalysis" Version="7.0.0">
+    <PackageReference Include="Gaa.DotNet.CodeAnalysis" Version="8.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.10.0.77988">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.19.0.84025">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

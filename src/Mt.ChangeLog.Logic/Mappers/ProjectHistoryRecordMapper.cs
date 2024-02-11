@@ -1,6 +1,5 @@
 using Mt.ChangeLog.Entities.Views;
 using Mt.ChangeLog.TransferObjects.Historical;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -16,15 +15,13 @@ public static class ProjectHistoryRecordMapper
     /// <returns>Модель.</returns>
     public static ProjectHistoryRecordShortModel ToShortModel(this ProjectHistoryRecordView record)
     {
-        Check.NotNull(record, nameof(record));
-        var result = new ProjectHistoryRecordShortModel
+        return new ProjectHistoryRecordShortModel
         {
             ProjectRevisionId = record.ProjectRevisionId,
             Title = record.Title,
             Date = record.Date,
             Platform = record.Platform,
         };
-        return result;
     }
 
     /// <summary>
@@ -34,8 +31,7 @@ public static class ProjectHistoryRecordMapper
     /// <returns>Модель.</returns>
     public static ProjectHistoryRecordModel ToModel(this ProjectHistoryRecordView record)
     {
-        Check.NotNull(record, nameof(record));
-        var result = new ProjectHistoryRecordModel
+        return new ProjectHistoryRecordModel
         {
             ProjectRevisionId = record.ProjectRevisionId,
             ParentRevisionId = record.ParentRevisionId,
@@ -50,6 +46,5 @@ public static class ProjectHistoryRecordMapper
             Reason = record.Reason,
             Description = record.Description,
         };
-        return result;
     }
 }

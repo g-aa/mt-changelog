@@ -15,20 +15,20 @@ public sealed class PlatformValidator : AbstractValidator<PlatformModel>
     /// <param name="validator">Analog module short model validator.</param>
     public PlatformValidator(IValidator<AnalogModuleShortModel> validator)
     {
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .NotEmpty()
             .IsPlatform();
 
-        this.RuleFor(e => e.Description)
+        RuleFor(e => e.Description)
             .NotNull()
             .IsTrim()
             .MaximumLength(500);
 
-        this.RuleFor(e => e.AnalogModules)
+        RuleFor(e => e.AnalogModules)
             .NotNull()
             .IsTrim();
 
-        this.RuleForEach(e => e.AnalogModules)
+        RuleForEach(e => e.AnalogModules)
             .SetValidator(validator);
     }
 }

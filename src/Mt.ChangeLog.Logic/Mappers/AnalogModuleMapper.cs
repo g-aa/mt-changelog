@@ -1,7 +1,6 @@
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -17,13 +16,11 @@ public static class AnalogModuleMapper
     /// <returns>Модель.</returns>
     public static AnalogModuleShortModel ToShortModel(this AnalogModuleEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new AnalogModuleShortModel
+        return new AnalogModuleShortModel
         {
             Id = entity.Id,
             Title = entity.Title,
         };
-        return result;
     }
 
     /// <summary>
@@ -33,8 +30,7 @@ public static class AnalogModuleMapper
     /// <returns>Модель.</returns>
     public static AnalogModuleTableModel ToTableModel(this AnalogModuleEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new AnalogModuleTableModel
+        return new AnalogModuleTableModel
         {
             Id = entity.Id,
             Title = entity.Title,
@@ -42,7 +38,6 @@ public static class AnalogModuleMapper
             DIVG = entity.DIVG,
             Description = entity.Description,
         };
-        return result;
     }
 
     /// <summary>
@@ -52,17 +47,15 @@ public static class AnalogModuleMapper
     /// <returns>Модель.</returns>
     public static AnalogModuleModel ToModel(this AnalogModuleEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new AnalogModuleModel
+        return new AnalogModuleModel
         {
             Id = entity.Id,
             Title = entity.Title,
             DIVG = entity.DIVG,
             Current = entity.Current,
             Description = entity.Description,
-            Platforms = Check.NotNull(entity.Platforms, nameof(entity.Platforms)).Select(platforms => platforms.ToShortModel()),
+            Platforms = entity.Platforms.Select(platforms => platforms.ToShortModel()).ToList(),
         };
-        return result;
     }
 
     /// <summary>

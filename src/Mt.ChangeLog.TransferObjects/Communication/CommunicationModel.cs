@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.ChangeLog.TransferObjects.Protocol;
 using Mt.Utilities;
 
@@ -14,20 +16,23 @@ public class CommunicationModel : CommunicationShortModel
     public CommunicationModel()
         : base()
     {
-        this.Description = DefaultString.Description;
-        this.Protocols = new HashSet<ProtocolShortModel>();
+        Description = DefaultString.Description;
+        Protocols = new HashSet<ProtocolShortModel>();
     }
 
     /// <summary>
     /// Описание.
     /// </summary>
     /// <example>Описание...</example>
+    [Required]
+    [StringLength(500, MinimumLength = 0)]
     public string Description { get; set; }
 
     /// <summary>
     /// Перечень протоколов.
     /// </summary>
-    public IEnumerable<ProtocolShortModel> Protocols { get; set; }
+    [Required]
+    public IReadOnlyCollection<ProtocolShortModel> Protocols { get; set; }
 
     /// <inheritdoc />
     public override string ToString()

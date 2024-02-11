@@ -8,17 +8,17 @@ namespace Mt.ChangeLog.Logic.Builders;
 /// </summary>
 public sealed class AnalogModuleBuilder
 {
-    private readonly AnalogModuleEntity entity;
+    private readonly AnalogModuleEntity _entity;
 
-    private string divg;
+    private string _divg;
 
-    private string title;
+    private string _title;
 
-    private string current;
+    private string _current;
 
-    private string description;
+    private string _description;
 
-    private IQueryable<PlatformEntity> platforms;
+    private IQueryable<PlatformEntity> _platforms;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="AnalogModuleBuilder"/>.
@@ -26,12 +26,12 @@ public sealed class AnalogModuleBuilder
     /// <param name="entity">Сущность.</param>
     public AnalogModuleBuilder(AnalogModuleEntity entity)
     {
-        this.entity = entity;
-        this.divg = entity.DIVG;
-        this.title = entity.Title;
-        this.current = entity.Current;
-        this.description = entity.Description;
-        this.platforms = entity.Platforms.AsQueryable();
+        _entity = entity;
+        _divg = entity.DIVG;
+        _title = entity.Title;
+        _current = entity.Current;
+        _description = entity.Description;
+        _platforms = entity.Platforms.AsQueryable();
     }
 
     /// <summary>
@@ -41,10 +41,10 @@ public sealed class AnalogModuleBuilder
     /// <returns>Строитель.</returns>
     public AnalogModuleBuilder SetAttributes(AnalogModuleModel model)
     {
-        this.divg = model.DIVG;
-        this.title = model.Title;
-        this.current = model.Current;
-        this.description = model.Description;
+        _divg = model.DIVG;
+        _title = model.Title;
+        _current = model.Current;
+        _description = model.Description;
         return this;
     }
 
@@ -55,7 +55,7 @@ public sealed class AnalogModuleBuilder
     /// <returns>Строитель.</returns>
     public AnalogModuleBuilder SetPlatforms(IQueryable<PlatformEntity> platforms)
     {
-        this.platforms = platforms;
+        _platforms = platforms;
         return this;
     }
 
@@ -66,23 +66,23 @@ public sealed class AnalogModuleBuilder
     /// <exception cref="ArgumentException">Ошибка в логике обработки связей.</exception>
     public AnalogModuleEntity Build()
     {
-        var prohibPlatforms = this.entity.Platforms.Except(this.platforms).Where(e => e.Projects.Intersect(this.entity.Projects).Any()).Select(e => e.Title);
+        var prohibPlatforms = _entity.Platforms.Except(_platforms).Where(e => e.Projects.Intersect(_entity.Projects).Any()).Select(e => e.Title);
         if (prohibPlatforms.Any())
         {
-            throw new ArgumentException($"Следующие платформы: \"{string.Join(", ", prohibPlatforms)}\" используются в проектах (БФПО) и не могут быть исключены из состава аналогового модуля \"{this.entity}\"");
+            throw new ArgumentException($"Следующие платформы: \"{string.Join(", ", prohibPlatforms)}\" используются в проектах (БФПО) и не могут быть исключены из состава аналогового модуля \"{_entity}\"");
         }
 
         // атрибуты:
-        // this.entity.Id - не обновляется!
-        this.entity.DIVG = this.divg;
-        this.entity.Title = this.title;
-        this.entity.Current = this.current;
-        this.entity.Description = this.description;
+        // _entity.Id - не обновляется!
+        _entity.DIVG = _divg;
+        _entity.Title = _title;
+        _entity.Current = _current;
+        _entity.Description = _description;
 
         // реляционные связи:
-        this.entity.Platforms = this.platforms.ToHashSet();
+        _entity.Platforms = _platforms.ToHashSet();
 
-        // this.entity.ProjectVersion - не обновляется!
-        return this.entity;
+        // _entity.ProjectVersion - не обновляется!
+        return _entity;
     }
 }

@@ -8,11 +8,11 @@ namespace Mt.ChangeLog.Logic.Builders;
 /// </summary>
 public class ProjectStatusBuilder
 {
-    private readonly ProjectStatusEntity entity;
+    private readonly ProjectStatusEntity _entity;
 
-    private string title;
+    private string _title;
 
-    private string description;
+    private string _description;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="ProjectStatusBuilder"/>.
@@ -20,9 +20,9 @@ public class ProjectStatusBuilder
     /// <param name="entity">Сущность.</param>
     public ProjectStatusBuilder(ProjectStatusEntity entity)
     {
-        this.entity = entity;
-        this.title = entity.Title;
-        this.description = entity.Description;
+        _entity = entity;
+        _title = entity.Title;
+        _description = entity.Description;
     }
 
     /// <summary>
@@ -32,8 +32,8 @@ public class ProjectStatusBuilder
     /// <returns>Строитель.</returns>
     public ProjectStatusBuilder SetAttributes(ProjectStatusModel model)
     {
-        this.title = model.Title;
-        this.description = model.Description;
+        _title = model.Title;
+        _description = model.Description;
         return this;
     }
 
@@ -44,12 +44,12 @@ public class ProjectStatusBuilder
     public ProjectStatusEntity Build()
     {
         // атрибуты:
-        // this.entity.Id - не обновляется!
-        this.entity.Title = this.title;
-        this.entity.Description = this.description;
+        // _entity.Id - не обновляется!
+        _entity.Title = _title;
+        _entity.Description = _description;
 
         // реляционные связи:
-        // this.entity.ProjectVersions - не обновляется!
-        return this.entity;
+        // _entity.ProjectVersions - не обновляется!
+        return _entity;
     }
 }

@@ -8,13 +8,13 @@ namespace Mt.ChangeLog.Logic.Builders;
 /// </summary>
 public sealed class CommunicationBuilder
 {
-    private readonly CommunicationEntity entity;
+    private readonly CommunicationEntity _entity;
 
-    private string title;
+    private string _title;
 
-    private string description;
+    private string _description;
 
-    private IQueryable<ProtocolEntity> protocols;
+    private IQueryable<ProtocolEntity> _protocols;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="CommunicationBuilder"/>.
@@ -22,10 +22,10 @@ public sealed class CommunicationBuilder
     /// <param name="entity">Сущность.</param>
     public CommunicationBuilder(CommunicationEntity entity)
     {
-        this.entity = entity;
-        this.title = entity.Title;
-        this.description = entity.Description;
-        this.protocols = entity.Protocols.AsQueryable();
+        _entity = entity;
+        _title = entity.Title;
+        _description = entity.Description;
+        _protocols = entity.Protocols.AsQueryable();
     }
 
     /// <summary>
@@ -35,8 +35,8 @@ public sealed class CommunicationBuilder
     /// <returns>Строитель.</returns>
     public CommunicationBuilder SetAttributes(CommunicationModel model)
     {
-        this.title = model.Title;
-        this.description = model.Description;
+        _title = model.Title;
+        _description = model.Description;
         return this;
     }
 
@@ -47,7 +47,7 @@ public sealed class CommunicationBuilder
     /// <returns>Строитель.</returns>
     public CommunicationBuilder SetProtocols(IQueryable<ProtocolEntity> protocols)
     {
-        this.protocols = protocols;
+        _protocols = protocols;
         return this;
     }
 
@@ -58,12 +58,12 @@ public sealed class CommunicationBuilder
     public CommunicationEntity Build()
     {
         // атрибуты:
-        // this.entity.Id - не обновляется!
-        this.entity.Title = this.title;
-        this.entity.Description = this.description;
+        // _entity.Id - не обновляется!
+        _entity.Title = _title;
+        _entity.Description = _description;
 
         // реляционные связи:
-        this.entity.Protocols = this.protocols.ToHashSet();
-        return this.entity;
+        _entity.Protocols = _protocols.ToHashSet();
+        return _entity;
     }
 }

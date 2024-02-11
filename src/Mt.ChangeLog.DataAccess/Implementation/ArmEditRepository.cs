@@ -26,7 +26,7 @@ public sealed class ArmEditRepository : AbstractRepository, IArmEditRepository
     public async Task<ArmEditModel> GetActualAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_ActualArmEdit""();";
-        var result = await this.Connection.QuerySingleAsync<ArmEditModel>(qSql);
+        var result = await Connection.QuerySingleAsync<ArmEditModel>(qSql);
         return result;
     }
 
@@ -34,7 +34,7 @@ public sealed class ArmEditRepository : AbstractRepository, IArmEditRepository
     public async Task<ArmEditModel> GetEntityAsync(Guid guid)
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_ArmEdit""(@guid);";
-        var result = await this.Connection.QuerySingleAsync<ArmEditModel>(qSql, new { guid });
+        var result = await Connection.QuerySingleAsync<ArmEditModel>(qSql, new { guid });
         return result;
     }
 
@@ -42,7 +42,7 @@ public sealed class ArmEditRepository : AbstractRepository, IArmEditRepository
     public async Task<IEnumerable<ArmEditShortModel>> GetShortEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_ShortArmEdits""();";
-        var result = await this.Connection.QueryAsync<ArmEditShortModel>(qSql);
+        var result = await Connection.QueryAsync<ArmEditShortModel>(qSql);
         return result;
     }
 
@@ -50,7 +50,7 @@ public sealed class ArmEditRepository : AbstractRepository, IArmEditRepository
     public async Task<IEnumerable<ArmEditTableModel>> GetTableEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_TableArmEdits""();";
-        var result = await this.Connection.QueryAsync<ArmEditTableModel>(qSql);
+        var result = await Connection.QueryAsync<ArmEditTableModel>(qSql);
         return result;
     }
 }

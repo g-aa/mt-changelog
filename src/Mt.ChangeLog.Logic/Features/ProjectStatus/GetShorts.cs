@@ -13,16 +13,16 @@ namespace Mt.ChangeLog.Logic.Features.ProjectStatus;
 public static class GetShorts
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<ProjectStatusShortModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<ProjectStatusShortModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<ProjectStatusShortModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ProjectStatusShortModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,21 +31,21 @@ public static class GetShorts
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ProjectStatusShortModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<ProjectStatusShortModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на получение полного перечня краткого описания статусов проектов.");
+            _logger.LogDebug("Получен запрос на получение полного перечня краткого описания статусов проектов.");
 
-            var result = await this.context.ProjectStatuses.AsNoTracking()
+            var result = await _context.ProjectStatuses.AsNoTracking()
                 .OrderBy(e => e.Title)
                 .Select(e => e.ToShortModel())
                 .ToListAsync(cancellationToken);
 
-            this.logger.LogDebug("Запрос на получение полного перечня краткого описания статусов проектов успешно выполнен, '{Count}' записей.", result.Count);
+            _logger.LogDebug("Запрос на получение полного перечня краткого описания статусов проектов успешно выполнен, '{Count}' записей.", result.Count);
             return result;
         }
     }

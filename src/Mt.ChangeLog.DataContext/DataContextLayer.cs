@@ -11,7 +11,7 @@ public sealed class DataContextLayer
     /// <summary>
     /// Инициализация экземпляра <see cref="DataContextLayer"/>.
     /// </summary>
-	private DataContextLayer()
+    private DataContextLayer()
     {
     }
 }

@@ -1,7 +1,6 @@
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.Author;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -17,14 +16,12 @@ public static class AuthorMapper
     /// <returns>Модель.</returns>
     public static AuthorShortModel ToShortModel(this AuthorEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new AuthorShortModel
+        return new AuthorShortModel
         {
             Id = entity.Id,
             FirstName = entity.FirstName,
             LastName = entity.LastName,
         };
-        return result;
     }
 
     /// <summary>
@@ -34,15 +31,13 @@ public static class AuthorMapper
     /// <returns>Модель.</returns>
     public static AuthorModel ToModel(this AuthorEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new AuthorModel
+        return new AuthorModel
         {
             Id = entity.Id,
             FirstName = entity.FirstName,
             LastName = entity.LastName,
             Position = entity.Position,
         };
-        return result;
     }
 
     /// <summary>

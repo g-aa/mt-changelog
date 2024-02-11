@@ -12,18 +12,18 @@ public class ProjectHistoryRecordView
     /// </summary>
     public ProjectHistoryRecordView()
     {
-        this.ProjectVersionId = Guid.Empty;
-        this.ParentRevisionId = Guid.Empty;
-        this.ProjectRevisionId = Guid.Empty;
-        this.Platform = DefaultString.Platform;
-        this.Title = DefaultString.Project;
-        this.Date = DateTime.Now;
-        this.ArmEdit = DefaultString.Version;
-        this.Algorithms = DefaultString.Algorithm;
-        this.Authors = $"{DefaultString.LastName} {DefaultString.FirstName}";
-        this.Protocols = DefaultString.Protocol;
-        this.Reason = string.Empty;
-        this.Description = string.Empty;
+        ProjectVersionId = Guid.Empty;
+        ParentRevisionId = Guid.Empty;
+        ProjectRevisionId = Guid.Empty;
+        Platform = DefaultString.Platform;
+        Title = DefaultString.Project;
+        Date = DateTime.Now;
+        ArmEdit = DefaultString.Version;
+        Algorithms = DefaultString.Algorithm;
+        Authors = $"{DefaultString.LastName} {DefaultString.FirstName}";
+        Protocols = DefaultString.Protocol;
+        Reason = string.Empty;
+        Description = string.Empty;
     }
 
     /// <summary>
@@ -89,6 +89,6 @@ public class ProjectHistoryRecordView
     /// <inheritdoc />
     public override string ToString()
     {
-        return this.Title;
+        return Title;
     }
 }

@@ -10,11 +10,10 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с историями изменений.
 /// </summary>
-[ApiController]
 [Route("api/history")]
 public sealed class HistoryController : ControllerBase
 {
-    private readonly IMediator mediator;
+    private readonly IMediator _mediator;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="HistoryController"/>.
@@ -22,7 +21,7 @@ public sealed class HistoryController : ControllerBase
     /// <param name="mediator">Медиатор.</param>
     public HistoryController(IMediator mediator)
     {
-        this.mediator = mediator;
+        _mediator = mediator;
     }
 
     /// <summary>
@@ -35,7 +34,7 @@ public sealed class HistoryController : ControllerBase
     public Task<StatisticsModel> GetStatisticsModel(CancellationToken cancellationToken)
     {
         var query = new GetStatistics.Query();
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -49,7 +48,7 @@ public sealed class HistoryController : ControllerBase
     public Task<ProjectVersionHistoryModel> GetVersionHistoryModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new GetProjectVersionHistory.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -63,7 +62,7 @@ public sealed class HistoryController : ControllerBase
     public Task<ProjectRevisionHistoryModel> GetRevisionHistoryModel([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new GetProjectRevisionHistory.Query(new BaseModel { Id = id });
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 
     /// <summary>
@@ -73,10 +72,10 @@ public sealed class HistoryController : ControllerBase
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Результат действия.</returns>
     [HttpGet("tree/{title:length(2, 16)}")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Перечень моделей для дерева изменений.", typeof(IEnumerable<ProjectRevisionTreeModel>))]
-    public Task<IEnumerable<ProjectRevisionTreeModel>> GetTreeModel([FromRoute] string title, CancellationToken cancellationToken)
+    [SwaggerResponse(StatusCodes.Status200OK, "Перечень моделей для дерева изменений.", typeof(IReadOnlyCollection<ProjectRevisionTreeModel>))]
+    public Task<IReadOnlyCollection<ProjectRevisionTreeModel>> GetTreeModel([FromRoute] string title, CancellationToken cancellationToken)
     {
         var query = new GetProjectTree.Query(title);
-        return this.mediator.Send(query, cancellationToken);
+        return _mediator.Send(query, cancellationToken);
     }
 }

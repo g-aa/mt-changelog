@@ -13,8 +13,6 @@ internal sealed class AnalogModuleConfiguration : IEntityTypeConfiguration<Analo
     /// <inheritdoc />
     public void Configure(EntityTypeBuilder<AnalogModuleEntity> builder)
     {
-        Check.NotNull(builder, nameof(builder));
-
         builder.ToTable(
             "AnalogModule",
             t => t.HasComment("Таблица с перечнем аналоговых модулей используемых в блоках БМРЗ-100/120/150/160"));

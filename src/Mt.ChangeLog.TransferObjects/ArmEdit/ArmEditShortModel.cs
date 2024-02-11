@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.ArmEdit;
@@ -12,24 +14,27 @@ public class ArmEditShortModel
     /// </summary>
     public ArmEditShortModel()
     {
-        this.Id = Guid.NewGuid();
-        this.Version = DefaultString.Version;
+        Id = Guid.NewGuid();
+        Version = DefaultString.Version;
     }
 
     /// <summary>
     /// ИД.
     /// </summary>
+    [Required]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Версия ArmEdit.
     /// </summary>
     /// <example>v0.00.00.00</example>
+    [Required]
+    [RegularExpression(StringFormat.Version)]
     public string Version { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ArmEdit: {this.Version}";
+        return $"ArmEdit: {Version}";
     }
 }

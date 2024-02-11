@@ -15,13 +15,13 @@ public class PlatformEntity : IDefaultable, IEntity, IEqualityPredicate<Platform
     /// </summary>
     public PlatformEntity()
     {
-        this.Id = Guid.NewGuid();
-        this.Title = DefaultString.Platform;
-        this.Description = DefaultString.Description;
-        this.Default = false;
-        this.Removable = true;
-        this.AnalogModules = new HashSet<AnalogModuleEntity>();
-        this.Projects = new HashSet<ProjectVersionEntity>();
+        Id = Guid.NewGuid();
+        Title = DefaultString.Platform;
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        AnalogModules = new HashSet<AnalogModuleEntity>();
+        Projects = new HashSet<ProjectVersionEntity>();
     }
 
     /// <inheritdoc />
@@ -59,24 +59,24 @@ public class PlatformEntity : IDefaultable, IEntity, IEqualityPredicate<Platform
     /// <inheritdoc />
     public Expression<Func<PlatformEntity, bool>> GetEqualityPredicate()
     {
-        return (PlatformEntity e) => e.Id == this.Id || e.Title == this.Title;
+        return (PlatformEntity e) => e.Id == Id || e.Title == Title;
     }
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        return obj is PlatformEntity platform && (this.Id.Equals(platform.Id) || this.Title == platform.Title);
+        return obj is PlatformEntity platform && (Id.Equals(platform.Id) || Title == platform.Title);
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Title);
+        return HashCode.Combine(Title);
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"ID: {this.Id}, платформа: {this.Title}";
+        return $"ID: {Id}, платформа: {Title}";
     }
 }

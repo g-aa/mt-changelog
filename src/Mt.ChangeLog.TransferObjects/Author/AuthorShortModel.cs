@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.Utilities;
 
 namespace Mt.ChangeLog.TransferObjects.Author;
@@ -12,31 +14,36 @@ public class AuthorShortModel
     /// </summary>
     public AuthorShortModel()
     {
-        this.Id = Guid.NewGuid();
-        this.FirstName = DefaultString.FirstName;
-        this.LastName = DefaultString.LastName;
+        Id = Guid.NewGuid();
+        FirstName = DefaultString.FirstName;
+        LastName = DefaultString.LastName;
     }
 
     /// <summary>
     /// ИД.
     /// </summary>
+    [Required]
     public Guid Id { get; set; }
 
     /// <summary>
     /// Имя.
     /// </summary>
     /// <example>Иван</example>
+    [Required]
+    [StringLength(32, MinimumLength = 1)]
     public string FirstName { get; set; }
 
     /// <summary>
     /// Фамилия.
     /// </summary>
     /// <example>Иванов</example>
+    [Required]
+    [StringLength(32, MinimumLength = 1)]
     public string LastName { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"{this.LastName} {this.FirstName}";
+        return $"{LastName} {FirstName}";
     }
 }

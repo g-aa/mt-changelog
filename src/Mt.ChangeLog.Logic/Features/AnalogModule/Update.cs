@@ -31,20 +31,20 @@ public static class Update
         /// <param name="validator">Analog module model validator.</param>
         public Validator(IValidator<AnalogModuleModel> validator)
         {
-            this.RuleFor(e => e.AnalogModuleId)
+            RuleFor(e => e.AnalogModuleId)
                 .Must((command, id) => id == command.Model.Id)
                 .WithMessage("Значение параметра '{PropertyName}' не равен значению идентификатора в модели из тела запроса.");
 
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -53,17 +53,17 @@ public static class Update
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных аналогового модуля '{Model}' в системе.", model);
+            _logger.LogDebug("Получен запрос на обновление данных аналогового модуля '{Model}' в системе.", model);
 
-            var dbAnalogModule = this.context.AnalogModules
+            var dbAnalogModule = _context.AnalogModules
                 .Include(e => e.Projects)
                 .Include(e => e.Platforms)
                 .Search(model.Id);
@@ -73,14 +73,14 @@ public static class Update
                 throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbAnalogModule}' не может быть обновлена.");
             }
 
-            var dbPlatforms = this.context.Platforms
+            var dbPlatforms = _context.Platforms
                 .SearchManyOrDefault(model.Platforms.Select(e => e.Id));
             dbAnalogModule.GetBuilder()
                 .SetAttributes(model)
                 .SetPlatforms(dbPlatforms)
                 .Build();
 
-            return this.SaveChangesAsync(dbAnalogModule, cancellationToken);
+            return SaveChangesAsync(dbAnalogModule, cancellationToken);
         }
 
         /// <summary>
@@ -91,10 +91,10 @@ public static class Update
         /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(AnalogModuleEntity entity, CancellationToken cancellationToken)
         {
-            this.context.AnalogModules.Update(entity);
-            await this.context.SaveChangesAsync(cancellationToken);
+            _context.AnalogModules.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Аналоговый модуль '{Entity}' успешно обновлен в системе.", entity);
+            _logger.LogInformation("Аналоговый модуль '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлен в системе.",

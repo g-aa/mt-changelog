@@ -11,7 +11,7 @@ public sealed class ServiceLayer
     /// <summary>
     /// Инициализация экземпляра <see cref="ServiceLayer"/>.
     /// </summary>
-	private ServiceLayer()
+    private ServiceLayer()
     {
     }
 }

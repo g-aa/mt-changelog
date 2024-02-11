@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.ChangeLog.TransferObjects.Communication;
 
 namespace Mt.ChangeLog.TransferObjects.Protocol;
@@ -13,13 +15,14 @@ public class ProtocolModel : ProtocolTableModel
     public ProtocolModel()
         : base()
     {
-        this.Communications = new HashSet<CommunicationShortModel>();
+        Communications = new HashSet<CommunicationShortModel>();
     }
 
     /// <summary>
     /// Перечень коммуникационных модулей.
     /// </summary>
-    public IEnumerable<CommunicationShortModel> Communications { get; set; }
+    [Required]
+    public IReadOnlyCollection<CommunicationShortModel> Communications { get; set; }
 
     /// <inheritdoc />
     public override string ToString()

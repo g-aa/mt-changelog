@@ -13,16 +13,16 @@ namespace Mt.ChangeLog.Logic.Features.ProjectRevision;
 public static class GetLatest
 {
     /// <inheritdoc />
-    public sealed class Query : IRequest<IEnumerable<LastProjectRevisionModel>>
+    public sealed class Query : IRequest<IReadOnlyCollection<LastProjectRevisionModel>>
     {
     }
 
     /// <inheritdoc />
-    public sealed class Handler : IRequestHandler<Query, IEnumerable<LastProjectRevisionModel>>
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<LastProjectRevisionModel>>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -31,19 +31,19 @@ public static class GetLatest
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<LastProjectRevisionModel>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<LastProjectRevisionModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            this.logger.LogDebug("Получен запрос на предоставление данных о последних редакциях проектов.");
+            _logger.LogDebug("Получен запрос на предоставление данных о последних редакциях проектов.");
 
-            var result = await this.context.LastProjectRevisions.Select(e => e.ToModel())
+            var result = await _context.LastProjectRevisions.Select(e => e.ToModel())
                 .ToArrayAsync(cancellationToken);
 
-            this.logger.LogDebug("Запрос на получение данных о последних редакциях проектов '{Result}' выполнен успешно.", result);
+            _logger.LogDebug("Запрос на получение данных о последних редакциях проектов '{Result}' выполнен успешно.", result);
             return result;
         }
     }

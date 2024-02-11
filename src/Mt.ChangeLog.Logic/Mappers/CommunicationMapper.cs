@@ -1,7 +1,6 @@
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.Communication;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.Logic.Mappers;
 
@@ -17,13 +16,11 @@ public static class CommunicationMapper
     /// <returns>Модель.</returns>
     public static CommunicationShortModel ToShortModel(this CommunicationEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new CommunicationShortModel
+        return new CommunicationShortModel
         {
             Id = entity.Id,
             Title = entity.Title,
         };
-        return result;
     }
 
     /// <summary>
@@ -33,15 +30,13 @@ public static class CommunicationMapper
     /// <returns>Модель.</returns>
     public static CommunicationTableModel ToTableModel(this CommunicationEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new CommunicationTableModel
+        return new CommunicationTableModel
         {
             Id = entity.Id,
             Title = entity.Title,
             Description = entity.Description,
-            Protocols = entity.Protocols.Any() ? string.Join(", ", entity.Protocols.OrderBy(e => e.Title).Select(e => e.Title)) : string.Empty,
+            Protocols = entity.Protocols.Count != 0 ? string.Join(", ", entity.Protocols.OrderBy(e => e.Title).Select(e => e.Title)) : string.Empty,
         };
-        return result;
     }
 
     /// <summary>
@@ -51,15 +46,13 @@ public static class CommunicationMapper
     /// <returns>Модель.</returns>
     public static CommunicationModel ToModel(this CommunicationEntity entity)
     {
-        Check.NotNull(entity, nameof(entity));
-        var result = new CommunicationModel
+        return new CommunicationModel
         {
             Id = entity.Id,
             Title = entity.Title,
-            Protocols = entity.Protocols.OrderBy(e => e.Title).Select(e => e.ToShortModel()),
+            Protocols = entity.Protocols.OrderBy(e => e.Title).Select(e => e.ToShortModel()).ToList(),
             Description = entity.Description,
         };
-        return result;
     }
 
     /// <summary>

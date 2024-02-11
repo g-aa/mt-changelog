@@ -8,13 +8,13 @@ namespace Mt.ChangeLog.Logic.Builders;
 /// </summary>
 public sealed class AuthorBuilder
 {
-    private readonly AuthorEntity entity;
+    private readonly AuthorEntity _entity;
 
-    private string firstName;
+    private string _firstName;
 
-    private string lastName;
+    private string _lastName;
 
-    private string position;
+    private string _position;
 
     /// <summary>
     /// Инициализация экземпляра класса <see cref="AuthorBuilder"/>.
@@ -22,10 +22,10 @@ public sealed class AuthorBuilder
     /// <param name="entity">Сущность.</param>
     public AuthorBuilder(AuthorEntity entity)
     {
-        this.entity = entity;
-        this.firstName = entity.FirstName;
-        this.lastName = entity.LastName;
-        this.position = entity.Position;
+        _entity = entity;
+        _firstName = entity.FirstName;
+        _lastName = entity.LastName;
+        _position = entity.Position;
     }
 
     /// <summary>
@@ -35,9 +35,9 @@ public sealed class AuthorBuilder
     /// <returns>Строитель.</returns>
     public AuthorBuilder SetAttributes(AuthorModel model)
     {
-        this.firstName = model.FirstName;
-        this.lastName = model.LastName;
-        this.position = model.Position;
+        _firstName = model.FirstName;
+        _lastName = model.LastName;
+        _position = model.Position;
         return this;
     }
 
@@ -48,13 +48,13 @@ public sealed class AuthorBuilder
     public AuthorEntity Build()
     {
         // атрибуты:
-        // this.entity.Id - не обновляется!
-        this.entity.FirstName = this.firstName;
-        this.entity.LastName = this.lastName;
-        this.entity.Position = this.position;
+        // _entity.Id - не обновляется!
+        _entity.FirstName = _firstName;
+        _entity.LastName = _lastName;
+        _entity.Position = _position;
 
         // реляционные связи:
-        // this.entity.ProjectRevisions - не обновляется!
-        return this.entity;
+        // _entity.ProjectRevisions - не обновляется!
+        return _entity;
     }
 }

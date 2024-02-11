@@ -27,16 +27,16 @@ public static class Delete
         /// <param name="validator">Base model validator.</param>
         public CommandValidator(IValidator<BaseModel> validator)
         {
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -45,21 +45,21 @@ public static class Delete
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public async Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на удаление версии проекта '{Model}' из системы.", model);
+            _logger.LogDebug("Получен запрос на удаление версии проекта '{Model}' из системы.", model);
 
-            var dbRemovable = this.context.ProjectVersions.Search(model.Id);
-            this.context.ProjectVersions.Remove(dbRemovable);
-            await this.context.SaveChangesAsync(cancellationToken);
+            var dbRemovable = _context.ProjectVersions.Search(model.Id);
+            _context.ProjectVersions.Remove(dbRemovable);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Статус проекта '{DbRemovable}' успешно удален из системы.", dbRemovable);
+            _logger.LogInformation("Статус проекта '{DbRemovable}' успешно удален из системы.", dbRemovable);
             return new MessageModel
             {
                 Message = $"'{dbRemovable}' был удалена из системы.",

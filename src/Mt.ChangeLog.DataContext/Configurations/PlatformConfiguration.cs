@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.Utilities;
 
 namespace Mt.ChangeLog.DataContext.Configurations;
 
@@ -13,8 +12,6 @@ internal sealed class PlatformConfiguration : IEntityTypeConfiguration<PlatformE
     /// <inheritdoc />
     public void Configure(EntityTypeBuilder<PlatformEntity> builder)
     {
-        Check.NotNull(builder, nameof(builder));
-
         builder.ToTable(
             "Platform",
             t => t.HasComment("Таблица с перечнем программных платформ применяемых в блоках БМРЗ-100/120/150/160"));

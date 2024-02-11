@@ -30,20 +30,20 @@ public static class Update
         /// <param name="validator">Author model validator.</param>
         public Validator(IValidator<AuthorModel> validator)
         {
-            this.RuleFor(e => e.AuthorId)
+            RuleFor(e => e.AuthorId)
                 .Must((command, id) => id == command.Model.Id)
                 .WithMessage("Значение параметра '{PropertyName}' не равен значению идентификатора в модели из тела запроса.");
 
-            this.RuleFor(e => e.Model).SetValidator(validator);
+            RuleFor(e => e.Model).SetValidator(validator);
         }
     }
 
     /// <inheritdoc />
     public sealed class Handler : IRequestHandler<Command, MessageModel>
     {
-        private readonly ILogger<Handler> logger;
+        private readonly ILogger<Handler> _logger;
 
-        private readonly MtContext context;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
@@ -52,24 +52,24 @@ public static class Update
         /// <param name="context">Контекст данных.</param>
         public Handler(ILogger<Handler> logger, MtContext context)
         {
-            this.logger = logger;
-            this.context = context;
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
         public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
             var model = request.Model;
-            this.logger.LogDebug("Получен запрос на обновление данных автора '{Model}' в системе.", model);
+            _logger.LogDebug("Получен запрос на обновление данных автора '{Model}' в системе.", model);
 
-            var dbAuthor = this.context.Authors.Search(model.Id);
+            var dbAuthor = _context.Authors.Search(model.Id);
             if (dbAuthor.Default)
             {
                 throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbAuthor}' не может быть обновлена.");
             }
 
             dbAuthor.GetBuilder().SetAttributes(model).Build();
-            return this.SaveChangesAsync(dbAuthor, cancellationToken);
+            return SaveChangesAsync(dbAuthor, cancellationToken);
         }
 
         /// <summary>
@@ -80,10 +80,10 @@ public static class Update
         /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
         {
-            this.context.Authors.Update(entity);
-            await this.context.SaveChangesAsync(cancellationToken);
+            _context.Authors.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            this.logger.LogInformation("Автор '{Entity}' успешно обновлен в системе.", entity);
+            _logger.LogInformation("Автор '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {
                 Message = $"'{entity}' обновлен в системе.",

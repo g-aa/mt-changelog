@@ -13,7 +13,7 @@ public sealed class PlatformShortValidator : AbstractValidator<PlatformShortMode
     /// </summary>
     public PlatformShortValidator()
     {
-        this.RuleFor(e => e.Title)
+        RuleFor(e => e.Title)
             .NotEmpty()
             .IsPlatform();
     }

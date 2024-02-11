@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Mt.ChangeLog.TransferObjects.Platform;
 
 namespace Mt.ChangeLog.TransferObjects.AnalogModule;
@@ -13,17 +15,18 @@ public class AnalogModuleModel : AnalogModuleTableModel
     public AnalogModuleModel()
         : base()
     {
-        this.Platforms = new HashSet<PlatformShortModel>();
+        Platforms = new HashSet<PlatformShortModel>();
     }
 
     /// <summary>
     /// Перечень платформ.
     /// </summary>
-    public IEnumerable<PlatformShortModel> Platforms { get; set; }
+    [Required]
+    public IReadOnlyCollection<PlatformShortModel> Platforms { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"{base.ToString()}, номинальный ток: {this.Current}";
+        return $"{base.ToString()}, номинальный ток: {Current}";
     }
 }
