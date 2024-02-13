@@ -1,7 +1,8 @@
 using FluentValidation;
+using Mt.ChangeLog.TransferObjects.Author;
 using Mt.FluentValidation;
 
-namespace Mt.ChangeLog.TransferObjects.Author;
+namespace Mt.ChangeLog.Logic.Validators;
 
 /// <summary>
 /// Валидатор модели <see cref="AuthorModel"/>.

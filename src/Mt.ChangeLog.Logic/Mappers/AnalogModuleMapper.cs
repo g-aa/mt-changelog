@@ -1,5 +1,4 @@
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 
 namespace Mt.ChangeLog.Logic.Mappers;
@@ -56,15 +55,5 @@ public static class AnalogModuleMapper
             Description = entity.Description,
             Platforms = entity.Platforms.Select(platforms => platforms.ToShortModel()).ToList(),
         };
-    }
-
-    /// <summary>
-    /// Получить строитель.
-    /// </summary>
-    /// <param name="entity">Сущность.</param>
-    /// <returns>Строитель.</returns>
-    public static AnalogModuleBuilder GetBuilder(this AnalogModuleEntity entity)
-    {
-        return new AnalogModuleBuilder(entity);
     }
 }

@@ -1,5 +1,4 @@
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.Protocol;
 
 namespace Mt.ChangeLog.Logic.Mappers;
@@ -52,15 +51,5 @@ public static class ProtocolMapper
             Description = entity.Description,
             Communications = entity.Communications.OrderBy(e => e.Title).Select(e => e.ToShortModel()).ToList(),
         };
-    }
-
-    /// <summary>
-    /// Получить строитель.
-    /// </summary>
-    /// <param name="entity">Сущность.</param>
-    /// <returns>Строитель.</returns>
-    public static ProtocolBuilder GetBuilder(this ProtocolEntity entity)
-    {
-        return new ProtocolBuilder(entity);
     }
 }

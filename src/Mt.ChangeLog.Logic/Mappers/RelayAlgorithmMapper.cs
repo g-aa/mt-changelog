@@ -1,5 +1,4 @@
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 
 namespace Mt.ChangeLog.Logic.Mappers;
@@ -39,15 +38,5 @@ public static class RelayAlgorithmMapper
             LogicalNode = entity.LogicalNode,
             Description = entity.Description,
         };
-    }
-
-    /// <summary>
-    /// Получить строитель.
-    /// </summary>
-    /// <param name="entity">Сущность.</param>
-    /// <returns>Строитель.</returns>
-    public static RelayAlgorithmBuilder GetBuilder(this RelayAlgorithmEntity entity)
-    {
-        return new RelayAlgorithmBuilder(entity);
     }
 }

@@ -1,7 +1,8 @@
 using FluentValidation;
+using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.FluentValidation;
 
-namespace Mt.ChangeLog.TransferObjects.ArmEdit;
+namespace Mt.ChangeLog.Logic.Validators;
 
 /// <summary>
 /// Валидатор модели <see cref="ArmEditModel"/>.

@@ -1,7 +1,8 @@
 using FluentValidation;
+using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.FluentValidation;
 
-namespace Mt.ChangeLog.TransferObjects.RelayAlgorithm;
+namespace Mt.ChangeLog.Logic.Validators;
 
 /// <summary>
 /// Валидатор модели <see cref="RelayAlgorithmModel"/>.

@@ -1,5 +1,4 @@
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
 
 namespace Mt.ChangeLog.Logic.Mappers;
@@ -65,15 +64,5 @@ public static class ProjectVersionMapper
             AnalogModule = entity.AnalogModule!.ToShortModel(),
             Platform = entity.Platform!.ToShortModel(),
         };
-    }
-
-    /// <summary>
-    /// Получить строитель.
-    /// </summary>
-    /// <param name="entity">Сущность.</param>
-    /// <returns>Строитель.</returns>
-    public static ProjectVersionBuilder GetBuilder(this ProjectVersionEntity entity)
-    {
-        return new ProjectVersionBuilder(entity);
     }
 }

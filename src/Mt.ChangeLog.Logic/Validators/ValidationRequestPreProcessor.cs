@@ -2,9 +2,8 @@ using FluentValidation;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.Logic.Extensions;
-using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Pipelines;
+namespace Mt.ChangeLog.Logic.Validators;
 
 /// <summary>
 /// Препроцессор валидации.
@@ -46,25 +45,13 @@ public sealed class ValidationRequestPreProcessor<TRequest> : IRequestPreProcess
         }
 
         _logger.LogDebug("Начат процесс валидации параметров запроса.");
-        try
-        {
-            await _validator.ValidateAsync(
-                request,
-                options =>
-                {
-                    options.IncludeRuleSets("default", "command");
-                    options.ThrowOnFailures();
-                },
-                cancellationToken);
-        }
-        catch (ValidationException exception)
-        {
-            var properties = string.Join(", ", exception.Errors.Select(p =>
+        await _validator.ValidateAsync(
+            request,
+            options =>
             {
-                return p.PropertyName.Substring(p.PropertyName.LastIndexOf('.') + 1);
-            }).Distinct());
-
-            throw new MtException(exception, ErrorCode.EntityValidation, $"Ошибка валидации параметров: {properties}.");
-        }
+                options.IncludeRuleSets("default", "command");
+                options.ThrowOnFailures();
+            },
+            cancellationToken);
     }
 }

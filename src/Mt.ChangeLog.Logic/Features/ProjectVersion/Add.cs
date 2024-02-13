@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Mappers;
+using Mt.ChangeLog.Logic.Extensions;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
 using Mt.Entities.Abstractions.Extensions;

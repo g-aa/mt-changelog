@@ -1,7 +1,6 @@
 using System.Globalization;
 
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 
@@ -129,15 +128,5 @@ public static class ProjectRevisionMapper
             Authors = entity.Authors.Select(author => author.ToShortModel()).ToList(),
             RelayAlgorithms = entity.RelayAlgorithms.Select(alg => alg.ToShortModel()).ToList(),
         };
-    }
-
-    /// <summary>
-    /// Получить строитель.
-    /// </summary>
-    /// <param name="entity">Сущность.</param>
-    /// <returns>Строитель.</returns>
-    public static ProjectRevisionBuilder GetBuilder(this ProjectRevisionEntity entity)
-    {
-        return new ProjectRevisionBuilder(entity);
     }
 }

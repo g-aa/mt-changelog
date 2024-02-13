@@ -1,6 +1,7 @@
 using FluentValidation;
+using Mt.ChangeLog.TransferObjects.Other;
 
-namespace Mt.ChangeLog.TransferObjects.Other;
+namespace Mt.ChangeLog.Logic.Validators;
 
 /// <summary>
 /// Валидатор модели <see cref="BaseModel"/>.

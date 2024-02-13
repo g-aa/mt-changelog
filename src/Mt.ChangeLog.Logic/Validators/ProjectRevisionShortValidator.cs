@@ -1,8 +1,9 @@
 using FluentValidation;
+using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.FluentValidation;
 using Mt.Utilities;
 
-namespace Mt.ChangeLog.TransferObjects.ProjectRevision;
+namespace Mt.ChangeLog.Logic.Validators;
 
 /// <summary>
 /// Валидатор модели <see cref="ProjectRevisionShortModel"/>.

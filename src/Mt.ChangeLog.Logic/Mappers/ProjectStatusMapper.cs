@@ -1,5 +1,4 @@
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.ProjectStatus;
 
 namespace Mt.ChangeLog.Logic.Mappers;
@@ -36,15 +35,5 @@ public static class ProjectStatusMapper
             Title = entity.Title,
             Description = entity.Description,
         };
-    }
-
-    /// <summary>
-    /// Получить строитель.
-    /// </summary>
-    /// <param name="entity">Сущность.</param>
-    /// <returns>Строитель.</returns>
-    public static ProjectStatusBuilder GetBuilder(this ProjectStatusEntity entity)
-    {
-        return new ProjectStatusBuilder(entity);
     }
 }

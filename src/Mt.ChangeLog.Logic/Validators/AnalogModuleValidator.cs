@@ -1,9 +1,10 @@
 using FluentValidation;
+using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.FluentValidation;
 using Mt.Utilities;
 
-namespace Mt.ChangeLog.TransferObjects.AnalogModule;
+namespace Mt.ChangeLog.Logic.Validators;
 
 /// <summary>
 /// Валидатор модели <see cref="AnalogModuleModel"/>.

@@ -1,5 +1,4 @@
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.Author;
 
 namespace Mt.ChangeLog.Logic.Mappers;
@@ -38,15 +37,5 @@ public static class AuthorMapper
             LastName = entity.LastName,
             Position = entity.Position,
         };
-    }
-
-    /// <summary>
-    /// Получить строитель.
-    /// </summary>
-    /// <param name="entity">Сущность.</param>
-    /// <returns>Строитель.</returns>
-    public static AuthorBuilder GetBuilder(this AuthorEntity entity)
-    {
-        return new AuthorBuilder(entity);
     }
 }

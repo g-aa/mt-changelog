@@ -1,5 +1,4 @@
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.Platform;
 
 namespace Mt.ChangeLog.Logic.Mappers;
@@ -52,15 +51,5 @@ public static class PlatformMapper
             Description = entity.Description,
             AnalogModules = entity.AnalogModules.Select(module => module.ToShortModel()).ToList(),
         };
-    }
-
-    /// <summary>
-    /// Получить строитель.
-    /// </summary>
-    /// <param name="entity">Сущность.</param>
-    /// <returns>Строитель.</returns>
-    public static PlatformBuilder GetBuilder(this PlatformEntity entity)
-    {
-        return new PlatformBuilder(entity);
     }
 }

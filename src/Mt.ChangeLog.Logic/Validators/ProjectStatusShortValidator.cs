@@ -1,7 +1,8 @@
 using FluentValidation;
+using Mt.ChangeLog.TransferObjects.ProjectStatus;
 using Mt.FluentValidation;
 
-namespace Mt.ChangeLog.TransferObjects.ProjectStatus;
+namespace Mt.ChangeLog.Logic.Validators;
 
 /// <summary>
 /// Валидатор модели <see cref="ProjectStatusShortModel"/>.

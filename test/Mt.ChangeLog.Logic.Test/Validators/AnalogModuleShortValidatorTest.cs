@@ -1,7 +1,8 @@
 using FluentValidation.TestHelper;
+using Mt.ChangeLog.Logic.Validators;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 
-namespace Mt.ChangeLog.TransferObjects.Test.AnalogModule;
+namespace Mt.ChangeLog.Logic.Test.Validators;
 
 /// <summary>
 /// Набор тестов для <see cref="AnalogModuleShortModel"/>.

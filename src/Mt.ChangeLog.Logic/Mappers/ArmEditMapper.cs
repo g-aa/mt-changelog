@@ -1,5 +1,4 @@
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Builders;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
 
 namespace Mt.ChangeLog.Logic.Mappers;
@@ -38,15 +37,5 @@ public static class ArmEditMapper
             Version = entity.Version,
             Description = entity.Description,
         };
-    }
-
-    /// <summary>
-    /// Получить строитель.
-    /// </summary>
-    /// <param name="entity">Сущность.</param>
-    /// <returns>Строитель.</returns>
-    public static ArmEditBuilder GetBuilder(this ArmEditEntity entity)
-    {
-        return new ArmEditBuilder(entity);
     }
 }

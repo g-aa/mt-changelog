@@ -1,8 +1,9 @@
 using FluentValidation;
 using Mt.ChangeLog.TransferObjects.Communication;
+using Mt.ChangeLog.TransferObjects.Protocol;
 using Mt.FluentValidation;
 
-namespace Mt.ChangeLog.TransferObjects.Protocol;
+namespace Mt.ChangeLog.Logic.Validators;
 
 /// <summary>
 /// Валидатор модели <see cref="ProtocolModel"/>.
