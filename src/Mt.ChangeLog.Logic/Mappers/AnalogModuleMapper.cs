@@ -53,7 +53,7 @@ public static class AnalogModuleMapper
             DIVG = entity.DIVG,
             Current = entity.Current,
             Description = entity.Description,
-            Platforms = entity.Platforms.Select(platforms => platforms.ToShortModel()).ToList(),
+            Platforms = entity.Platforms.Select(p => p.ToShortModel()).ToList(),
         };
     }
 }

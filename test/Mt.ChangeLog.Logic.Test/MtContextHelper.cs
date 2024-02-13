@@ -15,7 +15,7 @@ public static class MtContextHelper
     public static MtContext CreateInMemoryDbContext()
     {
         var optionsBuilder = new DbContextOptionsBuilder<MtContext>();
-        optionsBuilder.UseInMemoryDatabase($"notif_{Guid.NewGuid()}");
+        optionsBuilder.UseInMemoryDatabase($"mt: {Guid.NewGuid()}");
         var appDbContext = new MtContext(optionsBuilder.Options, null!);
 
         SeedDatabase(appDbContext);

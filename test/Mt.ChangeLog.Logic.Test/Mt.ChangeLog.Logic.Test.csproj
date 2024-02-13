@@ -30,6 +30,8 @@
     <ProjectReference Include="..\..\src\Mt.ChangeLog.Logic\Mt.ChangeLog.Logic.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Using Include="FluentAssertions" />
+    <Using Include="FluentValidation.TestHelper" />
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@ using System.Reflection;
 
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Mt.ChangeLog.Logic.Extensions;
 using Mt.ChangeLog.Logic.Pipelines;
 using Mt.ChangeLog.Logic.Validators;
 
@@ -21,6 +22,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddLogic(this IServiceCollection services, IReadOnlyCollection<Assembly> assemblies)
     {
         return services
+            .AddConverters<LogicLayer>()
             .AddValidatorsFromAssemblies(assemblies)
             .AddMediatR(cfg =>
             {

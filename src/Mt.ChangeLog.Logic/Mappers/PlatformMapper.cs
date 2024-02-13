@@ -49,7 +49,7 @@ public static class PlatformMapper
             Id = entity.Id,
             Title = entity.Title,
             Description = entity.Description,
-            AnalogModules = entity.AnalogModules.Select(module => module.ToShortModel()).ToList(),
+            AnalogModules = entity.AnalogModules.Select(am => am.ToShortModel()).ToList(),
         };
     }
 }

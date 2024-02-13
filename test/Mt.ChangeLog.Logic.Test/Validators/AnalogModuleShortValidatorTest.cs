@@ -1,4 +1,3 @@
-using FluentValidation.TestHelper;
 using Mt.ChangeLog.Logic.Validators;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 
@@ -15,7 +14,7 @@ public sealed class AnalogModuleShortValidatorTest
     /// <summary>
     /// Настройка.
     /// </summary>
-    [OneTimeSetUp]
+    [SetUp]
     public void Setup()
     {
         _validator = new AnalogModuleShortValidator();
