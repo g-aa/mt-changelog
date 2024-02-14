@@ -66,7 +66,7 @@ public static class ProtocolConvertors
                 Id = source.Id,
                 Title = source.Title,
                 Description = source.Description,
-                Communications = source.Communications.OrderBy(c => c.Title).Select(c => _converter.Convert(c)).ToList(),
+                Communications = source.Communications.OrderBy(c => c.Title).Select(_converter.Convert).ToList(),
             };
         }
     }

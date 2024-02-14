@@ -66,7 +66,7 @@ public static class CommunicationConverters
             {
                 Id = source.Id,
                 Title = source.Title,
-                Protocols = source.Protocols.OrderBy(p => p.Title).Select(p => _converter.Convert(p)).ToList(),
+                Protocols = source.Protocols.OrderBy(p => p.Title).Select(_converter.Convert).ToList(),
                 Description = source.Description,
             };
         }

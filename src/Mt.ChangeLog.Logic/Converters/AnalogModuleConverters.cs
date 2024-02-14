@@ -70,7 +70,7 @@ public static class AnalogModuleConverters
                 DIVG = source.DIVG,
                 Current = source.Current,
                 Description = source.Description,
-                Platforms = source.Platforms.Select(p => _converter.Convert(p)).ToList(),
+                Platforms = source.Platforms.Select(_converter.Convert).ToList(),
             };
         }
     }

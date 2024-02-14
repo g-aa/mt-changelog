@@ -66,7 +66,7 @@ public static class PlatformConverters
                 Id = source.Id,
                 Title = source.Title,
                 Description = source.Description,
-                AnalogModules = source.AnalogModules.Select(am => _converter.Convert(am)).ToList(),
+                AnalogModules = source.AnalogModules.Select(_converter.Convert).ToList(),
             };
         }
     }
