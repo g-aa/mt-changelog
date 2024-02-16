@@ -6,7 +6,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Mt.Entities.Abstractions" Version="6.3.0" />
-    <PackageReference Include="Mt.Utilities" Version="8.0.0" />
+    <PackageReference Include="Mt.Entities.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Mt.Utilities" Version="8.1.0" />
   </ItemGroup>
 </Project>

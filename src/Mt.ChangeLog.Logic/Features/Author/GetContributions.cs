@@ -1,6 +1,8 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstraction;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Author;
 
 namespace Mt.ChangeLog.Logic.Features.Author;
@@ -20,17 +22,17 @@ public static class GetContributions
     {
         private readonly ILogger<Handler> _logger;
 
-        private readonly IAuthorRepository _repository;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
         /// <param name="logger">Журнал логирования.</param>
-        /// <param name="repository">Репозиторий с данными.</param>
-        public Handler(ILogger<Handler> logger, IAuthorRepository repository)
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
             _logger = logger;
-            _repository = repository;
+            _context = context;
         }
 
         /// <inheritdoc />
@@ -38,10 +40,12 @@ public static class GetContributions
         {
             _logger.LogDebug("Получен запрос на получение перечня общего вклада всех авторов.");
 
-            var result = await _repository.GetAuthorContributionsAsync();
+            var result = await _context.AuthorContributions
+                .Select(e => e.ToModel())
+                .ToListAsync(cancellationToken);
 
-            _logger.LogDebug("Запрос на получение перечня общего вклада всех авторов успешно выполнен, '{Count}' записей.", result.Count());
-            return result.ToList();
+            _logger.LogDebug("Запрос на получение перечня общего вклада всех авторов успешно выполнен, '{Count}' записей.", result.Count);
+            return result;
         }
     }
 }

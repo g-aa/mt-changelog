@@ -19,11 +19,11 @@ public interface IReadingRepository<TEntity, TShortEntity, TTableEntity>
     /// Получить полный перечень кратких сущностей.
     /// </summary>
     /// <returns>Перечень кратких моделей.</returns>
-    Task<IEnumerable<TShortEntity>> GetShortEntitiesAsync();
+    Task<IReadOnlyCollection<TShortEntity>> GetShortEntitiesAsync();
 
     /// <summary>
     /// Получить полный перечень сущностей для таблиц.
     /// </summary>
     /// <returns>Перечень моделей для таблиц.</returns>
-    Task<IEnumerable<TTableEntity>> GetTableEntitiesAsync();
+    Task<IReadOnlyCollection<TTableEntity>> GetTableEntitiesAsync();
 }

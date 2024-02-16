@@ -6,15 +6,17 @@
 ## Перечень технологий
 
 net8.0, [Mt.Utilities](https://github.com/g-aa/mt-utilities), [Mt.Entities.Abstractions](https://github.com/g-aa/mt-entities-abstractions),
-SonarAnalyzer.CSharp, Npgsql, Npgsql.EFCore, Dapper, NLog, NUnit, Swashbuckle, MediatR, FluentValidation.
+[Mt.Results](https://github.com/g-aa/mt-results), [Mt.FluentValidation](https://github.com/g-aa/mt-validation), SonarAnalyzer.CSharp, Npgsql, Npgsql.EFCore, Dapper, NLog, NUnit, Swashbuckle, MediatR, FluentValidation.
 
 ## [История изменения](CHANGELOG.md)
 
 ## Покрытие кода тестами
 
-Перед первым запуском `.test.bat`, для просмотра покрытия кода тестами необходимо выполнить команду:
+Перед первым запуском `.test.bat`, для просмотра покрытия кода тестами проверьте наличие `dotnet-reportgenerator-globaltool` выполнив команду:
 
 `dotnet tool list --global`
+
+в перечне пакетов должен присутствовать необходимый пакет:
 
 ```
 Идентификатор пакета                   Версия      Команды
@@ -22,6 +24,7 @@ SonarAnalyzer.CSharp, Npgsql, Npgsql.EFCore, Dapper, NLog, NUnit, Swashbuckle, M
 dotnet-reportgenerator-globaltool      5.1.19      reportgenerator
 ```
 
+при его отсутствии необходимо выполнить команду:
 
 `dotnet tool install -g dotnet-reportgenerator-globaltool`
 

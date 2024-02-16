@@ -79,7 +79,7 @@ public class ProjectRevisionBuilder
     /// </summary>
     /// <param name="parent">Родительская редакция.</param>
     /// <returns>Строитель.</returns>
-    public ProjectRevisionBuilder SetParentRevision(ProjectRevisionEntity parent)
+    public ProjectRevisionBuilder SetParentRevision(ProjectRevisionEntity? parent)
     {
         _parent = parent;
         return this;

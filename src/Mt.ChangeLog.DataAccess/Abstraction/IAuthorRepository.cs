@@ -12,11 +12,11 @@ public interface IAuthorRepository :
     /// Получить вклад авторов в проекты (БФПО).
     /// </summary>
     /// <returns>Перечень авторов и их вклад в проекты.</returns>
-    Task<IEnumerable<AuthorContributionModel>> GetAuthorContributionsAsync();
+    Task<IReadOnlyCollection<AuthorContributionModel>> GetAuthorContributionsAsync();
 
     /// <summary>
     /// Получить вклад авторов по отдельным проектам.
     /// </summary>
     /// <returns>Перечень авторов и их вклад по проектам.</returns>
-    Task<IEnumerable<AuthorProjectContributionModel>> GetAuthorProjectContributionsAsync();
+    Task<IReadOnlyCollection<AuthorProjectContributionModel>> GetAuthorProjectContributionsAsync();
 }

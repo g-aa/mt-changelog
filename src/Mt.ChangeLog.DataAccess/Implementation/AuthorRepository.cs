@@ -23,19 +23,19 @@ public sealed class AuthorRepository : AbstractRepository, IAuthorRepository
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<AuthorContributionModel>> GetAuthorContributionsAsync()
+    public async Task<IReadOnlyCollection<AuthorContributionModel>> GetAuthorContributionsAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""AuthorContribution"";";
         var result = await Connection.QueryAsync<AuthorContributionModel>(qSql);
-        return result;
+        return result.ToList();
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<AuthorProjectContributionModel>> GetAuthorProjectContributionsAsync()
+    public async Task<IReadOnlyCollection<AuthorProjectContributionModel>> GetAuthorProjectContributionsAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""AuthorProjectContribution"";";
         var result = await Connection.QueryAsync<AuthorProjectContributionModel>(qSql);
-        return result;
+        return result.ToList();
     }
 
     /// <inheritdoc />
@@ -47,18 +47,18 @@ public sealed class AuthorRepository : AbstractRepository, IAuthorRepository
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<AuthorShortModel>> GetShortEntitiesAsync()
+    public async Task<IReadOnlyCollection<AuthorShortModel>> GetShortEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_ShortAuthors""();";
         var result = await Connection.QueryAsync<AuthorShortModel>(qSql);
-        return result;
+        return result.ToList();
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<AuthorTableModel>> GetTableEntitiesAsync()
+    public async Task<IReadOnlyCollection<AuthorTableModel>> GetTableEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_TableAuthors""();";
         var result = await Connection.QueryAsync<AuthorTableModel>(qSql);
-        return result;
+        return result.ToList();
     }
 }

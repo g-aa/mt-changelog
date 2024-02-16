@@ -1,6 +1,8 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstraction;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
 
 namespace Mt.ChangeLog.Logic.Features.ArmEdit;
@@ -20,17 +22,17 @@ public static class GetShorts
     {
         private readonly ILogger<Handler> _logger;
 
-        private readonly IArmEditRepository _repository;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
         /// <param name="logger">Журнал логирования.</param>
-        /// <param name="repository">Репозиторий с данными.</param>
-        public Handler(ILogger<Handler> logger, IArmEditRepository repository)
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
             _logger = logger;
-            _repository = repository;
+            _context = context;
         }
 
         /// <inheritdoc />
@@ -38,10 +40,13 @@ public static class GetShorts
         {
             _logger.LogDebug("Получен запрос на получение полного перечня краткого описания ArmEdits.");
 
-            var result = await _repository.GetShortEntitiesAsync();
+            var result = await _context.ArmEdits.AsNoTracking()
+                .OrderBy(e => e.Version)
+                .Select(e => e.ToShortModel())
+                .ToListAsync(cancellationToken);
 
-            _logger.LogDebug("Запрос на получение полного перечня краткого описания ArmEdits успешно выполнен, '{Count}' записей.", result.Count());
-            return result.OrderByDescending(e => e.Version).ToList();
+            _logger.LogDebug("Запрос на получение полного перечня краткого описания ArmEdits успешно выполнен, '{Count}' записей.", result.Count);
+            return result;
         }
     }
 }

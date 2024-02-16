@@ -39,18 +39,18 @@ public sealed class ArmEditRepository : AbstractRepository, IArmEditRepository
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<ArmEditShortModel>> GetShortEntitiesAsync()
+    public async Task<IReadOnlyCollection<ArmEditShortModel>> GetShortEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_ShortArmEdits""();";
         var result = await Connection.QueryAsync<ArmEditShortModel>(qSql);
-        return result;
+        return result.ToList();
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<ArmEditTableModel>> GetTableEntitiesAsync()
+    public async Task<IReadOnlyCollection<ArmEditTableModel>> GetTableEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_TableArmEdits""();";
         var result = await Connection.QueryAsync<ArmEditTableModel>(qSql);
-        return result;
+        return result.ToList();
     }
 }

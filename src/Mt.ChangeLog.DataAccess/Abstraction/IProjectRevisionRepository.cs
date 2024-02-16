@@ -27,19 +27,19 @@ public interface IProjectRevisionRepository :
     /// Получить перечень последних редакций проектов.
     /// </summary>
     /// <returns>Перечень последних редакций проектов.</returns>
-    Task<IEnumerable<LastProjectRevisionModel>> GetLastsAsync();
+    Task<IReadOnlyCollection<LastProjectRevisionModel>> GetLastsAsync();
 
     /// <summary>
     /// Получить выборку в количестве n-штук последних измененных проектов.
     /// </summary>
     /// <param name="count">Количество элементов в выборке.</param>
     /// <returns>N-штук последних измененных проектов.</returns>
-    Task<IEnumerable<ProjectRevisionHistoryShortModel>> GetNLastModifiedProjectsAsync(ushort count);
+    Task<IReadOnlyCollection<ProjectRevisionHistoryShortModel>> GetNLastModifiedProjectsAsync(ushort count);
 
     /// <summary>
     /// Получить выборку в количестве n-штук часто редактируемых проектов.
     /// </summary>
     /// <param name="count">Количество элементов в выборке.</param>
     /// <returns>N-штук часто редактируемых проектов.</returns>
-    Task<IEnumerable<ProjectRevisionHistoryShortModel>> GetNMostChangingProjectsAsync(ushort count);
+    Task<IReadOnlyCollection<ProjectRevisionHistoryShortModel>> GetNMostChangingProjectsAsync(ushort count);
 }

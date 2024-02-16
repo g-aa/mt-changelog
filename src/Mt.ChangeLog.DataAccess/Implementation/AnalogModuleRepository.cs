@@ -35,18 +35,18 @@ public sealed class AnalogModuleRepository : AbstractRepository, IAnalogModuleRe
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<AnalogModuleShortModel>> GetShortEntitiesAsync()
+    public async Task<IReadOnlyCollection<AnalogModuleShortModel>> GetShortEntitiesAsync()
     {
         var qSql = @$"SELECT * FROM ""{Schema}"".""get_ShortAnalogModules""();";
         var result = await Connection.QueryAsync<AnalogModuleShortModel>(qSql);
-        return result;
+        return result.ToList();
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<AnalogModuleTableModel>> GetTableEntitiesAsync()
+    public async Task<IReadOnlyCollection<AnalogModuleTableModel>> GetTableEntitiesAsync()
     {
         var qSql = $@"SELECT * FROM ""{Schema}"".""get_TableAnalogModules""();";
         var result = await Connection.QueryAsync<AnalogModuleTableModel>(qSql);
-        return result;
+        return result.ToList();
     }
 }
