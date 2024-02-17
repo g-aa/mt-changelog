@@ -1,29 +1,32 @@
-﻿using Mt.ChangeLog.TransferObjects.AnalogModule;
+using System.ComponentModel.DataAnnotations;
 
-namespace Mt.ChangeLog.TransferObjects.Platform
+using Mt.ChangeLog.TransferObjects.AnalogModule;
+
+namespace Mt.ChangeLog.TransferObjects.Platform;
+
+/// <summary>
+/// Полная модель платформы БМРЗ.
+/// </summary>
+public class PlatformModel : PlatformTableModel
 {
     /// <summary>
-    /// Полная модель платформы БМРЗ.
+    /// Инициализация экземпляра <see cref="PlatformModel"/>.
     /// </summary>
-    public class PlatformModel : PlatformTableModel
+    public PlatformModel()
+        : base()
     {
-        /// <summary>
-        /// Перечень аналоговых модулей.
-        /// </summary>
-        public IEnumerable<AnalogModuleShortModel> AnalogModules { get; set; }
+        AnalogModules = new HashSet<AnalogModuleShortModel>();
+    }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="PlatformModel"/>.
-        /// </summary>
-        public PlatformModel() : base()
-        {
-            this.AnalogModules = new HashSet<AnalogModuleShortModel>();
-        }
+    /// <summary>
+    /// Перечень аналоговых модулей.
+    /// </summary>
+    [Required]
+    public IReadOnlyCollection<AnalogModuleShortModel> AnalogModules { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }

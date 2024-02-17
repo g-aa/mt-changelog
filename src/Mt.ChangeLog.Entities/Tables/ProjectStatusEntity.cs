@@ -1,76 +1,76 @@
-﻿using Mt.Entities.Abstractions.Interfaces;
-using Mt.Utilities;
 using System.Linq.Expressions;
 
-namespace Mt.ChangeLog.Entities.Tables
+using Mt.Entities.Abstractions.Interfaces;
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.Entities.Tables;
+
+/// <summary>
+/// Сущность статус проекта.
+/// </summary>
+public class ProjectStatusEntity : IDefaultable, IEntity, IEqualityPredicate<ProjectStatusEntity>, IRemovable
 {
     /// <summary>
-    /// Сущность статус проекта.
+    /// Инициализация экземпляра <see cref="ProjectStatusEntity"/>.
     /// </summary>
-    public class ProjectStatusEntity : IDefaultable, IEntity, IEqualityPredicate<ProjectStatusEntity>, IRemovable
+    public ProjectStatusEntity()
     {
-        /// <inheritdoc />
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Title = "Внутренний";
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        ProjectVersions = new HashSet<ProjectVersionEntity>();
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        public string Title { get; set; }
+    /// <inheritdoc />
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        public string Description { get; set; }
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    public string Title { get; set; }
 
-        /// <inheritdoc />
-        public bool Default { get; set; }
+    /// <summary>
+    /// Описание.
+    /// </summary>
+    public string Description { get; set; }
 
-        /// <inheritdoc />
-        public bool Removable { get; set; }
+    /// <inheritdoc />
+    public bool Default { get; set; }
 
-        #region [ Relationships ]
+    /// <inheritdoc />
+    public bool Removable { get; set; }
 
-        /// <summary>
-        /// Перечень версий проектов.
-        /// </summary>
-        public ICollection<ProjectVersionEntity> ProjectVersions { get; set; }
-        #endregion
+    #region [ Relationships ]
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectStatusEntity"/>.
-        /// </summary>
-        public ProjectStatusEntity()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = "Внутренний";
-            this.Description = DefaultString.Description;
-            this.Default = false;
-            this.Removable = true;
-            this.ProjectVersions = new HashSet<ProjectVersionEntity>();
-        }
+    /// <summary>
+    /// Перечень версий проектов.
+    /// </summary>
+    public ICollection<ProjectVersionEntity> ProjectVersions { get; set; }
+    #endregion
 
-        /// <inheritdoc />
-        public Expression<Func<ProjectStatusEntity, bool>> GetEqualityPredicate()
-        {
-            return (ProjectStatusEntity e) => e.Id == this.Id || e.Title == this.Title;
-        }
+    /// <inheritdoc />
+    public Expression<Func<ProjectStatusEntity, bool>> GetEqualityPredicate()
+    {
+        return (ProjectStatusEntity e) => e.Id == Id || e.Title == Title;
+    }
 
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            return obj is ProjectStatusEntity e && (this.Id.Equals(e.Id) || this.Title == e.Title);
-        }
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        return obj is ProjectStatusEntity e && (Id.Equals(e.Id) || Title == e.Title);
+    }
 
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(this.Title);
-        }
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Title);
+    }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"ID: {this.Id}, статус: {this.Title}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"ID: {Id}, статус: {Title}";
     }
 }

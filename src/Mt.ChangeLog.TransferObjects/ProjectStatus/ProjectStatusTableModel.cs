@@ -1,24 +1,28 @@
-﻿using Mt.Utilities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Mt.ChangeLog.TransferObjects.ProjectStatus
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.ProjectStatus;
+
+/// <summary>
+/// Модель статуса проекта для таблиц.
+/// </summary>
+public class ProjectStatusTableModel : ProjectStatusShortModel
 {
     /// <summary>
-    /// Модель статуса проекта для таблиц.
+    /// Инициализация экземпляра <see cref="ProjectStatusTableModel"/>.
     /// </summary>
-    public class ProjectStatusTableModel : ProjectStatusShortModel
+    public ProjectStatusTableModel()
+        : base()
     {
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        /// <example>Описание...</example>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectStatusTableModel"/>.
-        /// </summary>
-        public ProjectStatusTableModel() : base()
-        {
-            this.Description = DefaultString.Description;
-        }
+        Description = DefaultString.Description;
     }
+
+    /// <summary>
+    /// Описание.
+    /// </summary>
+    /// <example>Описание...</example>
+    [Required]
+    [StringLength(500, MinimumLength = 0)]
+    public string Description { get; set; }
 }

@@ -1,74 +1,53 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
+namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm;
+
+/// <summary>
+/// Запрос на получение перечня моделей данных для таблиц <see cref="RelayAlgorithmTableModel"/>.
+/// </summary>
+public static class GetTables
 {
-    /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="RelayAlgorithmTableModel"/>.
-    /// </summary>
-    public static class GetTables
+    /// <inheritdoc />
+    public sealed class Query : IRequest<IReadOnlyCollection<RelayAlgorithmTableModel>>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, IEnumerable<RelayAlgorithmTableModel>>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение перечня сущностей вида {nameof(RelayAlgorithmTableModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<RelayAlgorithmTableModel>>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, IEnumerable<RelayAlgorithmTableModel>>
+        public async Task<IReadOnlyCollection<RelayAlgorithmTableModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            _logger.LogDebug("Получен запрос на получение полного перечня табличного описания алгоритмов РЗиА.");
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var result = await _context.RelayAlgorithms.AsNoTracking()
+                .OrderBy(e => e.Group)
+                .ThenBy(e => e.Title)
+                .Select(e => e.ToModel())
+                .ToListAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public async Task<IEnumerable<RelayAlgorithmTableModel>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = await this.context.RelayAlgorithms.AsNoTracking()
-                    .OrderBy(e => e.Group)
-                    .ThenBy(e => e.Title)
-                    .Select(e => e.ToModel())
-                    .ToListAsync(cancellationToken);
-
-                return result;
-            }
+            _logger.LogDebug("Запрос на получение полного перечня табличного описания алгоритмов РЗиА успешно выполнен, '{Count}' записей.", result.Count);
+            return result;
         }
     }
 }

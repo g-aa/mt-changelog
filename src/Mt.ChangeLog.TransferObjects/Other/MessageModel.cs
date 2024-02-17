@@ -1,22 +1,25 @@
-namespace Mt.ChangeLog.TransferObjects.Other
+using System.ComponentModel.DataAnnotations;
+
+namespace Mt.ChangeLog.TransferObjects.Other;
+
+/// <summary>
+/// Модель данных сообщения.
+/// </summary>
+public sealed class MessageModel
 {
     /// <summary>
-    /// Модель данных сообщения.
+    /// Инициализация экземпляра класса <see cref="MessageModel"/>.
     /// </summary>
-    public sealed class MessageModel
+    public MessageModel()
     {
-        /// <summary>
-        /// Сообщение.
-        /// </summary>
-        /// <example>Текстовое сообщение...</example>
-        public string Message { get; set; }
-
-        /// <summary>
-        /// Инициализация экземпляра класса <see cref="MessageModel"/>.
-        /// </summary>
-        public MessageModel()
-        {
-            this.Message = "Текст сообщения.";
-        }
+        Message = "Текст сообщения.";
     }
+
+    /// <summary>
+    /// Сообщение.
+    /// </summary>
+    /// <example>Текстовое сообщение...</example>
+    [Required]
+    [MinLength(1)]
+    public string Message { get; set; }
 }

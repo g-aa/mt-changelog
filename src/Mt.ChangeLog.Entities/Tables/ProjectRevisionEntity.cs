@@ -1,131 +1,130 @@
-﻿using Mt.Entities.Abstractions.Interfaces;
-using Mt.Utilities;
 using System.Linq.Expressions;
 
-namespace Mt.ChangeLog.Entities.Tables
+using Mt.Entities.Abstractions.Interfaces;
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.Entities.Tables;
+
+/// <summary>
+/// Сущность редакции проекта.
+/// </summary>
+public class ProjectRevisionEntity : IEntity, IEqualityPredicate<ProjectRevisionEntity>
 {
     /// <summary>
-    /// Сущность редакции проекта.
+    /// Инициализация экземпляра <see cref="ProjectRevisionEntity"/>.
     /// </summary>
-    public class ProjectRevisionEntity : IEntity, IEqualityPredicate<ProjectRevisionEntity>
+    public ProjectRevisionEntity()
     {
-        /// <inheritdoc />
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Date = DateTime.Now;
+        Revision = DefaultString.Revision;
+        Reason = DefaultString.Reason;
+        Description = DefaultString.Description;
+        Authors = new HashSet<AuthorEntity>();
+        RelayAlgorithms = new HashSet<RelayAlgorithmEntity>();
+    }
 
-        /// <summary>
-        /// Дата компиляции.
-        /// </summary>
-        public DateTime Date { get; set; }
+    /// <inheritdoc />
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Редакция.
-        /// </summary>
-        public string Revision { get; set; }
+    /// <summary>
+    /// Дата компиляции.
+    /// </summary>
+    public DateTime Date { get; set; }
 
-        /// <summary>
-        /// Причина изменений.
-        /// </summary>
-        public string Reason { get; set; }
+    /// <summary>
+    /// Редакция.
+    /// </summary>
+    public string Revision { get; set; }
 
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        public string Description { get; set; }
+    /// <summary>
+    /// Причина изменений.
+    /// </summary>
+    public string Reason { get; set; }
 
-        #region [ Relationships ]
+    /// <summary>
+    /// Описание.
+    /// </summary>
+    public string Description { get; set; }
 
-        /// <summary>
-        /// ИД версии проекта.
-        /// </summary>
-        public Guid ProjectVersionId { get; set; }
+    #region [ Relationships ]
 
-        /// <summary>
-        /// Версия проекта.
-        /// </summary>
-        public ProjectVersionEntity ProjectVersion { get; set; }
+    /// <summary>
+    /// ИД версии проекта.
+    /// </summary>
+    public Guid ProjectVersionId { get; set; }
 
-        /// <summary>
-        /// ИД родительской редакции проекта.
-        /// </summary>
-        public Guid ParentRevisionId { get; set; }
+    /// <summary>
+    /// Версия проекта.
+    /// </summary>
+    public ProjectVersionEntity? ProjectVersion { get; set; }
 
-        /// <summary>
-        /// Родительская редакция проекта.
-        /// </summary>
-        public ProjectRevisionEntity ParentRevision { get; set; }
+    /// <summary>
+    /// ИД родительской редакции проекта.
+    /// </summary>
+    public Guid ParentRevisionId { get; set; }
 
-        /// <summary>
-        /// ИД версии ArmEdit.
-        /// </summary>
-        public Guid ArmEditId { get; set; }
+    /// <summary>
+    /// Родительская редакция проекта.
+    /// </summary>
+    public ProjectRevisionEntity? ParentRevision { get; set; }
 
-        /// <summary>
-        /// Версия ArmEdit.
-        /// </summary>
-        public ArmEditEntity ArmEdit { get; set; }
+    /// <summary>
+    /// ИД версии ArmEdit.
+    /// </summary>
+    public Guid ArmEditId { get; set; }
 
-        /// <summary>
-        /// ИД коммуникационного модуля.
-        /// </summary>
-        public Guid CommunicationId { get; set; }
+    /// <summary>
+    /// Версия ArmEdit.
+    /// </summary>
+    public ArmEditEntity? ArmEdit { get; set; }
 
-        /// <summary>
-        /// Коммуникационный модуль.
-        /// </summary>
-        public CommunicationEntity Communication { get; set; }
+    /// <summary>
+    /// ИД коммуникационного модуля.
+    /// </summary>
+    public Guid CommunicationId { get; set; }
 
-        /// <summary>
-        /// Перечень авторов.
-        /// </summary>
-        public ICollection<AuthorEntity> Authors { get; set; }
+    /// <summary>
+    /// Коммуникационный модуль.
+    /// </summary>
+    public CommunicationEntity? Communication { get; set; }
 
-        /// <summary>
-        /// Перечень алгоритмов.
-        /// </summary>
-        public ICollection<RelayAlgorithmEntity> RelayAlgorithms { get; set; }
-        #endregion
+    /// <summary>
+    /// Перечень авторов.
+    /// </summary>
+    public ICollection<AuthorEntity> Authors { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectRevisionEntity"/>.
-        /// </summary>
-        public ProjectRevisionEntity()
-        {
-            this.Id = Guid.NewGuid();
-            this.Date = DateTime.Now;
-            this.Revision = DefaultString.Revision;
-            this.Reason = DefaultString.Reason;
-            this.Description = DefaultString.Description;
-            this.Authors = new HashSet<AuthorEntity>();
-            this.RelayAlgorithms = new HashSet<RelayAlgorithmEntity>();
-        }
+    /// <summary>
+    /// Перечень алгоритмов.
+    /// </summary>
+    public ICollection<RelayAlgorithmEntity> RelayAlgorithms { get; set; }
+    #endregion
 
-        /// <inheritdoc />
-        public Expression<Func<ProjectRevisionEntity, bool>> GetEqualityPredicate()
-        {
-            return (ProjectRevisionEntity e) => e.Id == this.Id
-            || (e.ProjectVersionId == this.ProjectVersionId || e.ProjectVersion.DIVG == this.ProjectVersion.DIVG) && e.Revision == this.Revision;
-        }
+    /// <inheritdoc />
+    public Expression<Func<ProjectRevisionEntity, bool>> GetEqualityPredicate()
+    {
+        return (ProjectRevisionEntity e) => e.Id == Id || ((e.ProjectVersionId == ProjectVersionId) && e.Revision == Revision);
+    }
 
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            return obj is ProjectRevisionEntity e && (this.Id.Equals(e.Id) || ProjectVersionId.Equals(e.ProjectVersionId) && Revision == e.Revision);
-        }
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        return obj is ProjectRevisionEntity e && (Id.Equals(e.Id) || (ProjectVersionId.Equals(e.ProjectVersionId) && Revision == e.Revision));
+    }
 
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            /*
-             * при определении уникальности картежа нужно учитывать и версию проекта к которой он привязан !!!
-             * ПС чисто теоретически даты и время компиляции должны отличасться, но так происходит не всегда
-             */
-            return HashCode.Combine(this.ProjectVersionId, this.Date, this.Revision);
-        }
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        /*
+         * при определении уникальности картежа нужно учитывать и версию проекта к которой он привязан !!!
+         * ПС чисто теоретически даты и время компиляции должны отличаться, но так происходит не всегда
+         */
+        return HashCode.Combine(ProjectVersionId, Date, Revision);
+    }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"ID: {this.Id}, {this.ProjectVersion?.Prefix}-{this.ProjectVersion?.Title}-{this.ProjectVersion?.Version}_{this.Revision}, дата изменения: {this.Date}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"ID: {Id}, {ProjectVersion?.Prefix}-{ProjectVersion?.Title}-{ProjectVersion?.Version}_{Revision}, дата изменения: {Date}";
     }
 }

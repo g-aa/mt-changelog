@@ -1,85 +1,65 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstractions;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataAccess.Abstraction;
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.ChangeLog.TransferObjects.Other;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.Author
+namespace Mt.ChangeLog.Logic.Features.Author;
+
+/// <summary>
+/// Запрос на получение перечня моделей данных для таблиц <see cref="AuthorModel"/>.
+/// </summary>
+public static class GetById
 {
-    /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="AuthorModel"/>.
-    /// </summary>
-    public static class GetById
+    /// <inheritdoc />
+    public sealed record Query(BaseModel Model) : IRequest<AuthorModel>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, AuthorModel>, IValidatedRequest
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Query(BaseModel model) : base(model)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение сущности вида {nameof(AuthorModel)}.";
-            }
+    /// <summary>
+    /// Валидатор модели <see cref="Query"/>.
+    /// </summary>
+    public sealed class Validator : AbstractValidator<Query>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Base model validator.</param>
+        public Validator(IValidator<BaseModel> validator)
+        {
+            RuleFor(e => e.Model).SetValidator(validator);
         }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, AuthorModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly IAuthorRepository _repository;
 
         /// <summary>
-        /// Валидатор модели <see cref="Query"/>.
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
-        public sealed class QueryValidator : AbstractValidator<Query>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="repository">Репозиторий с данными.</param>
+        public Handler(ILogger<Handler> logger, IAuthorRepository repository)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="QueryValidator"/>.
-            /// </summary>
-            public QueryValidator(BaseModelValidator validator)
-            {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
+            _logger = logger;
+            _repository = repository;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, AuthorModel>
+        public async Task<AuthorModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на предоставление данных об авторе '{Model}'.", model);
 
-            /// <summary>
-            /// Репозиторий с данными.
-            /// </summary>
-            private readonly IAuthorRepository repository;
+            var result = await _repository.GetEntityAsync(model.Id);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="repository">Репозиторий с данными.</param>
-            public Handler(ILogger<Handler> logger, IAuthorRepository repository)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.repository = Check.NotNull(repository, nameof(repository));
-            }
-
-            /// <inheritdoc />
-            public async Task<AuthorModel> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = await this.repository.GetEntityAsync(request.Model.Id);
-                return result;
-            }
+            _logger.LogDebug("Запрос на получение данных об авторе '{Result}' выполнен успешно.", result);
+            return result;
         }
     }
 }

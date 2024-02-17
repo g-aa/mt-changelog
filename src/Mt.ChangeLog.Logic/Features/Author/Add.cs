@@ -1,113 +1,91 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
+using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.Logic.Extensions;
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Features.Author
+namespace Mt.ChangeLog.Logic.Features.Author;
+
+/// <summary>
+/// Запрос на добавления сущности <see cref="AuthorModel"/>.
+/// </summary>
+public static class Add
 {
-    /// <summary>
-    /// Запрос на добавления сущности <see cref="AuthorModel"/>.
-    /// </summary>
-    public static class Add
+    /// <inheritdoc />
+    public sealed record Command(AuthorModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<AuthorModel, MessageModel>, IValidatedRequest
+    }
+
+    /// <inheritdoc />
+    public sealed class Validator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Author model validator.</param>
+        public Validator(IValidator<AuthorModel> validator)
         {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Command(AuthorModel model) : base(model)
+            RuleFor(e => e.Model).SetValidator(validator);
+        }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
+        }
+
+        /// <inheritdoc />
+        public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на добавление  автора '{Model}' в систему.", model);
+
+            var dbAuthor = new AuthorEntity().GetBuilder()
+                .SetAttributes(model)
+                .Build();
+
+            if (_context.Authors.IsContained(dbAuthor))
             {
+                throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbAuthor}' уже содержится в системе.");
             }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - добавление сущности вида {nameof(AuthorModel)}.";
-            }
+            return SaveChangesAsync(dbAuthor, cancellationToken);
         }
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Сохранить изменения сущности.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="entity">Сущность.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Результат выполнения.</returns>
+        private async Task<MessageModel> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(AuthorModelValidator validator)
+            await _context.Authors.AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Автор '{Entity}' успешно добавлен в систему.", entity);
+            return new MessageModel
             {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
-        }
-
-        /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
-        {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
-
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
-
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var model = Check.NotNull(request, nameof(request)).Model;
-                this.logger.LogInformation(request.ToString());
-
-                var dbAuthor = AuthorBuilder.GetBuilder()
-                    .SetAttributes(model)
-                    .Build();
-
-                if (this.context.Authors.IsContained(dbAuthor))
-                {
-                    throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbAuthor}' уже содержится в системе.");
-                }
-
-                return this.SaveChangesAsync(dbAuthor, cancellationToken);
-            }
-
-            /// <summary>
-            /// Сохранить изменения сущности.
-            /// </summary>
-            /// <param name="entity">Сущность.</param>
-            /// <param name="cancellationToken">Токен отмены.</param>
-            /// <returns>Результат выполнения.</returns>
-            private async Task<MessageModel> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
-            {
-                await this.context.Authors.AddAsync(entity, cancellationToken);
-                await this.context.SaveChangesAsync(cancellationToken);
-                return new MessageModel()
-                {
-                    Message = $"'{entity}' был добавлен в систему.",
-                };
-            }
+                Message = $"'{entity}' был добавлен в систему.",
+            };
         }
     }
 }

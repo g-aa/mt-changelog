@@ -1,36 +1,42 @@
-﻿using Mt.Utilities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Mt.ChangeLog.TransferObjects.ArmEdit
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.ArmEdit;
+
+/// <summary>
+/// Краткая модель ArmEdit.
+/// </summary>
+public class ArmEditShortModel
 {
     /// <summary>
-    /// Краткая модель ArmEdit.
+    /// Инициализация экземпляра <see cref="ArmEditModel"/>.
     /// </summary>
-    public class ArmEditShortModel
+    public ArmEditShortModel()
     {
-        /// <summary>
-        /// ИД.
-        /// </summary>
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Version = DefaultString.Version;
+    }
 
-        /// <summary>
-        /// Версия ArmEdit.
-        /// </summary>
-        /// <example>v0.00.00.00</example>
-        public string Version { get; set; }
+    /// <summary>
+    /// ИД.
+    /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
+    [Required]
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ArmEditModel"/>.
-        /// </summary>
-        public ArmEditShortModel()
-        {
-            this.Id = Guid.NewGuid();
-            this.Version = DefaultString.Version;
-        }
+    /// <summary>
+    /// Версия ArmEdit.
+    /// </summary>
+    /// <example>v0.00.00.00</example>
+    [Required]
+    [StringLength(11, MinimumLength = 11)]
+    [RegularExpression(StringFormat.Version)]
+    public string Version { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"ArmEdit: {this.Version}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"ArmEdit: {Version}";
     }
 }

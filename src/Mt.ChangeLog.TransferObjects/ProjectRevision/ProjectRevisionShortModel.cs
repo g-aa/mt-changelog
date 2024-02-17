@@ -1,31 +1,36 @@
-﻿using Mt.ChangeLog.TransferObjects.ProjectVersion;
+using System.ComponentModel.DataAnnotations;
+
+using Mt.ChangeLog.TransferObjects.ProjectVersion;
 using Mt.Utilities;
 
-namespace Mt.ChangeLog.TransferObjects.ProjectRevision
+namespace Mt.ChangeLog.TransferObjects.ProjectRevision;
+
+/// <summary>
+/// Краткая модель редакции проекта.
+/// </summary>
+public class ProjectRevisionShortModel : ProjectVersionShortModel
 {
     /// <summary>
-    /// Краткая модель редакции проекта.
+    /// Инициализация экземпляра <see cref="ProjectRevisionShortModel"/>.
     /// </summary>
-    public class ProjectRevisionShortModel : ProjectVersionShortModel
+    public ProjectRevisionShortModel()
+        : base()
     {
-        /// <summary>
-        /// Редакция
-        /// </summary>
-        /// <example>00</example>
-        public string Revision { get; set; }
+        Revision = DefaultString.Revision;
+    }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectRevisionShortModel"/>.
-        /// </summary>
-        public ProjectRevisionShortModel() : base()
-        {
-            this.Revision = DefaultString.Revision;
-        }
+    /// <summary>
+    /// Редакция.
+    /// </summary>
+    /// <example>00</example>
+    [Required]
+    [StringLength(2, MinimumLength = 2)]
+    [RegularExpression("^[0-9]{2}$")]
+    public string Revision { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"{base.ToString()}_{this.Revision}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"{base.ToString()}_{Revision}";
     }
 }

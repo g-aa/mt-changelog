@@ -1,29 +1,34 @@
-﻿using Mt.Utilities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Mt.ChangeLog.TransferObjects.Author
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.Author;
+
+/// <summary>
+/// Модель автор общий вклад в проекты.
+/// </summary>
+public class AuthorContributionModel
 {
     /// <summary>
-    /// Модель автор общий вклад в проекты.
+    /// Инициализация экземпляра <see cref="AuthorContributionModel"/>.
     /// </summary>
-    public class AuthorContributionModel
+    public AuthorContributionModel()
     {
-        /// <summary>
-        /// Ф.И.О. автора (LastName FirstName). 
-        /// </summary>
-        /// <example>Иванов Иван</example>
-        public string Author { get; set; }
-
-        /// <summary>
-        /// Общий вклад в проекты.
-        /// </summary>
-        public int Contribution { get; set; }
-
-        /// <summary>
-        /// Инициализация экземпляра <see cref="AuthorContributionModel"/>.
-        /// </summary>
-        public AuthorContributionModel()
-        {
-            this.Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
-        }
+        Author = $"{DefaultString.LastName} {DefaultString.FirstName}";
     }
+
+    /// <summary>
+    /// Ф.И.О. автора (LastName FirstName).
+    /// </summary>
+    /// <example>Иванов Иван</example>
+    [Required]
+    [StringLength(65, MinimumLength = 3)]
+    public string Author { get; set; }
+
+    /// <summary>
+    /// Общий вклад в проекты.
+    /// </summary>
+    [Required]
+    [Range(0, int.MaxValue)]
+    public int Contribution { get; set; }
 }

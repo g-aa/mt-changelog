@@ -2,137 +2,115 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
+using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.Logic.Extensions;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Features.ProjectRevision
+namespace Mt.ChangeLog.Logic.Features.ProjectRevision;
+
+/// <summary>
+/// Запрос на добавления сущности <see cref="ProjectRevisionModel"/>.
+/// </summary>
+public static class Add
 {
-    /// <summary>
-    /// Запрос на добавления сущности <see cref="ProjectRevisionModel"/>.
-    /// </summary>
-    public static class Add
+    /// <inheritdoc />
+    public sealed record Command(ProjectRevisionModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<ProjectRevisionModel, MessageModel>, IValidatedRequest
+    }
+
+    /// <inheritdoc />
+    public sealed class Validator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Project revision model validator.</param>
+        public Validator(IValidator<ProjectRevisionModel> validator)
         {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Модель данных.</param>
-            public Command(ProjectRevisionModel model) : base(model)
+            RuleFor(e => e.Model).SetValidator(validator);
+        }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
+        }
+
+        /// <inheritdoc />
+        public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на добавление редакции проекта '{Model}' в систему.", model);
+
+            var dbParent = _context.ProjectRevisions
+                .SearchOrNull(model.ParentRevision != null ? model.ParentRevision.Id : Guid.Empty);
+
+            var dbProjectVersion = _context.ProjectVersions
+                .Search(model.ProjectVersion.Id);
+
+            var dbArmEdit = _context.ArmEdits
+                .SearchOrDefault(model.ArmEdit.Id);
+
+            var dbAuthors = _context.Authors
+                .SearchManyOrDefault(model.Authors.Select(e => e.Id));
+
+            var dbModule = _context.Communications
+                .Search(model.Communication.Id);
+
+            var dbAlgorithms = _context.RelayAlgorithms
+                .SearchManyOrDefault(model.RelayAlgorithms.Select(e => e.Id));
+
+            var dbProjectRevision = new ProjectRevisionEntity().GetBuilder()
+                .SetAttributes(model)
+                .SetParentRevision(dbParent)
+                .SetProjectVersion(dbProjectVersion)
+                .SetArmEdit(dbArmEdit)
+                .SetAuthors(dbAuthors)
+                .SetCommunication(dbModule)
+                .SetAlgorithms(dbAlgorithms)
+                .Build();
+
+            if (_context.ProjectRevisions.Include(e => e.ProjectVersion).IsContained(dbProjectRevision))
             {
+                throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbProjectRevision}' уже содержится в системе.");
             }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - добавление сущности вида {nameof(ProjectRevisionModel)}.";
-            }
+            return SaveChangesAsync(dbProjectRevision, cancellationToken);
         }
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Сохранить изменения сущности.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="entity">Сущность.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Результат выполнения.</returns>
+        private async Task<MessageModel> SaveChangesAsync(ProjectRevisionEntity entity, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(ProjectRevisionModelValidator validator)
+            await _context.ProjectRevisions.AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Редакция проекта '{Entity}' успешно добавлен в систему.", entity);
+            return new MessageModel
             {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
-        }
-
-        /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
-        {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
-
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
-
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var model = Check.NotNull(request, nameof(request)).Model;
-                this.logger.LogInformation(request.ToString());
-
-                var dbParent = this.context.ProjectRevisions
-                    .SearchOrNull(model.ParentRevision != null ? model.ParentRevision.Id : Guid.Empty);
-
-                var dbProjectVersion = this.context.ProjectVersions
-                    .Search(model.ProjectVersion.Id);
-
-                var dbArmEdit = this.context.ArmEdits
-                    .SearchOrDefault(model.ArmEdit.Id);
-
-                var dbAuthors = this.context.Authors
-                    .SearchManyOrDefault(model.Authors.Select(e => e.Id));
-
-                var dbModule = this.context.Communications
-                    .Search(model.Communication.Id);
-
-                var dbAlgorithms = this.context.RelayAlgorithms
-                    .SearchManyOrDefault(model.RelayAlgorithms.Select(e => e.Id));
-
-                var dbProjectRevision = ProjectRevisionBuilder.GetBuilder()
-                    .SetAttributes(model)
-                    .SetParentRevision(dbParent)
-                    .SetProjectVersion(dbProjectVersion)
-                    .SetArmEdit(dbArmEdit)
-                    .SetAuthors(dbAuthors)
-                    .SetCommunication(dbModule)
-                    .SetAlgorithms(dbAlgorithms)
-                    .Build();
-
-                if (this.context.ProjectRevisions.Include(e => e.ProjectVersion).IsContained(dbProjectRevision))
-                {
-                    throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbProjectRevision}' уже содержится в системе.");
-                }
-
-                return this.SaveChangesAsync(dbProjectRevision, cancellationToken);
-            }
-
-            /// <summary>
-            /// Сохранить изменения сущности.
-            /// </summary>
-            /// <param name="entity">Сущность.</param>
-            /// <param name="cancellationToken">Токен отмены.</param>
-            /// <returns>Результат выполнения.</returns>
-            private async Task<MessageModel> SaveChangesAsync(ProjectRevisionEntity entity, CancellationToken cancellationToken)
-            {
-                await this.context.ProjectRevisions.AddAsync(entity, cancellationToken);
-                await this.context.SaveChangesAsync(cancellationToken);
-                return new MessageModel()
-                {
-                    Message = $"'{entity}' была добавлена в систему.",
-                };
-            }
+                Message = $"'{entity}' была добавлена в систему.",
+            };
         }
     }
 }

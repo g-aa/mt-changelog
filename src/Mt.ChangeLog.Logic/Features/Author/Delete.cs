@@ -2,117 +2,97 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
+using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Models;
 using Mt.ChangeLog.TransferObjects.Author;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Features.Author
+namespace Mt.ChangeLog.Logic.Features.Author;
+
+/// <summary>
+/// Запрос на удаления модели аналогового модуля из системы <see cref="AuthorModel"/>.
+/// </summary>
+public static class Delete
 {
-    /// <summary>
-    /// Запрос на удаления модели аналогового модуля из системы <see cref="AuthorModel"/>.
-    /// </summary>
-    public static class Delete
+    /// <inheritdoc />
+    public sealed record Command(BaseModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<BaseModel, MessageModel>, IValidatedRequest
+    }
+
+    /// <summary>
+    /// Валидатор модели <see cref="Command"/>.
+    /// </summary>
+    public sealed class Validator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Base model validator.</param>
+        public Validator(IValidator<BaseModel> validator)
         {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Command(BaseModel model) : base(model)
+            RuleFor(e => e.Model).SetValidator(validator);
+        }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
+        }
+
+        /// <inheritdoc />
+        public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на удаление автора '{Model}' из системы.", model);
+
+            var dbRemovable = _context.Authors
+                .Include(e => e.ProjectRevisions)
+                .Search(model.Id);
+
+            if (dbRemovable.Default)
             {
+                throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность по умолчанию '{dbRemovable}' нельзя удалить из системы.");
             }
 
-            /// <inheritdoc />
-            public override string ToString()
+            if (dbRemovable.ProjectRevisions.Count != 0)
             {
-                return $"{base.ToString()} - удаление сущности вида {nameof(AuthorModel)}.";
+                throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используется в редакциях БФПО и не может быть удалена из системы.");
             }
+
+            return SaveChangesAsync(dbRemovable, cancellationToken);
         }
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Сохранить изменения сущности.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="entity">Сущность.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Результат выполнения.</returns>
+        private async Task<MessageModel> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(BaseModelValidator validator)
+            _context.Authors.Remove(entity);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Автор '{Entity}' успешно удален из системы.", entity);
+            return new MessageModel
             {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
-        }
-
-        /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
-        {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
-
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
-
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var dbRemovable = this.context.Authors
-                    .Include(e => e.ProjectRevisions)
-                    .Search(request.Model.Id);
-
-                if (dbRemovable.Default)
-                {
-                    throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность по умолчанию '{dbRemovable}' нельзя удалить из системы.");
-                }
-
-                if (dbRemovable.ProjectRevisions.Any())
-                {
-                    throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используется в редакциях БФПО и неможет быть удалена из системы.");
-                }
-
-                return this.SaveChangesAsync(dbRemovable, cancellationToken);
-            }
-
-            /// <summary>
-            /// Сохранить изменения сущности.
-            /// </summary>
-            /// <param name="entity">Сущность.</param>
-            /// <param name="cancellationToken">Токен отмены.</param>
-            /// <returns>Результат выполнения.</returns>
-            private async Task<MessageModel> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
-            {
-                this.context.Authors.Remove(entity);
-                await this.context.SaveChangesAsync(cancellationToken);
-                return new MessageModel()
-                {
-                    Message = $"'{entity}' был удален из системы.",
-                };
-            }
+                Message = $"'{entity}' был удален из системы.",
+            };
         }
     }
 }

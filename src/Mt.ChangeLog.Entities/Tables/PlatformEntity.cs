@@ -1,82 +1,82 @@
-﻿using Mt.Entities.Abstractions.Interfaces;
-using Mt.Utilities;
 using System.Linq.Expressions;
 
-namespace Mt.ChangeLog.Entities.Tables
+using Mt.Entities.Abstractions.Interfaces;
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.Entities.Tables;
+
+/// <summary>
+/// Сущность платформы БМРЗ.
+/// </summary>
+public class PlatformEntity : IDefaultable, IEntity, IEqualityPredicate<PlatformEntity>, IRemovable
 {
     /// <summary>
-    /// Сущность платформы БМРЗ.
+    /// Инициализация экземпляра <see cref="PlatformEntity"/>.
     /// </summary>
-    public class PlatformEntity : IDefaultable, IEntity, IEqualityPredicate<PlatformEntity>, IRemovable
+    public PlatformEntity()
     {
-        /// <inheritdoc />
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Title = DefaultString.Platform;
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        AnalogModules = new HashSet<AnalogModuleEntity>();
+        Projects = new HashSet<ProjectVersionEntity>();
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        public string Title { get; set; }
+    /// <inheritdoc />
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        public string Description { get; set; }
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    public string Title { get; set; }
 
-        /// <inheritdoc />
-        public bool Default { get; set; }
+    /// <summary>
+    /// Описание.
+    /// </summary>
+    public string Description { get; set; }
 
-        /// <inheritdoc />
-        public bool Removable { get; set; }
+    /// <inheritdoc />
+    public bool Default { get; set; }
 
-        #region [ Relationships ]
+    /// <inheritdoc />
+    public bool Removable { get; set; }
 
-        /// <summary>
-        /// Перечень аналоговых модулей.
-        /// </summary>
-        public ICollection<AnalogModuleEntity> AnalogModules { get; set; }
+    #region [ Relationships ]
 
-        /// <summary>
-        /// Перечень версий проектов.
-        /// </summary>
-        public ICollection<ProjectVersionEntity> Projects { get; set; }
-        #endregion
+    /// <summary>
+    /// Перечень аналоговых модулей.
+    /// </summary>
+    public ICollection<AnalogModuleEntity> AnalogModules { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="PlatformEntity"/>.
-        /// </summary>
-        public PlatformEntity()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Platform;
-            this.Description = DefaultString.Description;
-            this.Default = false;
-            this.Removable = true;
-            this.AnalogModules = new HashSet<AnalogModuleEntity>();
-            this.Projects = new HashSet<ProjectVersionEntity>();
-        }
+    /// <summary>
+    /// Перечень версий проектов.
+    /// </summary>
+    public ICollection<ProjectVersionEntity> Projects { get; set; }
+    #endregion
 
-        /// <inheritdoc />
-        public Expression<Func<PlatformEntity, bool>> GetEqualityPredicate()
-        {
-            return (PlatformEntity e) => e.Id == this.Id || e.Title == this.Title;
-        }
+    /// <inheritdoc />
+    public Expression<Func<PlatformEntity, bool>> GetEqualityPredicate()
+    {
+        return (PlatformEntity e) => e.Id == Id || e.Title == Title;
+    }
 
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            return obj is PlatformEntity platform && (Id.Equals(platform.Id) || Title == platform.Title);
-        }
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        return obj is PlatformEntity platform && (Id.Equals(platform.Id) || Title == platform.Title);
+    }
 
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(this.Title);
-        }
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Title);
+    }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"ID: {this.Id}, платформа: {this.Title}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"ID: {Id}, платформа: {Title}";
     }
 }

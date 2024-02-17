@@ -1,76 +1,57 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Protocol;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.Protocol
+namespace Mt.ChangeLog.Logic.Features.Protocol;
+
+/// <summary>
+/// Запрос на получение шаблона <see cref="ProtocolModel"/>.
+/// </summary>
+public static class GetTemplate
 {
-    /// <summary>
-    /// Запрос на получение шаблона <see cref="ProtocolModel"/>.
-    /// </summary>
-    public static class GetTemplate
+    /// <inheritdoc />
+    public sealed class Query : IRequest<ProtocolModel>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, ProtocolModel>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение шаблона сущности вида {nameof(ProtocolModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, ProtocolModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, ProtocolModel>
+        public async Task<ProtocolModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            _logger.LogDebug("Получен запрос на создание шаблона протокола.");
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var communications = await _context.Communications.AsNoTracking()
+                .Where(e => e.Default)
+                .Select(e => e.ToShortModel())
+                .ToListAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
+            var result = new ProtocolModel
             {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
+                Communications = communications,
+            };
 
-            /// <inheritdoc />
-            public async Task<ProtocolModel> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var communications = await this.context.Communications.AsNoTracking()
-                    .Where(e => e.Default)
-                    .Select(e => e.ToShortModel())
-                    .ToListAsync(cancellationToken);
-
-                return new ProtocolModel()
-                {
-                    Communications = communications,
-                };
-            }
+            _logger.LogDebug("Запрос на создание шаблона протокола '{Result}' выполнен успешно.", result);
+            return result;
         }
     }
 }

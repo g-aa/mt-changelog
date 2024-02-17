@@ -1,94 +1,94 @@
-﻿using Mt.Entities.Abstractions.Interfaces;
-using Mt.Utilities;
 using System.Linq.Expressions;
 
-namespace Mt.ChangeLog.Entities.Tables
+using Mt.Entities.Abstractions.Interfaces;
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.Entities.Tables;
+
+/// <summary>
+/// Сущность алгоритма РЗиА.
+/// </summary>
+public class RelayAlgorithmEntity : IEntity, IDefaultable, IEqualityPredicate<RelayAlgorithmEntity>, IRemovable
 {
     /// <summary>
-    /// Сущность алгоритма РЗиА.
+    /// Инициализация экземпляра <see cref="RelayAlgorithmEntity"/>.
     /// </summary>
-    public class RelayAlgorithmEntity : IEntity, IDefaultable, IEqualityPredicate<RelayAlgorithmEntity>, IRemovable
+    public RelayAlgorithmEntity()
     {
-        /// <inheritdoc />
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Group = DefaultString.AlgorithmGroup;
+        Title = DefaultString.Algorithm;
+        ANSI = DefaultString.AlgorithmANSI;
+        LogicalNode = DefaultString.LogicalNode;
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+    }
 
-        /// <summary>
-        /// Наименование группы.
-        /// </summary>
-        public string Group { get; set; }
+    /// <inheritdoc />
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        public string Title { get; set; }
+    /// <summary>
+    /// Наименование группы.
+    /// </summary>
+    public string Group { get; set; }
 
-        /// <summary>
-        /// Код ANSI.
-        /// </summary>
-        public string ANSI { get; set; }
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    public string Title { get; set; }
 
-        /// <summary>
-        /// Логический узел IEC-61850.
-        /// </summary>
-        public string LogicalNode { get; set; }
+    /// <summary>
+    /// Код ANSI.
+    /// </summary>
+    public string ANSI { get; set; }
 
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        public string Description { get; set; }
+    /// <summary>
+    /// Логический узел IEC-61850.
+    /// </summary>
+    public string LogicalNode { get; set; }
 
-        /// <inheritdoc />
-        public bool Default { get; set; }
+    /// <summary>
+    /// Описание.
+    /// </summary>
+    public string Description { get; set; }
 
-        /// <inheritdoc />
-        public bool Removable { get; set; }
+    /// <inheritdoc />
+    public bool Default { get; set; }
 
-        #region [ Relationships ]
+    /// <inheritdoc />
+    public bool Removable { get; set; }
 
-        /// <summary>
-        /// Перечень редакций проектов.
-        /// </summary>
-        public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
-        #endregion
+    #region [ Relationships ]
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="RelayAlgorithmEntity"/>.
-        /// </summary>
-        public RelayAlgorithmEntity()
-        {
-            this.Id = Guid.NewGuid();
-            this.Group = DefaultString.AlgorithmGroup;
-            this.Title = DefaultString.Algorithm;
-            this.ANSI = DefaultString.AlgorithmANSI;
-            this.LogicalNode = DefaultString.LogicalNode;
-            this.Description = DefaultString.Description;
-            this.Default = false;
-            this.Removable = true;
-            this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
-        }
+    /// <summary>
+    /// Перечень редакций проектов.
+    /// </summary>
+    public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
+    #endregion
 
-        /// <inheritdoc />
-        public Expression<Func<RelayAlgorithmEntity, bool>> GetEqualityPredicate()
-        {
-            return (RelayAlgorithmEntity e) => e.Id == this.Id || e.Group == this.Group && e.Title == this.Title;
-        }
+    /// <inheritdoc />
+    public Expression<Func<RelayAlgorithmEntity, bool>> GetEqualityPredicate()
+    {
+        return (RelayAlgorithmEntity e) => e.Id == Id || (e.Group == Group && e.Title == Title);
+    }
 
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            return obj is RelayAlgorithmEntity algorithm && (Id.Equals(algorithm.Id) || Group == algorithm.Group && Title == algorithm.Title);
-        }
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        return obj is RelayAlgorithmEntity algorithm && (Id.Equals(algorithm.Id) || (Group == algorithm.Group && Title == algorithm.Title));
+    }
 
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(this.Group, this.Title, this.ANSI, this.LogicalNode);
-        }
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Group, Title, ANSI, LogicalNode);
+    }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"ID: {this.Id}, ANSI: {this.ANSI}, {this.Title}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"ID: {Id}, ANSI: {ANSI}, {Title}";
     }
 }

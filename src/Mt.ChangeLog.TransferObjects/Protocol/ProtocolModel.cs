@@ -1,29 +1,32 @@
-﻿using Mt.ChangeLog.TransferObjects.Communication;
+using System.ComponentModel.DataAnnotations;
 
-namespace Mt.ChangeLog.TransferObjects.Protocol
+using Mt.ChangeLog.TransferObjects.Communication;
+
+namespace Mt.ChangeLog.TransferObjects.Protocol;
+
+/// <summary>
+/// Полная модель протокола информационного обмена.
+/// </summary>
+public class ProtocolModel : ProtocolTableModel
 {
     /// <summary>
-    /// Полная модель протокола информационнго обмена.
+    /// Инициализация экземпляра <see cref="ProtocolModel"/>.
     /// </summary>
-    public class ProtocolModel : ProtocolTableModel
+    public ProtocolModel()
+        : base()
     {
-        /// <summary>
-        /// Перечень коммуникационных модулей.
-        /// </summary>
-        public IEnumerable<CommunicationShortModel> Communications { get; set; }
+        Communications = new HashSet<CommunicationShortModel>();
+    }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProtocolModel"/>.
-        /// </summary>
-        public ProtocolModel() : base()
-        {
-            this.Communications = new HashSet<CommunicationShortModel>();
-        }
+    /// <summary>
+    /// Перечень коммуникационных модулей.
+    /// </summary>
+    [Required]
+    public IReadOnlyCollection<CommunicationShortModel> Communications { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }

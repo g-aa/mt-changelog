@@ -1,98 +1,76 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Historical;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.History
+namespace Mt.ChangeLog.Logic.Features.History;
+
+/// <summary>
+/// Запрос на получение истории изменения для редакции проекта.
+/// </summary>
+public static class GetProjectRevisionHistory
 {
-    /// <summary>
-    /// Запрос на получение истории изменения для редакции проета.
-    /// </summary>
-    public static class GetProjectRevisionHistory
+    /// <inheritdoc />
+    public sealed record Query(BaseModel Model) : IRequest<ProjectRevisionHistoryModel>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, ProjectRevisionHistoryModel>, IValidatedRequest
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Query(BaseModel model) : base(model)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получить историю изменения для редакции проета.";
-            }
+    /// <summary>
+    /// Валидатор модели <see cref="Query"/>.
+    /// </summary>
+    public sealed class Validator : AbstractValidator<Query>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Base model validator.</param>
+        public Validator(IValidator<BaseModel> validator)
+        {
+            RuleFor(e => e.Model).SetValidator(validator);
         }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, ProjectRevisionHistoryModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
 
         /// <summary>
-        /// Валидатор модели <see cref="Query"/>.
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
-        public sealed class QueryValidator : AbstractValidator<Query>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="QueryValidator"/>.
-            /// </summary>
-            public QueryValidator(BaseModelValidator validator)
-            {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, ProjectRevisionHistoryModel>
+        public Task<ProjectRevisionHistoryModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на предоставление истории изменения для редакции проекта '{Model}'.", model);
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var result = _context.ProjectRevisions.AsNoTracking()
+                .Include(e => e.ArmEdit)
+                .Include(e => e.Authors)
+                .Include(e => e.ProjectVersion!.AnalogModule)
+                .Include(e => e.ProjectVersion!.Platform)
+                .Include(e => e.Communication!.Protocols)
+                .Include(e => e.RelayAlgorithms)
+                .AsSingleQuery()
+                .Search(model.Id)
+                .ToHistoryModel();
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public async Task<ProjectRevisionHistoryModel> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = this.context.ProjectRevisions.AsNoTracking()
-                    .Include(e => e.ArmEdit)
-                    .Include(e => e.Authors)
-                    .Include(e => e.ProjectVersion.AnalogModule)
-                    .Include(e => e.ProjectVersion.Platform)
-                    .Include(e => e.Communication.Protocols)
-                    .Include(e => e.RelayAlgorithms)
-                    .AsSingleQuery()
-                    .Search(request.Model.Id)
-                    .ToHistoryModel();
-
-                return await Task.FromResult(result);
-            }
+            return Task.FromResult(result);
         }
     }
 }

@@ -1,67 +1,52 @@
-﻿using MediatR;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstractions;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.ArmEdit
+namespace Mt.ChangeLog.Logic.Features.ArmEdit;
+
+/// <summary>
+/// Запрос на получение перечня кратких моделей данных <see cref="ArmEditShortModel"/>.
+/// </summary>
+public static class GetShorts
 {
-    /// <summary>
-    /// Запрос на получение перечня кратких моделий данных <see cref="ArmEditShortModel"/>.
-    /// </summary>
-    public static class GetShorts
+    /// <inheritdoc />
+    public sealed class Query : IRequest<IReadOnlyCollection<ArmEditShortModel>>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, IEnumerable<ArmEditShortModel>>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение перечня сущностей вида {nameof(ArmEditShortModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ArmEditShortModel>>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, IEnumerable<ArmEditShortModel>>
+        public async Task<IReadOnlyCollection<ArmEditShortModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            _logger.LogDebug("Получен запрос на получение полного перечня краткого описания ArmEdits.");
 
-            /// <summary>
-            /// Репозиторий с данными.
-            /// </summary>
-            private readonly IArmEditRepository repository;
+            var result = await _context.ArmEdits.AsNoTracking()
+                .OrderBy(e => e.Version)
+                .Select(e => e.ToShortModel())
+                .ToListAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="repository">Репозиторий с данными.</param>
-            public Handler(ILogger<Handler> logger, IArmEditRepository repository)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.repository = Check.NotNull(repository, nameof(repository));
-            }
-
-            /// <inheritdoc />
-            public async Task<IEnumerable<ArmEditShortModel>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = await this.repository.GetShortEntitiesAsync();
-                return result.OrderByDescending(e => e.Version);
-            }
+            _logger.LogDebug("Запрос на получение полного перечня краткого описания ArmEdits успешно выполнен, '{Count}' записей.", result.Count);
+            return result;
         }
     }
 }

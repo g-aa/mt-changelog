@@ -1,76 +1,57 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Communication;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.Communication
+namespace Mt.ChangeLog.Logic.Features.Communication;
+
+/// <summary>
+/// Запрос на получение шаблона <see cref="CommunicationModel"/>.
+/// </summary>
+public static class GetTemplate
 {
-    /// <summary>
-    /// Запрос на получение шаблона <see cref="CommunicationModel"/>.
-    /// </summary>
-    public static class GetTemplate
+    /// <inheritdoc />
+    public sealed class Query : IRequest<CommunicationModel>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, CommunicationModel>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение шаблона сущности вида {nameof(CommunicationModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, CommunicationModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, CommunicationModel>
+        public async Task<CommunicationModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            _logger.LogDebug("Получен запрос на создание шаблона коммуникационного модуля.");
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var protocols = await _context.Protocols.AsNoTracking()
+                .Where(e => e.Default)
+                .Select(e => e.ToShortModel())
+                .ToListAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
+            var model = new CommunicationModel
             {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
+                Protocols = protocols,
+            };
 
-            /// <inheritdoc />
-            public async Task<CommunicationModel> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var protocols = await this.context.Protocols.AsNoTracking()
-                    .Where(e => e.Default)
-                    .Select(e => e.ToShortModel())
-                    .ToListAsync(cancellationToken);
-
-                return new CommunicationModel()
-                {
-                    Protocols = protocols,
-                };
-            }
+            _logger.LogDebug("Запрос на создание шаблона коммуникационного модуля '{Model}' выполнен успешно.", model);
+            return model;
         }
     }
 }

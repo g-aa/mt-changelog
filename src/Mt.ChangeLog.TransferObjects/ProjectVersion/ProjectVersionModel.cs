@@ -1,58 +1,68 @@
-﻿using Mt.ChangeLog.TransferObjects.AnalogModule;
+using System.ComponentModel.DataAnnotations;
+
+using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.ChangeLog.TransferObjects.ProjectStatus;
 using Mt.Utilities;
 
-namespace Mt.ChangeLog.TransferObjects.ProjectVersion
+namespace Mt.ChangeLog.TransferObjects.ProjectVersion;
+
+/// <summary>
+/// Полная модель версии проекта.
+/// </summary>
+public class ProjectVersionModel : ProjectVersionShortModel
 {
     /// <summary>
-    /// Полная модель версии проекта.
+    /// Инициализация экземпляра <see cref="ProjectVersionModel"/>.
     /// </summary>
-    public class ProjectVersionModel : ProjectVersionShortModel
+    public ProjectVersionModel()
+        : base()
     {
-        /// <summary>
-        /// ДИВГ.
-        /// </summary>
-        /// <example>ДИВГ.00000-00</example>
-        public string DIVG { get; set; }
+        DIVG = DefaultString.DIVG;
+        Description = DefaultString.Description;
+        ProjectStatus = new ProjectStatusShortModel();
+        AnalogModule = new AnalogModuleShortModel();
+        Platform = new PlatformShortModel();
+    }
 
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        /// <example>Описание...</example>
-        public string Description { get; set; }
+    /// <summary>
+    /// ДИВГ.
+    /// </summary>
+    /// <example>ДИВГ.00000-00</example>
+    [Required]
+    [StringLength(13, MinimumLength = 13)]
+    [RegularExpression(StringFormat.DIVG)]
+    public string DIVG { get; set; }
 
-        /// <summary>
-        /// Статус.
-        /// </summary>
-        public ProjectStatusShortModel ProjectStatus { get; set; }
+    /// <summary>
+    /// Описание.
+    /// </summary>
+    /// <example>Описание...</example>
+    [Required]
+    [StringLength(500, MinimumLength = 0)]
+    public string Description { get; set; }
 
-        /// <summary>
-        /// Аналоговый модуль.
-        /// </summary>
-        public AnalogModuleShortModel AnalogModule { get; set; }
+    /// <summary>
+    /// Статус.
+    /// </summary>
+    [Required]
+    public ProjectStatusShortModel ProjectStatus { get; set; }
 
-        /// <summary>
-        /// Платформа.
-        /// </summary>
-        public PlatformShortModel Platform { get; set; }
+    /// <summary>
+    /// Аналоговый модуль.
+    /// </summary>
+    [Required]
+    public AnalogModuleShortModel AnalogModule { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersionModel"/>.
-        /// </summary>
-        public ProjectVersionModel() : base()
-        {
-            this.DIVG = DefaultString.DIVG;
-            this.Description = DefaultString.Description;
-            this.ProjectStatus = new ProjectStatusShortModel();
-            this.AnalogModule = new AnalogModuleShortModel();
-            this.Platform = new PlatformShortModel();
-        }
+    /// <summary>
+    /// Платформа.
+    /// </summary>
+    [Required]
+    public PlatformShortModel Platform { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }
