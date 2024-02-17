@@ -2,120 +2,103 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Extensions;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.ProjectRevision
+namespace Mt.ChangeLog.Logic.Features.ProjectRevision;
+
+/// <summary>
+/// Запрос на обновление сущности <see cref="ProjectRevisionModel"/>.
+/// </summary>
+public static class Update
 {
-    /// <summary>
-    /// Запрос на обновление сущности <see cref="ProjectRevisionModel"/>.
-    /// </summary>
-    public static class Update
+    /// <inheritdoc />
+    public sealed record Command(Guid ProjectRevisionId, ProjectRevisionModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<ProjectRevisionModel, MessageModel>, IValidatedRequest
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Модель данных.</param>
-            public Command(ProjectRevisionModel model) : base(model)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - обновление сущности вида {nameof(ProjectRevisionModel)}.";
-            }
+    /// <summary>
+    /// Валидатор модели <see cref="Command"/>.
+    /// </summary>
+    public sealed class Validator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Project revision model validator.</param>
+        public Validator(IValidator<ProjectRevisionModel> validator)
+        {
+            RuleFor(e => e.ProjectRevisionId)
+                .Must((command, id) => id == command.Model.Id)
+                .WithMessage("Значение параметра '{PropertyName}' не равен значению идентификатора в модели из тела запроса.");
+
+            RuleFor(e => e.Model).SetValidator(validator);
         }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(ProjectRevisionModelValidator validator)
-            {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
+        public async Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на обновление данных редакции проекта в системе.");
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var dbArmEdit = _context.ArmEdits
+                .SearchOrDefault(model.ArmEdit.Id);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
+            var dbAuthors = _context.Authors
+                .SearchManyOrDefault(model.Authors.Select(e => e.Id));
+
+            var dbModule = _context.Communications
+                .Search(model.Communication.Id);
+
+            var dbParent = _context.ProjectRevisions
+               .SearchOrNull(model!.ParentRevision!.Id);
+
+            var dbAlgorithms = _context.RelayAlgorithms
+                .SearchManyOrDefault(model.RelayAlgorithms.Select(e => e.Id));
+
+            var dbProjectRevision = _context.ProjectRevisions
+                .Include(e => e.ProjectVersion)
+                .Include(e => e.Authors)
+                .Include(e => e.RelayAlgorithms)
+                .Search(model.Id)
+                .GetBuilder()
+                .SetAttributes(model)
+                .SetArmEdit(dbArmEdit)
+                .SetCommunication(dbModule)
+                .SetAuthors(dbAuthors)
+                .SetAlgorithms(dbAlgorithms)
+                .SetParentRevision(dbParent)
+                .Build();
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Редакция проекта успешно обновлен в системе.");
+            return new MessageModel
             {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public async Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var model = Check.NotNull(request, nameof(request)).Model;
-                this.logger.LogInformation(request.ToString());
-
-                var dbArmEdit = this.context.ArmEdits
-                    .SearchOrDefault(model.ArmEdit.Id);
-
-                var dbAuthors = this.context.Authors
-                    .SearchManyOrDefault(model.Authors.Select(e => e.Id));
-
-                var dbModule = this.context.Communications
-                    .Search(model.Communication.Id);
-
-                var dbParent = this.context.ProjectRevisions
-                   .SearchOrNull(model.ParentRevision.Id);
-
-                var dbAlgorithms = this.context.RelayAlgorithms
-                    .SearchManyOrDefault(model.RelayAlgorithms.Select(e => e.Id));
-
-                var dbProjectRevision = this.context.ProjectRevisions
-                    .Include(e => e.ProjectVersion)
-                    .Include(e => e.Authors)
-                    .Include(e => e.RelayAlgorithms)
-                    .Search(model.Id)
-                    .GetBuilder()
-                    .SetAttributes(model)
-                    .SetArmEdit(dbArmEdit)
-                    .SetCommunication(dbModule)
-                    .SetAuthors(dbAuthors)
-                    .SetAlgorithms(dbAlgorithms)
-                    .SetParentRevision(dbParent)
-                    .Build();
-
-                await this.context.SaveChangesAsync();
-
-                return new MessageModel()
-                {
-                    Message = $"'{dbProjectRevision}' обновлена в системе.",
-                };
-            }
+                Message = $"'{dbProjectRevision}' обновлена в системе.",
+            };
         }
     }
 }

@@ -1,71 +1,50 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Views;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.ProjectRevision
+namespace Mt.ChangeLog.Logic.Features.ProjectRevision;
+
+/// <summary>
+/// Запрос на получение перечня кратких моделей данных <see cref="LastProjectRevisionModel"/>.
+/// </summary>
+public static class GetLatest
 {
-    /// <summary>
-    /// Запрос на получение перечня кратких моделий данных <see cref="LastProjectRevisionModel"/>.
-    /// </summary>
-    public static class GetLatest
+    /// <inheritdoc />
+    public sealed class Query : IRequest<IReadOnlyCollection<LastProjectRevisionModel>>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, IEnumerable<LastProjectRevisionModel>>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение перечня сущностей вида {nameof(LastProjectRevisionModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<LastProjectRevisionModel>>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, IEnumerable<LastProjectRevisionModel>>
+        public async Task<IReadOnlyCollection<LastProjectRevisionModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            _logger.LogDebug("Получен запрос на предоставление данных о последних редакциях проектов.");
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var result = await _context.LastProjectRevisions.Select(e => e.ToModel())
+                .ToArrayAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public async Task<IEnumerable<LastProjectRevisionModel>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = await this.context.LastProjectRevisions.Select(e => e.ToModel())
-                    .ToArrayAsync(cancellationToken);
-
-                return result;
-            }
+            _logger.LogDebug("Запрос на получение данных о последних редакциях проектов '{Result}' выполнен успешно.", result);
+            return result;
         }
     }
 }

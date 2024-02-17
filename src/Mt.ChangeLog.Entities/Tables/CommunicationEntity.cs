@@ -1,82 +1,82 @@
-﻿using Mt.Entities.Abstractions.Interfaces;
-using Mt.Utilities;
 using System.Linq.Expressions;
 
-namespace Mt.ChangeLog.Entities.Tables
+using Mt.Entities.Abstractions.Interfaces;
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.Entities.Tables;
+
+/// <summary>
+/// Сущность коммуникационного модуля.
+/// </summary>
+public class CommunicationEntity : IDefaultable, IEntity, IEqualityPredicate<CommunicationEntity>, IRemovable
 {
     /// <summary>
-    /// Сущность коммуникационного модуля.
+    /// Инициализация экземпляра <see cref="CommunicationEntity"/>.
     /// </summary>
-    public class CommunicationEntity : IDefaultable, IEntity, IEqualityPredicate<CommunicationEntity>, IRemovable
+    public CommunicationEntity()
     {
-        /// <inheritdoc />
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Title = DefaultString.Communication;
+        Description = DefaultString.Description;
+        Default = false;
+        Removable = true;
+        Protocols = new HashSet<ProtocolEntity>();
+        ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        public string Title { get; set; }
+    /// <inheritdoc />
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        public string Description { get; set; }
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    public string Title { get; set; }
 
-        /// <inheritdoc />
-        public bool Default { get; set; }
+    /// <summary>
+    /// Описание.
+    /// </summary>
+    public string Description { get; set; }
 
-        /// <inheritdoc />
-        public bool Removable { get; set; }
+    /// <inheritdoc />
+    public bool Default { get; set; }
 
-        #region [ Relationships ]
+    /// <inheritdoc />
+    public bool Removable { get; set; }
 
-        /// <summary>
-        /// Перечень протоколов.
-        /// </summary>
-        public ICollection<ProtocolEntity> Protocols { get; set; }
+    #region [ Relationships ]
 
-        /// <summary>
-        /// Перечень редакций проектов.
-        /// </summary>
-        public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
-        #endregion
+    /// <summary>
+    /// Перечень протоколов.
+    /// </summary>
+    public ICollection<ProtocolEntity> Protocols { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="CommunicationEntity"/>.
-        /// </summary>
-        public CommunicationEntity()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Communication;
-            this.Description = DefaultString.Description;
-            this.Default = false;
-            this.Removable = true;
-            this.Protocols = new HashSet<ProtocolEntity>();
-            this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
-        }
+    /// <summary>
+    /// Перечень редакций проектов.
+    /// </summary>
+    public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
+    #endregion
 
-        /// <inheritdoc />
-        public Expression<Func<CommunicationEntity, bool>> GetEqualityPredicate()
-        {
-            return (CommunicationEntity e) => e.Id == this.Id || e.Title == this.Title;
-        }
+    /// <inheritdoc />
+    public Expression<Func<CommunicationEntity, bool>> GetEqualityPredicate()
+    {
+        return (CommunicationEntity e) => e.Id == Id || e.Title == Title;
+    }
 
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            return obj is CommunicationEntity e && (this.Id.Equals(e.Id) || this.Title == e.Title);
-        }
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        return obj is CommunicationEntity e && (Id.Equals(e.Id) || Title == e.Title);
+    }
 
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(this.Title);
-        }
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Title);
+    }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"ID: {this.Id}, адаптер: {this.Title}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"ID: {Id}, адаптер: {Title}";
     }
 }

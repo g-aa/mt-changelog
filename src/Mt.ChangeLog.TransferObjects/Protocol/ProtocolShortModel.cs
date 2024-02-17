@@ -1,36 +1,41 @@
-﻿using Mt.Utilities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Mt.ChangeLog.TransferObjects.Protocol
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.Protocol;
+
+/// <summary>
+/// Краткая модель протокола информационного обмена.
+/// </summary>
+public class ProtocolShortModel
 {
     /// <summary>
-    /// Краткая модель протокола информационнго обмена.
+    /// Инициализация экземпляра <see cref="ProtocolShortModel"/>.
     /// </summary>
-    public class ProtocolShortModel
+    public ProtocolShortModel()
     {
-        /// <summary>
-        /// ИД.
-        /// </summary>
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Title = DefaultString.Protocol;
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        /// <example>Modbus-MT</example>
-        public string Title { get; set; }
+    /// <summary>
+    /// ИД.
+    /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
+    [Required]
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProtocolShortModel"/>.
-        /// </summary>
-        public ProtocolShortModel()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Protocol;
-        }
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    /// <example>Modbus-MT</example>
+    [Required]
+    [StringLength(32, MinimumLength = 1)]
+    public string Title { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return this.Title;
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return Title;
     }
 }

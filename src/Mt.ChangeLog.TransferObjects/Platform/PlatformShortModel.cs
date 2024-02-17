@@ -1,36 +1,42 @@
-﻿using Mt.Utilities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Mt.ChangeLog.TransferObjects.Platform
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.Platform;
+
+/// <summary>
+/// Краткая модель платформы БМРЗ.
+/// </summary>
+public class PlatformShortModel
 {
     /// <summary>
-    /// Краткая модель платформы БМРЗ.
+    /// Инициализация экземпляра <see cref="PlatformShortModel"/>.
     /// </summary>
-    public class PlatformShortModel
+    public PlatformShortModel()
     {
-        /// <summary>
-        /// ИД.
-        /// </summary>
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Title = DefaultString.Platform;
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        /// <example>БМРЗ-000</example>
-        public string Title { get; set; }
+    /// <summary>
+    /// ИД.
+    /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
+    [Required]
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="PlatformShortModel"/>.
-        /// </summary>
-        public PlatformShortModel()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = DefaultString.Platform;
-        }
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    /// <example>БМРЗ-000</example>
+    [Required]
+    [StringLength(10, MinimumLength = 7)]
+    [RegularExpression(StringFormat.Platform)]
+    public string Title { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return this.Title;
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return Title;
     }
 }

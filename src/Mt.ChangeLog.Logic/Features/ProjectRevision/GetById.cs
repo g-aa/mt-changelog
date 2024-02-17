@@ -1,103 +1,80 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.ProjectRevision;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.ProjectRevision
+namespace Mt.ChangeLog.Logic.Features.ProjectRevision;
+
+/// <summary>
+/// Запрос на получение перечня моделей данных для таблиц <see cref="ProjectRevisionModel"/>.
+/// </summary>
+public static class GetById
 {
-    /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="ProjectRevisionModel"/>.
-    /// </summary>
-    public static class GetById
+    /// <inheritdoc />
+    public sealed record Query(BaseModel Model) : IRequest<ProjectRevisionModel>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, ProjectRevisionModel>, IValidatedRequest
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Query(BaseModel model) : base(model)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение сущности вида {nameof(ProjectRevisionModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Validator : AbstractValidator<Query>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Base model validator.</param>
+        public Validator(IValidator<BaseModel> validator)
+        {
+            RuleFor(e => e.Model).SetValidator(validator);
         }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, ProjectRevisionModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
 
         /// <summary>
-        /// Валидатор модели <see cref="Query"/>.
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
-        public sealed class QueryValidator : AbstractValidator<Query>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="QueryValidator"/>.
-            /// </summary>
-            public QueryValidator(BaseModelValidator validator)
-            {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, ProjectRevisionModel>
+        public Task<ProjectRevisionModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на предоставление данных о редакции проекта '{Model}'.", model);
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var result = _context.ProjectRevisions.AsNoTracking()
+                .Include(e => e.Communication)
+                .Include(e => e.ArmEdit)
+                .Include(e => e.Authors)
+                .Include(e => e.RelayAlgorithms)
+                .Include(e => e.ProjectVersion!.AnalogModule)
+                .Include(e => e.ProjectVersion!.Platform)
+                .Search(model.Id);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
+            if (result.ParentRevisionId != Guid.Empty)
             {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
+                result.ParentRevision = _context.ProjectRevisions.AsNoTracking()
+                    .Include(e => e.ProjectVersion!.AnalogModule)
+                    .Search(result.ParentRevisionId);
             }
 
-            /// <inheritdoc />
-            public async Task<ProjectRevisionModel> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = this.context.ProjectRevisions.AsNoTracking()
-                    .Include(e => e.Communication)
-                    .Include(e => e.ArmEdit)
-                    .Include(e => e.Authors)
-                    .Include(e => e.RelayAlgorithms)
-                    .Include(e => e.ProjectVersion.AnalogModule)
-                    .Include(e => e.ProjectVersion.Platform)
-                    .Search(request.Model.Id);
-
-                if (result.ParentRevisionId != Guid.Empty)
-                {
-                    result.ParentRevision = this.context.ProjectRevisions.AsNoTracking()
-                        .Include(e => e.ProjectVersion.AnalogModule)
-                        .Search(result.ParentRevisionId);
-                }
-
-                return await Task.FromResult(result.ToModel());
-            }
+            _logger.LogDebug("Запрос на получение данных о редакции проекта '{Result}' выполнен успешно.", result);
+            return Task.FromResult(result.ToModel());
         }
     }
 }

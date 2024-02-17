@@ -1,85 +1,99 @@
-using NLog;
-using NLog.Web;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Mt.ChangeLog.WebAPI
+using Mt.ChangeLog.DataContext;
+using NLog;
+using NLog.Web;
+
+namespace Mt.ChangeLog.WebAPI;
+
+/// <summary>
+/// Р‘Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РїСЂРёР»РѕР¶РµРЅРёСЏ.
+/// </summary>
+public static class Program
 {
     /// <summary>
-    /// Базовый класс приложения.
+    /// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‚Р°С‚РёС‡РµСЃРєРёС… РїР°СЂР°РјРµС‚СЂРѕРІ РєР»Р°СЃСЃР° <see cref="Program"/>.
     /// </summary>
-    public static class Program
+    static Program()
     {
-        /// <summary>
-        /// Версия приложения.
-        /// </summary>
-        public static string CurrentVersion { get; private set; }
+        var assembly = Assembly.GetExecutingAssembly();
+        var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+        CurrentVersion = $"v{fvi.FileVersion}";
+        ServiceName = $"Mt-ChangeLog: v{fvi.FileVersion}";
+    }
 
-        /// <summary>
-        /// Наименование приложения и его версия.
-        /// </summary>
-        public static string AppName { get; private set; }
+    /// <summary>
+    /// Р’РµСЂСЃРёСЏ РїСЂРёР»РѕР¶РµРЅРёСЏ.
+    /// </summary>
+    public static string CurrentVersion { get; private set; }
 
-        /// <summary>
-        /// Инициализация статических параметров класса <see cref="Program"/>.
-        /// </summary>
-        static Program()
+    /// <summary>
+    /// РќР°РёРјРµРЅРѕРІР°РЅРёРµ РїСЂРёР»РѕР¶РµРЅРёСЏ Рё РµРіРѕ РІРµСЂСЃРёСЏ.
+    /// </summary>
+    public static string ServiceName { get; private set; }
+
+    /// <summary>
+    /// РўРѕС‡РєР° РІС…РѕРґР° РІ РїСЂРёР»РѕР¶РµРЅРёРµ.
+    /// </summary>
+    /// <param name="args">РђСЂРіСѓРјРµРЅС‚С‹ Р·Р°РїСѓСЃРєР° РїСЂРёР»РѕР¶РµРЅРёСЏ.</param>
+    public static void Main(string[] args)
+    {
+        var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+        try
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            CurrentVersion = $"v{fvi.FileVersion}";
-            AppName = $"Mt-ChangeLog: v{fvi.FileVersion}";
-        }
-
-        /// <summary>
-        /// Точка входа в приложение.
-        /// </summary>
-        /// <param name="args">Аргументы запуска приложения.</param>
-        public static void Main(string[] args)
-        {
-            var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-
-            try
+            logger.Debug($"'{ServiceName}' - Р·Р°РїСѓС‰РµРЅРѕ РЅР° РІС‹РїРѕР»РЅРµРЅРёРµ...");
+            var host = CreateHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
             {
-                logger.Debug($"'{AppName}' - запущено на выполнение...");
-                CreateHostBuilder(args).Build().Run();
-            }
-            catch (Exception exception)
-            {
-                logger.Error(exception, $"'{AppName}' - остановлено из за перехвата не необработанного исключения!");
-            }
-            finally
-            {
-                logger.Debug($"'{AppName}' - остановлено.");
-                LogManager.Shutdown();
-            }
-        }
-
-        /// <summary>
-        /// Инициализация приложения.
-        /// </summary>
-        /// <param name="args">Аргументы запуска приложения.</param>
-        /// <returns>Строитель приложения.</returns>
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureLogging((context, logging) =>
+                var context = scope.ServiceProvider.GetRequiredService<MtContext>();
+                if (context.Database.EnsureCreated())
                 {
-                    /*
-                    * var nLogSection = context.Configuration.GetSection("NLog"); // пока уберем
-                    * LogManager.Configuration = new NLogLoggingConfiguration(nLogSection); // пока уберем
-                    */
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                    /*
-                     * logging.AddNLogWeb(); // пока уберем
-                     */
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-                .UseNLog();
+                    context.CreateDefaultEntities();
+                    context.CreateViews();
+                    context.CreateSqlFuncs();
+                    context.SaveChangesAsync();
+                }
+            }
+
+            host.Run();
         }
+        catch (Exception exception)
+        {
+            logger.Error(exception, $"'{ServiceName}' - РѕСЃС‚Р°РЅРѕРІР»РµРЅРѕ РёР· Р·Р° РїРµСЂРµС…РІР°С‚Р° РЅРµ РЅРµРѕР±СЂР°Р±РѕС‚Р°РЅРЅРѕРіРѕ РёСЃРєР»СЋС‡РµРЅРёСЏ!");
+        }
+        finally
+        {
+            logger.Debug($"'{ServiceName}' - РѕСЃС‚Р°РЅРѕРІР»РµРЅРѕ.");
+            LogManager.Shutdown();
+        }
+    }
+
+    /// <summary>
+    /// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРёР»РѕР¶РµРЅРёСЏ.
+    /// </summary>
+    /// <param name="args">РђСЂРіСѓРјРµРЅС‚С‹ Р·Р°РїСѓСЃРєР° РїСЂРёР»РѕР¶РµРЅРёСЏ.</param>
+    /// <returns>РЎС‚СЂРѕРёС‚РµР»СЊ РїСЂРёР»РѕР¶РµРЅРёСЏ.</returns>
+    public static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Host
+            .CreateDefaultBuilder(args)
+            .ConfigureLogging((context, logging) =>
+            {
+                /***
+                 * var nLogSection = context.Configuration.GetSection("NLog");
+                 * LogManager.Configuration = new NLogLoggingConfiguration(nLogSection);
+                 */
+                logging.ClearProviders();
+                logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                /***
+                 * logging.AddNLogWeb();
+                 */
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            })
+            .UseNLog();
     }
 }

@@ -1,28 +1,35 @@
-﻿namespace Mt.ChangeLog.TransferObjects.Historical
+using System.ComponentModel.DataAnnotations;
+
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.Historical;
+
+/// <summary>
+/// Модель истории версии проекта.
+/// </summary>
+public class ProjectVersionHistoryModel
 {
     /// <summary>
-    /// Модель истории версии проекта.
+    /// Инициализация экземпляра <see cref="ProjectVersionHistoryModel"/>.
     /// </summary>
-    public class ProjectVersionHistoryModel
+    public ProjectVersionHistoryModel()
     {
-        /// <summary>
-        /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version".
-        /// </summary>
-        /// <example>БФПО-000-ПМК-00</example>
-        public string Title { get; set; }
-
-        /// <summary>
-        /// Перечень моделей истории редакции проекта.
-        /// </summary>
-        public ICollection<ProjectRevisionHistoryModel> History { get; private set; }
-
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectVersionHistoryModel"/>.
-        /// </summary>
-        public ProjectVersionHistoryModel()
-        {
-            this.Title = "БМРЗ";
-            this.History = new List<ProjectRevisionHistoryModel>();
-        }
+        Title = "БМРЗ";
+        History = new List<ProjectRevisionHistoryModel>();
     }
+
+    /// <summary>
+    /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version".
+    /// </summary>
+    /// <example>БФПО-000-ПМК-00</example>
+    [Required]
+    [StringLength(20, MinimumLength = 13)]
+    [RegularExpression(StringFormat.BFPO)]
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Перечень моделей истории редакции проекта.
+    /// </summary>
+    [Required]
+    public ICollection<ProjectRevisionHistoryModel> History { get; private set; }
 }

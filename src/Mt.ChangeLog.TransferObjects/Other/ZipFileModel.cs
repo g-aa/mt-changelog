@@ -1,17 +1,17 @@
-namespace Mt.ChangeLog.TransferObjects.Other
+namespace Mt.ChangeLog.TransferObjects.Other;
+
+/// <summary>
+/// Модель zip-файла.
+/// </summary>
+public sealed class ZipFileModel : FileModel
 {
     /// <summary>
-    /// Модель zip-файла.
+    /// Инициализация экземпляра класса <see cref="ZipFileModel"/>.
     /// </summary>
-    public sealed class ZipFileModel : FileModel
+    /// <param name="title">Наименование файла.</param>
+    /// <param name="bytes">Данные файла в бинарном формате.</param>
+    public ZipFileModel(string title, IReadOnlyCollection<byte> bytes)
+        : base($"{title}.zip", bytes)
     {
-        /// <summary>
-        /// Инициализация экземпляра класса <see cref="ZipFileModel"/>.
-        /// </summary>
-        /// <param name="title">Наименование файла.</param>
-        /// <param name="bytes">Данные файла в бинарном формате.</param>
-        public ZipFileModel(string title, IEnumerable<byte> bytes) : base($"{title}.zip", bytes)
-        {
-        }
     }
 }

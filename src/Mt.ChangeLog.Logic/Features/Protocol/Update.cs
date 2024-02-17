@@ -1,117 +1,99 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
+using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Entities.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.Logic.Extensions;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.Protocol;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 using Mt.Utilities.Exceptions;
 
-namespace Mt.ChangeLog.Logic.Features.Protocol
+namespace Mt.ChangeLog.Logic.Features.Protocol;
+
+/// <summary>
+/// Запрос на обновление сущности <see cref="ProtocolModel"/>.
+/// </summary>
+public static class Update
 {
-    /// <summary>
-    /// Запрос на обновление сущности <see cref="ProtocolModel"/>.
-    /// </summary>
-    public static class Update
+    /// <inheritdoc />
+    public sealed record Command(Guid ProtocolId, ProtocolModel Model) : IRequest<MessageModel>
     {
-        /// <inheritdoc />
-        public sealed class Command : MtCommand<ProtocolModel, MessageModel>, IValidatedRequest
+    }
+
+    /// <inheritdoc />
+    public sealed class Validator : AbstractValidator<Command>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Protocol model validator.</param>
+        public Validator(IValidator<ProtocolModel> validator)
         {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Command"/>.
-            /// </summary>
-            /// <param name="model">Модель данных.</param>
-            public Command(ProtocolModel model) : base(model)
+            RuleFor(e => e.ProtocolId)
+                .Must((command, id) => id == command.Model.Id)
+                .WithMessage("Значение параметра '{PropertyName}' не равен значению идентификатора в модели из тела запроса.");
+
+            RuleFor(e => e.Model).SetValidator(validator);
+        }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Command, MessageModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
+        }
+
+        /// <inheritdoc />
+        public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на обновление данных протокола '{Model}' в системе.", model);
+
+            var dbProtocol = _context.Protocols.Search(model.Id);
+            if (dbProtocol.Default)
             {
+                throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbProtocol}' не может быть обновлена.");
             }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - обновление сущности вида {nameof(ProtocolModel)}.";
-            }
+            var dbModules = _context.Communications
+                .SearchManyOrDefault(model.Communications.Select(e => e.Id));
+            dbProtocol.GetBuilder()
+                .SetAttributes(model)
+                .SetModules(dbModules)
+                .Build();
+
+            return SaveChangesAsync(dbProtocol, cancellationToken);
         }
 
         /// <summary>
-        /// Валидатор модели <see cref="Command"/>.
+        /// Сохранить изменения сущности.
         /// </summary>
-        public sealed class CommandValidator : AbstractValidator<Command>
+        /// <param name="entity">Сущность.</param>
+        /// <param name="cancellationToken">Токен отмены.</param>
+        /// <returns>Результат выполнения.</returns>
+        private async Task<MessageModel> SaveChangesAsync(ProtocolEntity entity, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="CommandValidator"/>.
-            /// </summary>
-            public CommandValidator(ProtocolModelValidator validator)
+            _context.Protocols.Update(entity);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Протокол '{Entity}' успешно обновлен в системе.", entity);
+            return new MessageModel
             {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
-        }
-
-        /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Command, MessageModel>
-        {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
-
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
-
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public Task<MessageModel> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var model = Check.NotNull(request, nameof(request)).Model;
-                this.logger.LogInformation(request.ToString());
-
-                var dbProtocol = this.context.Protocols.Search(model.Id);
-                if (dbProtocol.Default)
-                {
-                    throw new MtException(ErrorCode.EntityCannotBeModified, $"Сущность по умолчанию '{dbProtocol}' не может быть обновлена.");
-                }
-
-                var dbModules = this.context.Communications
-                    .SearchManyOrDefault(model.Communications.Select(e => e.Id));
-                dbProtocol.GetBuilder()
-                    .SetAttributes(model)
-                    .SetModules(dbModules)
-                    .Build();
-
-                return this.SaveChangesAsync(dbProtocol, cancellationToken);
-            }
-
-            /// <summary>
-            /// Сохранить изменения сущности.
-            /// </summary>
-            /// <param name="entity">Сущность.</param>
-            /// <param name="cancellationToken">Токен отмены.</param>
-            /// <returns>Результат выполнения.</returns>
-            private async Task<MessageModel> SaveChangesAsync(ProtocolEntity entity, CancellationToken cancellationToken)
-            {
-                this.context.Protocols.Update(entity);
-                await this.context.SaveChangesAsync(cancellationToken);
-                return new MessageModel()
-                {
-                    Message = $"'{entity}' обновлен в системе.",
-                };
-            }
+                Message = $"'{entity}' обновлен в системе.",
+            };
         }
     }
 }

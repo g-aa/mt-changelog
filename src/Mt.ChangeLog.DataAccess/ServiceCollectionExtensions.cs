@@ -1,31 +1,26 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Mt.ChangeLog.DataAccess.Abstractions;
-using Mt.Utilities;
+using Microsoft.Extensions.DependencyInjection;
+using Mt.ChangeLog.DataAccess.Abstraction;
+using Mt.ChangeLog.DataAccess.Implementation;
 
-namespace Mt.ChangeLog.DataAccess
+namespace Mt.ChangeLog.DataAccess;
+
+/// <summary>
+/// Методы расширения для <see cref="IServiceCollection"/>.
+/// </summary>
+public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Методы расширения для <see cref="IServiceCollection"/>.
+    /// Добавить компоненты контекста данных в коллекцию сервисов.
     /// </summary>
-    public static class ServiceCollectionExtensions
+    /// <param name="services">Коллекция сервисов.</param>
+    /// <returns>Модифицированная коллекция сервисов.</returns>
+    public static IServiceCollection AddDataAccess(this IServiceCollection services)
     {
-        /// <summary>
-        /// Добавить компоненты контекста данных в коллекцию сервисов.
-        /// </summary>
-        /// <param name="services">Коллекция сервисов.</param>
-        /// <returns>Модифицированная коллекция сервисов.</returns>
-        public static IServiceCollection AddDataAccess(this IServiceCollection services)
-        {
-            Check.NotNull(services, nameof(services));
-
-            services.AddSingleton<NpgsqlConnectionFactory>();
-            services.AddScoped(provider => provider.GetService<NpgsqlConnectionFactory>().CreateConnection());
-
-            services.AddTransient<IAnalogModuleRepository, AnalogModuleRepository>();
-            services.AddTransient<IArmEditRepository, ArmEditRepository>();
-            services.AddTransient<IAuthorRepository, AuthorRepository>();
-
-            return services;
-        }
+        return services
+            .AddTransient<IAnalogModuleRepository, AnalogModuleRepository>()
+            .AddTransient<IArmEditRepository, ArmEditRepository>()
+            .AddTransient<IAuthorRepository, AuthorRepository>()
+            .AddScoped(provider => provider.GetRequiredService<NpgsqlConnectionFactory>().CreateConnection())
+            .AddSingleton<NpgsqlConnectionFactory>();
     }
 }

@@ -1,91 +1,68 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.ChangeLog.TransferObjects.RelayAlgorithm;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm
+namespace Mt.ChangeLog.Logic.Features.RelayAlgorithm;
+
+/// <summary>
+/// Запрос на получение перечня моделей данных для таблиц <see cref="RelayAlgorithmModel"/>.
+/// </summary>
+public static class GetById
 {
-    /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="RelayAlgorithmModel"/>.
-    /// </summary>
-    public static class GetById
+    /// <inheritdoc />
+    public sealed record Query(BaseModel Model) : IRequest<RelayAlgorithmModel>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, RelayAlgorithmModel>, IValidatedRequest
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Query(BaseModel model) : base(model)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение сущности вида {nameof(RelayAlgorithmModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Validator : AbstractValidator<Query>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Base model validator.</param>
+        public Validator(IValidator<BaseModel> validator)
+        {
+            RuleFor(e => e.Model).SetValidator(validator);
         }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, RelayAlgorithmModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
 
         /// <summary>
-        /// Валидатор модели <see cref="Query"/>.
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
-        public sealed class QueryValidator : AbstractValidator<Query>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="QueryValidator"/>.
-            /// </summary>
-            public QueryValidator(BaseModelValidator validator)
-            {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, RelayAlgorithmModel>
+        public Task<RelayAlgorithmModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на предоставление данных об алгоритме РЗиА '{Model}'.", model);
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var result = _context.RelayAlgorithms.AsNoTracking()
+                .Search(model.Id)
+                .ToModel();
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public async Task<RelayAlgorithmModel> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = this.context.RelayAlgorithms.AsNoTracking()
-                    .Search(request.Model.Id)
-                    .ToModel();
-
-                return await Task.FromResult(result);
-            }
+            _logger.LogDebug("Запрос на получение данных об алгоритме РЗиА '{Result}' выполнен успешно.", result);
+            return Task.FromResult(result);
         }
     }
 }

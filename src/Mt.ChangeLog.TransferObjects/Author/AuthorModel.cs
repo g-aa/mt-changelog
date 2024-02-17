@@ -1,21 +1,21 @@
-﻿namespace Mt.ChangeLog.TransferObjects.Author
+namespace Mt.ChangeLog.TransferObjects.Author;
+
+/// <summary>
+/// Полная модель автора.
+/// </summary>
+public class AuthorModel : AuthorTableModel
 {
     /// <summary>
-    /// Полная модель автора.
+    /// Инициализация экземпляра <see cref="AuthorModel"/>.
     /// </summary>
-    public class AuthorModel : AuthorTableModel
+    public AuthorModel()
+        : base()
     {
-        /// <summary>
-        /// Инициализация экземпляра <see cref="AuthorModel"/>.
-        /// </summary>
-        public AuthorModel() : base()
-        {
-        }
+    }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"{base.ToString()}, {this.Position}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"{base.ToString()}, {Position}";
     }
 }

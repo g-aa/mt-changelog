@@ -1,36 +1,42 @@
-﻿using Mt.Utilities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Mt.ChangeLog.TransferObjects.AnalogModule
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.AnalogModule;
+
+/// <summary>
+/// Краткая модель аналогового модуля.
+/// </summary>
+public class AnalogModuleShortModel
 {
     /// <summary>
-    /// Краткая модель аналогового модуля.
+    /// Инициализация экземпляра <see cref="AnalogModuleShortModel"/>.
     /// </summary>
-    public class AnalogModuleShortModel
+    public AnalogModuleShortModel()
     {
-        /// <summary>
-        /// ИД.
-        /// </summary>
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Title = DefaultString.AnalogModule;
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        /// <example>БМРЗ-000</example>
-        public string Title { get; set; }
+    /// <summary>
+    /// ИД.
+    /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
+    [Required]
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="AnalogModuleShortModel"/>.
-        /// </summary>
-        public AnalogModuleShortModel()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = DefaultString.AnalogModule;
-        }
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    /// <example>БМРЗ-000</example>
+    [Required]
+    [StringLength(9, MinimumLength = 7)]
+    [RegularExpression(StringFormat.AnalogModule)]
+    public string Title { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return this.Title;
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return Title;
     }
 }

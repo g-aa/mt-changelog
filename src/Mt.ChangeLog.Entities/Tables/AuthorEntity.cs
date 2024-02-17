@@ -1,82 +1,82 @@
-﻿using Mt.Entities.Abstractions.Interfaces;
-using Mt.Utilities;
 using System.Linq.Expressions;
 
-namespace Mt.ChangeLog.Entities.Tables
+using Mt.Entities.Abstractions.Interfaces;
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.Entities.Tables;
+
+/// <summary>
+/// Сущность автора.
+/// </summary>
+public class AuthorEntity : IEntity, IDefaultable, IEqualityPredicate<AuthorEntity>, IRemovable
 {
     /// <summary>
-    /// Сущность автора.
+    /// Инициализация экземпляра <see cref="AuthorEntity"/>.
     /// </summary>
-    public class AuthorEntity : IEntity, IDefaultable, IEqualityPredicate<AuthorEntity>, IRemovable
+    public AuthorEntity()
     {
-        /// <inheritdoc />
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        FirstName = DefaultString.FirstName;
+        LastName = DefaultString.LastName;
+        Position = DefaultString.Position;
+        Default = false;
+        Removable = true;
+        ProjectRevisions = new HashSet<ProjectRevisionEntity>();
+    }
 
-        /// <summary>
-        /// Имя.
-        /// </summary>
-        public string FirstName { get; set; }
+    /// <inheritdoc />
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Фамилия.
-        /// </summary>
-        public string LastName { get; set; }
+    /// <summary>
+    /// Имя.
+    /// </summary>
+    public string FirstName { get; set; }
 
-        /// <summary>
-        /// Должность.
-        /// </summary>
-        public string Position { get; set; }
+    /// <summary>
+    /// Фамилия.
+    /// </summary>
+    public string LastName { get; set; }
 
-        /// <inheritdoc />
-        public bool Default { get; set; }
+    /// <summary>
+    /// Должность.
+    /// </summary>
+    public string Position { get; set; }
 
-        /// <inheritdoc />
-        public bool Removable { get; set; }
+    /// <inheritdoc />
+    public bool Default { get; set; }
 
-        #region [ Relationships ]
+    /// <inheritdoc />
+    public bool Removable { get; set; }
 
-        /// <summary>
-        /// Перечень редакций проектов.
-        /// </summary>
-        public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
-        #endregion
+    #region [ Relationships ]
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="AuthorEntity"/>.
-        /// </summary>
-        public AuthorEntity()
-        {
-            this.Id = Guid.NewGuid();
-            this.FirstName = DefaultString.FirstName;
-            this.LastName = DefaultString.LastName;
-            this.Position = DefaultString.Position;
-            this.Default = false;
-            this.Removable = true;
-            this.ProjectRevisions = new HashSet<ProjectRevisionEntity>();
-        }
+    /// <summary>
+    /// Перечень редакций проектов.
+    /// </summary>
+    public ICollection<ProjectRevisionEntity> ProjectRevisions { get; set; }
+    #endregion
 
-        /// <inheritdoc />
-        public Expression<Func<AuthorEntity, bool>> GetEqualityPredicate()
-        {
-            return (AuthorEntity e) => e.Id == this.Id || e.FirstName == this.FirstName && e.LastName == this.LastName;
-        }
+    /// <inheritdoc />
+    public Expression<Func<AuthorEntity, bool>> GetEqualityPredicate()
+    {
+        return (AuthorEntity e) => e.Id == Id || (e.FirstName == FirstName && e.LastName == LastName);
+    }
 
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            return obj is AuthorEntity e && (this.Id.Equals(e.Id) || this.FirstName == e.FirstName && this.LastName == e.LastName);
-        }
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        return obj is AuthorEntity e && (Id.Equals(e.Id) || (FirstName == e.FirstName && LastName == e.LastName));
+    }
 
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(this.FirstName, this.LastName);
-        }
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(FirstName, LastName);
+    }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"ID: {this.Id}, {this.LastName} {this.FirstName}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"ID: {Id}, {LastName} {FirstName}";
     }
 }

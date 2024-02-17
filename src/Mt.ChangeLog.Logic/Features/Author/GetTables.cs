@@ -1,67 +1,53 @@
-﻿using MediatR;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstractions;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Author;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.Author
+namespace Mt.ChangeLog.Logic.Features.Author;
+
+/// <summary>
+/// Запрос на получение перечня моделей данных для таблиц <see cref="AuthorTableModel"/>.
+/// </summary>
+public static class GetTables
 {
-    /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="AuthorTableModel"/>.
-    /// </summary>
-    public static class GetTables
+    /// <inheritdoc />
+    public sealed class Query : IRequest<IReadOnlyCollection<AuthorTableModel>>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, IEnumerable<AuthorTableModel>>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение перечня сущностей вида {nameof(AuthorTableModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<AuthorTableModel>>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, IEnumerable<AuthorTableModel>>
+        public async Task<IReadOnlyCollection<AuthorTableModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            _logger.LogDebug("Получен запрос на получение полного перечня табличного описания авторов.");
 
-            /// <summary>
-            /// Репозиторий с данными.
-            /// </summary>
-            private readonly IAuthorRepository repository;
+            var result = await _context.Authors.AsNoTracking()
+                .OrderBy(e => e.LastName)
+                .ThenBy(e => e.FirstName)
+                .Select(e => e.ToModel())
+                .ToListAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="repository">Репозиторий с данными.</param>
-            public Handler(ILogger<Handler> logger, IAuthorRepository repository)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.repository = Check.NotNull(repository, nameof(repository));
-            }
-
-            /// <inheritdoc />
-            public async Task<IEnumerable<AuthorTableModel>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = await this.repository.GetTableEntitiesAsync();
-                return result.OrderBy(e => e.LastName).ThenBy(e => e.FirstName);
-            }
+            _logger.LogDebug("Запрос на получение полного перечня табличного описания авторов успешно выполнен, '{Count}' записей.", result.Count);
+            return result;
         }
     }
 }

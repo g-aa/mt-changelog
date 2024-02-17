@@ -1,34 +1,39 @@
-﻿namespace Mt.ChangeLog.TransferObjects.ProjectStatus
+using System.ComponentModel.DataAnnotations;
+
+namespace Mt.ChangeLog.TransferObjects.ProjectStatus;
+
+/// <summary>
+/// Краткая модель статуса проекта.
+/// </summary>
+public class ProjectStatusShortModel
 {
     /// <summary>
-    /// Краткая модель статуса проекта.
+    /// Инициализация экземпляра <see cref="ProjectStatusShortModel"/>.
     /// </summary>
-    public class ProjectStatusShortModel
+    public ProjectStatusShortModel()
     {
-        /// <summary>
-        /// ИД.
-        /// </summary>
-        public Guid Id { get; set; }
+        Id = Guid.NewGuid();
+        Title = "Внутренний";
+    }
 
-        /// <summary>
-        /// Наименование.
-        /// </summary>
-        /// <example>Внутренний</example>
-        public string Title { get; set; }
+    /// <summary>
+    /// ИД.
+    /// </summary>
+    /// <example>00000000-0000-0000-0000-000000000000</example>
+    [Required]
+    public Guid Id { get; set; }
 
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ProjectStatusShortModel"/>.
-        /// </summary>
-        public ProjectStatusShortModel()
-        {
-            this.Id = Guid.NewGuid();
-            this.Title = "Внутренний";
-        }
+    /// <summary>
+    /// Наименование.
+    /// </summary>
+    /// <example>Внутренний</example>
+    [Required]
+    [StringLength(32, MinimumLength = 1)]
+    public string Title { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return this.Title;
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return Title;
     }
 }

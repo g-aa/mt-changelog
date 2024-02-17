@@ -1,37 +1,45 @@
-﻿using Mt.Utilities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Mt.ChangeLog.TransferObjects.ArmEdit
+using Mt.Utilities;
+
+namespace Mt.ChangeLog.TransferObjects.ArmEdit;
+
+/// <summary>
+/// Модель аналогового модуля для таблиц.
+/// </summary>
+public class ArmEditTableModel : ArmEditShortModel
 {
     /// <summary>
-    /// Модель аналогового модуля для таблиц.
+    /// Инициализация экземпляра <see cref="ArmEditTableModel"/>.
     /// </summary>
-    public class ArmEditTableModel : ArmEditShortModel
+    public ArmEditTableModel()
+        : base()
     {
-        /// <summary>
-        /// ДИВГ.
-        /// </summary>
-        /// <example>ДИВГ.00000-00</example>
-        public string DIVG { get; set; }
-
-        /// <summary>
-        /// Дата и время компиляции.
-        /// </summary>
-        public DateTime Date { get; set; }
-
-        /// <summary>
-        /// Описание.
-        /// </summary>
-        /// <example>Описание...</example>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// Инициализация экземпляра <see cref="ArmEditTableModel"/>.
-        /// </summary>
-        public ArmEditTableModel() : base()
-        {
-            this.DIVG = DefaultString.DIVG;
-            this.Date = DateTime.Now;
-            this.Description = DefaultString.Description;
-        }
+        DIVG = DefaultString.DIVG;
+        Date = DateTime.Now;
+        Description = DefaultString.Description;
     }
+
+    /// <summary>
+    /// ДИВГ.
+    /// </summary>
+    /// <example>ДИВГ.00000-00</example>
+    [Required]
+    [StringLength(13, MinimumLength = 13)]
+    [RegularExpression(StringFormat.DIVG)]
+    public string DIVG { get; set; }
+
+    /// <summary>
+    /// Дата и время компиляции.
+    /// </summary>
+    [Required]
+    public DateTime Date { get; set; }
+
+    /// <summary>
+    /// Описание.
+    /// </summary>
+    /// <example>Описание...</example>
+    [Required]
+    [StringLength(500, MinimumLength = 0)]
+    public string Description { get; set; }
 }

@@ -1,73 +1,52 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Protocol;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.Protocol
+namespace Mt.ChangeLog.Logic.Features.Protocol;
+
+/// <summary>
+/// Запрос на получение перечня моделей данных для таблиц <see cref="ProtocolTableModel"/>.
+/// </summary>
+public static class GetTables
 {
-    /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="ProtocolTableModel"/>.
-    /// </summary>
-    public static class GetTables
+    /// <inheritdoc />
+    public sealed class Query : IRequest<IReadOnlyCollection<ProtocolTableModel>>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, IEnumerable<ProtocolTableModel>>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение перечня сущностей вида {nameof(ProtocolTableModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ProtocolTableModel>>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, IEnumerable<ProtocolTableModel>>
+        public async Task<IReadOnlyCollection<ProtocolTableModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            _logger.LogDebug("Получен запрос на получение полного перечня табличного описания протокола.");
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var result = await _context.Protocols.AsNoTracking()
+                .OrderBy(p => p.Title)
+                .Select(p => p.ToTableModel())
+                .ToListAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public async Task<IEnumerable<ProtocolTableModel>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = await this.context.Protocols.AsNoTracking()
-                    .OrderBy(p => p.Title)
-                    .Select(p => p.ToTableModel())
-                    .ToListAsync(cancellationToken);
-
-                return result;
-            }
+            _logger.LogDebug("Запрос на получение полного перечня табличного описания протокола успешно выполнен, '{Count}' записей.", result.Count);
+            return result;
         }
     }
 }

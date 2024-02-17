@@ -1,92 +1,71 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Communication;
 using Mt.ChangeLog.TransferObjects.Other;
 using Mt.Entities.Abstractions.Extensions;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.Communication
+namespace Mt.ChangeLog.Logic.Features.Communication;
+
+/// <summary>
+/// Запрос на получение перечня моделей данных для таблиц <see cref="CommunicationModel"/>.
+/// </summary>
+public static class GetById
 {
-    /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="CommunicationModel"/>.
-    /// </summary>
-    public static class GetById
+    /// <inheritdoc />
+    public sealed record Query(BaseModel Model) : IRequest<CommunicationModel>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<BaseModel, CommunicationModel>, IValidatedRequest
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            /// <param name="model">Базовая модель.</param>
-            public Query(BaseModel model) : base(model)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение сущности вида {nameof(CommunicationModel)}.";
-            }
+    /// <summary>
+    /// Валидатор модели <see cref="Query"/>.
+    /// </summary>
+    public sealed class Validator : AbstractValidator<Query>
+    {
+        /// <summary>
+        /// Инициализация экземпляра <see cref="Validator"/>.
+        /// </summary>
+        /// <param name="validator">Base model validator.</param>
+        public Validator(IValidator<BaseModel> validator)
+        {
+            RuleFor(e => e.Model).SetValidator(validator);
         }
+    }
+
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, CommunicationModel>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
 
         /// <summary>
-        /// Валидатор модели <see cref="Query"/>.
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
-        public sealed class QueryValidator : AbstractValidator<Query>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
-            /// <summary>
-            /// Инициализация экземпляра <see cref="QueryValidator"/>.
-            /// </summary>
-            public QueryValidator(BaseModelValidator validator)
-            {
-                this.RuleFor(e => e.Model)
-                    .SetValidator(Check.NotNull(validator, nameof(validator)));
-            }
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, CommunicationModel>
+        public Task<CommunicationModel> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            var model = request.Model;
+            _logger.LogDebug("Получен запрос на предоставление данных об коммуникационном модуле '{Model}'.", model);
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var result = _context.Communications.AsNoTracking()
+                .Include(e => e.Protocols)
+                .Search(model.Id)
+                .ToModel();
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public async Task<CommunicationModel> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = this.context.Communications.AsNoTracking()
-                    .Include(e => e.Protocols)
-                    .Search(request.Model.Id)
-                    .ToModel();
-
-                return await Task.FromResult(result);
-            }
+            _logger.LogDebug("Запрос на получение данных об коммуникационном модуле '{Result}' выполнен успешно.", result);
+            return Task.FromResult(result);
         }
     }
 }

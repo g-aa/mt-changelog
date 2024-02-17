@@ -1,76 +1,55 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.Context;
-using Mt.ChangeLog.Entities.Extensions.Tables;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.ProjectVersion;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.ProjectVersion
+namespace Mt.ChangeLog.Logic.Features.ProjectVersion;
+
+/// <summary>
+/// Запрос на получение перечня моделей данных для таблиц <see cref="ProjectVersionTableModel"/>.
+/// </summary>
+public static class GetTables
 {
-    /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="ProjectVersionTableModel"/>.
-    /// </summary>
-    public static class GetTables
+    /// <inheritdoc />
+    public sealed class Query : IRequest<IReadOnlyCollection<ProjectVersionTableModel>>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, IEnumerable<ProjectVersionTableModel>>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение перечня сущностей вида {nameof(ProjectVersionTableModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<ProjectVersionTableModel>>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, IEnumerable<ProjectVersionTableModel>>
+        public async Task<IReadOnlyCollection<ProjectVersionTableModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            _logger.LogDebug("Получен запрос на получение полного перечня табличного описания версий проекта.");
 
-            /// <summary>
-            /// Контекст данных.
-            /// </summary>
-            private readonly MtContext context;
+            var result = await _context.ProjectVersions.AsNoTracking()
+                .Include(e => e.AnalogModule)
+                .Include(e => e.Platform)
+                .Include(e => e.ProjectStatus)
+                .OrderBy(e => e.AnalogModule!.Title).ThenBy(e => e.Title).ThenBy(e => e.Version)
+                .Select(e => e.ToTableModel())
+                .ToListAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="context">Контекст данных.</param>
-            public Handler(ILogger<Handler> logger, MtContext context)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.context = Check.NotNull(context, nameof(context));
-            }
-
-            /// <inheritdoc />
-            public async Task<IEnumerable<ProjectVersionTableModel>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = await this.context.ProjectVersions.AsNoTracking()
-                    .Include(e => e.AnalogModule)
-                    .Include(e => e.Platform)
-                    .Include(e => e.ProjectStatus)
-                    .OrderBy(e => e.AnalogModule.Title).ThenBy(e => e.Title).ThenBy(e => e.Version)
-                    .Select(e => e.ToTableModel())
-                    .ToListAsync(cancellationToken);
-
-                return result;
-            }
+            _logger.LogDebug("Запрос на получение полного перечня табличного описания версий проекта успешно выполнен, '{Count}' записей.", result.Count);
+            return result;
         }
     }
 }

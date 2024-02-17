@@ -1,67 +1,52 @@
-﻿using MediatR;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstractions;
-using Mt.ChangeLog.Logic.Models;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
-using Mt.Utilities;
 
-namespace Mt.ChangeLog.Logic.Features.AnalogModule
+namespace Mt.ChangeLog.Logic.Features.AnalogModule;
+
+/// <summary>
+/// Запрос на получение перечня моделей данных для таблиц <see cref="AnalogModuleTableModel"/>.
+/// </summary>
+public static class GetTables
 {
-    /// <summary>
-    /// Запрос на получение перечня моделий данных для таблиц <see cref="AnalogModuleTableModel"/>.
-    /// </summary>
-    public static class GetTables
+    /// <inheritdoc />
+    public sealed class Query : IRequest<IReadOnlyCollection<AnalogModuleTableModel>>
     {
-        /// <inheritdoc />
-        public sealed class Query : MtQuery<Unit, IEnumerable<AnalogModuleTableModel>>
-        {
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Query"/>.
-            /// </summary>
-            public Query() : base(Unit.Value)
-            {
-            }
+    }
 
-            /// <inheritdoc />
-            public override string ToString()
-            {
-                return $"{base.ToString()} - получение перечня сущностей вида {nameof(AnalogModuleTableModel)}.";
-            }
+    /// <inheritdoc />
+    public sealed class Handler : IRequestHandler<Query, IReadOnlyCollection<AnalogModuleTableModel>>
+    {
+        private readonly ILogger<Handler> _logger;
+
+        private readonly MtContext _context;
+
+        /// <summary>
+        /// Инициализация нового экземпляра класса <see cref="Handler"/>.
+        /// </summary>
+        /// <param name="logger">Журнал логирования.</param>
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
+        {
+            _logger = logger;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public sealed class Handler : IRequestHandler<Query, IEnumerable<AnalogModuleTableModel>>
+        public async Task<IReadOnlyCollection<AnalogModuleTableModel>> Handle(Query request, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Журнал логирования.
-            /// </summary>
-            private readonly ILogger<Handler> logger;
+            _logger.LogDebug("Получен запрос на получение полного перечня табличного описания аналоговых модулей.");
 
-            /// <summary>
-            /// Репозиторий с данными.
-            /// </summary>
-            private readonly IAnalogModuleRepository repository;
+            var result = await _context.AnalogModules.AsNoTracking()
+                .OrderBy(e => e.Title)
+                .Select(e => e.ToTableModel())
+                .ToListAsync(cancellationToken);
 
-            /// <summary>
-            /// Инициализация нового экземпляра класса <see cref="Handler"/>.
-            /// </summary>
-            /// <param name="logger">Журнал логирования.</param>
-            /// <param name="repository">Репозиторий с данными.</param>
-            public Handler(ILogger<Handler> logger, IAnalogModuleRepository repository)
-            {
-                this.logger = Check.NotNull(logger, nameof(logger));
-                this.repository = Check.NotNull(repository, nameof(repository));
-            }
-
-            /// <inheritdoc />
-            public async Task<IEnumerable<AnalogModuleTableModel>> Handle(Query request, CancellationToken cancellationToken)
-            {
-                Check.NotNull(request, nameof(request));
-                this.logger.LogInformation(request.ToString());
-
-                var result = await this.repository.GetTableEntitiesAsync();
-                return result.OrderBy(e => e.Title);
-            }
+            _logger.LogDebug("Запрос на получение полного перечня табличного описания аналоговых модулей успешно выполнен, '{Count}' записей.", result.Count);
+            return result;
         }
     }
 }
