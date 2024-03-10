@@ -20,7 +20,7 @@ public class LastProjectRevisionModel
         Platform = DefaultString.Platform;
         ArmEdit = DefaultString.Version;
         Revision = DefaultString.Revision;
-        Date = DateTime.UtcNow;
+        Date = DateTime.Now;
     }
 
     /// <summary>

@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApplicationContext(this IServiceCollection services)
     {
         return services
-            .AddDbContext<IMtContext, MtContext>((provider, options) =>
+            .AddDbContext<MtContext>((provider, options) =>
             {
                 var configuration = provider.GetRequiredService<IConfiguration>();
                 var connectionString = new NpgsqlConnectionStringBuilder(configuration.GetConnectionString("NpgSqlDb"));

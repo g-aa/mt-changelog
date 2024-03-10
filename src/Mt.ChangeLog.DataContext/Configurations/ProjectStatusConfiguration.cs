@@ -20,19 +20,26 @@ internal sealed class ProjectStatusConfiguration : IEntityTypeConfiguration<Proj
             .HasDatabaseName("IX_ProjectStatus_Title")
             .IsUnique();
 
+        builder.Property(e => e.Id)
+            .HasComment("Идентификатор");
+
         builder.Property(e => e.Title)
+            .HasComment("Наименование")
             .HasMaxLength(32)
             .IsRequired();
 
         builder.Property(e => e.Description)
+            .HasComment("Описание")
             .HasMaxLength(500)
             .IsRequired();
 
         builder.Property(e => e.Default)
+            .HasComment("Признак значения по умолчанию")
             .HasDefaultValue(false)
             .IsRequired();
 
         builder.Property(e => e.Removable)
+            .HasComment("Возможность удалить")
             .HasDefaultValue(false)
             .IsRequired();
     }

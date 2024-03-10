@@ -47,8 +47,9 @@ public class ProjectHistoryRecordView
     public string Platform { get; set; }
 
     /// <summary>
-    /// Наименование проекта, комбинация: "ProjectVersion.Prefix"-"ProjectVersion.Title"-"ProjectVersion.Version"_"ProjectRevision.Revision".
+    /// Наименование проекта.
     /// </summary>
+    /// <remarks>ProjectVersion.Prefix-ProjectVersion.Title-ProjectVersion.Version_ProjectRevision.Revision.</remarks>
     public string Title { get; set; }
 
     /// <summary>

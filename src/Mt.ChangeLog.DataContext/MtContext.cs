@@ -10,7 +10,7 @@ namespace Mt.ChangeLog.DataContext;
 /// <summary>
 /// Контекст данных приложения.
 /// </summary>
-public sealed class MtContext : DbContext, IMtContext
+public sealed partial class MtContext : DbContext
 {
     /// <summary>
     /// Схема базы данных: ChangeLog.
@@ -33,60 +33,6 @@ public sealed class MtContext : DbContext, IMtContext
         _logger = logger;
     }
 
-    #region [ ProjectVersionEntities ]
-
-    /// <inheritdoc />
-    public DbSet<PlatformEntity> Platforms { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<AnalogModuleEntity> AnalogModules { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<ProjectStatusEntity> ProjectStatuses { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<ProjectVersionEntity> ProjectVersions { get; set; } = null!;
-
-    #endregion
-
-    #region [ ProjectRevisionEntities ]
-
-    /// <inheritdoc />
-    public DbSet<ProjectRevisionEntity> ProjectRevisions { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<ArmEditEntity> ArmEdits { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<AuthorEntity> Authors { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<ProtocolEntity> Protocols { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<CommunicationEntity> Communications { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<RelayAlgorithmEntity> RelayAlgorithms { get; set; } = null!;
-
-    #endregion
-
-    #region [ Views ]
-
-    /// <inheritdoc />
-    public DbSet<LastProjectRevisionView> LastProjectRevisions { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<AuthorContributionView> AuthorContributions { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<AuthorProjectContributionView> AuthorProjectContributions { get; set; } = null!;
-
-    /// <inheritdoc />
-    public DbSet<ProjectHistoryRecordView> ProjectHistoryRecords { get; set; } = null!;
-
-    #endregion
-
     /// <inheritdoc />
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -105,11 +51,7 @@ public sealed class MtContext : DbContext, IMtContext
     {
         base.OnModelCreating(modelBuilder);
 
-        if (Database.IsNpgsql())
-        {
-            modelBuilder.HasDefaultSchema(Schema);
-        }
-
+        modelBuilder.HasDefaultSchema(Schema);
         new AnalogModuleConfiguration().Configure(modelBuilder.Entity<AnalogModuleEntity>());
         new ArmEditConfiguration().Configure(modelBuilder.Entity<ArmEditEntity>());
         new AuthorConfiguration().Configure(modelBuilder.Entity<AuthorEntity>());

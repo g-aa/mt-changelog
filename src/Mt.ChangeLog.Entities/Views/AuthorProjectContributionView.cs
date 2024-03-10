@@ -20,8 +20,9 @@ public class AuthorProjectContributionView
     }
 
     /// <summary>
-    /// Ф.И.О. автора (LastName FirstName).
+    /// Ф.И.О. автора.
     /// </summary>
+    /// <remarks>Author.LastName Author.FirstName.</remarks>
     public string Author { get; set; }
 
     /// <summary>

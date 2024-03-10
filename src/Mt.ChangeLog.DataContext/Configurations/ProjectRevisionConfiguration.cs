@@ -14,7 +14,7 @@ internal sealed class ProjectRevisionConfiguration : IEntityTypeConfiguration<Pr
     {
         builder.ToTable(
             "ProjectRevision",
-            t => t.HasComment("Таблица с перечнем ревизий (редакций) проектов блоков БМРЗ-100/120/150/160"));
+            t => t.HasComment("Таблица с перечнем ревизий (редакций) проектов блоков БМРЗ"));
 
         builder.HasIndex(e => new { e.ProjectVersionId, e.Revision })
             .HasDatabaseName("IX_ProjectRevision_Revision")
@@ -28,20 +28,27 @@ internal sealed class ProjectRevisionConfiguration : IEntityTypeConfiguration<Pr
             .WithMany(ra => ra.ProjectRevisions)
             .UsingEntity(e => e.ToTable("ProjectRevisionRelayAlgorithm"));
 
+        builder.Property(e => e.Id)
+            .HasComment("Идентификатор");
+
         builder.Property(e => e.Date)
+            .HasComment("Дата компиляции")
             .HasColumnType("timestamp without time zone")
             .IsRequired();
 
         builder.Property(e => e.Revision)
+            .HasComment("Редакция")
             .HasMaxLength(2)
             .IsFixedLength()
             .IsRequired();
 
         builder.Property(e => e.Reason)
+            .HasComment("Причина изменений")
             .HasMaxLength(500)
             .IsRequired();
 
         builder.Property(e => e.Description)
+            .HasComment("Описание")
             .HasMaxLength(5000)
             .IsRequired();
     }
