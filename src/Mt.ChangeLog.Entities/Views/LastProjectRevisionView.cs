@@ -39,7 +39,7 @@ public class LastProjectRevisionView
     public string Prefix { get; set; }
 
     /// <summary>
-    /// наименование.
+    /// Наименование.
     /// </summary>
     public string Title { get; set; }
 

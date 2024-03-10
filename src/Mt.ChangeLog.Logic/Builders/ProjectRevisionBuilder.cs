@@ -137,7 +137,7 @@ public class ProjectRevisionBuilder
     {
         // атрибуты:
         // _entity.Id - не обновляется!
-        _entity.Date = _date != null ? _date.Value : DateTime.UtcNow;
+        _entity.Date = _date != null ? _date.Value : DateTime.Now;
 
         // - не обновляется!
         if (string.IsNullOrEmpty(_entity.Revision))

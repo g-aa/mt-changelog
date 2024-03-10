@@ -4,6 +4,7 @@
     <Description>Web-сервис для доступа к данным Mt ChangeLog.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
+    <UserSecretsId>9a1f995c-6775-49f0-8847-5bb5aef23074</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />

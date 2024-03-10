@@ -55,7 +55,7 @@ public class ArmEditBuilder
         // _entity.Id - не обновляется!
         _entity.DIVG = _divg;
         _entity.Version = _version;
-        _entity.Date = _date != null ? _date.Value : DateTime.UtcNow;
+        _entity.Date = _date != null ? _date.Value : DateTime.Now;
         _entity.Description = _description;
 
         // реляционные связи:

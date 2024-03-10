@@ -22,7 +22,7 @@ public class ProjectRevisionTreeModel
         Version = DefaultString.Revision;
         Revision = DefaultString.Revision;
         ArmEdit = DefaultString.Version;
-        Date = DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        Date = DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         Platform = DefaultString.Platform;
     }
 

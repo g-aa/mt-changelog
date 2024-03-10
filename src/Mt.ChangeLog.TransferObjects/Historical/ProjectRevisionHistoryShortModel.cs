@@ -16,7 +16,7 @@ public class ProjectRevisionHistoryShortModel
     {
         Id = Guid.Empty;
         Title = "БФПО-000-ПМК-00_00";
-        Date = DateTime.UtcNow;
+        Date = DateTime.Now;
         Platform = DefaultString.Platform;
     }
 

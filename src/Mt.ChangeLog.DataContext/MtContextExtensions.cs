@@ -1,3 +1,5 @@
+using System.Globalization;
+
 using Microsoft.EntityFrameworkCore;
 using Mt.ChangeLog.Entities.Tables;
 using Mt.Utilities;
@@ -18,7 +20,7 @@ public static class MtContextExtensions
         var armEdit = new ArmEditEntity
         {
             Id = Guid.Parse("3E4DF70F-63EC-4101-8119-762B32464A27"),
-            Date = DateTime.Now,
+            Date = DateTime.Parse("0001-01-01 00:00:00.000", CultureInfo.InvariantCulture),
             DIVG = "ДИВГ.55101-00",
             Version = DefaultString.Version,
             Description = "ArmEdit по умолчанию.",
@@ -32,7 +34,7 @@ public static class MtContextExtensions
             Id = Guid.Parse("1DE61F12-7634-47CC-BCFF-F146CA538F49"),
             FirstName = "-//-",
             LastName = "-//-",
-            Position = "Автор по умолчанию.",
+            Position = "Автор проекттов по умолчанию.",
             Default = true,
             Removable = false,
         };
@@ -234,7 +236,17 @@ public static class MtContextExtensions
                 JOIN ""{MtContext.Schema}"".""ProjectVersion"" pv
                 ON pv.""Id"" = pr.""ProjectVersionId""
                 JOIN ""{MtContext.Schema}"".""Platform"" pl
-                ON pv.""PlatformId"" = pl.""Id"";");
+                ON pv.""PlatformId"" = pl.""Id"";
+                COMMENT ON VIEW ""{MtContext.Schema}"".""LastProjectsRevision"" IS 'Представление с перечнем информации о последних редакциях проектов БМРЗ';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""LastProjectsRevision"".""ProjectVersionId"" IS 'Идентификатор версии проекта';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""LastProjectsRevision"".""ProjectRevisionId"" IS 'Идентификатор редакции проекта';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""LastProjectsRevision"".""Prefix"" IS 'Префикс';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""LastProjectsRevision"".""Title"" IS 'Наименование';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""LastProjectsRevision"".""Version"" IS 'Версия';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""LastProjectsRevision"".""Revision"" IS 'Редакция';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""LastProjectsRevision"".""Platform"" IS 'Платформа';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""LastProjectsRevision"".""ArmEdit"" IS 'Версия ArmEdit';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""LastProjectsRevision"".""Date"" IS 'Дата компиляции';");
 
         context.Database.ExecuteSqlRaw(
             $@"CREATE OR REPLACE VIEW ""{MtContext.Schema}"".""AuthorContribution"" AS
@@ -244,7 +256,10 @@ public static class MtContextExtensions
                 JOIN ""{MtContext.Schema}"".""ProjectRevisionAuthor"" pra
                 ON athr.""Id"" = pra.""AuthorsId""
                 GROUP BY athr.""LastName"", athr.""FirstName""
-                ORDER BY ""Contribution"" DESC;");
+                ORDER BY ""Contribution"" DESC;
+                COMMENT ON VIEW ""{MtContext.Schema}"".""AuthorContribution"" IS 'Представление, общая статистика по авторам и их вкладам в проекты БМРЗ';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""AuthorContribution"".""Author"" IS 'ФИО автора';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""AuthorContribution"".""Contribution"" IS 'Общий вклад в проекты';");
 
         context.Database.ExecuteSqlRaw(
             $@"CREATE OR REPLACE VIEW ""{MtContext.Schema}"".""AuthorProjectContribution"" AS
@@ -261,7 +276,13 @@ public static class MtContextExtensions
                 JOIN ""{MtContext.Schema}"".""ProjectVersion"" pv
                 ON pv.""Id"" = pr.""ProjectVersionId""
                 GROUP BY athr.""LastName"", athr.""FirstName"", pv.""Prefix"", pv.""Title"", pv.""Version""
-                ORDER BY ""Author"" ASC, ""ProjectTitle"" ASC, ""ProjectPrefix"" ASC, ""ProjectVersion"" ASC;");
+                ORDER BY ""Author"" ASC, ""ProjectTitle"" ASC, ""ProjectPrefix"" ASC, ""ProjectVersion"" ASC;
+                COMMENT ON VIEW ""{MtContext.Schema}"".""AuthorProjectContribution"" IS 'Представление, статистика по авторам и их вкладам в проекты БМРЗ';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""AuthorProjectContribution"".""Author"" IS 'ФИО автора';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""AuthorProjectContribution"".""ProjectPrefix"" IS 'Префикс наименования проекта';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""AuthorProjectContribution"".""ProjectTitle"" IS 'Заголовок проекта';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""AuthorProjectContribution"".""ProjectVersion"" IS 'Версия проекта';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""AuthorProjectContribution"".""Contribution"" IS 'Общий вклад в проекты';");
 
         context.Database.ExecuteSqlRaw(
             $@"CREATE OR REPLACE VIEW ""{MtContext.Schema}"".""ProjectHistoryRecord"" AS
@@ -325,14 +346,27 @@ public static class MtContextExtensions
                 JOIN ""{MtContext.Schema}"".""Platform"" plat ON plat.""Id"" = pv.""PlatformId""
                 JOIN ProjectRevisionsAlgs prAlgs ON prAlgs.""ProjectRevisionId"" = pr.""Id""
                 JOIN ProjectRevisionsAthrs prAthrs ON prAthrs.""ProjectRevisionId"" = pr.""Id""
-                JOIN ProjectRevisionsProtocols prProts ON prProts.""CommunicationId"" = pr.""CommunicationId"";");
+                JOIN ProjectRevisionsProtocols prProts ON prProts.""CommunicationId"" = pr.""CommunicationId"";
+                COMMENT ON VIEW ""{MtContext.Schema}"".""ProjectHistoryRecord"" IS 'Представление с перечнем информации о отдельной редакции проекта (БФПО) БМРЗ';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""ProjectVersionId"" IS 'Идентификатор версии проекта';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""ParentRevisionId"" IS 'Идентификатор родительской редакции проекта';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""ProjectRevisionId"" IS 'Идентификатор редакции проекта';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""Platform"" IS 'Платформа';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""Title"" IS 'Наименование проекта';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""Date"" IS 'Дата компиляции';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""ArmEdit"" IS 'Версия ArmEdit';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""Algorithms"" IS 'Перечень алгоритмов';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""Authors"" IS 'Перечень авторов';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""Protocols"" IS 'Перечень протоколов';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""Reason"" IS 'Причина изменений';
+                COMMENT ON COLUMN ""{MtContext.Schema}"".""ProjectHistoryRecord"".""Description"" IS 'Описание';");
     }
 
     /// <summary>
     /// Создать представления в базе данных <see cref="MtContext"/>.
     /// </summary>
     /// <param name="context">Контекст данных.</param>
-    public static void CreateSqlFuncs(this MtContext context)
+    public static void CreateSqlFunctions(this MtContext context)
     {
         context.Database.ExecuteSqlRaw(
             $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_ActualArmEdit""()
@@ -388,7 +422,7 @@ public static class MtContextExtensions
 
         context.Database.ExecuteSqlRaw(
             $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_PlatformsForAnalogModule""(guid uuid)
-                    RETURNS TABLE(""Id"" uuid, ""Title"" character) 
+                    RETURNS TABLE(""Id"" uuid, ""Title"" character)
                     LANGUAGE 'sql'
                     COST 100
                     VOLATILE PARALLEL UNSAFE
@@ -408,7 +442,7 @@ public static class MtContextExtensions
 
         context.Database.ExecuteSqlRaw(
             $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_ShortAnalogModules""()
-                    RETURNS TABLE(""Id"" uuid, ""Title"" character) 
+                    RETURNS TABLE(""Id"" uuid, ""Title"" character)
                     LANGUAGE 'sql'
                     COST 100
                     VOLATILE PARALLEL UNSAFE
@@ -421,13 +455,13 @@ public static class MtContextExtensions
 
         context.Database.ExecuteSqlRaw(
             $@"CREATE OR REPLACE FUNCTION ""{MtContext.Schema}"".""get_ShortArmEdits""()
-                    RETURNS TABLE(""Id"" uuid, ""Version"" character) 
+                    RETURNS TABLE(""Id"" uuid, ""Version"" character)
                     LANGUAGE 'sql'
                     COST 100
                     VOLATILE PARALLEL UNSAFE
                     ROWS 1000
                 AS $BODY$
-                    SELECT  arm.""Id"", 
+                    SELECT  arm.""Id"",
                             arm.""Version""
                     FROM ""{MtContext.Schema}"".""ArmEdit"" arm;
                 $BODY$;");
