@@ -5,36 +5,31 @@ using Mt.ChangeLog.Entities.Views;
 namespace Mt.ChangeLog.DataContext;
 
 /// <summary>
-/// Интерфейс контекста данных приложения.
+/// Контекст данных приложения.
 /// </summary>
-public interface IMtContext
+public sealed partial class MtContext
 {
-    /// <summary>
-    /// Схема базы данных: ChangeLog.
-    /// </summary>
-    public const string Schema = "changelog";
-
     #region [ ProjectVersionEntities ]
 
     /// <summary>
     /// Перечень <see cref="PlatformEntity"/>.
     /// </summary>
-    public DbSet<PlatformEntity> Platforms { get; set; }
+    public DbSet<PlatformEntity> Platforms { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="AnalogModuleEntity"/>.
     /// </summary>
-    public DbSet<AnalogModuleEntity> AnalogModules { get; set; }
+    public DbSet<AnalogModuleEntity> AnalogModules { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="ProjectStatusEntity"/>.
     /// </summary>
-    public DbSet<ProjectStatusEntity> ProjectStatuses { get; set; }
+    public DbSet<ProjectStatusEntity> ProjectStatuses { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="ProjectVersionEntity"/>.
     /// </summary>
-    public DbSet<ProjectVersionEntity> ProjectVersions { get; set; }
+    public DbSet<ProjectVersionEntity> ProjectVersions { get; set; } = null!;
 
     #endregion
 
@@ -43,32 +38,32 @@ public interface IMtContext
     /// <summary>
     /// Перечень <see cref="ProjectRevisionEntity"/>.
     /// </summary>
-    public DbSet<ProjectRevisionEntity> ProjectRevisions { get; set; }
+    public DbSet<ProjectRevisionEntity> ProjectRevisions { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="ArmEditEntity"/>.
     /// </summary>
-    public DbSet<ArmEditEntity> ArmEdits { get; set; }
+    public DbSet<ArmEditEntity> ArmEdits { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="AuthorEntity"/>.
     /// </summary>
-    public DbSet<AuthorEntity> Authors { get; set; }
+    public DbSet<AuthorEntity> Authors { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="ProtocolEntity"/>.
     /// </summary>
-    public DbSet<ProtocolEntity> Protocols { get; set; }
+    public DbSet<ProtocolEntity> Protocols { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="CommunicationEntity"/>.
     /// </summary>
-    public DbSet<CommunicationEntity> Communications { get; set; }
+    public DbSet<CommunicationEntity> Communications { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="RelayAlgorithmEntity"/>.
     /// </summary>
-    public DbSet<RelayAlgorithmEntity> RelayAlgorithms { get; set; }
+    public DbSet<RelayAlgorithmEntity> RelayAlgorithms { get; set; } = null!;
 
     #endregion
 
@@ -77,22 +72,22 @@ public interface IMtContext
     /// <summary>
     /// Перечень <see cref="LastProjectRevisionView"/>.
     /// </summary>
-    public DbSet<LastProjectRevisionView> LastProjectRevisions { get; set; }
+    public DbSet<LastProjectRevisionView> LastProjectRevisions { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="AuthorContributionView"/>.
     /// </summary>
-    public DbSet<AuthorContributionView> AuthorContributions { get; set; }
+    public DbSet<AuthorContributionView> AuthorContributions { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="AuthorProjectContributionView"/>.
     /// </summary>
-    public DbSet<AuthorProjectContributionView> AuthorProjectContributions { get; set; }
+    public DbSet<AuthorProjectContributionView> AuthorProjectContributions { get; set; } = null!;
 
     /// <summary>
     /// Перечень <see cref="ProjectHistoryRecordView"/>.
     /// </summary>
-    public DbSet<ProjectHistoryRecordView> ProjectHistoryRecords { get; set; }
+    public DbSet<ProjectHistoryRecordView> ProjectHistoryRecords { get; set; } = null!;
 
     #endregion
 }

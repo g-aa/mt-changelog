@@ -51,8 +51,8 @@ public static class Program
                 {
                     context.CreateDefaultEntities();
                     context.CreateViews();
-                    context.CreateSqlFuncs();
-                    context.SaveChangesAsync();
+                    context.CreateSqlFunctions();
+                    context.SaveChanges();
                 }
             }
 

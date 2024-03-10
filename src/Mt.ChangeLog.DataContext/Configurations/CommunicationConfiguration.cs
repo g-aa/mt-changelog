@@ -14,7 +14,7 @@ internal sealed class CommunicationConfiguration : IEntityTypeConfiguration<Comm
     {
         builder.ToTable(
             "Communication",
-            t => t.HasComment("Таблица с перечнем коммуникационных модулей поддерживаемых в блоках БМРЗ-100/120/150/160"));
+            t => t.HasComment("Таблица с перечнем коммуникационных модулей поддерживаемых в блоках БМРЗ"));
 
         builder.HasIndex(e => e.Title)
             .HasDatabaseName("IX_Communication_Title")
@@ -24,19 +24,26 @@ internal sealed class CommunicationConfiguration : IEntityTypeConfiguration<Comm
             .WithMany(p => p.Communications)
             .UsingEntity(e => e.ToTable("CommunicationProtocol"));
 
+        builder.Property(e => e.Id)
+            .HasComment("Идентификатор");
+
         builder.Property(e => e.Title)
+            .HasComment("Наименование")
             .HasMaxLength(255)
             .IsRequired();
 
         builder.Property(e => e.Description)
+            .HasComment("Описание")
             .HasMaxLength(500)
             .IsRequired();
 
         builder.Property(e => e.Default)
+            .HasComment("Признак значения по умолчанию")
             .HasDefaultValue(false)
             .IsRequired();
 
         builder.Property(e => e.Removable)
+            .HasComment("Возможность удалить")
             .HasDefaultValue(false)
             .IsRequired();
     }
