@@ -10,7 +10,7 @@ namespace Mt.ChangeLog.Logic.Features.History;
 /// <summary>
 /// Запрос на получение статистики по данным в системе.
 /// </summary>
-public sealed class GetStatistics
+public static class GetStatistics
 {
     /// <inheritdoc />
     public sealed class Query : IRequest<StatisticsModel>

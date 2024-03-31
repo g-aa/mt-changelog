@@ -71,20 +71,13 @@ public static class Add
                 throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbProtocol}' уже содержится в системе.");
             }
 
+            _context.Protocols.Add(dbProtocol);
             return SaveChangesAsync(dbProtocol, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(ProtocolEntity entity, CancellationToken cancellationToken)
         {
-            await _context.Protocols.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Протокол '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {

@@ -74,20 +74,13 @@ public static class Delete
                 throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используется в редакциях БФПО и не может быть удалена из системы.");
             }
 
+            _context.Authors.Remove(dbRemovable);
             return SaveChangesAsync(dbRemovable, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
         {
-            _context.Authors.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Автор '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {

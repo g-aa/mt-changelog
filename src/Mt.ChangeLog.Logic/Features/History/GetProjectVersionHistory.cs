@@ -58,8 +58,6 @@ public static class GetProjectVersionHistory
             var model = request.Model;
             _logger.LogDebug("Получен запрос на предоставление истории изменения для версии проекта '{Model}'.", model);
 
-            var result = new ProjectVersionHistoryModel();
-
             var query = _context.ProjectRevisions.AsNoTracking()
                 .Include(e => e.ArmEdit)
                 .Include(e => e.Authors)
@@ -73,6 +71,7 @@ public static class GetProjectVersionHistory
                 .OrderByDescending(pr => pr.Revision)
                 .FirstOrDefault();
 
+            var result = new ProjectVersionHistoryModel();
             if (entity != null)
             {
                 result.Title = entity.ProjectVersion!.ToShortModel().ToString();

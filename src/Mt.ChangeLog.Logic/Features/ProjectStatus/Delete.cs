@@ -72,20 +72,13 @@ public static class Delete
                 throw new MtException(ErrorCode.EntityCannotBeDeleted, $"Сущность '{dbRemovable}' используется в проектах и не может быть удалена из системы.");
             }
 
+            _context.ProjectStatuses.Remove(dbRemovable);
             return SaveChangesAsync(dbRemovable, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(ProjectStatusEntity entity, CancellationToken cancellationToken)
         {
-            _context.ProjectStatuses.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Статус проекта '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {

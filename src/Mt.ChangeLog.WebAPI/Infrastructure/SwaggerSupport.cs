@@ -22,8 +22,8 @@ public static class SwaggerSupport
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = $"Mt-ChangeLog API {Program.CurrentVersion}",
-                    Version = "v1",
+                    Title = $"Mt-ChangeLog API",
+                    Version = Program.CurrentVersion,
                     Description = "Rest API для взаимодействия с функционалом Mt-ChangeLog.",
                 });
 
@@ -48,11 +48,15 @@ public static class SwaggerSupport
     public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder builder)
     {
         return builder
-            .UseSwagger()
+            .UseSwagger(options =>
+            {
+                options.RouteTemplate = "swagger/{documentName}/mt-changelog.{json|yaml}";
+            })
             .UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint($"/swagger/v1/swagger.json", $"Mt-ChangeLog API v1");
+                options.SwaggerEndpoint($"/swagger/v1/mt-changelog.yaml", $"API v1");
                 options.DisplayRequestDuration();
+                options.DefaultModelsExpandDepth(0);
             });
     }
 }

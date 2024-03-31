@@ -73,12 +73,6 @@ public static class GetFullArchive
             return result;
         }
 
-        /// <summary>
-        /// Получить полную историю версии проекта.
-        /// </summary>
-        /// <param name="guid">ИД версии проекта.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат.</returns>
         private async Task<ProjectVersionHistoryModel> GetProjectVersionHistory(Guid guid, CancellationToken cancellationToken)
         {
             var query = _context.ProjectRevisions.AsNoTracking()

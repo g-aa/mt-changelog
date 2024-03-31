@@ -1,23 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <Description>Модели объектов DTO в Mt ChangeLog.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
     <PackageId>Mt.ChangeLog.TransferObjects</PackageId>
-    <PackageTags>Mt;Net;ChangeLog;TransferObjects;</PackageTags>
-    <Description>Модели объектов DTO в Mt ChangeLog.</Description>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)mt-changelog-transfer-objects.snk</AssemblyOriginatorKeyFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>Mt;Net;ChangeLog;TransferObjects</PackageTags>
     <PackageProjectUrl>https://github.com/g-aa/mt-changelog</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>iconLog.png</PackageIcon>
     <PackageVersion>$(Build_Version)</PackageVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Refactoring the solution</PackageReleaseNotes>
+    <Title>ChangeLog transfer objects</Title>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\..\iconLog.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Mt.Utilities" Version="8.1.0" />
+    <PackageReference Include="Mt.Utilities" Version="8.1.1" />
   </ItemGroup>
 </Project>

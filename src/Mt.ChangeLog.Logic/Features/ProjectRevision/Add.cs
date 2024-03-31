@@ -60,7 +60,7 @@ public static class Add
             _logger.LogDebug("Получен запрос на добавление редакции проекта '{Model}' в систему.", model);
 
             var dbParent = _context.ProjectRevisions
-                .SearchOrNull(model.ParentRevision != null ? model.ParentRevision.Id : Guid.Empty);
+                .SearchOrNull(model.ParentRevision?.Id ?? Guid.Empty);
 
             var dbProjectVersion = _context.ProjectVersions
                 .Search(model.ProjectVersion.Id);
@@ -92,20 +92,13 @@ public static class Add
                 throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbProjectRevision}' уже содержится в системе.");
             }
 
+            _context.ProjectRevisions.Add(dbProjectRevision);
             return SaveChangesAsync(dbProjectRevision, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(ProjectRevisionEntity entity, CancellationToken cancellationToken)
         {
-            await _context.ProjectRevisions.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Редакция проекта '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {

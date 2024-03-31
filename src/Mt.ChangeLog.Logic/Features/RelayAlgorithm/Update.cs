@@ -69,20 +69,13 @@ public static class Update
             }
 
             dbAlgorithm.GetBuilder().SetAttributes(model).Build();
+            _context.RelayAlgorithms.Update(dbAlgorithm);
             return SaveChangesAsync(dbAlgorithm, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(RelayAlgorithmEntity entity, CancellationToken cancellationToken)
         {
-            _context.RelayAlgorithms.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Алгоритм РЗиА '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {

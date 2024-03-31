@@ -85,22 +85,14 @@ public static class Delete
                 }
             }
 
+            _context.Communications.Remove(dbRemovable);
             return SaveChangesAsync(dbRemovable, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(CommunicationEntity entity, CancellationToken cancellationToken)
         {
-            _context.Communications.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Коммуникационный модуль '{Entity}' успешно удален из системы.", entity);
-
             return new MessageModel
             {
                 Message = $"'{entity}' был удален из системы.",

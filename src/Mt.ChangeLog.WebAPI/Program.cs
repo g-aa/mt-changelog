@@ -1,7 +1,10 @@
 using System.Diagnostics;
 using System.Reflection;
 
+using Microsoft.AspNetCore;
+
 using Mt.ChangeLog.DataContext;
+
 using NLog;
 using NLog.Web;
 
@@ -18,20 +21,13 @@ public static class Program
     static Program()
     {
         var assembly = Assembly.GetExecutingAssembly();
-        var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-        CurrentVersion = $"v{fvi.FileVersion}";
-        ServiceName = $"Mt-ChangeLog: v{fvi.FileVersion}";
+        CurrentVersion = $"v{FileVersionInfo.GetVersionInfo(assembly.Location).FileVersion}";
     }
 
     /// <summary>
     /// Версия приложения.
     /// </summary>
     public static string CurrentVersion { get; private set; }
-
-    /// <summary>
-    /// Наименование приложения и его версия.
-    /// </summary>
-    public static string ServiceName { get; private set; }
 
     /// <summary>
     /// Точка входа в приложение.
@@ -42,7 +38,7 @@ public static class Program
         var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
         try
         {
-            logger.Debug($"'{ServiceName}' - запущено на выполнение...");
+            logger.Debug("Приложение запущено на выполнение...");
             var host = CreateHostBuilder(args).Build();
             using (var scope = host.Services.CreateScope())
             {
@@ -60,11 +56,11 @@ public static class Program
         }
         catch (Exception exception)
         {
-            logger.Error(exception, $"'{ServiceName}' - остановлено из за перехвата не необработанного исключения!");
+            logger.Error(exception, "Приложение остановлено из за перехвата не необработанного исключения!");
         }
         finally
         {
-            logger.Debug($"'{ServiceName}' - остановлено.");
+            logger.Debug("Приложение остановлено.");
             LogManager.Shutdown();
         }
     }
@@ -74,11 +70,11 @@ public static class Program
     /// </summary>
     /// <param name="args">Аргументы запуска приложения.</param>
     /// <returns>Строитель приложения.</returns>
-    public static IHostBuilder CreateHostBuilder(string[] args)
+    private static IWebHostBuilder CreateHostBuilder(string[] args)
     {
-        return Host
-            .CreateDefaultBuilder(args)
-            .ConfigureLogging((context, logging) =>
+        return WebHost
+            .CreateDefaultBuilder<Startup>(args)
+            .ConfigureLogging((_, logging) =>
             {
                 /***
                  * var nLogSection = context.Configuration.GetSection("NLog");
@@ -89,10 +85,6 @@ public static class Program
                 /***
                  * logging.AddNLogWeb();
                  */
-            })
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
             })
             .UseNLog();
     }

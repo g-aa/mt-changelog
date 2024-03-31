@@ -70,20 +70,13 @@ public static class Add
                 throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbAnalogModule}' уже содержится в системе.");
             }
 
+            _context.AnalogModules.Add(dbAnalogModule);
             return SaveChangesAsync(dbAnalogModule, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(AnalogModuleEntity entity, CancellationToken cancellationToken)
         {
-            await _context.AnalogModules.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Аналоговый модуль '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {

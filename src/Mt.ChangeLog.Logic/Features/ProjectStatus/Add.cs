@@ -67,20 +67,13 @@ public static class Add
                 throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbProjectStatus}' уже содержится в системе.");
             }
 
+            _context.ProjectStatuses.Add(dbProjectStatus);
             return SaveChangesAsync(dbProjectStatus, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(ProjectStatusEntity entity, CancellationToken cancellationToken)
         {
-            await _context.ProjectStatuses.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Статус проекта '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {

@@ -83,20 +83,13 @@ public static class Delete
                 }
             }
 
+            _context.Platforms.Remove(dbRemovable);
             return SaveChangesAsync(dbRemovable, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(PlatformEntity entity, CancellationToken cancellationToken)
         {
-            _context.Platforms.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Платформа '{Entity}' успешно удален из системы.", entity);
             return new MessageModel
             {

@@ -32,9 +32,7 @@ public static class GetTemplate
         public Task<ArmEditModel> Handle(Query request, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Получен запрос на создание шаблона ArmEdit.");
-
             var model = new ArmEditModel();
-
             _logger.LogDebug("Запрос на создание шаблона ArmEdit '{Model}' выполнен успешно.", model);
             return Task.FromResult(model);
         }

@@ -79,20 +79,13 @@ public static class Update
                 .SetProtocols(dbProtocols)
                 .Build();
 
+            _context.Communications.Update(dbCommunication);
             return SaveChangesAsync(dbCommunication, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(CommunicationEntity entity, CancellationToken cancellationToken)
         {
-            _context.Communications.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Коммуникационный модуль '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {

@@ -32,9 +32,7 @@ public static class GetTemplate
         public Task<ProjectStatusModel> Handle(Query request, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Получен запрос на создание шаблона статуса проекта.");
-
             var model = new ProjectStatusModel();
-
             _logger.LogDebug("Запрос на создание шаблона статуса проекта '{Model}' выполнен успешно.", model);
             return Task.FromResult(model);
         }

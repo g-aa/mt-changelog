@@ -1,11 +1,8 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Mt.Utilities.Exceptions;
 using Mt.Utilities.Extensions;
-
-using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace Mt.ChangeLog.WebAPI.Infrastructure;
 
@@ -14,19 +11,6 @@ namespace Mt.ChangeLog.WebAPI.Infrastructure;
 /// </summary>
 public sealed class ApiExceptionFilter : IExceptionFilter
 {
-    /// <summary>
-    /// Передавать детализацию об исключениях.
-    /// </summary>
-    private readonly bool _passDetails;
-
-    /// <summary>
-    /// Инициализация экземпляра класса <see cref="ApiExceptionFilter"/>.
-    /// </summary>
-    public ApiExceptionFilter()
-    {
-        _passDetails = false;
-    }
-
     /// <inheritdoc />
     public void OnException(ExceptionContext context)
     {
@@ -34,19 +18,21 @@ public sealed class ApiExceptionFilter : IExceptionFilter
         switch (context.Exception)
         {
             case ValidationException validationException:
-                var result = new ValidationResult(validationException.Errors);
-                result.AddToModelState(context.ModelState, null);
-                var validationError = new ValidationProblemDetails(context.ModelState);
+                logger.LogWarning(validationException, validationException.Message);
+                var errors = validationException.Errors
+                    .GroupBy(e => e.PropertyName)
+                    .ToDictionary(k => k.Key, v => v.Select(e => e.ErrorMessage).ToArray());
+                var validationError = new ValidationProblemDetails(errors);
                 context.Result = new BadRequestObjectResult(validationError);
                 break;
 
-            case MtException exception:
-                logger.LogWarning(context.Exception, context.Exception.Message);
+            case MtException mtException:
+                logger.LogWarning(mtException, mtException.Message);
                 var mtDetails = new ProblemDetails
                 {
-                    Status = exception.Code.HttpStatusCode(),
-                    Title = exception.Title,
-                    Detail = exception.Desc,
+                    Status = mtException.Code.HttpStatusCode(),
+                    Title = mtException.Title,
+                    Detail = mtException.Desc,
                 };
                 context.Result = new ObjectResult(mtDetails)
                 {
@@ -54,13 +40,13 @@ public sealed class ApiExceptionFilter : IExceptionFilter
                 };
                 break;
 
-            case MtBaseException exception:
-                logger.LogWarning(context.Exception, context.Exception.Message);
+            case MtBaseException mtBaseException:
+                logger.LogWarning(mtBaseException, mtBaseException.Message);
                 var baseDetails = new ProblemDetails
                 {
                     Status = StatusCodes.Status400BadRequest,
-                    Title = exception.Title,
-                    Detail = exception.Desc,
+                    Title = mtBaseException.Title,
+                    Detail = mtBaseException.Desc,
                 };
                 context.Result = new BadRequestObjectResult(baseDetails);
                 break;
@@ -71,7 +57,7 @@ public sealed class ApiExceptionFilter : IExceptionFilter
                 var details = new ProblemDetails
                 {
                     Status = code.HttpStatusCode(),
-                    Detail = _passDetails ? context.Exception.Message : code.Desc(),
+                    Detail = code.Desc(),
                 };
                 context.Result = new ObjectResult(details)
                 {
