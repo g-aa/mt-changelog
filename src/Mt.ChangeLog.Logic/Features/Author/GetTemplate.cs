@@ -32,9 +32,7 @@ public static class GetTemplate
         public Task<AuthorModel> Handle(Query request, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Получен запрос на создание шаблона автора.");
-
             var model = new AuthorModel();
-
             _logger.LogDebug("Запрос на создание шаблона автор '{Model}' выполнен успешно.", model);
             return Task.FromResult(model);
         }

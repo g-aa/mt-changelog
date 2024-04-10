@@ -67,20 +67,13 @@ public static class Add
                 throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbArmEdit}' уже содержится в системе.");
             }
 
+            _context.ArmEdits.Add(dbArmEdit);
             return SaveChangesAsync(dbArmEdit, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(ArmEditEntity entity, CancellationToken cancellationToken)
         {
-            await _context.ArmEdits.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("ArmEdit '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {

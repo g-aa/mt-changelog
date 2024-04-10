@@ -1,6 +1,8 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstraction;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
 
 namespace Mt.ChangeLog.Logic.Features.ArmEdit;
@@ -20,28 +22,31 @@ public static class GetActual
     {
         private readonly ILogger<Handler> _logger;
 
-        private readonly IArmEditRepository _repository;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
         /// <param name="logger">Журнал логирования.</param>
-        /// <param name="repository">Репозиторий с данными.</param>
-        public Handler(ILogger<Handler> logger, IArmEditRepository repository)
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
             _logger = logger;
-            _repository = repository;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<ArmEditModel> Handle(Query request, CancellationToken cancellationToken)
+        public Task<ArmEditModel> Handle(Query request, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Получен запрос на предоставление данных об актуальном ArmEdit.");
 
-            var result = await _repository.GetActualAsync();
+            var result = _context.ArmEdits.AsNoTracking()
+                .OrderByDescending(e => e.Version)
+                .First()
+                .ToModel();
 
             _logger.LogDebug("Запрос на получение данных об актуальном ArmEdit '{Result}' выполнен успешно.", result);
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

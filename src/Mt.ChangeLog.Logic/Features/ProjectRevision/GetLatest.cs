@@ -40,10 +40,11 @@ public static class GetLatest
         {
             _logger.LogDebug("Получен запрос на предоставление данных о последних редакциях проектов.");
 
-            var result = await _context.LastProjectRevisions.Select(e => e.ToModel())
+            var result = await _context.LastProjectRevisions
+                .Select(e => e.ToModel())
                 .ToArrayAsync(cancellationToken);
 
-            _logger.LogDebug("Запрос на получение данных о последних редакциях проектов '{Result}' выполнен успешно.", result);
+            _logger.LogDebug("Запрос на получение данных о последних редакциях проектов выполнен успешно, '{Count}' записей.", result.Length);
             return result;
         }
     }

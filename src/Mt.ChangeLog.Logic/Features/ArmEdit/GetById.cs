@@ -1,9 +1,12 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstraction;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.ArmEdit;
 using Mt.ChangeLog.TransferObjects.Other;
+using Mt.Entities.Abstractions.Extensions;
 
 namespace Mt.ChangeLog.Logic.Features.ArmEdit;
 
@@ -35,29 +38,31 @@ public static class GetById
     {
         private readonly ILogger<Handler> _logger;
 
-        private readonly IArmEditRepository _repository;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
         /// <param name="logger">Журнал логирования.</param>
-        /// <param name="repository">Репозиторий с данными.</param>
-        public Handler(ILogger<Handler> logger, IArmEditRepository repository)
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
             _logger = logger;
-            _repository = repository;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<ArmEditModel> Handle(Query request, CancellationToken cancellationToken)
+        public Task<ArmEditModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
             _logger.LogDebug("Получен запрос на предоставление данных об ArmEdit '{Model}'.", model);
 
-            var result = await _repository.GetEntityAsync(model.Id);
+            var result = _context.ArmEdits.AsNoTracking()
+                .Search(model.Id)
+                .ToModel();
 
             _logger.LogDebug("Запрос на получение данных об ArmEdit '{Result}' выполнен успешно.", result);
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

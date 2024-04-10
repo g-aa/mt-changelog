@@ -80,20 +80,13 @@ public static class Update
                 .SetPlatforms(dbPlatforms)
                 .Build();
 
+            _context.AnalogModules.Update(dbAnalogModule);
             return SaveChangesAsync(dbAnalogModule, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(AnalogModuleEntity entity, CancellationToken cancellationToken)
         {
-            _context.AnalogModules.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Аналоговый модуль '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {

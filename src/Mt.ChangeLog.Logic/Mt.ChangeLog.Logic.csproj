@@ -9,13 +9,11 @@
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Mt.FluentValidation" Version="8.0.0" />
-    <PackageReference Include="Mt.Utilities" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Mt.FluentValidation" Version="8.0.1" />
+    <PackageReference Include="Mt.Utilities" Version="8.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mt.ChangeLog.DataAccess\Mt.ChangeLog.DataAccess.csproj" />
     <ProjectReference Include="..\Mt.ChangeLog.DataContext\Mt.ChangeLog.DataContext.csproj" />
     <ProjectReference Include="..\Mt.ChangeLog.Entities\Mt.ChangeLog.Entities.csproj" />
     <ProjectReference Include="..\Mt.ChangeLog.TransferObjects\Mt.ChangeLog.TransferObjects.csproj" />

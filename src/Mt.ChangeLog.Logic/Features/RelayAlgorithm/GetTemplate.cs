@@ -32,9 +32,7 @@ public static class GetTemplate
         public Task<RelayAlgorithmModel> Handle(Query request, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Получен запрос на создание шаблона протокола.");
-
             var result = new RelayAlgorithmModel();
-
             _logger.LogDebug("Запрос на создание шаблона протокола '{Result}' выполнен успешно.", result);
             return Task.FromResult(result);
         }

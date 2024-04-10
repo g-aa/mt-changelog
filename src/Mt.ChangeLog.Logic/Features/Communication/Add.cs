@@ -71,20 +71,13 @@ public static class Add
                 throw new MtException(ErrorCode.EntityAlreadyExists, $"Сущность '{dbCommunication}' уже содержится в системе.");
             }
 
+            _context.Communications.Add(dbCommunication);
             return SaveChangesAsync(dbCommunication, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(CommunicationEntity entity, CancellationToken cancellationToken)
         {
-            await _context.Communications.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Коммуникационный модуль '{Entity}' успешно добавлен в систему.", entity);
             return new MessageModel
             {

@@ -92,6 +92,7 @@ public static class Update
                 .SetParentRevision(dbParent)
                 .Build();
 
+            _context.ProjectRevisions.Update(dbProjectRevision);
             await _context.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Редакция проекта успешно обновлен в системе.");

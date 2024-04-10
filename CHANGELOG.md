@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.2.1] - 2024-04-10
+
+### Изменено
+
+- MT-0003: Актуализация решения;
+
 ## [2.2.0] - 2024-02-18
 
 ### Изменено
@@ -25,7 +31,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - MT-0003: Реализация новой перераотанной версии проекта MT.ChangeLog;
 - MT-0003: Реализация решения MT.ChangeLog только с Swagger UI;
 
-[Unreleased]: https://github.com/g-aa/mt-changelog/compare/release-v2.2.0...main
+[Unreleased]: https://github.com/g-aa/mt-changelog/compare/release-v2.2.1...main
+[2.2.1]: https://github.com/g-aa/mt-changelog/compare/release-v2.2.0...release-v2.2.1
 [2.2.0]: https://github.com/g-aa/mt-changelog/compare/release-v2.1.0...release-v2.2.0
 [2.1.0]: https://github.com/g-aa/mt-changelog/compare/release-v2.0.0...release-v2.1.0
 [2.0.0]: https://github.com/g-aa/mt-changelog/releases/tag/release-v2.0.0

@@ -75,20 +75,13 @@ public static class Update
                 .SetModules(dbModules)
                 .Build();
 
+            _context.Protocols.Update(dbProtocol);
             return SaveChangesAsync(dbProtocol, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(ProtocolEntity entity, CancellationToken cancellationToken)
         {
-            _context.Protocols.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Протокол '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {

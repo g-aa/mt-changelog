@@ -69,20 +69,13 @@ public static class Update
             }
 
             dbProjectStatus.GetBuilder().SetAttributes(model).Build();
+            _context.ProjectStatuses.Update(dbProjectStatus);
             return SaveChangesAsync(dbProjectStatus, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(ProjectStatusEntity entity, CancellationToken cancellationToken)
         {
-            _context.ProjectStatuses.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Статус проекта '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {

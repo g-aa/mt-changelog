@@ -69,20 +69,13 @@ public static class Update
             }
 
             dbAuthor.GetBuilder().SetAttributes(model).Build();
+            _context.Authors.Update(dbAuthor);
             return SaveChangesAsync(dbAuthor, cancellationToken);
         }
 
-        /// <summary>
-        /// Сохранить изменения сущности.
-        /// </summary>
-        /// <param name="entity">Сущность.</param>
-        /// <param name="cancellationToken">Токен отмены.</param>
-        /// <returns>Результат выполнения.</returns>
         private async Task<MessageModel> SaveChangesAsync(AuthorEntity entity, CancellationToken cancellationToken)
         {
-            _context.Authors.Update(entity);
             await _context.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Автор '{Entity}' успешно обновлен в системе.", entity);
             return new MessageModel
             {

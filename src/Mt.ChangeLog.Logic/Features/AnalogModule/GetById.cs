@@ -1,9 +1,12 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Mt.ChangeLog.DataAccess.Abstraction;
+using Mt.ChangeLog.DataContext;
+using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Other;
+using Mt.Entities.Abstractions.Extensions;
 
 namespace Mt.ChangeLog.Logic.Features.AnalogModule;
 
@@ -35,29 +38,32 @@ public static class GetById
     {
         private readonly ILogger<Handler> _logger;
 
-        private readonly IAnalogModuleRepository _repository;
+        private readonly MtContext _context;
 
         /// <summary>
         /// Инициализация нового экземпляра класса <see cref="Handler"/>.
         /// </summary>
         /// <param name="logger">Журнал логирования.</param>
-        /// <param name="repository">Репозиторий с данными.</param>
-        public Handler(ILogger<Handler> logger, IAnalogModuleRepository repository)
+        /// <param name="context">Контекст данных.</param>
+        public Handler(ILogger<Handler> logger, MtContext context)
         {
             _logger = logger;
-            _repository = repository;
+            _context = context;
         }
 
         /// <inheritdoc />
-        public async Task<AnalogModuleModel> Handle(Query request, CancellationToken cancellationToken)
+        public Task<AnalogModuleModel> Handle(Query request, CancellationToken cancellationToken)
         {
             var model = request.Model;
             _logger.LogDebug("Получен запрос на предоставление данных об аналоговом модуле '{Model}'.", model);
 
-            var result = await _repository.GetEntityAsync(model.Id);
+            var result = _context.AnalogModules.AsNoTracking()
+                .Include(e => e.Platforms)
+                .Search(model.Id)
+                .ToModel();
 
             _logger.LogDebug("Запрос на получение данных об аналоговом модуле '{Result}' выполнен успешно.", result);
-            return result;
+            return Task.FromResult(result);
         }
     }
 }
