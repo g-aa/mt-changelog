@@ -51,13 +51,8 @@ namespace Mt.ChangeLog.WebAPI
                 .AddDataAccess()
                 .AddLogic(Assemblies)
                 .AddScoped<IMtUser, MtUser>()
-                .AddHttpContextAccessor()
                 .AddSwaggerDocumentation(Assemblies)
-                .AddEndpointsApiExplorer()
-                .AddControllers(configure =>
-                {
-                    configure.Filters.Add<ApiExceptionFilter>();
-                });
+                .AddControllers(options => options.Filters.Add<ApiExceptionFilter>());
         }
 
         /// <summary>

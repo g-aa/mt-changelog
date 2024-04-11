@@ -10,7 +10,7 @@ namespace Mt.ChangeLog.DataAccess;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Добавить компоненты контекста данных в коллекцию сервисов.
+    /// Добавить компоненты уровня доступа к  данным в коллекцию сервисов.
     /// </summary>
     /// <param name="services">Коллекция сервисов.</param>
     /// <returns>Модифицированная коллекция сервисов.</returns>
