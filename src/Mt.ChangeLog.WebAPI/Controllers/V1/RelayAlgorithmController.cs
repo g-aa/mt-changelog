@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.RelayAlgorithm;
@@ -10,7 +11,8 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с алгоритмами.
 /// </summary>
-[Route("api/relay-algorithm")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/relay-algorithm")]
 public sealed class RelayAlgorithmController : ControllerBase
 {
     private readonly IMediator _mediator;

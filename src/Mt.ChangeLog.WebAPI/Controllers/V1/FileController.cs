@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.File;
@@ -11,7 +12,8 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с файлами.
 /// </summary>
-[Route("api/file")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/file")]
 public sealed class FileController : ControllerBase
 {
     private readonly IMediator _mediator;

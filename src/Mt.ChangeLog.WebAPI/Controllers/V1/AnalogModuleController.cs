@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.AnalogModule;
@@ -10,8 +11,8 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с аналоговыми модулями.
 /// </summary>
-[ApiController]
-[Route("api/analog-module")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/analog-module")]
 public sealed class AnalogModuleController : ControllerBase
 {
     private readonly IMediator _mediator;

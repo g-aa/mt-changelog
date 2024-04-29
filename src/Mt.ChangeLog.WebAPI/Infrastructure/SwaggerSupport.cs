@@ -1,6 +1,9 @@
 using System.Reflection;
 
-using Microsoft.OpenApi.Models;
+using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Mt.ChangeLog.WebAPI.Infrastructure;
 
@@ -10,6 +13,28 @@ namespace Mt.ChangeLog.WebAPI.Infrastructure;
 public static class SwaggerSupport
 {
     /// <summary>
+    /// Добавить компоненты версионирования API в коллекцию сервисов.
+    /// </summary>
+    /// <param name="services">Коллекция сервисов.</param>
+    /// <returns>Модифицированная коллекция сервисов.</returns>
+    public static IServiceCollection AddApiVersioningSupport(this IServiceCollection services)
+    {
+        return services
+            .AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+            })
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v' VVV";
+                options.SubstituteApiVersionInUrl = true;
+            })
+            .Services;
+    }
+
+    /// <summary>
     /// Регистрация swagger UI в коллекции сервисов.
     /// </summary>
     /// <param name="services">Коллекция сервисов.</param>
@@ -18,15 +43,9 @@ public static class SwaggerSupport
     public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services, IReadOnlyCollection<Assembly> assemblies)
     {
         return services
+            .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>()
             .AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = $"Mt-ChangeLog API",
-                    Version = Program.CurrentVersion,
-                    Description = "Rest API для взаимодействия с функционалом Mt-ChangeLog.",
-                });
-
                 options.EnableAnnotations();
                 options.OperationFilter<SwaggerResponseOperationFilter>();
 
@@ -47,16 +66,21 @@ public static class SwaggerSupport
     /// <returns>Модифицированный строитель приложения.</returns>
     public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder builder)
     {
+        var apiVersionProvider = builder.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>();
         return builder
             .UseSwagger(options =>
             {
                 options.RouteTemplate = "swagger/{documentName}/mt-changelog.{json|yaml}";
             })
-            .UseSwaggerUI(options =>
+            .UseSwaggerUI(uiOptions =>
             {
-                options.SwaggerEndpoint($"/swagger/v1/mt-changelog.yaml", $"API v1");
-                options.DisplayRequestDuration();
-                options.DefaultModelsExpandDepth(0);
+                foreach (var groupName in apiVersionProvider.ApiVersionDescriptions.Select(e => e.GroupName))
+                {
+                    uiOptions.SwaggerEndpoint($"/swagger/{groupName}/mt-changelog.yaml", $"API {groupName}");
+                }
+
+                uiOptions.DisplayRequestDuration();
+                uiOptions.DefaultModelsExpandDepth(0);
             });
     }
 }

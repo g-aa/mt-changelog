@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.History;
@@ -10,7 +11,8 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с историями изменений.
 /// </summary>
-[Route("api/history")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/history")]
 public sealed class HistoryController : ControllerBase
 {
     private readonly IMediator _mediator;

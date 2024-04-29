@@ -7,7 +7,7 @@ namespace Mt.ChangeLog.DataAccess;
 /// <summary>
 /// Методы расширения для <see cref="IServiceCollection"/>.
 /// </summary>
-public static class ServiceCollectionExtensions
+public static class DataAccessServiceCollectionExtensions
 {
     /// <summary>
     /// Добавить компоненты уровня доступа к  данным в коллекцию сервисов.

@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.Protocol;
@@ -10,7 +11,8 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с протоколами.
 /// </summary>
-[Route("api/protocol")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/protocol")]
 public sealed class ProtocolController : ControllerBase
 {
     private readonly IMediator _mediator;

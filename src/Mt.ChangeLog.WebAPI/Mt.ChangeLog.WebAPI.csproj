@@ -7,10 +7,11 @@
     <UserSecretsId>9a1f995c-6775-49f0-8847-5bb5aef23074</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageReference Include="Mt.Results" Version="8.0.1" />
     <PackageReference Include="Mt.Utilities" Version="8.1.1" />
-    <PackageReference Include="NLog" Version="5.2.8" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
+    <PackageReference Include="NLog" Version="5.3.1" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
   </ItemGroup>
