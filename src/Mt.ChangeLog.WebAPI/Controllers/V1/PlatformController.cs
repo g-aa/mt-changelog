@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.Platform;
@@ -10,7 +11,8 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с платформами БМРЗ.
 /// </summary>
-[Route("api/platform")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/platform")]
 public sealed class PlatformController : ControllerBase
 {
     private readonly IMediator _mediator;

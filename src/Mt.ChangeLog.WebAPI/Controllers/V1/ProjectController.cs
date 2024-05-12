@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.TransferObjects.Other;
@@ -11,7 +12,8 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с проектами.
 /// </summary>
-[Route("api/project")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/project")]
 public sealed class ProjectController : ControllerBase
 {
     private readonly IMediator _mediator;

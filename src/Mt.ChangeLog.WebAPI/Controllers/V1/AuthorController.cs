@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Mt.ChangeLog.Logic.Features.Author;
@@ -10,7 +11,8 @@ namespace Mt.ChangeLog.WebAPI.Controllers.V1;
 /// <summary>
 /// Контроллер для работы с авторами.
 /// </summary>
-[Route("api/author")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/author")]
 public sealed class AuthorController : ControllerBase
 {
     private readonly IMediator _mediator;

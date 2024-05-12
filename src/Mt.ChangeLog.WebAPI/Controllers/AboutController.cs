@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Mt.Results;
 using Swashbuckle.AspNetCore.Annotations;
@@ -7,6 +8,7 @@ namespace Mt.ChangeLog.WebAPI.Controllers;
 /// <summary>
 /// Методы работы с квитанциями.
 /// </summary>
+[ApiVersionNeutral]
 [Route("api/about")]
 public sealed class AboutController : ControllerBase
 {

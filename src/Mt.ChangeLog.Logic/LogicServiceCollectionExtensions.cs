@@ -11,7 +11,7 @@ namespace Mt.ChangeLog.Logic;
 /// <summary>
 /// Методы расширения для <see cref="IServiceCollection"/>.
 /// </summary>
-public static class ServiceCollectionExtensions
+public static class LogicServiceCollectionExtensions
 {
     /// <summary>
     /// Добавить компоненты логики в коллекцию сервисов.

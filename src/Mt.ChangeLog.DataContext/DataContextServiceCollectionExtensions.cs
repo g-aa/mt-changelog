@@ -8,7 +8,7 @@ namespace Mt.ChangeLog.DataContext;
 /// <summary>
 /// Методы расширения для <see cref="IServiceCollection"/>.
 /// </summary>
-public static class ServiceCollectionExtensions
+public static class DataContextServiceCollectionExtensions
 {
     /// <summary>
     /// Добавить компоненты контекста данных в коллекцию сервисов.

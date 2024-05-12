@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using Microsoft.AspNetCore.Mvc;
@@ -8,3 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
+
+[assembly: InternalsVisibleTo("Mt.ChangeLog.WebAPI.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
