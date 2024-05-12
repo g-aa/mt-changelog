@@ -39,6 +39,14 @@ dotnet-reportgenerator-globaltool      5.1.19      reportgenerator
 | Mt.ChangeLog.Logic           | Уровень логики приложения.                                                                         |
 | Mt.ChangeLog.WebAPI          | Web-сервис для доступа к данным.                                                                   |
 
+## Диагностика
+
+Проверка работоспособности приложения (`HealthCheck`) доступна по следующим относительным адресам:
+
+- `.../health/live`
+- `.../health/ready`
+- `.../health/status`
+
 ## Схема базы данных
 
 Схема базы данных приложения 'Mt ChangeLog' (PostgreSQL).
