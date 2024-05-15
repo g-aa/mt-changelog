@@ -10,5 +10,5 @@ using Microsoft.AspNetCore.Mvc;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-[assembly: InternalsVisibleTo("Mt.ChangeLog.WebAPI.Tests")]
+[assembly: InternalsVisibleTo("Mt.ChangeLog.WebAPI.Test")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

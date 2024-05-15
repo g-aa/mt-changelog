@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -12,9 +11,14 @@ namespace Mt.ChangeLog.WebAPI.Infrastructure;
 /// <summary>
 /// Методы расширения для <see cref="IApplicationBuilder"/>.
 /// </summary>
-[ExcludeFromCodeCoverage]
 public static class DiagnosticApplicationBuilderExtensions
 {
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        WriteIndented = true,
+        TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
+    };
+
     /// <summary>
     /// Инициализация конечных точек для 'HealthChecks'.
     /// </summary>
@@ -40,7 +44,7 @@ public static class DiagnosticApplicationBuilderExtensions
     /// </summary>
     /// <param name="result">Health report.</param>
     /// <returns><see cref="JsonObject"/> с результатом проверки.</returns>
-    private static JsonObject HealthReportFormatter(HealthReport result)
+    internal static JsonObject HealthReportFormatter(HealthReport result)
     {
         return new JsonObject
         {
@@ -65,15 +69,9 @@ public static class DiagnosticApplicationBuilderExtensions
     /// <param name="httpContext">Текущий http контекст.</param>
     /// <param name="result">Health report.</param>
     /// <returns>Результат выполнения асинхронной задачи.</returns>
-    private static Task HealthCheckResponseWriterAsync(HttpContext httpContext, HealthReport result)
+    internal static Task HealthCheckResponseWriterAsync(HttpContext httpContext, HealthReport result)
     {
-        var options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
-        };
-
         httpContext.Response.ContentType = MediaTypeNames.Application.Json;
-        return httpContext.Response.WriteAsync(HealthReportFormatter(result).ToJsonString(options));
+        return httpContext.Response.WriteAsync(HealthReportFormatter(result).ToJsonString(SerializerOptions));
     }
 }

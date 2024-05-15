@@ -58,6 +58,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{A73544
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mt.ChangeLog.DataContext", "src\Mt.ChangeLog.DataContext\Mt.ChangeLog.DataContext.csproj", "{119BD29D-C930-4844-9409-51F9B271151F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mt.ChangeLog.WebAPI.Test", "test\Mt.ChangeLog.WebAPI.Test\Mt.ChangeLog.WebAPI.Test.csproj", "{F2D3EA88-AAD3-40E2-BB90-2F71B904DF33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{119BD29D-C930-4844-9409-51F9B271151F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{119BD29D-C930-4844-9409-51F9B271151F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{119BD29D-C930-4844-9409-51F9B271151F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2D3EA88-AAD3-40E2-BB90-2F71B904DF33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2D3EA88-AAD3-40E2-BB90-2F71B904DF33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2D3EA88-AAD3-40E2-BB90-2F71B904DF33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2D3EA88-AAD3-40E2-BB90-2F71B904DF33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +110,7 @@ Global
 		{2871FC10-6C24-4B9D-AD2C-A74C90AE32E6} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
 		{3B602240-8582-4615-9935-B78AF1A3A762} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
 		{119BD29D-C930-4844-9409-51F9B271151F} = {183CB288-C2B0-43A2-ADEE-284A57BD6689}
+		{F2D3EA88-AAD3-40E2-BB90-2F71B904DF33} = {2AC971DC-87FF-4172-8480-461D1FBAF942}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {162FF285-BB5B-4CD2-8CFF-69C996967D1E}
