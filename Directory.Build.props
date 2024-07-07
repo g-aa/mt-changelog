@@ -14,11 +14,11 @@
     <AssemblyVersion>$(Build_Number)</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Gaa.DotNet.CodeAnalysis" Version="8.3.1">
+    <PackageReference Include="Gaa.DotNet.CodeAnalysis" Version="8.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.25.0.90414">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.28.0.94264">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

@@ -1,3 +1,5 @@
+using System.Net;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 
 using Mt.ChangeLog.WebAPI.Infrastructure;
 
-using System.Net;
+using OpenTelemetry.Metrics;
 
 namespace Mt.ChangeLog.WebAPI.Test.Infrastructure;
 
@@ -52,19 +54,26 @@ public class DiagnosticApplicationBuilderExtensionsTest
     [TestCase("/health/live")]
     [TestCase("/health/ready")]
     [TestCase("/health/status")]
+    [TestCase("/metrics")]
     public async Task UseDiagnosticsPositiveTest(Uri uri)
     {
         // arrange
         using var host = await new HostBuilder()
-            .ConfigureWebHost(
-                webBuilder => webBuilder
-                    .UseTestServer()
-                    .ConfigureServices(
-                        services => services
-                            .AddHealthChecks()
-                            .AddGcInfoCheck())
-                    .Configure(
-                        builder => builder.UseDiagnostics()))
+            .ConfigureWebHost(webBuilder => webBuilder
+                .UseTestServer()
+                .ConfigureServices(services =>
+                {
+                    services
+                        .AddHealthChecks();
+
+                    services
+                    .AddOpenTelemetry()
+                    .WithMetrics(metrics => metrics
+                        .AddRuntimeInstrumentation()
+                        .AddAspNetCoreInstrumentation()
+                        .AddPrometheusExporter());
+                })
+                .Configure(builder => builder.UseDiagnostics()))
             .StartAsync();
 
         // act

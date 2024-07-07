@@ -36,7 +36,8 @@ public static class DiagnosticApplicationBuilderExtensions
           {
               Predicate = _ => true,
               ResponseWriter = HealthCheckResponseWriterAsync,
-          });
+          })
+          .UseOpenTelemetryPrometheusScrapingEndpoint(context => context.Request.Path == "/metrics");
     }
 
     /// <summary>

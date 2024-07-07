@@ -8,13 +8,17 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Mt.Results" Version="8.0.1" />
-    <PackageReference Include="Mt.Utilities" Version="8.1.1" />
+    <PackageReference Include="Mt.Utilities" Version="8.2.0" />
     <PackageReference Include="NLog" Version="5.3.2" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.1" />
+    <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.9.0-beta.2" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mt.ChangeLog.Logic\Mt.ChangeLog.Logic.csproj" />

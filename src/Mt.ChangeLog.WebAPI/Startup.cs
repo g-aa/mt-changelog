@@ -7,6 +7,9 @@ using Mt.ChangeLog.Logic;
 using Mt.ChangeLog.TransferObjects;
 using Mt.ChangeLog.WebAPI.Infrastructure;
 
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Metrics;
+
 namespace Mt.ChangeLog.WebAPI;
 
 /// <summary>
@@ -57,8 +60,18 @@ public sealed class Startup
 
         services
             .AddHealthChecks()
-            .AddDbContextCheck<MtContext>()
-            .AddGcInfoCheck();
+            .AddDbContextCheck<MtContext>();
+
+        services
+            .AddOpenTelemetry()
+            .WithMetrics(metrics => metrics
+                .AddRuntimeInstrumentation()
+                .AddAspNetCoreInstrumentation()
+                .AddPrometheusExporter());
+
+        services
+            .Configure<PrometheusAspNetCoreOptions>(options => options.DisableTotalNameSuffixForCounters = true);
+
     }
 
     /// <summary>
