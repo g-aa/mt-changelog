@@ -1,5 +1,7 @@
 using MediatR;
+
 using Microsoft.Extensions.Logging;
+
 using Mt.ChangeLog.Logic.Extensions;
 
 namespace Mt.ChangeLog.Logic.Pipelines;

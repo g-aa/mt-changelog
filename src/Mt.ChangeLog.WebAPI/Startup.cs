@@ -71,13 +71,13 @@ public sealed class Startup
 
         services
             .Configure<PrometheusAspNetCoreOptions>(options => options.DisableTotalNameSuffixForCounters = true);
-
     }
 
     /// <summary>
     /// Метод настройки конвейера HTTP-запросов.
     /// </summary>
     /// <param name="builder">Строитель приложения.</param>
+#pragma warning disable S2325 // Methods and properties that don't access instance data should be static
     public void Configure(IApplicationBuilder builder)
     {
         builder

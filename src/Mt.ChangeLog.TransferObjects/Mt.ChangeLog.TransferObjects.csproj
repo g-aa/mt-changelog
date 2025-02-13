@@ -4,21 +4,28 @@
     <Description>Модели объектов DTO в Mt ChangeLog.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
+    <Title>ChangeLog Data transfer objects</Title>
     <PackageId>Mt.ChangeLog.TransferObjects</PackageId>
     <PackageTags>Mt;Net;ChangeLog;TransferObjects</PackageTags>
     <PackageProjectUrl>https://github.com/g-aa/mt-changelog</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>iconLog.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageVersion>$(Build_Version)</PackageVersion>
+    <PackageReleaseNotes>Updating the project</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Refactoring the solution</PackageReleaseNotes>
-    <Title>ChangeLog transfer objects</Title>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\..\iconLog.png" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Mt.Utilities" Version="8.2.0" />
+    <PackageReference Include="Mt.Utilities" />
+    <PackageReference Include="SonarAnalyzer.CSharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>

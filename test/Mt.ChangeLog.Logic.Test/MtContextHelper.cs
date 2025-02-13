@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+
 using Mt.ChangeLog.DataContext;
 
 namespace Mt.ChangeLog.Logic.Test;

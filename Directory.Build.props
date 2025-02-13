@@ -3,8 +3,7 @@
   <PropertyGroup>
     <Authors>Andrey G.</Authors>
     <Company>Mt-Relay</Company>
-    <Copyright>Copyright Mt-Relay 1993-2024.</Copyright>
-    <NeutralLanguage>ru-RU</NeutralLanguage>
+    <Copyright>Copyright Mt-Relay 1993-$([System.DateTimeOffset]::UtcNow.ToString(yyyy)).</Copyright>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/g-aa/mt-changelog</RepositoryUrl>
     <Build_Version Condition=" '$(Build_Version)' == '' ">$([System.IO.File]::ReadAllText($(MSBuildThisFileDirectory).version).Trim())</Build_Version>
@@ -13,16 +12,6 @@
     <FileVersion>$(Build_Number)</FileVersion>
     <AssemblyVersion>$(Build_Number)</AssemblyVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Gaa.DotNet.CodeAnalysis" Version="8.3.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.28.0.94264">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

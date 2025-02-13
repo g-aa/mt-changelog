@@ -51,6 +51,7 @@ public class DiagnosticApplicationBuilderExtensionsTest
     /// Положительный тест для <see cref="DiagnosticApplicationBuilderExtensions.UseDiagnostics(IApplicationBuilder)"/>.
     /// </summary>
     /// <param name="uri">Адреса health check.</param>
+    /// <returns>Результат выполнения асинхронной задачи.</returns>
     [TestCase("/health/live")]
     [TestCase("/health/ready")]
     [TestCase("/health/status")]

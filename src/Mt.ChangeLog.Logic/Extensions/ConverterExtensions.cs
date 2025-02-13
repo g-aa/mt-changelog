@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+
 using Mt.ChangeLog.Logic.Converters;
 
 namespace Mt.ChangeLog.Logic.Extensions;

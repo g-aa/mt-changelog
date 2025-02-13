@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
+
 using Mt.ChangeLog.DataContext.Configurations;
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Entities.Views;

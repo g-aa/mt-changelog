@@ -18,9 +18,12 @@ _TeamCity.*
 .*
 
 # indexed
+!.dockerignore
 !.editorconfig
 !.gitignore
-!.version
-!.dockerignore
+!.mr-develop-to-master.bat
+!.tag.sh
+!.template.config
 !.test.bat
 !.test.sh
+!.version

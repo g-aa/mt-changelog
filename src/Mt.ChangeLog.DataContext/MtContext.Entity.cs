@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+
 using Mt.ChangeLog.Entities.Tables;
 using Mt.ChangeLog.Entities.Views;
 
