@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Description>Test library for project Mt.ChangeLog.Logic</Description>
+    <Description>Test library for project Mt.ChangeLog.WebAPI</Description>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
@@ -17,7 +17,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="JunitXml.TestLogger" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Npgsql" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
@@ -33,12 +34,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Mt.ChangeLog.Logic\Mt.ChangeLog.Logic.csproj" />
+    <ProjectReference Include="..\..\src\Mt.ChangeLog.WebAPI\Mt.ChangeLog.WebAPI.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="FluentAssertions" />
     <Using Include="FluentAssertions.Extensions" />
-    <Using Include="FluentValidation.TestHelper" />
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,7 @@
 using MediatR;
+
 using Microsoft.Extensions.Logging;
+
 using Mt.ChangeLog.TransferObjects.Author;
 
 namespace Mt.ChangeLog.Logic.Features.Author;

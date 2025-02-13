@@ -24,5 +24,5 @@ public sealed record MtUser : IMtUser
     }
 
     /// <inheritdoc />
-    public string Name { get ; init; }
+    public string Name { get; init; }
 }

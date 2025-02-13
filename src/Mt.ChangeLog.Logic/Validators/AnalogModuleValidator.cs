@@ -1,4 +1,5 @@
 using FluentValidation;
+
 using Mt.ChangeLog.TransferObjects.AnalogModule;
 using Mt.ChangeLog.TransferObjects.Platform;
 using Mt.FluentValidation;

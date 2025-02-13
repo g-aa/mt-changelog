@@ -7,6 +7,9 @@ using Mt.ChangeLog.Logic;
 using Mt.ChangeLog.TransferObjects;
 using Mt.ChangeLog.WebAPI.Infrastructure;
 
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Metrics;
+
 namespace Mt.ChangeLog.WebAPI;
 
 /// <summary>
@@ -57,14 +60,24 @@ public sealed class Startup
 
         services
             .AddHealthChecks()
-            .AddDbContextCheck<MtContext>()
-            .AddGcInfoCheck();
+            .AddDbContextCheck<MtContext>();
+
+        services
+            .AddOpenTelemetry()
+            .WithMetrics(metrics => metrics
+                .AddRuntimeInstrumentation()
+                .AddAspNetCoreInstrumentation()
+                .AddPrometheusExporter());
+
+        services
+            .Configure<PrometheusAspNetCoreOptions>(options => options.DisableTotalNameSuffixForCounters = true);
     }
 
     /// <summary>
     /// Метод настройки конвейера HTTP-запросов.
     /// </summary>
     /// <param name="builder">Строитель приложения.</param>
+#pragma warning disable S2325 // Methods and properties that don't access instance data should be static
     public void Configure(IApplicationBuilder builder)
     {
         builder

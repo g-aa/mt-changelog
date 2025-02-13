@@ -1,4 +1,5 @@
 using FluentValidation;
+
 using Mt.ChangeLog.TransferObjects.Protocol;
 using Mt.FluentValidation;
 

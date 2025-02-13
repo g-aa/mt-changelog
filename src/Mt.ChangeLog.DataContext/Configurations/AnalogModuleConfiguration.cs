@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using Mt.ChangeLog.Entities.Tables;
 using Mt.Utilities;
 

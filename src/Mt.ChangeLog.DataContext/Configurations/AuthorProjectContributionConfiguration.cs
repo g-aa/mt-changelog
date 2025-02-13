@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using Mt.ChangeLog.Entities.Views;
 
 namespace Mt.ChangeLog.DataContext.Configurations;

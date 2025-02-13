@@ -2,7 +2,9 @@ using System.Reflection;
 
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+
 using Microsoft.Extensions.Options;
+
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Mt.ChangeLog.WebAPI.Infrastructure;
@@ -43,7 +45,7 @@ public static class SwaggerSupport
     public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services, IReadOnlyCollection<Assembly> assemblies)
     {
         return services
-            .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>()
+            .AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigureOptions>()
             .AddSwaggerGen(options =>
             {
                 options.EnableAnnotations();

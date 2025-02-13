@@ -6,7 +6,11 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Mt.Entities.Abstractions" Version="8.0.1" />
-    <PackageReference Include="Mt.Utilities" Version="8.1.1" />
+    <PackageReference Include="Mt.Entities.Abstractions" />
+    <PackageReference Include="Mt.Utilities" />
+    <PackageReference Include="SonarAnalyzer.CSharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@ using System.Data;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
 using Npgsql;
 
 namespace Mt.ChangeLog.DataAccess;

@@ -1,6 +1,8 @@
 using Asp.Versioning.ApiExplorer;
+
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Mt.ChangeLog.WebAPI.Infrastructure;
@@ -10,15 +12,15 @@ namespace Mt.ChangeLog.WebAPI.Infrastructure;
 /// </summary>
 /// <remarks>This allows API versioning to define a Swagger document per API version after the
 /// <see cref="IApiVersionDescriptionProvider"/> service has been resolved from the service container.</remarks>
-public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+public class SwaggerConfigureOptions : IConfigureOptions<SwaggerGenOptions>
 {
     private readonly IApiVersionDescriptionProvider _provider;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ConfigureSwaggerOptions"/> class.
+    /// Initializes a new instance of the <see cref="SwaggerConfigureOptions"/> class.
     /// </summary>
     /// <param name="provider">The <see cref="IApiVersionDescriptionProvider">provider</see> used to generate Swagger documents.</param>
-    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
+    public SwaggerConfigureOptions(IApiVersionDescriptionProvider provider)
     {
         _provider = provider;
     }

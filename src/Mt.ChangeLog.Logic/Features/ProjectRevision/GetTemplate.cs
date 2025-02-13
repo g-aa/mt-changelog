@@ -1,8 +1,10 @@
 using System.Globalization;
 
 using MediatR;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using Mt.ChangeLog.DataContext;
 using Mt.ChangeLog.Logic.Mappers;
 using Mt.ChangeLog.TransferObjects.Author;
